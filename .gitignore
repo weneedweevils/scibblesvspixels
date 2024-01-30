@@ -70,3 +70,14 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# FMOD Cache (Updated regularly)
+/[Aa]ssets/[Pp]lugins/FMOD/Cache/*
+
+# FMOD bank files in StreamingAssets
+# Ignore bank files in the StreamingAssets folder.
+/[Aa]ssets/[Ss]treamingAssets/**/*.bank
+/[Aa]ssets/[Ss]treamingAssets/**/*.bank.meta
+
+# FMOD log files
+fmod_editor.log
