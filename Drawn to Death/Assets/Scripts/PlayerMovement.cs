@@ -11,7 +11,28 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 1.0f;
+    //Input options
+    public KeyCode up = KeyCode.W;
+    public KeyCode down = KeyCode.S;
+    public KeyCode left = KeyCode.A;
+    public KeyCode right = KeyCode.D;
+    public KeyCode dash = KeyCode.LeftShift;
+
+    //Movement Checks
+    public float accelerationCoefficient;   //how quickly it speeds up
+    public float maxVelocity;               //how fast it can go horizontally
+    public float friction;                  //how quickly it slows down
+    public float speedModifier;             //modifiers applied to the player (affects maxVelocity)
+
+    //Dash
+    public float dashBoost;
+    public float dashCooldown;
+    private float dashtimer = 0;
+    private bool dashed = false;
+
+    //Physics info
+    private Vector2 velocity, acceleration;
+    
     Rigidbody2D rbody;
 
     // Start is called before the first frame update
@@ -23,13 +44,56 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Determine acceleration
+        acceleration.x = ((Input.GetKey(left) ? -1 : 0) + (Input.GetKey(right) ? 1 : 0)) * accelerationCoefficient;
+        acceleration.y = ((Input.GetKey(down) ? -1 : 0) + (Input.GetKey(up) ? 1 : 0)) * accelerationCoefficient;
+
+        //Calculate velocity
+        velocity.x = VelocityCalc(acceleration.x, velocity.x);
+        velocity.y = VelocityCalc(acceleration.y, velocity.y);
+
+        if (!dashed && Input.GetKey(dash))
+        {
+            dashed = true;
+            velocity += velocity.normalized * dashBoost;
+        } 
+        else if (dashed)
+        {
+            dashtimer += Time.deltaTime;
+            if (dashtimer >= dashCooldown)
+            {
+                dashed = false;
+                dashtimer = 0f;
+            }
+        }
+
+        //Predict new position
         Vector2 currentPos = rbody.position;
-        float hInput = Input.GetAxis("Horizontal");
-        float vInput = Input.GetAxis("Vertical");
-        Vector2 inputVector = new Vector2(hInput, vInput);
-        inputVector = Vector2.ClampMagnitude(inputVector, 1);
-        Vector2 movement = inputVector * moveSpeed;
-        Vector2 newPos = currentPos + movement * Time.fixedDeltaTime;
+        Vector2 newPos = currentPos + velocity * Time.fixedDeltaTime;
+
+        //Move to new position
         rbody.MovePosition(newPos);
+    }
+
+    private float VelocityCalc(float a, float v)
+    {
+        //  a = Acceleration
+        //  v = Velocity
+
+        //Accelerate
+        if (Mathf.Abs(a) > 0f && Mathf.Abs(v) <= maxVelocity * speedModifier)
+        {
+            v += a * Time.deltaTime;
+            v = Mathf.Clamp(v, -maxVelocity * speedModifier, maxVelocity * speedModifier);
+        }
+        //Account for friction
+        else if (Mathf.Abs(v) > 0f)
+        {
+            //Reduce our absolute velocity
+            v = Mathf.Sign(v) * Mathf.Max(Mathf.Abs(v) - friction * Time.deltaTime, 0f);
+        }
+
+        //Return velocity bound by maxVelocity
+        return v;
     }
 }
