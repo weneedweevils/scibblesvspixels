@@ -29,7 +29,11 @@ public class PlayerMovement : MonoBehaviour
     public float dashCooldown;
     private float dashtimer = 0;
     private bool dashed = false;
-
+    
+    //Animations
+    private Animator animator;
+    private SpriteRenderer sprite;
+    
     //Physics info
     private Vector2 velocity, acceleration;
     
@@ -39,6 +43,8 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rbody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -73,6 +79,9 @@ public class PlayerMovement : MonoBehaviour
 
         //Move to new position
         rbody.MovePosition(newPos);
+
+        //Animate
+        ManageAnimations();
     }
 
     private float VelocityCalc(float a, float v)
@@ -95,5 +104,18 @@ public class PlayerMovement : MonoBehaviour
 
         //Return velocity bound by maxVelocity
         return v;
+    }
+
+    private void ManageAnimations()
+    {
+        //Set the speed parameter in the animator
+        animator.SetFloat("speed", velocity.magnitude);
+
+        //Flip the sprite according to mouse position relative to the players position
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        sprite.flipX = mousePosition.x < transform.position.x;
+
+        //Account for backwards movement
+        animator.SetBool("backwards", velocity.x != 0f && (velocity.x < 0f != sprite.flipX));
     }
 }
