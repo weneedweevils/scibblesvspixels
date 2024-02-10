@@ -26,6 +26,7 @@ public class PlayerArms : MonoBehaviour
 
             //Flip the sprite according to mouse position relative to the players position
             sprite.flipX = mousePosition.x < transform.position.x;
+            weapon.GetComponent<Attack>().FlipHitbox(sprite.flipX);
 
             // Calculate the angle of the arms
             Vector2 direction = (mousePosition - transform.position).normalized;
