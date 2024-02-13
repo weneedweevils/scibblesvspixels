@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class OverlayTile : MonoBehaviour
 {
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
+    public Grids.GridCell prefabAsset;
 
     public void ShowTile()
     {
@@ -19,4 +16,9 @@ public class OverlayTile : MonoBehaviour
     {
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
     }
+
+   
+    
+
+
 }
