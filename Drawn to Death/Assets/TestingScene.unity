@@ -174,7 +174,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 5.0637746
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -8315,6 +8315,8 @@ GameObject:
   - component: {fileID: 797978848}
   - component: {fileID: 797978850}
   - component: {fileID: 797978849}
+  - component: {fileID: 797978852}
+  - component: {fileID: 797978851}
   m_Layer: 0
   m_Name: DoodleCrab
   m_TagString: Untagged
@@ -8345,9 +8347,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 797978847}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc89a3d7e84964c43ad7b9d70e71d405, type: 3}
+  m_Script: {fileID: 11500000, guid: d1d305379a49b684a96a055ade7b007c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  created: 0
 --- !u!212 &797978850
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8386,7 +8389,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 40909f3ec700c7f44812d097062fa988, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8398,6 +8401,43 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &797978851
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797978847}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.00000047683716}
+  serializedVersion: 2
+  m_Radius: 2
+--- !u!50 &797978852
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797978847}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &1040486848
 GameObject:
   m_ObjectHideFlags: 0
@@ -8485,13 +8525,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1209458833}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f6f8ceafa88f1048ad5393457d3941e, type: 3}
+  m_Script: {fileID: 11500000, guid: 311dd6e3632f4ab47bef3b2b434fcf17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   overlayTilePrefab: {fileID: 3687273526780887067, guid: 8309a393ad95fb14c92234cf92797806,
     type: 3}
   overlayContainer: {fileID: 2102826857}
   wallTile: {fileID: 11400000, guid: 4662f2abd6cb0dd4db6cd6da6d44a408, type: 2}
+  initialized: 0
 --- !u!1 &1748049637
 GameObject:
   m_ObjectHideFlags: 0
