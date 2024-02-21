@@ -5,11 +5,13 @@ namespace DialogueSystem
 {
     public class DialogueHolder : MonoBehaviour
     {
-
-        private void Awake()
+        // Starts dialogue in a coroutine
+        private void OnEnable()
         {
             StartCoroutine(DialogueSequence());
         }
+
+        // Ensures sequence of lines runs properly
         private IEnumerator DialogueSequence()
         {
             for (int i = 0; i < transform.childCount; i++)
@@ -21,6 +23,7 @@ namespace DialogueSystem
             gameObject.SetActive(false);
         }
 
+        // Deactivates any lines that shouldn't be on screen
         private void Deactivate()
         {
             for (int i = 0; i < transform.childCount; i++)

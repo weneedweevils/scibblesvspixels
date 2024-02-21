@@ -20,18 +20,46 @@ namespace DialogueSystem
         [SerializeField] private Sprite characterSprite;
         [SerializeField] private Image imageHolder;
 
+        private IEnumerator lineAppear;
 
+        // Runs when line starts
         private void Awake()
         {
-            textHolder = GetComponent<Text>();
-            textHolder.text = "";
             imageHolder.sprite = characterSprite;
             imageHolder.preserveAspect = true;
         }
 
-        private void Start()
+        // Ensures line runs and gets reset properly if text gets repeated
+        private void OnEnable()
         {
-            StartCoroutine(WriteText(input, textHolder, textColor, textFont, delay));
+            ResetLine();
+            lineAppear = WriteText(input, textHolder, textColor, textFont, delay);
+            StartCoroutine(lineAppear);
+        }
+
+        // Used to let the player skip the dialogue scrolling
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (textHolder.text != input)
+                {
+                    StopCoroutine(lineAppear);
+                    textHolder.text = input;
+                }
+                else
+                {
+                    finished = true;
+                }
+            }
+        }
+
+        // Resets line so it can be repeated if nessecary
+        private void ResetLine()
+        {
+            textHolder = GetComponent<Text>();
+            textHolder.text = "";
+            finished = false;
         }
     }
 }
