@@ -5,6 +5,7 @@ namespace DialogueSystem
 {
     public class DialogueHolder : MonoBehaviour
     {
+        [SerializeField] private GameObject nextCutscene;
         // Starts dialogue in a coroutine
         private void OnEnable()
         {
@@ -21,6 +22,10 @@ namespace DialogueSystem
                 yield return new WaitUntil(()=> transform.GetChild(i).GetComponent<DialogueLine>().finished);
             }
             gameObject.SetActive(false);
+            if (nextCutscene != null)
+            {
+                nextCutscene.SetActive(true);
+            }
         }
 
         // Deactivates any lines that shouldn't be on screen
