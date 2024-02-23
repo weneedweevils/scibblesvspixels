@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngineInternal;
+
 
 
 // was following this tutorial but did not complete it https://www.youtube.com/watch?v=Vt8aZDPzRjI
