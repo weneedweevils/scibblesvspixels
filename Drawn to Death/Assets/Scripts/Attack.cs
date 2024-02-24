@@ -30,8 +30,11 @@ public class Attack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Collect components
         animator = GetComponent<Animator>();
         hitbox = GetComponent<BoxCollider2D>();
+
+        //Save initial attack hitbox information
         initialHitboxOffset = hitbox.offset;
         initialHitboxSize = hitbox.size;
     }
@@ -66,6 +69,7 @@ public class Attack : MonoBehaviour
         }
     }
 
+    //Used to flip the attack hitbox as needed when rotating
     public void FlipHitbox(bool flip)
     {
         if (flip)
