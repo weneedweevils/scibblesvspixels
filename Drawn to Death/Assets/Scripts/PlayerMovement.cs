@@ -55,8 +55,9 @@ public class PlayerMovement : MonoBehaviour
         acceleration.y = ((Input.GetKey(down) ? -1 : 0) + (Input.GetKey(up) ? 1 : 0)) * accelerationCoefficient;
 
         //Calculate velocity
-        velocity.x = VelocityCalc(acceleration.x, velocity.x);
-        velocity.y = VelocityCalc(acceleration.y, velocity.y);
+        velocity.x = VelocityCalc(acceleration.x, velocity.x, speedModifier);
+        velocity.y = VelocityCalc(acceleration.y, velocity.y, speedModifier);
+        
 
         if (!dashed && Input.GetKey(dash))
         {
@@ -84,22 +85,22 @@ public class PlayerMovement : MonoBehaviour
         ManageAnimations();
     }
 
-    private float VelocityCalc(float a, float v)
+    private float VelocityCalc(float a, float v, float modifier = 1f)
     {
         //  a = Acceleration
         //  v = Velocity
 
         //Accelerate
-        if (Mathf.Abs(a) > 0f && Mathf.Abs(v) <= maxVelocity * speedModifier)
+        if (Mathf.Abs(a) > 0f && Mathf.Abs(v) <= maxVelocity * modifier)
         {
-            v += a * Time.deltaTime;
-            v = Mathf.Clamp(v, -maxVelocity * speedModifier, maxVelocity * speedModifier);
+            v += a * modifier * Time.deltaTime;
+            v = Mathf.Clamp(v, -maxVelocity * modifier, maxVelocity * modifier);
         }
         //Account for friction
         else if (Mathf.Abs(v) > 0f)
         {
             //Reduce our absolute velocity
-            v = Mathf.Sign(v) * Mathf.Max(Mathf.Abs(v) - friction * Time.deltaTime, 0f);
+            v = Mathf.Sign(v) * Mathf.Max(Mathf.Abs(v) - friction * modifier * Time.deltaTime, 0f);
         }
 
         //Return velocity bound by maxVelocity
