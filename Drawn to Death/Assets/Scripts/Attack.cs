@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
+    //Player game object
+    public GameObject player;
+
     //Use key
     public KeyCode attackButton = KeyCode.Mouse0;
 
@@ -62,7 +65,7 @@ public class Attack : MonoBehaviour
             attackTimer = 0f;
         }
         //Attack
-        if (Input.GetKey(attackButton) && !attacking && !onCooldown)
+        if (Input.GetKey(attackButton) && !player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying)
         {
             animator.SetBool("attacking", true);
             attacking = true;

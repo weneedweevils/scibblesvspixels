@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
 
     // Used to determine if dialogue is happening
     private GameObject dialogue;
-    private bool timelinePlaying = false;
+    public bool timelinePlaying = false;
 
     // Start is called before the first frame update
     void Start()
@@ -138,7 +138,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Ensures movement is disabled if dialogue wants it to be
-    private bool inFreezeDialogue()
+    public bool inFreezeDialogue()
     {
         if (dialogue != null)
         {
