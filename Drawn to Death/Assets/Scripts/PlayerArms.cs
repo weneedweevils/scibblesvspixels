@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerArms : MonoBehaviour
 {
     public GameObject weapon;
+    public GameObject player;
     private SpriteRenderer sprite = null;
 
     // Start is called before the first frame update
@@ -19,7 +20,7 @@ public class PlayerArms : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (sprite != null)
+        if (sprite != null && !player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying)
         {
             //Get mouse position
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
