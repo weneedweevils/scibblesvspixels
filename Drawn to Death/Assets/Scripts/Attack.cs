@@ -27,6 +27,9 @@ public class Attack : MonoBehaviour
     private Vector2 initialHitboxOffset;
     private Vector2 initialHitboxSize;
 
+    // Sound effect
+    private EraserSFX eraserSFX;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +40,9 @@ public class Attack : MonoBehaviour
         //Save initial attack hitbox information
         initialHitboxOffset = hitbox.offset;
         initialHitboxSize = hitbox.size;
+
+        // Get a reference to the script that controls the FMOD event
+        //eraserSFX = GetComponent<eraserSFX>;
     }
 
     // Update is called once per frame
@@ -66,6 +72,8 @@ public class Attack : MonoBehaviour
         {
             animator.SetBool("attacking", true);
             attacking = true;
+            //eraserSFX.PlaySound();
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Eraser");
         }
     }
 

@@ -17,6 +17,7 @@ public class EraserSFX : MonoBehaviour
     void Start()
     {
         instance = FMODUnity.RuntimeManager.CreateInstance(fmodEvent);
+        //instance.start();
     }
 
     // Update the IsHit Parameter each frame
@@ -28,5 +29,6 @@ public class EraserSFX : MonoBehaviour
     // Play the sound 
     void PlaySound(){
         instance.start();
+        instance.release();
     }
 }
