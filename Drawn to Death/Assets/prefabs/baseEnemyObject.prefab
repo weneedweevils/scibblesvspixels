@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 3692553448427789813}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.79, y: -1.13, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 3692553449529256141}
   m_Father: {fileID: 0}
@@ -75,7 +75,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  speed: 200
+  speed: 500
+  seekDistance: 100
   nextWaypointDistance: 1
   enemygraphics: {fileID: 3692553449529256141}
   maxhealth: 0
@@ -92,9 +93,9 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 2
-  m_AngularDrag: 0.05
+  m_Mass: 0.5
+  m_LinearDrag: 1
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -129,7 +130,7 @@ Transform:
   m_GameObject: {fileID: 3692553449529256140}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.113165244, y: 0.101356916, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3692553448427789817}
   m_RootOrder: 0
@@ -197,9 +198,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.00000047683716}
+  m_Offset: {x: 0, y: 4}
   serializedVersion: 2
-  m_Radius: 3
+  m_Radius: 2.5
 --- !u!95 &3692553449529256143
 Animator:
   serializedVersion: 3

@@ -10,6 +10,7 @@ public class EnemyAI : MonoBehaviour
 
     public Transform target;
     public float speed = 200f;
+    public float seekDistance = 100f; 
     public float nextWaypointDistance = 3f;
     public Transform enemygraphics;
     Path path;
@@ -35,7 +36,7 @@ public class EnemyAI : MonoBehaviour
         float inrange = Vector2.Distance(rb.position, target.position);
 
         // if not travelling to a path and the player is within range calculate new path
-        if (seeker.IsDone() && inrange < 6f)
+        if (seeker.IsDone() && inrange < seekDistance)
         {
             seeker.StartPath(rb.position, target.position, OnPathComplete);
         }
