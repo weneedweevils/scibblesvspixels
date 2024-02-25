@@ -1,9 +1,9 @@
-﻿/*  References:
- *      - Youtube: Creating 2D Player Movement for Isometric Games with Unity 2018.3! (Tutorial)
- *          - By: Unity
- *          - Link: https://www.youtube.com/watch?v=tywt9tOubEY
- *          
- */
+/*  References:
+*      - Youtube: Creating 2D Player Movement for Isometric Games with Unity 2018.3! (Tutorial)
+*          - By: Unity
+*          - Link: https://www.youtube.com/watch?v=tywt9tOubEY
+*          
+*/
 
 using System.Collections;
 using System.Collections.Generic;
@@ -29,14 +29,14 @@ public class PlayerMovement : MonoBehaviour
     public float dashCooldown;
     private float dashtimer = 0;
     private bool dashed = false;
-    
+
     //Animations
     private Animator animator;
     private SpriteRenderer sprite;
-    
+
     //Physics info
     private Vector2 velocity, acceleration;
-    
+
     Rigidbody2D rbody;
 
     // Start is called before the first frame update
@@ -62,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
         {
             dashed = true;
             velocity += velocity.normalized * dashBoost;
-        } 
+        }
         else if (dashed)
         {
             dashtimer += Time.deltaTime;
