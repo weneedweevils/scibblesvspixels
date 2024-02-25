@@ -7,7 +7,10 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Timeline;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -41,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
 
     // Used to determine if dialogue is happening
     private GameObject dialogue;
+    private bool timelinePlaying = false;
 
     // Start is called before the first frame update
     void Start()
@@ -58,32 +62,37 @@ public class PlayerMovement : MonoBehaviour
             //Determine acceleration
             acceleration.x = ((Input.GetKey(left) ? -1 : 0) + (Input.GetKey(right) ? 1 : 0)) * accelerationCoefficient;
             acceleration.y = ((Input.GetKey(down) ? -1 : 0) + (Input.GetKey(up) ? 1 : 0)) * accelerationCoefficient;
-
-            //Calculate velocity
-            velocity.x = VelocityCalc(acceleration.x, velocity.x);
-            velocity.y = VelocityCalc(acceleration.y, velocity.y);
-
-            if (!dashed && Input.GetKey(dash))
-            {
-                dashed = true;
-                velocity += velocity.normalized * dashBoost;
-            }
-            else if (dashed)
-            {
-                dashtimer += Time.deltaTime;
-                if (dashtimer >= dashCooldown)
-                {
-                    dashed = false;
-                    dashtimer = 0f;
-                }
-            }
-            //Predict new position
-            Vector2 currentPos = rbody.position;
-            Vector2 newPos = currentPos + velocity * Time.fixedDeltaTime;
-
-            //Move to new position
-            rbody.MovePosition(newPos);
         }
+        else
+        {
+            acceleration.x = 0;
+            acceleration.y = 0;
+        }
+
+        //Calculate velocity
+        velocity.x = VelocityCalc(acceleration.x, velocity.x);
+        velocity.y = VelocityCalc(acceleration.y, velocity.y);
+
+        if (!dashed && Input.GetKey(dash))
+        {
+            dashed = true;
+            velocity += velocity.normalized * dashBoost;
+        }
+        else if (dashed)
+        {
+            dashtimer += Time.deltaTime;
+            if (dashtimer >= dashCooldown)
+            {
+                dashed = false;
+                dashtimer = 0f;
+            }
+        }
+        //Predict new position
+        Vector2 currentPos = rbody.position;
+        Vector2 newPos = currentPos + velocity * Time.fixedDeltaTime;
+
+        //Move to new position
+        rbody.MovePosition(newPos);
 
         //Animate
         ManageAnimations();
@@ -116,9 +125,12 @@ public class PlayerMovement : MonoBehaviour
         //Set the speed parameter in the animator
         animator.SetFloat("speed", velocity.magnitude);
 
-        //Flip the sprite according to mouse position relative to the players position
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        sprite.flipX = mousePosition.x < transform.position.x;
+        if (!inFreezeDialogue() && !timelinePlaying)
+        {
+            //Flip the sprite according to mouse position relative to the players position
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            sprite.flipX = mousePosition.x < transform.position.x;
+        }
 
         //Account for backwards movement
         animator.SetBool("backwards", velocity.x != 0f && (velocity.x < 0f != sprite.flipX));
@@ -160,5 +172,10 @@ public class PlayerMovement : MonoBehaviour
             dialogue.SetActive(false); // Deactivates dialogue after trigger, can be changed if we ever want repeatable dialogue
             dialogue = null;
         }
+    }
+
+    public void SetTimelineActive(bool isActive)
+    {
+        timelinePlaying = isActive;
     }
 }
