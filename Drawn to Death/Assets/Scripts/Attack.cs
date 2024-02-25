@@ -27,8 +27,8 @@ public class Attack : MonoBehaviour
     private Vector2 initialHitboxOffset;
     private Vector2 initialHitboxSize;
 
-    // Sound effect
-    private EraserSFX eraserSFX;
+    // FMOD sound event path
+    public string sfx;
 
     // Start is called before the first frame update
     void Start()
@@ -72,8 +72,9 @@ public class Attack : MonoBehaviour
         {
             animator.SetBool("attacking", true);
             attacking = true;
-            //eraserSFX.PlaySound();
-            FMODUnity.RuntimeManager.PlayOneShot("event:/Eraser");
+
+            // Play the FMOD event correlating to the attack
+            FMODUnity.RuntimeManager.PlayOneShot(sfx);
         }
     }
 
