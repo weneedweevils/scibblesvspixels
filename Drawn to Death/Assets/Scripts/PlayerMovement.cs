@@ -7,7 +7,10 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Timeline;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -39,6 +42,10 @@ public class PlayerMovement : MonoBehaviour
 
     Rigidbody2D rbody;
 
+    // Used to determine if dialogue is happening
+    private GameObject dialogue;
+    public bool timelinePlaying = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,9 +57,17 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Determine acceleration
-        acceleration.x = ((Input.GetKey(left) ? -1 : 0) + (Input.GetKey(right) ? 1 : 0)) * accelerationCoefficient;
-        acceleration.y = ((Input.GetKey(down) ? -1 : 0) + (Input.GetKey(up) ? 1 : 0)) * accelerationCoefficient;
+        if (!inFreezeDialogue()) // Disable movement if in dialogue/cutscene where we don't want movement
+        {
+            //Determine acceleration
+            acceleration.x = ((Input.GetKey(left) ? -1 : 0) + (Input.GetKey(right) ? 1 : 0)) * accelerationCoefficient;
+            acceleration.y = ((Input.GetKey(down) ? -1 : 0) + (Input.GetKey(up) ? 1 : 0)) * accelerationCoefficient;
+        }
+        else
+        {
+            acceleration.x = 0;
+            acceleration.y = 0;
+        }
 
         //Calculate velocity
         velocity.x = VelocityCalc(acceleration.x, velocity.x, speedModifier);
@@ -73,7 +88,6 @@ public class PlayerMovement : MonoBehaviour
                 dashtimer = 0f;
             }
         }
-
         //Predict new position
         Vector2 currentPos = rbody.position;
         Vector2 newPos = currentPos + velocity * Time.fixedDeltaTime;
@@ -112,11 +126,57 @@ public class PlayerMovement : MonoBehaviour
         //Set the speed parameter in the animator
         animator.SetFloat("speed", velocity.magnitude);
 
-        //Flip the sprite according to mouse position relative to the players position
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        sprite.flipX = mousePosition.x < transform.position.x;
+        if (!inFreezeDialogue() && !timelinePlaying)
+        {
+            //Flip the sprite according to mouse position relative to the players position
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            sprite.flipX = mousePosition.x < transform.position.x;
+        }
 
         //Account for backwards movement
         animator.SetBool("backwards", velocity.x != 0f && (velocity.x < 0f != sprite.flipX));
+    }
+
+    // Ensures movement is disabled if dialogue wants it to be
+    public bool inFreezeDialogue()
+    {
+        if (dialogue != null)
+        {
+            if (!dialogue.GetComponent<DialogueController>().DialogueActive()) // Ensures dialogue object is destroyed if movement freeze is on
+            {
+                dialogue.SetActive(false); // Deactivates dialogue after end, can be changed if we ever want repeatable dialogue
+                dialogue = null;
+                return false;
+            }
+            return dialogue.GetComponent<DialogueController>().DialogueActive() && dialogue.GetComponent<DialogueController>().stopMovement;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    // Dialogue trigger
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Dialogue")
+        {
+            dialogue = collision.gameObject;
+            dialogue.GetComponent<DialogueController>().ActivateDialogue();
+        }
+    }
+
+    // Dialogue exit
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (dialogue != null) {
+            dialogue.SetActive(false); // Deactivates dialogue after trigger, can be changed if we ever want repeatable dialogue
+            dialogue = null;
+        }
+    }
+
+    public void SetTimelineActive(bool isActive)
+    {
+        timelinePlaying = isActive;
     }
 }
