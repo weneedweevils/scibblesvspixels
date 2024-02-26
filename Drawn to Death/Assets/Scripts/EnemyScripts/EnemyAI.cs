@@ -5,14 +5,18 @@ using Pathfinding;
 
 // Used this video for most of the script https://www.youtube.com/watch?v=jvtFUfJ6CP8a
 // if you want to use this in FSM inherit from EnemybaseState class
+public enum Team {player, neutral, oddle};
+public enum State {idle, chase, follow, attack, dead };
 public class EnemyAI : MonoBehaviour
 {
-
-    public Transform target;
+    public GameObject player;
+    public Team team = Team.oddle;
+    public State state = State.idle;
     public float speed = 200f;
     public float seekDistance = 100f; 
     public float nextWaypointDistance = 3f;
     public Transform enemygraphics;
+    Transform target;
     Path path;
     int currentWaypoint = 0;
     bool reachedEndOfPath;
@@ -28,9 +32,13 @@ public class EnemyAI : MonoBehaviour
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
         InvokeRepeating("CheckState", 0f, 0.5f); // this will call the checkstate function to update the path every half second
-
-
+        if (player == null)
+        {
+            player = GameObject.Find("Player");
+        }
+        target = player.transform;
     }
+
     void CheckState()
     {
         float inrange = Vector2.Distance(rb.position, target.position);
@@ -55,7 +63,36 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        MoveEnemy();
+        switch (state)
+        {
+            case State.idle:
+                {
+                    //idle Behaviour
+                    break;
+                }
+            case State.chase:
+                {
+                    //chase Behaviour
+                    MoveEnemy();
+                    break;
+                }
+            case State.attack:
+                {
+                    //attack Behaviour
+                    break;
+                }
+            case State.dead:
+                {
+                    //dead Behaviour
+                    break;
+                }
+            case State.follow:
+                {
+                    //follow Behaviour
+                    MoveEnemy();
+                    break;
+                }
+        }
 
     }
 
@@ -96,5 +133,41 @@ public class EnemyAI : MonoBehaviour
         {
             enemygraphics.localRotation = Quaternion.Euler(0, 0, 0);
         }
+    }
+
+    public void Kill()
+    {
+        //First Death
+        if (team == Team.oddle)
+        {
+            team = Team.neutral;
+            state = State.dead;
+        }
+        else if (team == Team.player){
+            state = State.dead;
+        }
+    }
+
+    public bool Revive()
+    {
+        if (state == State.dead && team == Team.neutral)
+        {
+            team = Team.player;
+            state = State.follow;
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    public void SetTarget(GameObject obj)
+    {
+        target = obj.transform;
+    }
+
+    public void SetTarget(Transform transform)
+    {
+        target = transform;
     }
 }
