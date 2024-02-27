@@ -25,7 +25,6 @@ public class EnemyAI : MonoBehaviour
     public float maxhealth;
     public float damage;
     public Sprite attacksprite;
-    Animator animator;
     public float cooldown = 2f;
     public float nextAttack;
 
@@ -46,7 +45,7 @@ public class EnemyAI : MonoBehaviour
         //spriterenderer = GetComponent<SpriteRenderer>();
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
-        animator = transform.GetChild(0).gameObject.GetComponent<Animator>();
+        //animator = transform.GetChild(0).gameObject.GetComponent<Animator>();
         InvokeRepeating("CheckState", 0f, 0.5f); // this will call the checkstate function to update the path every half second
         if (player == null)
         {
