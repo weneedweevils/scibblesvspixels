@@ -204,7 +204,7 @@ public class EnemyAI : MonoBehaviour
         {
             animator.SetBool("attacking", true);
             Vector2 direction = ((Vector2)target.position - rb.position).normalized;
-            rb.AddForce(direction * 15000f * Time.deltaTime);
+            rb.AddForce(direction * 25000f * Time.deltaTime);
             nextAttack = 0;
         }
 
@@ -254,10 +254,14 @@ public class EnemyAI : MonoBehaviour
         target = transform;
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-
+        if (collision.gameObject.tag == "Player")
+        {
+            Debug.Log("ouch I have collided with the player");
+        }
     }
+
 
 
 }

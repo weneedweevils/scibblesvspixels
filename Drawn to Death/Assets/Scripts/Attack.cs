@@ -94,4 +94,5 @@ public class Attack : MonoBehaviour
             hitbox.offset = initialHitboxOffset;
         }
     }
+  
 }
