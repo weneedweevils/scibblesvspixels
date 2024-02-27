@@ -151,6 +151,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1569432207551864265, guid: b90d98e433820d448875a47f95f5ad58,
         type: 3}
+      propertyPath: m_SortingOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1569432207551864265, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
@@ -214,6 +219,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2147593393134340045, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2147593393134340046, guid: b90d98e433820d448875a47f95f5ad58,
         type: 3}
       propertyPath: friction
@@ -243,6 +253,21 @@ PrefabInstance:
         type: 3}
       propertyPath: accelerationCoefficient
       value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2859433951945064859, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2859433951945064859, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2859433951945064859, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3430767754267907007, guid: b90d98e433820d448875a47f95f5ad58,
         type: 3}
@@ -279,11 +304,31 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6253776078455629853, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 8741233760108223212, guid: b90d98e433820d448875a47f95f5ad58,
         type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 965375}
+    - target: {fileID: 8741233760108223212, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
+      propertyPath: reviveCap
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8741233760108223212, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
+      propertyPath: reviveRadius
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8741233760108223212, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
+      propertyPath: reviveCooldown
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b90d98e433820d448875a47f95f5ad58, type: 3}
 --- !u!4 &965372 stripped
@@ -31429,7 +31474,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 5
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 2.06, y: 4.8759995, z: 0}
   m_MaxChunkCount: 16
@@ -42037,6 +42082,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: baseEnemyObject (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 3692553448427789814, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
+        type: 3}
+      propertyPath: m_LinearDrag
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3692553448427789815, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
         type: 3}
       propertyPath: speed
@@ -42235,6 +42285,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: baseEnemyObject (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3692553448427789814, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
+        type: 3}
+      propertyPath: m_LinearDrag
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3692553448427789815, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
         type: 3}
       propertyPath: speed
@@ -42318,6 +42373,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: baseEnemyObject (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3692553448427789814, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
+        type: 3}
+      propertyPath: m_LinearDrag
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3692553448427789815, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
         type: 3}
@@ -42422,7 +42482,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 965372}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1243013783
 Animator:
@@ -42520,6 +42580,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AngularDrag
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3692553448427789814, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3692553448427789815, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
         type: 3}
@@ -42634,6 +42699,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: baseEnemyObject (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3692553448427789814, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
+        type: 3}
+      propertyPath: m_LinearDrag
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3692553448427789815, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
         type: 3}
@@ -42815,6 +42885,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: baseEnemyObject (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3692553448427789814, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
+        type: 3}
+      propertyPath: m_LinearDrag
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3692553448427789815, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
         type: 3}
       propertyPath: speed
@@ -42982,6 +43057,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: baseEnemyObject (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3692553448427789814, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
+        type: 3}
+      propertyPath: m_LinearDrag
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3692553448427789815, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
         type: 3}

@@ -28,8 +28,8 @@ public class EnemyAI : MonoBehaviour
     //Animation
     private Animator animator;
     private float animationTimer = 0f;
-    private float deathDuration = 0.28f;
-    private float reviveDuration = 1.09f;
+    private float deathDuration = 28f/60f;
+    private float reviveDuration = 69f/60f;
 
     // Start is called before the first frame update
     void Start()
