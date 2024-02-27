@@ -11,10 +11,10 @@ public class EnemyAI : MonoBehaviour
 {
     public GameObject player;
     public Team team = Team.oddle;
-    public State state = State.idle;
+    public State state = State.chase;
     public float speed = 200f;
     public float seekDistance = 100f; 
-    public float nextWaypointDistance = 3f;
+    public float nextWaypointDistance;
     public Transform enemygraphics;
     Transform target;
     Path path;
@@ -24,6 +24,12 @@ public class EnemyAI : MonoBehaviour
     Rigidbody2D rb;
     public float maxhealth;
     public float damage;
+    public Sprite attacksprite;
+    public float cooldown = 2f;
+    public float nextAttack;
+
+
+
 
     //Animation
     private Animator animator;
@@ -34,9 +40,12 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        animator = GetComponentInChildren<Animator>();
+        //spriterenderer = GetComponent<SpriteRenderer>();
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
-        animator = transform.GetChild(0).gameObject.GetComponent<Animator>();
+        //animator = transform.GetChild(0).gameObject.GetComponent<Animator>();
         InvokeRepeating("CheckState", 0f, 0.5f); // this will call the checkstate function to update the path every half second
         if (player == null)
         {
@@ -48,6 +57,10 @@ public class EnemyAI : MonoBehaviour
     void CheckState()
     {
         float inrange = Vector2.Distance(rb.position, target.position);
+
+      
+     
+        
 
         // if not travelling to a path and the player is within range calculate new path
         if (seeker.IsDone() && inrange < seekDistance)
@@ -84,7 +97,10 @@ public class EnemyAI : MonoBehaviour
                 }
             case State.attack:
                 {
-                    //attack Behaviour
+                    if (Time.time > nextAttack)
+                    {
+                        Attack();
+                    }
                     break;
                 }
             case State.dying:
@@ -129,6 +145,18 @@ public class EnemyAI : MonoBehaviour
     // moves enemy and adjusts animation to face player
     void MoveEnemy()
     {
+        float triggerAttack = Vector2.Distance(rb.position, target.position);
+        animator.SetBool("chasing", true);
+
+        // if we are in range switch to the attack state
+        if (triggerAttack < 10f)
+        {
+            animator.SetBool("chasing", false);
+            animator.SetBool("attacking", true);
+            state = State.attack;
+            return;
+        }
+
         if (path == null)
         {
             return;
@@ -153,6 +181,7 @@ public class EnemyAI : MonoBehaviour
         if (distance < nextWaypointDistance)
         {
             currentWaypoint++;
+            
         }
 
         if (rb.velocity.x >= 0.01f)
@@ -162,6 +191,30 @@ public class EnemyAI : MonoBehaviour
         else if (rb.velocity.x <= -0.01f)
         {
             enemygraphics.localRotation = Quaternion.Euler(0, 0, 0);
+        }
+    }
+
+    public void Attack()
+    {
+        float triggerChase = Vector2.Distance(rb.position, target.position);
+        nextAttack += Time.deltaTime;
+
+
+        if (nextAttack >= cooldown)
+        {
+            animator.SetBool("attacking", true);
+            Vector2 direction = ((Vector2)target.position - rb.position).normalized;
+            rb.AddForce(direction * 25000f * Time.deltaTime);
+            nextAttack = 0;
+        }
+
+        if (triggerChase > 10f)
+        {
+            animator.SetBool("attacking", false);
+            animator.SetBool("chasing", true);
+            state = State.chase;
+            return;
+          
         }
     }
 
@@ -200,4 +253,15 @@ public class EnemyAI : MonoBehaviour
     {
         target = transform;
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            Debug.Log("ouch I have collided with the player");
+        }
+    }
+
+
+
 }
