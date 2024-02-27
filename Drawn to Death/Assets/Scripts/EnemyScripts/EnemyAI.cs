@@ -34,8 +34,8 @@ public class EnemyAI : MonoBehaviour
     //Animation
     private Animator animator;
     private float animationTimer = 0f;
-    private float deathDuration = 0.28f;
-    private float reviveDuration = 1.09f;
+    private float deathDuration = 28f/60f;
+    private float reviveDuration = 69f/60f;
 
     // Start is called before the first frame update
     void Start()
@@ -197,11 +197,16 @@ public class EnemyAI : MonoBehaviour
     public void Attack()
     {
         float triggerChase = Vector2.Distance(rb.position, target.position);
+        nextAttack += Time.deltaTime;
 
-        animator.SetBool("attacking", true);
-        Vector2 direction = ((Vector2)target.position - rb.position).normalized;
-        rb.AddForce(direction * 15000f * Time.deltaTime);
-        nextAttack = Time.time + cooldown;
+
+        if (nextAttack >= cooldown)
+        {
+            animator.SetBool("attacking", true);
+            Vector2 direction = ((Vector2)target.position - rb.position).normalized;
+            rb.AddForce(direction * 15000f * Time.deltaTime);
+            nextAttack = 0;
+        }
 
         if (triggerChase > 10f)
         {
@@ -211,11 +216,6 @@ public class EnemyAI : MonoBehaviour
             return;
           
         }
-
-
-
-
-
     }
 
     public void Kill()
@@ -254,5 +254,10 @@ public class EnemyAI : MonoBehaviour
         target = transform;
     }
 
-    
+    void OnCollisionEnter(Collision collision)
+    {
+
+    }
+
+
 }
