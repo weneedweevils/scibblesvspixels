@@ -67,6 +67,17 @@ public class Attack : MonoBehaviour
         //Attack
         if (Input.GetKey(attackButton) && !player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying)
         {
+            foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+            {
+                EnemyAI AI = enemy.GetComponent<EnemyAI>();
+                if (AI != null && AI.team == Team.oddle)
+                {
+                    AI.Kill();
+                } else if (AI != null && AI.state == State.dead)
+                {
+                    AI.Revive();
+                }
+            }
             animator.SetBool("attacking", true);
             attacking = true;
         }
