@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 741c59bf74993454ab83a8c8c94864ee, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -120,10 +120,10 @@ MonoBehaviour:
   reviveButton: 324
   damage: 100
   piercing: 3
-  attackCooldown: 0
-  reviveRadius: 0
-  reviveCap: 0
-  reviveCooldown: 0
+  attackCooldown: 0.5
+  reviveRadius: 15
+  reviveCap: 5
+  reviveCooldown: 1
 --- !u!61 &3430767754267907007
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -271,7 +271,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: ec5b1647b0a54b84db967b9b0e3ffdfc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -338,11 +338,11 @@ MonoBehaviour:
   right: 100
   dash: 304
   accelerationCoefficient: 75
-  maxVelocity: 12
+  maxVelocity: 15
   friction: 75
   speedModifier: 1
   dashEnabled: 0
-  dashBoost: 10
+  dashBoost: 50
   dashCooldown: 1
   timelinePlaying: 0
 --- !u!95 &2147593393134340048
@@ -390,7 +390,7 @@ Transform:
   m_GameObject: {fileID: 2643272857397675599}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -4, z: 0}
-  m_LocalScale: {x: 11, y: 5.5, z: 1}
+  m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 2147593393134340044}
   m_RootOrder: 1
@@ -402,7 +402,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2643272857397675599}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
