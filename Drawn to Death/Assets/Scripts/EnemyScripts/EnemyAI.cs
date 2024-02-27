@@ -11,7 +11,7 @@ public class EnemyAI : MonoBehaviour
 {
     public GameObject player;
     public Team team = Team.oddle;
-    public State state = State.idle;
+    public State state = State.chase;
     public float speed = 200f;
     public float seekDistance = 100f; 
     public float nextWaypointDistance;
@@ -148,6 +148,15 @@ public class EnemyAI : MonoBehaviour
         float triggerAttack = Vector2.Distance(rb.position, target.position);
         animator.SetBool("chasing", true);
 
+        // if we are in range switch to the attack state
+        if (triggerAttack < 10f)
+        {
+            animator.SetBool("chasing", false);
+            animator.SetBool("attacking", true);
+            state = State.attack;
+            return;
+        }
+
         if (path == null)
         {
             return;
@@ -169,12 +178,6 @@ public class EnemyAI : MonoBehaviour
 
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
 
-        if (triggerAttack < 10f)
-        {
-            animator.SetBool("chasing", false);
-            state = State.attack;
-        }
-
         if (distance < nextWaypointDistance)
         {
             currentWaypoint++;
@@ -195,15 +198,21 @@ public class EnemyAI : MonoBehaviour
     {
         float triggerChase = Vector2.Distance(rb.position, target.position);
 
-        if (triggerChase < 10f)
+        animator.SetBool("attacking", true);
+        Vector2 direction = ((Vector2)target.position - rb.position).normalized;
+        rb.AddForce(direction * 15000f * Time.deltaTime);
+        nextAttack = Time.time + cooldown;
+
+        if (triggerChase > 10f)
         {
-            animator.SetBool("attacking", true);
-            Vector2 direction = ((Vector2)target.position - rb.position).normalized;
-            rb.AddForce(direction * 15000f * Time.deltaTime);
-            nextAttack = Time.time + cooldown;
+            animator.SetBool("attacking", false);
+            animator.SetBool("chasing", true);
+            state = State.chase;
+            return;
+          
         }
-        //animator.SetBool("attacking", false);
-        state = State.chase;
+
+
 
 
 
