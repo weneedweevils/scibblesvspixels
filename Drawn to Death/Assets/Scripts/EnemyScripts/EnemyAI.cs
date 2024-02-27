@@ -22,11 +22,15 @@ public class EnemyAI : MonoBehaviour
     bool reachedEndOfPath;
     Seeker seeker;
     Rigidbody2D rb;
-    public float maxhealth;
     public float damage;
     public Sprite attacksprite;
     public float cooldown = 2f;
     public float nextAttack;
+
+    // Health
+    public float health;
+    public float maxHealth;
+    public EnemyHealthBarBehaviour healthBar;
 
 
 
@@ -52,6 +56,8 @@ public class EnemyAI : MonoBehaviour
             player = GameObject.Find("Player");
         }
         target = player.transform;
+        health = maxHealth;
+        healthBar.SetHealth(health, maxHealth);
     }
 
     void CheckState()
@@ -259,6 +265,12 @@ public class EnemyAI : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             Debug.Log("ouch I have collided with the player");
+            health -= 10f; // CAN AND SHOULD BE CHANGED LATER TO REFERNCE PLAYER DAMAGE
+            healthBar.SetHealth(health, maxHealth);
+            if (health <= 0)
+            {
+                Kill(); // Ded
+            }
         }
     }
 
