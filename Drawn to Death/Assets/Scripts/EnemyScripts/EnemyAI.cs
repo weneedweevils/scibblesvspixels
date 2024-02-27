@@ -6,7 +6,7 @@ using Pathfinding;
 // Used this video for most of the script https://www.youtube.com/watch?v=jvtFUfJ6CP8a
 // if you want to use this in FSM inherit from EnemybaseState class
 public enum Team {player, neutral, oddle};
-public enum State {idle, chase, follow, attack, dead };
+public enum State {idle, chase, follow, attack, dying, dead, reviving };
 public class EnemyAI : MonoBehaviour
 {
     public GameObject player;
@@ -25,12 +25,18 @@ public class EnemyAI : MonoBehaviour
     public float maxhealth;
     public float damage;
 
+    //Animation
+    private Animator animator;
+    private float animationTimer = 0f;
+    private float deathDuration = 0.28f;
+    private float reviveDuration = 1.09f;
 
     // Start is called before the first frame update
     void Start()
     {
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
+        animator = transform.GetChild(0).gameObject.GetComponent<Animator>();
         InvokeRepeating("CheckState", 0f, 0.5f); // this will call the checkstate function to update the path every half second
         if (player == null)
         {
@@ -81,9 +87,33 @@ public class EnemyAI : MonoBehaviour
                     //attack Behaviour
                     break;
                 }
+            case State.dying:
+                {
+                    //dying Behaviour
+                    animationTimer += Time.deltaTime;
+                    if (animationTimer >= deathDuration)
+                    {
+                        animationTimer = 0f;
+                        state = State.dead;
+                        animator.SetBool("dying", false);
+                    }
+                    break;
+                }
             case State.dead:
                 {
                     //dead Behaviour
+                    break;
+                }
+            case State.reviving:
+                {
+                    //reviving Behaviour
+                    animationTimer += Time.deltaTime;
+                    if (animationTimer >= reviveDuration)
+                    {
+                        animationTimer = 0f;
+                        state = State.follow;
+                        animator.SetBool("reviving", false);
+                    }
                     break;
                 }
             case State.follow:
@@ -141,11 +171,10 @@ public class EnemyAI : MonoBehaviour
         if (team == Team.oddle)
         {
             team = Team.neutral;
-            state = State.dead;
         }
-        else if (team == Team.player){
-            state = State.dead;
-        }
+        state = State.dying;
+        animator.SetBool("dying", true);
+        rb.velocity = Vector2.zero;
     }
 
     public bool Revive()
@@ -153,7 +182,8 @@ public class EnemyAI : MonoBehaviour
         if (state == State.dead && team == Team.neutral)
         {
             team = Team.player;
-            state = State.follow;
+            state = State.reviving;
+            animator.SetBool("reviving", true);
             return true;
         } else
         {

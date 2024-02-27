@@ -15,6 +15,7 @@ using UnityEngine.Timeline;
 public class PlayerMovement : MonoBehaviour
 {
     //Input options
+    [Header("Movement Controls")]
     public KeyCode up = KeyCode.W;
     public KeyCode down = KeyCode.S;
     public KeyCode left = KeyCode.A;
@@ -22,12 +23,15 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode dash = KeyCode.LeftShift;
 
     //Movement Checks
+    [Header("Physics")]
     public float accelerationCoefficient;   //how quickly it speeds up
     public float maxVelocity;               //how fast it can go horizontally
     public float friction;                  //how quickly it slows down
     public float speedModifier;             //modifiers applied to the player (affects maxVelocity)
 
     //Dash
+    [Header("Dash Options")]
+    public bool dashEnabled;
     public float dashBoost;
     public float dashCooldown;
     private float dashtimer = 0;
@@ -73,21 +77,27 @@ public class PlayerMovement : MonoBehaviour
         velocity.x = VelocityCalc(acceleration.x, velocity.x, speedModifier);
         velocity.y = VelocityCalc(acceleration.y, velocity.y, speedModifier);
         
-
-        if (!dashed && Input.GetKey(dash))
+        //Dash ability
+        if (dashEnabled)
         {
-            dashed = true;
-            velocity += velocity.normalized * dashBoost;
-        }
-        else if (dashed)
-        {
-            dashtimer += Time.deltaTime;
-            if (dashtimer >= dashCooldown)
+            //Check if dash was activated
+            if (!dashed && Input.GetKey(dash))
             {
-                dashed = false;
-                dashtimer = 0f;
+                dashed = true;
+                velocity += velocity.normalized * dashBoost;
+            }
+            //Dash cooldown
+            else if (dashed)
+            {
+                dashtimer += Time.deltaTime;
+                if (dashtimer >= dashCooldown)
+                {
+                    dashed = false;
+                    dashtimer = 0f;
+                }
             }
         }
+        
         //Predict new position
         Vector2 currentPos = rbody.position;
         Vector2 newPos = currentPos + velocity * Time.fixedDeltaTime;
