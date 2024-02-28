@@ -128,6 +128,10 @@ public class EnemyAI : MonoBehaviour
             case State.dead:
                 {
                     //dead Behaviour
+                    if (team == Team.player)
+                    {
+                        Destroy(gameObject);
+                    }
                     break;
                 }
             case State.reviving:
@@ -150,7 +154,7 @@ public class EnemyAI : MonoBehaviour
                 }
         }
         
-        if (health <= 0 && state != State.dead)
+        if (health <= 0 && state != State.dead && state != State.dying)
         {
             Kill(); // Ded
         }
@@ -235,8 +239,8 @@ public class EnemyAI : MonoBehaviour
 
     public void Kill()
     {
-        //First Death
-        if (team == Team.oddle)
+        
+        if (team == Team.oddle) //First Death
         {
             team = Team.neutral;
         }
@@ -253,6 +257,7 @@ public class EnemyAI : MonoBehaviour
             team = Team.player;
             state = State.reviving;
             animator.SetBool("reviving", true);
+            gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
             maxHealth *= percentMaxHP;
             damage *= percentDamage;
             speed *= percentSpeed;
