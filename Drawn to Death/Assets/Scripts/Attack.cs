@@ -119,10 +119,10 @@ public class Attack : MonoBehaviour
             foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
             {
                 EnemyAI AI = enemy.GetComponent<EnemyAI>();
-                if (AI != null && AI.team == Team.oddle)
-                {
-                    AI.Kill();
-                }
+                //if (AI != null && AI.team == Team.oddle)
+                //{
+                    //AI.Kill();
+                //}
             }
             animator.SetBool("attacking", true);
             attacking = true;

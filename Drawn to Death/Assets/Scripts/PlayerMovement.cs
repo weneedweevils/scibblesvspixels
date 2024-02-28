@@ -50,12 +50,18 @@ public class PlayerMovement : MonoBehaviour
     private GameObject dialogue;
     public bool timelinePlaying = false;
 
+    // Health
+    public float health;
+    public float maxHealth;
+    public HealthBarBehaviour healthBar;
+
     // Start is called before the first frame update
     void Start()
     {
         rbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
+        health = maxHealth;
     }
 
     // Update is called once per frame
@@ -107,6 +113,8 @@ public class PlayerMovement : MonoBehaviour
 
         //Animate
         ManageAnimations();
+
+        healthBar.SetHealth(health, maxHealth);
     }
 
     private float VelocityCalc(float a, float v, float modifier = 1f)
@@ -195,6 +203,12 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             Debug.Log("oooof I have collided with an enemy");
+            health -= 10f; // CAN AND SHOULD BE CHANGED LATER TO REFERNCE ENEMY DAMAGE
+            healthBar.SetHealth(health, maxHealth);
+            if (health <= 0)
+            {
+                Debug.Log("oooof I am ded RIP :(");
+            }
         }
     }
 }
