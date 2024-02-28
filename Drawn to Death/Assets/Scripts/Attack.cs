@@ -73,11 +73,14 @@ public class Attack : MonoBehaviour
         //Attack
         if (Input.GetKey(attackButton) && !player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying)
         {
+            // Play the FMOD event correlating to the attack
+            if (!attacking){
+                FMODUnity.RuntimeManager.PlayOneShot(sfx);  
+            }
+            
+
             animator.SetBool("attacking", true);
             attacking = true;
-
-            // Play the FMOD event correlating to the attack
-            FMODUnity.RuntimeManager.PlayOneShot(sfx);
         }
     }
 
