@@ -35,6 +35,7 @@ public class Attack : MonoBehaviour
     public float reviveRadius;
     public int reviveCap;
     public float reviveCooldown = 0f;
+    public float targetDistance = 100f;
     public CooldownTimer reviveTimer;
     private float reviveDuration = 69f / 60f;
 
@@ -70,11 +71,17 @@ public class Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (allies.Count > 0)
+        {
+            ControlAllies();
+        }
+        
         if (!player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying)
         {
             CheckAttack();
             CheckRevive();
         }
+        
     }
 
     //Used to flip the attack hitbox as needed when rotating
@@ -140,19 +147,19 @@ public class Attack : MonoBehaviour
             if (reviveTimer.IsUseable())
             {
                 Debug.Log("Attempting to revive enemies");
-                foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+                foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
                 {
-                    EnemyAI AI = enemy.GetComponent<EnemyAI>();
-                    if (AI == null || allies.Count >= reviveCap)
+                    EnemyAI enemy = obj.GetComponent<EnemyAI>();
+                    if (enemy == null || allies.Count >= reviveCap)
                     {
                         continue;
                     }
 
-                    if (CustomDist(reviveImage.transform.position, AI.transform.position + 2.5f * Vector3.down) <= reviveRadius)
+                    if (CustomDist(reviveImage.transform.position, enemy.transform.position + 2.5f * Vector3.down) <= reviveRadius)
                     {
-                        if (AI.Revive(0.5f, 0.5f, 0.9f))
+                        if (enemy.Revive(0.5f, 0.5f, 0.9f))
                         {
-                            allies.Add(AI);
+                            allies.Add(enemy);
                             reviveTimer.StartTimer();
                         }
                     }
@@ -171,5 +178,59 @@ public class Attack : MonoBehaviour
         float yScale = 0.5f;
         return Mathf.Sqrt(Mathf.Pow(((a.x - b.x) / xScale), 2) + Mathf.Pow(((a.y - b.y) / yScale), 2));
     }
-  
+
+    public void ControlAllies()
+    {
+        //Find closest enemy target in range
+        EnemyAI target = null;
+        float minDist = float.MaxValue;
+
+        //Iterate through all enemies
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            EnemyAI enemy = obj.GetComponent<EnemyAI>();
+            //Ignore any enemies that are not part of the enemy team
+            if (enemy == null || enemy.team != Team.oddle)
+            {
+                continue;
+            }
+
+            float dist = Vector3.Distance(transform.position, enemy.transform.position);
+            if (dist <= targetDistance && dist < minDist)
+            {
+                target = enemy;
+                minDist = dist;
+            }
+        }
+
+        //Set Allies target & remove dead allies
+        List<EnemyAI> temp = new List<EnemyAI>(allies);
+        foreach (EnemyAI ally in temp)
+        {
+            //Ignore allies currently being revived
+            if (ally.state == State.reviving)
+            {
+                continue;
+            }
+            //Remove Dead Allies
+            if (ally.state == State.dead || ally.state == State.dying)
+            {
+                allies.Remove(ally);
+            } else if (target != null)  //Found  a target -> go attack target
+            {
+                if (ally.state == State.follow)
+                {
+                    ally.state = State.chase;
+                }
+                ally.SetTarget(target.transform);
+                print("Attacking");
+
+            } else  //No target and ally is not dead -> follow player
+            {
+                ally.state = State.follow;
+                ally.SetTarget(player);
+                print("Following");
+            }
+        }
+    }
 }
