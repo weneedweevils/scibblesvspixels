@@ -155,6 +155,12 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("backwards", velocity.x != 0f && (velocity.x < 0f != sprite.flipX));
     }
 
+    public void StopMovement()
+    {
+        velocity = Vector2.zero;
+        acceleration = Vector2.zero;
+    }
+
     // Ensures movement is disabled if dialogue wants it to be
     public bool inFreezeDialogue()
     {

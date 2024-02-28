@@ -32,13 +32,14 @@ public class EnemyAI : MonoBehaviour
     public float maxHealth;
     public EnemyHealthBarBehaviour healthBar;
 
-
-
+    //Invincibility Frames
+    public CooldownTimer invincibilityTimer;
+    private float invincibilityDuration = 35f / 60f;
 
     //Animation
     private Animator animator;
     private float animationTimer = 0f;
-    private float deathDuration = 28f/60f;
+    private float deathDuration = 25f/60f;
     private float reviveDuration = 69f/60f;
 
     // Start is called before the first frame update
@@ -58,6 +59,8 @@ public class EnemyAI : MonoBehaviour
         target = player.transform;
         health = maxHealth;
         healthBar.SetHealth(health, maxHealth);
+
+        invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
     }
 
     void CheckState()
@@ -88,6 +91,7 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        invincibilityTimer.Update();
         switch (state)
         {
             case State.idle:
@@ -144,6 +148,11 @@ public class EnemyAI : MonoBehaviour
                     MoveEnemy();
                     break;
                 }
+        }
+        
+        if (health <= 0 && state != State.dead)
+        {
+            Kill(); // Ded
         }
 
     }
@@ -231,18 +240,23 @@ public class EnemyAI : MonoBehaviour
         {
             team = Team.neutral;
         }
+        health = 0;
         state = State.dying;
         animator.SetBool("dying", true);
         rb.velocity = Vector2.zero;
     }
 
-    public bool Revive()
+    public bool Revive(float percentMaxHP = 1f, float percentDamage = 1f, float percentSpeed = 1f)
     {
         if (state == State.dead && team == Team.neutral)
         {
             team = Team.player;
             state = State.reviving;
             animator.SetBool("reviving", true);
+            maxHealth *= percentMaxHP;
+            damage *= percentDamage;
+            speed *= percentSpeed;
+            health = maxHealth;
             return true;
         } else
         {
@@ -260,20 +274,18 @@ public class EnemyAI : MonoBehaviour
         target = transform;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Attack" && invincibilityTimer.IsUseable() && health > 0)
         {
-            Debug.Log("ouch I have collided with the player");
-            health -= 10f; // CAN AND SHOULD BE CHANGED LATER TO REFERNCE PLAYER DAMAGE
-            healthBar.SetHealth(health, maxHealth);
-            if (health <= 0)
+            Attack playerAttack = collision.gameObject.GetComponent<Attack>();
+            if (playerAttack != null && playerAttack.attackTimer.IsActive())
             {
-                Kill(); // Ded
+                health -= playerAttack.damage;
+                invincibilityTimer.StartTimer();
+                Debug.Log(string.Format("ouch I have been hit. Health remaining: {0}", health));
             }
+            healthBar.SetHealth(health, maxHealth);
         }
     }
-
-
-
 }

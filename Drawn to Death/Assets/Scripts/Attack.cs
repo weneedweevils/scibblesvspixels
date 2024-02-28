@@ -6,6 +6,7 @@ public class Attack : MonoBehaviour
 {
     //Player game object
     public GameObject player;
+    private PlayerMovement playerMovement;
 
     //Use key
     [Header("Controls")]
@@ -18,15 +19,9 @@ public class Attack : MonoBehaviour
     //Stats
     public float damage = 100;
     public float piercing = 3;
-    
-    //Timer
     public float attackCooldown = 0f;
+    public CooldownTimer attackTimer;
     private float attackDuration = 30f/60f;
-    private float attackTimer = 0f;
-
-    //Cooldown
-    private bool attacking = false;
-    private bool attackOnCooldown = false;
     
     //Hitbox
     private BoxCollider2D hitbox;
@@ -39,11 +34,9 @@ public class Attack : MonoBehaviour
     //Stats
     public float reviveRadius;
     public int reviveCap;
-
-    //Cooldown
     public float reviveCooldown = 0f;
-    private float reviveTimer = 0f;
-    private bool reviveOnCooldown = false;
+    public CooldownTimer reviveTimer;
+    private float reviveDuration = 69f / 60f;
 
     //Misc
     private List<EnemyAI> allies = new List<EnemyAI>();
@@ -59,6 +52,7 @@ public class Attack : MonoBehaviour
     void Start()
     {
         //Collect components
+        playerMovement = player.GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
         hitbox = GetComponent<BoxCollider2D>();
         reviveImage = player.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>();
@@ -67,6 +61,10 @@ public class Attack : MonoBehaviour
         //Save initial attack hitbox information
         initialHitboxOffset = hitbox.offset;
         initialHitboxSize = hitbox.size;
+
+        //Setup Timers
+        reviveTimer = new CooldownTimer(reviveCooldown, reviveDuration);
+        attackTimer = new CooldownTimer(attackCooldown, attackDuration);
     }
 
     // Update is called once per frame
@@ -77,7 +75,6 @@ public class Attack : MonoBehaviour
             CheckAttack();
             CheckRevive();
         }
-        
     }
 
     //Used to flip the attack hitbox as needed when rotating
@@ -95,53 +92,44 @@ public class Attack : MonoBehaviour
     public void CheckAttack()
     {
         //Attack Timer
-        if (attacking || attackOnCooldown)
+        attackTimer.Update();
+        if (!attackTimer.IsActive())
         {
-            attackTimer += Time.deltaTime;
-        }
-        //Check if attack is over -> start the cooldown
-        if (attacking && attackTimer >= attackDuration)
-        {
-            attackOnCooldown = true;
-            attacking = false;
             animator.SetBool("attacking", false);
-            attackTimer -= attackDuration;
         }
-        //Check if cooldown is over
-        if (attackOnCooldown && attackTimer >= attackCooldown)
-        {
-            attackOnCooldown = false;
-            attackTimer = 0f;
-        }
+
         //Attack
-        if (!attacking && !attackOnCooldown && Input.GetKey(attackButton))
+        if (attackTimer.IsUseable() && Input.GetKey(attackButton))
         {
+            /*
             foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
             {
                 EnemyAI AI = enemy.GetComponent<EnemyAI>();
-                //if (AI != null && AI.team == Team.oddle)
-                //{
-                    //AI.Kill();
-                //}
-            }
+                if (AI != null && AI.team == Team.oddle)
+                {
+                    AI.Kill();
+                }
+            }*/
             animator.SetBool("attacking", true);
-            attacking = true;
+            attackTimer.StartTimer();
         }
     }
 
     public void CheckRevive()
     {
         //Revive Timer
-        if (reviveOnCooldown)
+        reviveTimer.Update();
+
+        //Freeze Movement while reviving
+        if (reviveTimer.IsActive())
         {
-            reviveTimer += Time.deltaTime;
-        }
-        //Check if cooldown is over
-        if (reviveTimer >= reviveCooldown)
+            playerMovement.speedModifier = 0f;
+            playerMovement.StopMovement();
+        } else
         {
-            reviveOnCooldown = false;
-            reviveTimer = 0f;
+            playerMovement.speedModifier = 1f;
         }
+
         //Revive
         if (Input.GetKeyDown(reviveButton))
         {
@@ -149,8 +137,9 @@ public class Attack : MonoBehaviour
         }
         if (Input.GetKeyUp(reviveButton))
         {
-            if (!reviveOnCooldown)
+            if (reviveTimer.IsUseable())
             {
+                Debug.Log("Attempting to revive enemies");
                 foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
                 {
                     EnemyAI AI = enemy.GetComponent<EnemyAI>();
@@ -161,14 +150,16 @@ public class Attack : MonoBehaviour
 
                     if (CustomDist(reviveImage.transform.position, AI.transform.position + 2.5f * Vector3.down) <= reviveRadius)
                     {
-                        if (AI.Revive())
+                        if (AI.Revive(0.5f, 0.5f, 0.9f))
                         {
                             allies.Add(AI);
+                            reviveTimer.StartTimer();
                         }
                     }
-
                 }
-                reviveOnCooldown = true;
+            } else
+            {
+                Debug.Log("Revive Ability is still Unusable");
             }
             reviveImage.enabled = false;
         }
