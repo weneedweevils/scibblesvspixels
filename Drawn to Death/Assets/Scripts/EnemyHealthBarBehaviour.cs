@@ -9,6 +9,8 @@ public class EnemyHealthBarBehaviour : MonoBehaviour
     public Color low;
     public Color high;
     public Vector3 offset;
+    public float xScale;
+    public float yScale;
 
     public void SetHealth(float health, float maxHealth)
     {
@@ -18,6 +20,13 @@ public class EnemyHealthBarBehaviour : MonoBehaviour
 
         // Dynamically changes the color of the healthbar based on remaining health
         healthBar.fillRect.GetComponentInChildren<Image>().color = Color.Lerp(low, high, healthBar.normalizedValue);
+    }
+
+    // Start is called before the first frame update
+    public void Start()
+    {
+        // Sets health bar size
+        healthBar.GetComponent<RectTransform>().localScale = new Vector3(xScale, yScale, 1);
     }
 
     // Update is called once per frame
