@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Attack : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Attack : MonoBehaviour
     [Header("Controls")]
     public KeyCode attackButton = KeyCode.Mouse0;
     public KeyCode reviveButton = KeyCode.Mouse1;
+    public KeyCode lifestealButton = KeyCode.T;
 
         /* ----- Attacking ----- */
 
@@ -39,12 +41,24 @@ public class Attack : MonoBehaviour
     public CooldownTimer reviveTimer;
     private float reviveDuration = 69f / 60f;
 
+         /* ----- Lifesteal ----- */
+
+    [Header("Lifesteal Info")]
+    //Stats
+    public float lifestealRadius;
+    public float lifestealCooldown = 10f;
+    public float targetDistanceLifesteal = 150f;
+    public float lifestealDamagePerFrame = 0.01f;
+    public CooldownTimer lifestealTimer;
+    private float lifestealDuration = 5f;
+
     //Misc
     private List<EnemyAI> allies = new List<EnemyAI>();
     private SpriteRenderer reviveImage;
+    private SpriteRenderer lifestealImage;
 
 
-        /* ----- Misc ----- */
+    /* ----- Misc ----- */
 
     //Animation
     private Animator animator;
@@ -66,6 +80,8 @@ public class Attack : MonoBehaviour
         hitbox = GetComponent<BoxCollider2D>();
         reviveImage = player.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>();
         reviveImage.transform.localScale *= reviveRadius * 10.45f;
+        lifestealImage = player.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>();
+        lifestealImage.transform.localScale *= lifestealRadius * 10.45f;
 
         //Save initial attack hitbox information
         initialHitboxOffset = hitbox.offset;
@@ -74,6 +90,7 @@ public class Attack : MonoBehaviour
         //Setup Timers
         reviveTimer = new CooldownTimer(reviveCooldown, reviveDuration);
         attackTimer = new CooldownTimer(attackCooldown, attackDuration);
+        lifestealTimer = new CooldownTimer(lifestealCooldown, lifestealDuration);
 
         // Get a reference to the script that controls the FMOD event
         //eraserSFX = GetComponent<eraserSFX>;
@@ -99,6 +116,7 @@ public class Attack : MonoBehaviour
         {
             CheckAttack();
             CheckRevive();
+            CheckLifesteal();
         }
         
     }
@@ -176,6 +194,60 @@ public class Attack : MonoBehaviour
                 }
             }
             reviveImage.enabled = false;
+        }
+    }
+
+    public void CheckLifesteal()
+    {
+        //Lifesteal Timer
+        lifestealTimer.Update();
+
+        //Freeze Movement while reviving
+        if (lifestealTimer.IsUseable() && Input.GetKeyDown(lifestealButton))
+        {
+            lifestealImage.enabled = true;
+            lifestealTimer.StartTimer();
+        }
+        else if (lifestealTimer.IsOnCooldown())
+        {
+            lifestealImage.enabled = false;
+            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
+            {
+                EnemyAI enemy = obj.GetComponent<EnemyAI>();
+                LineRenderer line = enemy.GetComponent<LineRenderer>();
+                //line.SetPosition(0, Vector3.zero);
+                //line.SetPosition(1, Vector3.zero);
+            }
+
+        }
+        if (lifestealTimer.IsActive()) {
+            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
+            {
+                EnemyAI enemy = obj.GetComponent<EnemyAI>();
+                LineRenderer line = enemy.GetComponent<LineRenderer>();
+                if (CustomDist(lifestealImage.transform.position, enemy.transform.position + 2.5f * Vector3.down) <= lifestealRadius)
+                {
+                    if (enemy.team == Team.oddle)
+                    {
+                        enemy.Damage(lifestealDamagePerFrame);
+                        player.GetComponent<PlayerMovement>().Damage(-lifestealDamagePerFrame / 4); // HEALS
+                        //line.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, -1));
+                        //line.SetPosition(1, new Vector3(enemy.transform.position.x, enemy.transform.position.y, -1));
+                    }
+                    else if (enemy.team == Team.player)
+                    {
+                        enemy.Damage(lifestealDamagePerFrame);
+                        player.GetComponent<PlayerMovement>().Damage(-lifestealDamagePerFrame / 2); // HEALS
+                        //line.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, -1));
+                        //line.SetPosition(1, new Vector3(enemy.transform.position.x, enemy.transform.position.y, -1));
+                    }
+                }
+                else
+                {
+                    //line.SetPosition(0, Vector3.zero);
+                    //line.SetPosition(1, Vector3.zero);
+                }
+            }
         }
     }
 

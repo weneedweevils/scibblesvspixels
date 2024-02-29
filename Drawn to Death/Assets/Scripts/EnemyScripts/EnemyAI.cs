@@ -302,6 +302,14 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    // Function to run when player takes damage
+    public void Damage(float damageTaken)
+    {
+        health -= damageTaken;
+        invincibilityTimer.StartTimer();
+        healthBar.SetHealth(health, maxHealth);
+    }
+
     public void SetTarget(GameObject obj)
     {
         target = obj.transform;
@@ -319,13 +327,10 @@ public class EnemyAI : MonoBehaviour
             Attack playerAttack = collision.gameObject.GetComponent<Attack>();
             if (playerAttack != null && playerAttack.attackTimer.IsActive() && team == Team.oddle)
             {
-                health -= playerAttack.damage;
-                invincibilityTimer.StartTimer();
+                Damage(playerAttack.damage);
                 Debug.Log(string.Format("ouch I have been hit. Health remaining: {0}", health));
                 musicscript.setIntensity(20f);
             }
-            healthBar.SetHealth(health, maxHealth);
-
         }
         if (collision.gameObject.tag == "Enemy")
         {

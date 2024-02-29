@@ -7,7 +7,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Timeline;
+//using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -55,6 +55,10 @@ public class PlayerMovement : MonoBehaviour
     public float maxHealth;
     public HealthBarBehaviour healthBar;
 
+    //Invincibility Frames
+    public CooldownTimer invincibilityTimer;
+    private float invincibilityDuration = 1f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -62,11 +66,13 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         health = maxHealth;
+        invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
     }
 
     // Update is called once per frame
     void Update()
     {
+        invincibilityTimer.Update();
         if (!inFreezeDialogue() && !timelinePlaying) // Disable movement if in dialogue/cutscene where we don't want movement
         {
             //Determine acceleration
@@ -180,6 +186,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // Function to run when player takes damage
+    public void Damage(float damageTaken)
+    {
+        health -= damageTaken;
+        invincibilityTimer.StartTimer();
+        healthBar.SetHealth(health, maxHealth);
+    }
+
     // Dialogue trigger
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -206,19 +220,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Enemy" && invincibilityTimer.IsUseable())
         {
             EnemyAI enemyai = collision.gameObject.GetComponent<EnemyAI>();
             if (enemyai.team == Team.oddle)
             {
                 Debug.Log("oooof I have collided with an enemy");
-                health -= enemyai.damage;
+                Damage(collision.gameObject.GetComponent<EnemyAI>().damage);
                 if (health <= 0)
                 {
                     Debug.Log("oooof I am ded RIP :(");
                     MenuManager.GotoScene(Scene.Ded);
                 }
-                healthBar.SetHealth(health, maxHealth);
             }
         }
     }
