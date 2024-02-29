@@ -1,400 +1,6 @@
-<<<<<<< HEAD
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7845495971208712420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/CrabWalk/CrabSpeed
-  m_EditorClassIdentifier: 
-  Name: CrabSpeed
-  StudioPath: 
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 2919015658
-    data2: 1541798933
-  Type: 0
-  IsGlobal: 0
-  Labels: []
-  Exists: 1
---- !u!114 &-7246363135607895690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/JailMusic
-  m_EditorClassIdentifier: 
-  Path: event:/JailMusic
-  Guid:
-    Data1: -265291380
-    Data2: 1081923302
-    Data3: -449126740
-    Data4: -1107445570
-  Banks:
-  - {fileID: 1753753408811460560}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 0
-  Parameters:
-  - {fileID: 5397196581226068829}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 72180
---- !u!114 &-7199948792808106206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/CrabDeath
-  m_EditorClassIdentifier: 
-  Path: event:/CrabDeath
-  Guid:
-    Data1: 374530013
-    Data2: 1174619194
-    Data3: -1116270431
-    Data4: 1047796506
-  Banks:
-  - {fileID: -734095132611173381}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters:
-  - {fileID: -3559118823209623777}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
---- !u!114 &-4989601085420513069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/GlichFootsteps
-  m_EditorClassIdentifier: 
-  Path: event:/GlichFootsteps
-  Guid:
-    Data1: 1573623179
-    Data2: 1295417537
-    Data3: -1546442865
-    Data4: -782598825
-  Banks:
-  - {fileID: -734095132611173381}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 500
---- !u!114 &-3559118823209623777
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/CrabDeath/Parameter 1
-  m_EditorClassIdentifier: 
-  Name: Parameter 1
-  StudioPath: 
-  Min: 0
-  Max: 4
-  Default: 0
-  ID:
-    data1: 3893901547
-    data2: 1122882880
-  Type: 1
-  IsGlobal: 0
-  Labels: []
-  Exists: 1
---- !u!114 &-2146176215577886742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/CrabWalk
-  m_EditorClassIdentifier: 
-  Path: event:/CrabWalk
-  Guid:
-    Data1: 303504757
-    Data2: 1146050523
-    Data3: -535311979
-    Data4: 1333973189
-  Banks:
-  - {fileID: -734095132611173381}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters:
-  - {fileID: -7845495971208712420}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
---- !u!114 &-1760358223294674746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Eraser/IsHit
-  m_EditorClassIdentifier: 
-  Name: IsHit
-  StudioPath: 
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 3535946335
-    data2: 2883146917
-  Type: 1
-  IsGlobal: 0
-  Labels: []
-  Exists: 1
---- !u!114 &-734095132611173381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/SFX.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/FMODBanks/Desktop/SFX.bank
-  Name: SFX
-  StudioPath: bank:/SFX
-  lastModified: 638447594030000000
-  FileSizes: []
-  Exists: 1
---- !u!114 &-625472805895675973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Eraser
-  m_EditorClassIdentifier: 
-  Path: event:/Eraser
-  Guid:
-    Data1: 486645710
-    Data2: 1337635111
-    Data3: 1250925995
-    Data4: -1494841432
-  Banks:
-  - {fileID: -734095132611173381}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters:
-  - {fileID: -1760358223294674746}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
-  m_Name: FMODStudioCache
-  m_EditorClassIdentifier: 
-  EditorBanks:
-  - {fileID: 4229607529083442069}
-  - {fileID: 2033236693338054033}
-  - {fileID: 1753753408811460560}
-  - {fileID: -734095132611173381}
-  EditorEvents:
-  - {fileID: -7246363135607895690}
-  - {fileID: -625472805895675973}
-  - {fileID: -4989601085420513069}
-  - {fileID: 4871830494899052117}
-  - {fileID: -2146176215577886742}
-  - {fileID: 8299557695616083975}
-  - {fileID: -7199948792808106206}
-  EditorParameters: []
-  MasterBanks:
-  - {fileID: 2033236693338054033}
-  StringsBanks:
-  - {fileID: 4229607529083442069}
-  cacheTime: 638447594030000000
-  cacheVersion: 131616
---- !u!114 &224964544793205485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/CrabAttack/CrabAttack
-  m_EditorClassIdentifier: 
-  Name: CrabAttack
-  StudioPath: 
-  Min: 0
-  Max: 3
-  Default: 0
-  ID:
-    data1: 3413959919
-    data2: 1206188673
-  Type: 1
-  IsGlobal: 0
-  Labels: []
-  Exists: 1
---- !u!114 &1753753408811460560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Music.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/FMODBanks/Desktop/Music.bank
-  Name: Music
-  StudioPath: bank:/Music
-  lastModified: 638447590200000000
-  FileSizes: []
-  Exists: 1
---- !u!114 &2033236693338054033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/FMODBanks/Desktop/Master.bank
-  Name: Master
-  StudioPath: bank:/Master
-  lastModified: 638447590200000000
-  FileSizes: []
-  Exists: 1
---- !u!114 &4229607529083442069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/FMODBanks/Desktop/Master.strings.bank
-  Name: Master.strings
-  StudioPath: bank:/Master.strings
-  lastModified: 638447590200000000
-  FileSizes:
-  - Name: 
-    Value: 1426
-  Exists: 1
---- !u!114 &4871830494899052117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/CrabAttack
-  m_EditorClassIdentifier: 
-  Path: event:/CrabAttack
-  Guid:
-    Data1: 618534753
-    Data2: 1171983527
-    Data3: -664575553
-    Data4: 1633250282
-  Banks:
-  - {fileID: -734095132611173381}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters:
-  - {fileID: 224964544793205485}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
---- !u!114 &5397196581226068829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/JailMusic/Intensity
-  m_EditorClassIdentifier: 
-  Name: Intensity
-  StudioPath: 
-  Min: 0
-  Max: 30
-  Default: 0
-  ID:
-    data1: 2266570419
-    data2: 957044615
-  Type: 0
-  IsGlobal: 0
-  Labels: []
-  Exists: 1
---- !u!114 &6573994987144830453
+--- !u!114 &-8278325245871035988
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -418,93 +24,7 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
---- !u!114 &8299557695616083975
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/GlichHurt
-  m_EditorClassIdentifier: 
-  Path: event:/GlichHurt
-  Guid:
-    Data1: -746441829
-    Data2: 1076080658
-    Data3: -1550261092
-    Data4: 1589131451
-  Banks:
-  - {fileID: -734095132611173381}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters:
-  - {fileID: 6573994987144830453}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
-=======
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7246363135607895690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/JailMusic
-  m_EditorClassIdentifier: 
-  Path: event:/JailMusic
-  Guid:
-    Data1: -265291380
-    Data2: 1081923302
-    Data3: -449126740
-    Data4: -1107445570
-  Banks:
-  - {fileID: 1753753408811460560}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 0
-  Parameters:
-  - {fileID: 5397196581226068829}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 72180
---- !u!114 &-4989601085420513069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/GlichFootsteps
-  m_EditorClassIdentifier: 
-  Path: event:/GlichFootsteps
-  Guid:
-    Data1: 1573623179
-    Data2: 1295417537
-    Data3: -1546442865
-    Data4: -782598825
-  Banks:
-  - {fileID: -734095132611173381}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 500
---- !u!114 &-1760358223294674746
+--- !u!114 &-7665045679682614070
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -514,21 +34,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Eraser/IsHit
+  m_Name: parameter:/CrabAttack/CrabAttack
   m_EditorClassIdentifier: 
-  Name: IsHit
+  Name: CrabAttack
   StudioPath: 
   Min: 0
-  Max: 1
+  Max: 3
   Default: 0
   ID:
-    data1: 3535946335
-    data2: 2883146917
+    data1: 3413959919
+    data2: 1206188673
   Type: 1
   IsGlobal: 0
   Labels: []
   Exists: 1
---- !u!114 &-734095132611173381
+--- !u!114 &-7508415830540380072
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -538,15 +58,43 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/SFX.bank
+  m_Name: bank:/Music.bank
   m_EditorClassIdentifier: 
-  Path: Assets/FMODBanks/Desktop/SFX.bank
-  Name: SFX
-  StudioPath: bank:/SFX
-  lastModified: 638447570979530717
+  Path: Assets/FMODBanks/Desktop/Music.bank
+  Name: Music
+  StudioPath: bank:/Music
+  lastModified: 638447590200000000
   FileSizes: []
   Exists: 1
---- !u!114 &-625472805895675973
+--- !u!114 &-7014231553645440889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/CrabAttack
+  m_EditorClassIdentifier: 
+  Path: event:/CrabAttack
+  Guid:
+    Data1: 618534753
+    Data2: 1171983527
+    Data3: -664575553
+    Data4: 1633250282
+  Banks:
+  - {fileID: 6775500046944076196}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -7665045679682614070}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-5897788613157044447
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -565,16 +113,16 @@ MonoBehaviour:
     Data3: 1250925995
     Data4: -1494841432
   Banks:
-  - {fileID: -734095132611173381}
+  - {fileID: 6775500046944076196}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: -1760358223294674746}
+  - {fileID: 8471272769312645922}
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &11400000
+--- !u!114 &-5489271355723645499
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -583,82 +131,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
-  m_Name: FMODStudioCache
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/CrabDeath
   m_EditorClassIdentifier: 
-  EditorBanks:
-  - {fileID: 4229607529083442069}
-  - {fileID: 2033236693338054033}
-  - {fileID: 1753753408811460560}
-  - {fileID: -734095132611173381}
-  EditorEvents:
-  - {fileID: -7246363135607895690}
-  - {fileID: -625472805895675973}
-  - {fileID: -4989601085420513069}
-  EditorParameters: []
-  MasterBanks:
-  - {fileID: 2033236693338054033}
-  StringsBanks:
-  - {fileID: 4229607529083442069}
-  cacheTime: 638447570979530717
-  cacheVersion: 131616
---- !u!114 &1753753408811460560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Music.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/FMODBanks/Desktop/Music.bank
-  Name: Music
-  StudioPath: bank:/Music
-  lastModified: 638447570979520745
-  FileSizes: []
-  Exists: 1
---- !u!114 &2033236693338054033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/FMODBanks/Desktop/Master.bank
-  Name: Master
-  StudioPath: bank:/Master
-  lastModified: 638447570979334885
-  FileSizes: []
-  Exists: 1
---- !u!114 &4229607529083442069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/FMODBanks/Desktop/Master.strings.bank
-  Name: Master.strings
-  StudioPath: bank:/Master.strings
-  lastModified: 638447570979344861
-  FileSizes:
-  - Name: 
-    Value: 1078
-  Exists: 1
---- !u!114 &5397196581226068829
+  Path: event:/CrabDeath
+  Guid:
+    Data1: 374530013
+    Data2: 1174619194
+    Data3: -1116270431
+    Data4: 1047796506
+  Banks:
+  - {fileID: 6775500046944076196}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 8321046519264524681}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-5075785958956892523
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -682,4 +174,274 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
->>>>>>> 72f297ea9318a10ba56096dca9d1b93589f96292
+--- !u!114 &-4755790763832612383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/GlichHurt
+  m_EditorClassIdentifier: 
+  Path: event:/GlichHurt
+  Guid:
+    Data1: -746441829
+    Data2: 1076080658
+    Data3: -1550261092
+    Data4: 1589131451
+  Banks:
+  - {fileID: 6775500046944076196}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -8278325245871035988}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-3236378674334640562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/CrabWalk/CrabSpeed
+  m_EditorClassIdentifier: 
+  Name: CrabSpeed
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2919015658
+    data2: 1541798933
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
+  m_Name: FMODStudioCache
+  m_EditorClassIdentifier: 
+  EditorBanks:
+  - {fileID: 3813868446394248927}
+  - {fileID: 8187828435867240241}
+  - {fileID: -7508415830540380072}
+  - {fileID: 6775500046944076196}
+  EditorEvents:
+  - {fileID: 4052825363665396515}
+  - {fileID: -7014231553645440889}
+  - {fileID: 3982572514281053066}
+  - {fileID: 1896689964916762652}
+  - {fileID: -4755790763832612383}
+  - {fileID: -5897788613157044447}
+  - {fileID: -5489271355723645499}
+  EditorParameters: []
+  MasterBanks:
+  - {fileID: 8187828435867240241}
+  StringsBanks:
+  - {fileID: 3813868446394248927}
+  cacheTime: 638447594030000000
+  cacheVersion: 131616
+--- !u!114 &1896689964916762652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/GlichFootsteps
+  m_EditorClassIdentifier: 
+  Path: event:/GlichFootsteps
+  Guid:
+    Data1: 1573623179
+    Data2: 1295417537
+    Data3: -1546442865
+    Data4: -782598825
+  Banks:
+  - {fileID: 6775500046944076196}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 500
+--- !u!114 &3813868446394248927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMODBanks/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 638447590200000000
+  FileSizes:
+  - Name: 
+    Value: 1426
+  Exists: 1
+--- !u!114 &3982572514281053066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/CrabWalk
+  m_EditorClassIdentifier: 
+  Path: event:/CrabWalk
+  Guid:
+    Data1: 303504757
+    Data2: 1146050523
+    Data3: -535311979
+    Data4: 1333973189
+  Banks:
+  - {fileID: 6775500046944076196}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -3236378674334640562}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &4052825363665396515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/JailMusic
+  m_EditorClassIdentifier: 
+  Path: event:/JailMusic
+  Guid:
+    Data1: -265291380
+    Data2: 1081923302
+    Data3: -449126740
+    Data4: -1107445570
+  Banks:
+  - {fileID: -7508415830540380072}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -5075785958956892523}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 72180
+--- !u!114 &6775500046944076196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/SFX.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMODBanks/Desktop/SFX.bank
+  Name: SFX
+  StudioPath: bank:/SFX
+  lastModified: 638447594030000000
+  FileSizes: []
+  Exists: 1
+--- !u!114 &8187828435867240241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMODBanks/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 638447590200000000
+  FileSizes: []
+  Exists: 1
+--- !u!114 &8321046519264524681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/CrabDeath/Parameter 1
+  m_EditorClassIdentifier: 
+  Name: Parameter 1
+  StudioPath: 
+  Min: 0
+  Max: 4
+  Default: 0
+  ID:
+    data1: 3893901547
+    data2: 1122882880
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &8471272769312645922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Eraser/IsHit
+  m_EditorClassIdentifier: 
+  Name: IsHit
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3535946335
+    data2: 2883146917
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
