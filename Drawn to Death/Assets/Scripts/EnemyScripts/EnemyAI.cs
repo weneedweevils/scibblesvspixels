@@ -43,6 +43,10 @@ public class EnemyAI : MonoBehaviour
     private float deathDuration = 25f/60f;
     private float reviveDuration = 69f/60f;
 
+    // FMOD Event paths
+    public string deathSfx;
+    public string attackSfx;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -228,6 +232,8 @@ public class EnemyAI : MonoBehaviour
 
         if (nextAttack >= cooldown)
         {
+            // Play the FMOD event correlating to the attack
+            FMODUnity.RuntimeManager.PlayOneShot(attackSfx);
        
             Vector2 direction = ((Vector2)target.position - rb.position).normalized;
             rb.AddForce(direction * 25000f * Time.deltaTime);
@@ -253,6 +259,8 @@ public class EnemyAI : MonoBehaviour
 
     public void Kill()
     {
+        // Play the FMOD event correlating to the death
+        FMODUnity.RuntimeManager.PlayOneShot(deathSfx);
         
         if (team == Team.oddle) //First Death
         {
