@@ -224,20 +224,20 @@ public class Attack : MonoBehaviour
             foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
             {
                 EnemyAI enemy = obj.GetComponent<EnemyAI>();
-                LineRenderer line = enemy.GetComponent<LineRenderer>();
+                //LineRenderer line = enemy.GetComponent<LineRenderer>();
                 if (CustomDist(lifestealImage.transform.position, enemy.transform.position + 2.5f * Vector3.down) <= lifestealRadius)
                 {
                     if (enemy.team == Team.oddle)
                     {
                         enemy.Damage(lifestealDamagePerFrame);
-                        player.GetComponent<PlayerMovement>().Damage(-lifestealDamagePerFrame / 4); // HEALS
+                        player.GetComponent<PlayerMovement>().Heal(lifestealDamagePerFrame / 2); // HEALS
                         //line.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, -1));
                         //line.SetPosition(1, new Vector3(enemy.transform.position.x, enemy.transform.position.y, -1));
                     }
                     else if (enemy.team == Team.player)
                     {
                         enemy.Damage(lifestealDamagePerFrame);
-                        player.GetComponent<PlayerMovement>().Damage(-lifestealDamagePerFrame / 2); // HEALS
+                        player.GetComponent<PlayerMovement>().Heal(lifestealDamagePerFrame); // HEALS
                         //line.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, -1));
                         //line.SetPosition(1, new Vector3(enemy.transform.position.x, enemy.transform.position.y, -1));
                     }
