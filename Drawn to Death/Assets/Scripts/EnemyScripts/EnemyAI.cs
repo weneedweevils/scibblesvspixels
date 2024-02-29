@@ -247,6 +247,8 @@ public class EnemyAI : MonoBehaviour
         health = 0;
         state = State.dying;
         animator.SetBool("dying", true);
+        animator.SetBool("attacking", false);
+        animator.SetBool("chasing", false);
         rb.velocity = Vector2.zero;
     }
 
