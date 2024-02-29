@@ -41,6 +41,7 @@ public class EnemyAI : MonoBehaviour
     private float animationTimer = 0f;
     private float deathDuration = 25f/60f;
     private float reviveDuration = 69f/60f;
+    public float lifestealLineZ = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -271,6 +272,14 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    // Function to run when player takes damage
+    public void Damage(float damageTaken)
+    {
+        health -= damageTaken;
+        invincibilityTimer.StartTimer();
+        healthBar.SetHealth(health, maxHealth);
+    }
+
     public void SetTarget(GameObject obj)
     {
         target = obj.transform;
@@ -288,11 +297,9 @@ public class EnemyAI : MonoBehaviour
             Attack playerAttack = collision.gameObject.GetComponent<Attack>();
             if (playerAttack != null && playerAttack.attackTimer.IsActive())
             {
-                health -= playerAttack.damage;
-                invincibilityTimer.StartTimer();
+                Damage(playerAttack.damage);
                 Debug.Log(string.Format("ouch I have been hit. Health remaining: {0}", health));
             }
-            healthBar.SetHealth(health, maxHealth);
         }
     }
 }
