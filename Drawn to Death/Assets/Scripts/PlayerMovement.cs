@@ -209,11 +209,16 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             EnemyAI enemyai = collision.gameObject.GetComponent<EnemyAI>();
-
             if (enemyai.team == Team.oddle)
             {
-                Debug.Log("oooof I am ded RIP :(");
-                MenuManager.GotoScene(Scene.Ded);
+                Debug.Log("oooof I have collided with an enemy");
+                health -= enemyai.damage;
+                if (health <= 0)
+                {
+                    Debug.Log("oooof I am ded RIP :(");
+                    MenuManager.GotoScene(Scene.Ded);
+                }
+                healthBar.SetHealth(health, maxHealth);
             }
         }
     }
