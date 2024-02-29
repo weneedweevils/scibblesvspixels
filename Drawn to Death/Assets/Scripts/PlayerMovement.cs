@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!inFreezeDialogue()) // Disable movement if in dialogue/cutscene where we don't want movement
+        if (!inFreezeDialogue() && !timelinePlaying) // Disable movement if in dialogue/cutscene where we don't want movement
         {
             //Determine acceleration
             acceleration.x = ((Input.GetKey(left) ? -1 : 0) + (Input.GetKey(right) ? 1 : 0)) * accelerationCoefficient;
@@ -209,16 +209,16 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             EnemyAI enemyai = collision.gameObject.GetComponent<EnemyAI>();
-
             if (enemyai.team == Team.oddle)
             {
                 Debug.Log("oooof I have collided with an enemy");
-                health -= 10f; // CAN AND SHOULD BE CHANGED LATER TO REFERNCE ENEMY DAMAGE
-                healthBar.SetHealth(health, maxHealth);
+                health -= enemyai.damage;
                 if (health <= 0)
                 {
                     Debug.Log("oooof I am ded RIP :(");
+                    MenuManager.GotoScene(Scene.Ded);
                 }
+                healthBar.SetHealth(health, maxHealth);
             }
         }
     }

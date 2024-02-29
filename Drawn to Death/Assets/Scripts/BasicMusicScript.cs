@@ -23,4 +23,8 @@ public class BasicMusicScript : MonoBehaviour
     {
         instance.setParameterByName("Intensity", intensity);
     }
+
+    private void OnDestroy() {
+        instance.stop(0);
+    }
 }
