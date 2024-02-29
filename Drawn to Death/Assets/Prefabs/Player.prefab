@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3430767754267907007}
   m_Layer: 0
   m_Name: Eraser
-  m_TagString: Untagged
+  m_TagString: Attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -118,7 +118,7 @@ MonoBehaviour:
   player: {fileID: 0}
   attackButton: 323
   reviveButton: 324
-  damage: 100
+  damage: 10
   piercing: 3
   attackCooldown: 0.5
   reviveRadius: 15
@@ -345,6 +345,9 @@ MonoBehaviour:
   dashBoost: 50
   dashCooldown: 1
   timelinePlaying: 0
+  health: 0
+  maxHealth: 0
+  healthBar: {fileID: 0}
 --- !u!95 &2147593393134340048
 Animator:
   serializedVersion: 3
