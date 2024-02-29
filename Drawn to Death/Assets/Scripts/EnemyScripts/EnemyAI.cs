@@ -42,7 +42,14 @@ public class EnemyAI : MonoBehaviour
     private float animationTimer = 0f;
     private float deathDuration = 25f/60f;
     private float reviveDuration = 69f/60f;
-    public float lifestealLineZ = 1f;
+
+    // FMOD Event paths
+    public string deathSfx;
+    public string attackSfx;
+
+    // Music manager script
+    public GameObject musicmanager;
+    BasicMusicScript musicscript;
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +71,10 @@ public class EnemyAI : MonoBehaviour
 
         invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
         invincibilityTimer2 = new CooldownTimer(3f, invincibilityDuration);
+
+        musicmanager = GameObject.Find("Music");
+        musicscript = musicmanager.GetComponent<BasicMusicScript>();
+
     }
 
     void CheckState()
@@ -229,6 +240,8 @@ public class EnemyAI : MonoBehaviour
 
         if (nextAttack >= cooldown)
         {
+            // Play the FMOD event correlating to the attack
+            FMODUnity.RuntimeManager.PlayOneShot(attackSfx);
        
             Vector2 direction = ((Vector2)target.position - rb.position).normalized;
             rb.AddForce(direction * 25000f * Time.deltaTime);
@@ -254,6 +267,8 @@ public class EnemyAI : MonoBehaviour
 
     public void Kill()
     {
+        // Play the FMOD event correlating to the death
+        FMODUnity.RuntimeManager.PlayOneShot(deathSfx);
         
         if (team == Team.oddle) //First Death
         {
@@ -314,6 +329,7 @@ public class EnemyAI : MonoBehaviour
             {
                 Damage(playerAttack.damage);
                 Debug.Log(string.Format("ouch I have been hit. Health remaining: {0}", health));
+                musicscript.setIntensity(20f);
             }
         }
         if (collision.gameObject.tag == "Enemy")

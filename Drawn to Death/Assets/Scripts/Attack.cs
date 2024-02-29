@@ -66,6 +66,10 @@ public class Attack : MonoBehaviour
     // FMOD sound event path
     public string sfx;
 
+    // Music manager script
+    public GameObject musicmanager;
+    BasicMusicScript musicscript;
+
 
     // Start is called before the first frame update
     void Start()
@@ -90,6 +94,10 @@ public class Attack : MonoBehaviour
 
         // Get a reference to the script that controls the FMOD event
         //eraserSFX = GetComponent<eraserSFX>;
+
+        musicmanager = GameObject.Find("Music");
+        musicscript = musicmanager.GetComponent<BasicMusicScript>();
+
     }
 
     // Update is called once per frame
@@ -98,6 +106,10 @@ public class Attack : MonoBehaviour
         if (allies.Count > 0)
         {
             ControlAllies();
+        }
+
+        if(allies.Count > 3) {
+            musicscript.setIntensity(30f);
         }
         
         if (!player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying)
@@ -215,7 +227,6 @@ public class Attack : MonoBehaviour
                 LineRenderer line = enemy.GetComponent<LineRenderer>();
                 if (CustomDist(lifestealImage.transform.position, enemy.transform.position + 2.5f * Vector3.down) <= lifestealRadius)
                 {
-                    enemy.lifestealLineZ = -1;
                     if (enemy.team == Team.oddle)
                     {
                         enemy.Damage(lifestealDamagePerFrame);
