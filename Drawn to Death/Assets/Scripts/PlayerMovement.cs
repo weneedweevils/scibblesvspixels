@@ -214,6 +214,7 @@ public class PlayerMovement : MonoBehaviour
             if (health <= 0)
             {
                 Debug.Log("oooof I am ded RIP :(");
+                MenuManager.GotoScene(Scene.Ded);
             }
         }
     }
