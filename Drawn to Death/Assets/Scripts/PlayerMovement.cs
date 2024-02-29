@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode down = KeyCode.S;
     public KeyCode left = KeyCode.A;
     public KeyCode right = KeyCode.D;
-    public KeyCode dash = KeyCode.LeftShift;
+    public KeyCode dash = KeyCode.Space;
 
     //Movement Checks
     [Header("Physics")]
@@ -208,12 +208,17 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            Debug.Log("oooof I have collided with an enemy");
-            health -= 10f; // CAN AND SHOULD BE CHANGED LATER TO REFERNCE ENEMY DAMAGE
-            healthBar.SetHealth(health, maxHealth);
-            if (health <= 0)
+            EnemyAI enemyai = collision.gameObject.GetComponent<EnemyAI>();
+
+            if (enemyai.team == Team.oddle)
             {
-                Debug.Log("oooof I am ded RIP :(");
+                Debug.Log("oooof I have collided with an enemy");
+                health -= 10f; // CAN AND SHOULD BE CHANGED LATER TO REFERNCE ENEMY DAMAGE
+                healthBar.SetHealth(health, maxHealth);
+                if (health <= 0)
+                {
+                    Debug.Log("oooof I am ded RIP :(");
+                }
             }
         }
     }
