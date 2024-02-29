@@ -115,10 +115,7 @@ public class Attack : MonoBehaviour
         if (attackTimer.IsUseable() && Input.GetKey(attackButton))
         {
             // Play the FMOD event correlating to the attack
-            if (!attacking){
-                FMODUnity.RuntimeManager.PlayOneShot(sfx);  
-            }
-            
+            FMODUnity.RuntimeManager.PlayOneShot(sfx);
 
             animator.SetBool("attacking", true);
             attackTimer.StartTimer();
