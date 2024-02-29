@@ -15,19 +15,23 @@ using UnityEngine.Timeline;
 public class PlayerMovement : MonoBehaviour
 {
     //Input options
+    [Header("Movement Controls")]
     public KeyCode up = KeyCode.W;
     public KeyCode down = KeyCode.S;
     public KeyCode left = KeyCode.A;
     public KeyCode right = KeyCode.D;
-    public KeyCode dash = KeyCode.LeftShift;
+    public KeyCode dash = KeyCode.Space;
 
     //Movement Checks
+    [Header("Physics")]
     public float accelerationCoefficient;   //how quickly it speeds up
     public float maxVelocity;               //how fast it can go horizontally
     public float friction;                  //how quickly it slows down
     public float speedModifier;             //modifiers applied to the player (affects maxVelocity)
 
     //Dash
+    [Header("Dash Options")]
+    public bool dashEnabled;
     public float dashBoost;
     public float dashCooldown;
     private float dashtimer = 0;
@@ -46,12 +50,18 @@ public class PlayerMovement : MonoBehaviour
     private GameObject dialogue;
     public bool timelinePlaying = false;
 
+    // Health
+    public float health;
+    public float maxHealth;
+    public HealthBarBehaviour healthBar;
+
     // Start is called before the first frame update
     void Start()
     {
         rbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
+        health = maxHealth;
     }
 
     // Update is called once per frame
@@ -73,21 +83,27 @@ public class PlayerMovement : MonoBehaviour
         velocity.x = VelocityCalc(acceleration.x, velocity.x, speedModifier);
         velocity.y = VelocityCalc(acceleration.y, velocity.y, speedModifier);
         
-
-        if (!dashed && Input.GetKey(dash))
+        //Dash ability
+        if (dashEnabled)
         {
-            dashed = true;
-            velocity += velocity.normalized * dashBoost;
-        }
-        else if (dashed)
-        {
-            dashtimer += Time.deltaTime;
-            if (dashtimer >= dashCooldown)
+            //Check if dash was activated
+            if (!dashed && Input.GetKey(dash))
             {
-                dashed = false;
-                dashtimer = 0f;
+                dashed = true;
+                velocity += velocity.normalized * dashBoost;
+            }
+            //Dash cooldown
+            else if (dashed)
+            {
+                dashtimer += Time.deltaTime;
+                if (dashtimer >= dashCooldown)
+                {
+                    dashed = false;
+                    dashtimer = 0f;
+                }
             }
         }
+        
         //Predict new position
         Vector2 currentPos = rbody.position;
         Vector2 newPos = currentPos + velocity * Time.fixedDeltaTime;
@@ -97,6 +113,8 @@ public class PlayerMovement : MonoBehaviour
 
         //Animate
         ManageAnimations();
+
+        healthBar.SetHealth(health, maxHealth);
     }
 
     private float VelocityCalc(float a, float v, float modifier = 1f)
@@ -135,6 +153,12 @@ public class PlayerMovement : MonoBehaviour
 
         //Account for backwards movement
         animator.SetBool("backwards", velocity.x != 0f && (velocity.x < 0f != sprite.flipX));
+    }
+
+    public void StopMovement()
+    {
+        velocity = Vector2.zero;
+        acceleration = Vector2.zero;
     }
 
     // Ensures movement is disabled if dialogue wants it to be
@@ -178,5 +202,24 @@ public class PlayerMovement : MonoBehaviour
     public void SetTimelineActive(bool isActive)
     {
         timelinePlaying = isActive;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            EnemyAI enemyai = collision.gameObject.GetComponent<EnemyAI>();
+
+            if (enemyai.team == Team.oddle)
+            {
+                Debug.Log("oooof I have collided with an enemy");
+                health -= 10f; // CAN AND SHOULD BE CHANGED LATER TO REFERNCE ENEMY DAMAGE
+                healthBar.SetHealth(health, maxHealth);
+                if (health <= 0)
+                {
+                    Debug.Log("oooof I am ded RIP :(");
+                }
+            }
+        }
     }
 }

@@ -1840,6 +1840,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 1
+--- !u!114 &360700462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360700459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5724f9fd52a64244949ec31c8383386, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfx: event:/GlichFootsteps
 --- !u!212 &360700464 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 2147593393134340045, guid: b90d98e433820d448875a47f95f5ad58,
@@ -6848,7 +6861,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 5
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 2.06, y: 4.8759995, z: 0}
   m_MaxChunkCount: 16
@@ -21009,6 +21022,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 6643204219719412721, guid: c932fa87f30ea9b4280588e1b6d504ce,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c932fa87f30ea9b4280588e1b6d504ce, type: 3}
 --- !u!1 &702439055
@@ -23219,6 +23237,7 @@ GameObject:
   - component: {fileID: 1399807148}
   - component: {fileID: 1399807147}
   - component: {fileID: 1399807150}
+  - component: {fileID: 1399807151}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -23233,7 +23252,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1399807146}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1399807148
 Camera:
   m_ObjectHideFlags: 0
@@ -23289,7 +23308,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2113646758}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1399807150
 Animator:
@@ -23421,6 +23440,7 @@ GameObject:
   - component: {fileID: 1468501008}
   - component: {fileID: 1468501007}
   - component: {fileID: 1468501006}
+  - component: {fileID: 1468501011}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -50266,7 +50286,7 @@ PrefabInstance:
     - target: {fileID: 1938864226443022876, guid: a17e0572d02f4f54b9b7e502a0480c9b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 19
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 1938864226443022876, guid: a17e0572d02f4f54b9b7e502a0480c9b,
         type: 3}
@@ -51424,6 +51444,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2147593393134340042, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 2147593393134340044, guid: b90d98e433820d448875a47f95f5ad58,
         type: 3}
       propertyPath: m_RootOrder
@@ -51486,13 +51511,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2147593393134340046, guid: b90d98e433820d448875a47f95f5ad58,
         type: 3}
+      propertyPath: dash
+      value: 304
+      objectReference: {fileID: 0}
+    - target: {fileID: 2147593393134340046, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
       propertyPath: friction
       value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 2147593393134340046, guid: b90d98e433820d448875a47f95f5ad58,
         type: 3}
       propertyPath: dashBoost
-      value: 50
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2147593393134340046, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 1468501011}
+    - target: {fileID: 2147593393134340046, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
+      propertyPath: maxHealth
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2147593393134340046, guid: b90d98e433820d448875a47f95f5ad58,
         type: 3}
@@ -51506,6 +51546,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2147593393134340046, guid: b90d98e433820d448875a47f95f5ad58,
         type: 3}
+      propertyPath: dashEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2147593393134340046, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
       propertyPath: maxVelocity
       value: 15
       objectReference: {fileID: 0}
@@ -51514,10 +51559,50 @@ PrefabInstance:
       propertyPath: accelerationCoefficient
       value: 75
       objectReference: {fileID: 0}
+    - target: {fileID: 2157598745876459953, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157598745876459953, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157598745876459953, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
+      propertyPath: m_UsedByEffector
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3430767754267907007, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3430767754267907007, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.y
+      value: 0.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 3430767754267907007, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 11.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 3430767754267907007, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 11.32
+      objectReference: {fileID: 0}
     - target: {fileID: 5460716655393460094, guid: b90d98e433820d448875a47f95f5ad58,
         type: 3}
       propertyPath: m_LocalScale.x
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8741233760108223212, guid: b90d98e433820d448875a47f95f5ad58,
+        type: 3}
+      propertyPath: sfx
+      value: event:/Eraser
       objectReference: {fileID: 0}
     - target: {fileID: 8741233760108223212, guid: b90d98e433820d448875a47f95f5ad58,
         type: 3}
