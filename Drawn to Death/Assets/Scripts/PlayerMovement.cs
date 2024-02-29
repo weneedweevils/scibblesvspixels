@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode down = KeyCode.S;
     public KeyCode left = KeyCode.A;
     public KeyCode right = KeyCode.D;
-    public KeyCode dash = KeyCode.LeftShift;
+    public KeyCode dash = KeyCode.Space;
 
     //Movement Checks
     [Header("Physics")]
@@ -73,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         invincibilityTimer.Update();
-        if (!inFreezeDialogue()) // Disable movement if in dialogue/cutscene where we don't want movement
+        if (!inFreezeDialogue() && !timelinePlaying) // Disable movement if in dialogue/cutscene where we don't want movement
         {
             //Determine acceleration
             acceleration.x = ((Input.GetKey(left) ? -1 : 0) + (Input.GetKey(right) ? 1 : 0)) * accelerationCoefficient;
@@ -222,11 +222,16 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy" && invincibilityTimer.IsUseable())
         {
-            Debug.Log("oooof I have collided with an enemy");
-            Damage(collision.gameObject.GetComponent<EnemyAI>().damage);
-            if (health <= 0)
+            EnemyAI enemyai = collision.gameObject.GetComponent<EnemyAI>();
+            if (enemyai.team == Team.oddle)
             {
-                Debug.Log("oooof I am ded RIP :(");
+                Debug.Log("oooof I have collided with an enemy");
+                Damage(collision.gameObject.GetComponent<EnemyAI>().damage);
+                if (health <= 0)
+                {
+                    Debug.Log("oooof I am ded RIP :(");
+                    MenuManager.GotoScene(Scene.Ded);
+                }
             }
         }
     }

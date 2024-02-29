@@ -34,6 +34,7 @@ public class EnemyAI : MonoBehaviour
 
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
+    public CooldownTimer invincibilityTimer2;
     private float invincibilityDuration = 35f / 60f;
 
     //Animation
@@ -62,6 +63,7 @@ public class EnemyAI : MonoBehaviour
         healthBar.SetHealth(health, maxHealth);
 
         invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
+        invincibilityTimer2 = new CooldownTimer(3f, invincibilityDuration);
     }
 
     void CheckState()
@@ -93,6 +95,7 @@ public class EnemyAI : MonoBehaviour
     void FixedUpdate()
     {
         invincibilityTimer.Update();
+        invincibilityTimer2.Update();
         switch (state)
         {
             case State.idle:
@@ -144,6 +147,9 @@ public class EnemyAI : MonoBehaviour
                         animationTimer = 0f;
                         state = State.follow;
                         animator.SetBool("reviving", false);
+                        animator.SetBool("chasing", false);
+                        animator.SetBool("attacking", false);
+                        animator.SetBool("dying", false);
                     }
                     break;
                 }
@@ -165,9 +171,10 @@ public class EnemyAI : MonoBehaviour
     // moves enemy and adjusts animation to face player
     void MoveEnemy()
     {
+        
         float triggerAttack = Vector2.Distance(rb.position, target.position);
-        animator.SetBool("chasing", true);
-
+        //animator.SetBool("chasing", true);
+        Debug.Log(target);
         // if we are in range switch to the attack state
         if (triggerAttack < 10f)
         {
@@ -222,7 +229,7 @@ public class EnemyAI : MonoBehaviour
 
         if (nextAttack >= cooldown)
         {
-            animator.SetBool("attacking", true);
+       
             Vector2 direction = ((Vector2)target.position - rb.position).normalized;
             rb.AddForce(direction * 25000f * Time.deltaTime);
             nextAttack = 0;
@@ -232,7 +239,14 @@ public class EnemyAI : MonoBehaviour
         {
             animator.SetBool("attacking", false);
             animator.SetBool("chasing", true);
-            state = State.chase;
+            if (team == Team.player)
+            {
+                state = State.chase;
+            }
+            if (team == Team.oddle)
+            {
+                state = State.chase;
+            }
             return;
           
         }
@@ -247,9 +261,9 @@ public class EnemyAI : MonoBehaviour
         }
         health = 0;
         state = State.dying;
-        animator.SetBool("dying", true);
         animator.SetBool("attacking", false);
         animator.SetBool("chasing", false);
+        animator.SetBool("dying", true);
         rb.velocity = Vector2.zero;
     }
 
@@ -265,6 +279,7 @@ public class EnemyAI : MonoBehaviour
             damage *= percentDamage;
             speed *= percentSpeed;
             health = maxHealth;
+            
             return true;
         } else
         {
@@ -295,11 +310,24 @@ public class EnemyAI : MonoBehaviour
         if (collision.gameObject.tag == "Attack" && invincibilityTimer.IsUseable() && health > 0)
         {
             Attack playerAttack = collision.gameObject.GetComponent<Attack>();
-            if (playerAttack != null && playerAttack.attackTimer.IsActive())
+            if (playerAttack != null && playerAttack.attackTimer.IsActive() && team == Team.oddle)
             {
                 Damage(playerAttack.damage);
                 Debug.Log(string.Format("ouch I have been hit. Health remaining: {0}", health));
             }
         }
+        if (collision.gameObject.tag == "Enemy")
+        {
+            EnemyAI otherai = collision.gameObject.GetComponent<EnemyAI>();
+
+            if (team == Team.oddle && otherai.team == Team.player && invincibilityTimer2.IsUseable() && health > 0)
+            {
+                health -= 5;
+                invincibilityTimer2.StartTimer();
+                Debug.Log(string.Format("ouch I have been hit. Health remaining: {0}", health));
+            }
+            healthBar.SetHealth(health, maxHealth);
+        }
+
     }
 }
