@@ -47,6 +47,10 @@ public class EnemyAI : MonoBehaviour
     public string deathSfx;
     public string attackSfx;
 
+    // Music manager script
+    public GameObject musicmanager;
+    BasicMusicScript musicscript;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -67,6 +71,10 @@ public class EnemyAI : MonoBehaviour
 
         invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
         invincibilityTimer2 = new CooldownTimer(3f, invincibilityDuration);
+
+        musicmanager = GameObject.Find("Music");
+        musicscript = musicmanager.GetComponent<BasicMusicScript>();
+
     }
 
     void CheckState()
@@ -314,8 +322,10 @@ public class EnemyAI : MonoBehaviour
                 health -= playerAttack.damage;
                 invincibilityTimer.StartTimer();
                 Debug.Log(string.Format("ouch I have been hit. Health remaining: {0}", health));
+                musicscript.setIntensity(20f);
             }
             healthBar.SetHealth(health, maxHealth);
+
         }
         if (collision.gameObject.tag == "Enemy")
         {

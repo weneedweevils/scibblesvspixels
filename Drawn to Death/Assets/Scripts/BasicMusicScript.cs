@@ -27,4 +27,13 @@ public class BasicMusicScript : MonoBehaviour
     private void OnDestroy() {
         instance.stop(0);
     }
+
+    public void setIntensity(float value)
+    {
+        if (value > intensity)
+        {
+            intensity = value;
+        }
+
+    }
 }
