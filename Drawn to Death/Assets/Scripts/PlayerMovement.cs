@@ -194,6 +194,14 @@ public class PlayerMovement : MonoBehaviour
         healthBar.SetHealth(health, maxHealth);
     }
 
+    // Function to run when player heals
+    public void Heal(float healthRestored)
+    {
+        health += healthRestored;
+        invincibilityTimer.StartTimer();
+        healthBar.SetHealth(health, maxHealth);
+    }
+
     // Dialogue trigger
     private void OnTriggerStay2D(Collider2D collision)
     {
