@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode down = KeyCode.S;
     public KeyCode left = KeyCode.A;
     public KeyCode right = KeyCode.D;
-    public KeyCode dash = KeyCode.LeftShift;
+    public KeyCode dash = KeyCode.Space;
 
     //Movement Checks
     [Header("Physics")]
