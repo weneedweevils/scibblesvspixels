@@ -108,15 +108,6 @@ public class Attack : MonoBehaviour
         //Attack
         if (attackTimer.IsUseable() && Input.GetKey(attackButton))
         {
-            /*
-            foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
-            {
-                EnemyAI AI = enemy.GetComponent<EnemyAI>();
-                if (AI != null && AI.team == Team.oddle)
-                {
-                    AI.Kill();
-                }
-            }*/
             animator.SetBool("attacking", true);
             attackTimer.StartTimer();
         }
@@ -138,35 +129,29 @@ public class Attack : MonoBehaviour
         }
 
         //Revive
-        if (Input.GetKeyDown(reviveButton))
+        if (Input.GetKey(reviveButton) && reviveTimer.IsUseable())
         {
             reviveImage.enabled = true;
         }
-        if (Input.GetKeyUp(reviveButton))
+        if (Input.GetKeyUp(reviveButton) && reviveTimer.IsUseable())
         {
-            if (reviveTimer.IsUseable())
+            Debug.Log("Attempting to revive enemies");
+            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
             {
-                Debug.Log("Attempting to revive enemies");
-                foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
+                EnemyAI enemy = obj.GetComponent<EnemyAI>();
+                if (enemy == null || allies.Count >= reviveCap)
                 {
-                    EnemyAI enemy = obj.GetComponent<EnemyAI>();
-                    if (enemy == null || allies.Count >= reviveCap)
-                    {
-                        continue;
-                    }
+                    continue;
+                }
 
-                    if (CustomDist(reviveImage.transform.position, enemy.transform.position + 2.5f * Vector3.down) <= reviveRadius)
+                if (CustomDist(reviveImage.transform.position, enemy.transform.position + 2.5f * Vector3.down) <= reviveRadius)
+                {
+                    if (enemy.Revive(0.5f, 0.5f, 0.9f))
                     {
-                        if (enemy.Revive(0.5f, 0.5f, 0.9f))
-                        {
-                            allies.Add(enemy);
-                            reviveTimer.StartTimer();
-                        }
+                        allies.Add(enemy);
+                        reviveTimer.StartTimer();
                     }
                 }
-            } else
-            {
-                Debug.Log("Revive Ability is still Unusable");
             }
             reviveImage.enabled = false;
         }
