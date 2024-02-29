@@ -49,6 +49,9 @@ public class Attack : MonoBehaviour
     //Animation
     private Animator animator;
 
+    // FMOD sound event path
+    public string sfx;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -66,6 +69,9 @@ public class Attack : MonoBehaviour
         //Setup Timers
         reviveTimer = new CooldownTimer(reviveCooldown, reviveDuration);
         attackTimer = new CooldownTimer(attackCooldown, attackDuration);
+
+        // Get a reference to the script that controls the FMOD event
+        //eraserSFX = GetComponent<eraserSFX>;
     }
 
     // Update is called once per frame
@@ -108,6 +114,9 @@ public class Attack : MonoBehaviour
         //Attack
         if (attackTimer.IsUseable() && Input.GetKey(attackButton))
         {
+            // Play the FMOD event correlating to the attack
+            FMODUnity.RuntimeManager.PlayOneShot(sfx);
+
             animator.SetBool("attacking", true);
             attackTimer.StartTimer();
         }

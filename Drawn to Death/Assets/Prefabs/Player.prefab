@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5215036717690143027}
   - component: {fileID: 8741233760108223212}
   - component: {fileID: 3430767754267907007}
+  - component: {fileID: 1719077164414874964}
   m_Layer: 0
   m_Name: Eraser
   m_TagString: Attack
@@ -151,6 +152,26 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4, y: 5.25}
   m_EdgeRadius: 0
+--- !u!114 &1719077164414874964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438109403080900853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c556574ebaee9495484a75af9d5d24f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fmodEvent:
+    Guid:
+      Data1: 486645710
+      Data2: 1337635111
+      Data3: 1250925995
+      Data4: -1494841432
+    Path: event:/Eraser
+  isHit: 0
 --- !u!1 &635199929830920405
 GameObject:
   m_ObjectHideFlags: 0
