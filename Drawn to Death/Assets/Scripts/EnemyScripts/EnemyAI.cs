@@ -26,6 +26,7 @@ public class EnemyAI : MonoBehaviour
     public Sprite attacksprite;
     public float cooldown = 2f;
     public float nextAttack;
+    public bool isolated = false;
 
     // Health
     public float health;
@@ -35,9 +36,12 @@ public class EnemyAI : MonoBehaviour
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
     public CooldownTimer invincibilityTimer2;
-    private float invincibilityDuration = 35f / 60f;
+    private float invincibilityDuration = 20f / 60f;
 
-    //Animation
+    //Animation and sprites
+    public Color hurtCol = Color.red;
+    private SpriteRenderer doodleCrab;
+    private SpriteRenderer gem;
     private Animator animator;
     private float animationTimer = 0f;
     private float deathDuration = 25f/60f;
@@ -51,12 +55,20 @@ public class EnemyAI : MonoBehaviour
     public GameObject musicmanager;
     BasicMusicScript musicscript;
 
+    private void OnDrawGizmosSelected()
+    {
+        if (path != null)
+        {
+            Debug.Log(string.Format("Path size: {0}\nPath length: {1}", path.vectorPath.Count, PathLength()));
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-
         animator = GetComponentInChildren<Animator>();
-        //spriterenderer = GetComponent<SpriteRenderer>();
+        doodleCrab = gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        gem = gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>();
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
         //animator = transform.GetChild(0).gameObject.GetComponent<Animator>();
@@ -69,7 +81,7 @@ public class EnemyAI : MonoBehaviour
         health = maxHealth;
         healthBar.SetHealth(health, maxHealth);
 
-        invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
+        invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
         invincibilityTimer2 = new CooldownTimer(3f, invincibilityDuration);
 
         musicmanager = GameObject.Find("Music");
@@ -99,6 +111,9 @@ public class EnemyAI : MonoBehaviour
         {
             path = p;
             currentWaypoint = 0;
+        } else
+        {
+            path = null;
         }
     }
 
@@ -107,6 +122,12 @@ public class EnemyAI : MonoBehaviour
     {
         invincibilityTimer.Update();
         invincibilityTimer2.Update();
+
+        if (invincibilityTimer.IsOnCooldown())
+        {
+            doodleCrab.color = Color.white;
+        }
+
         switch (state)
         {
             case State.idle:
@@ -184,8 +205,7 @@ public class EnemyAI : MonoBehaviour
     {
         
         float triggerAttack = Vector2.Distance(rb.position, target.position);
-        //animator.SetBool("chasing", true);
-        Debug.Log(target);
+
         // if we are in range switch to the attack state
         if (triggerAttack < 10f)
         {
@@ -244,7 +264,7 @@ public class EnemyAI : MonoBehaviour
             FMODUnity.RuntimeManager.PlayOneShot(attackSfx);
        
             Vector2 direction = ((Vector2)target.position - rb.position).normalized;
-            rb.AddForce(direction * 25000f * Time.deltaTime);
+            //rb.AddForce(direction * 25000f * Time.deltaTime);
             nextAttack = 0;
         }
 
@@ -289,7 +309,7 @@ public class EnemyAI : MonoBehaviour
             team = Team.player;
             state = State.reviving;
             animator.SetBool("reviving", true);
-            gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
+            gem.enabled = true;
             maxHealth *= percentMaxHP;
             damage *= percentDamage;
             speed *= percentSpeed;
@@ -303,11 +323,20 @@ public class EnemyAI : MonoBehaviour
     }
 
     // Function to run when player takes damage
-    public void Damage(float damageTaken)
+    public void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 kockbackDir = default(Vector2), float kockbackPower = 0f)
     {
         health -= damageTaken;
-        invincibilityTimer.StartTimer();
         healthBar.SetHealth(health, maxHealth);
+        rb.velocity = kockbackDir.normalized * kockbackPower;
+        
+        if (makeInvincible)
+        {
+            invincibilityTimer.StartTimer();
+        }
+        if (animateHurt)
+        {
+            doodleCrab.color = hurtCol;
+        }
     }
 
     public void SetTarget(GameObject obj)
@@ -320,14 +349,36 @@ public class EnemyAI : MonoBehaviour
         target = transform;
     }
 
+    //Estimate the length of the current path
+    public float PathLength()
+    {
+        //No path
+        if (path == null)
+        {
+            return float.MaxValue;
+        }
+
+        //Need at least 2 values to estimate distance -> otherwise distance is practically 0
+        int size = path.vectorPath.Count;
+        if (size < 2)
+        {
+            return 0f;
+        }
+
+        //Distance estimate
+        return Vector3.Distance(path.vectorPath[0], path.vectorPath[1]) * size;
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Attack" && invincibilityTimer.IsUseable() && health > 0)
         {
             Attack playerAttack = collision.gameObject.GetComponent<Attack>();
-            if (playerAttack != null && playerAttack.attackTimer.IsActive() && team == Team.oddle)
+            if (playerAttack != null && playerAttack.attackTimer.IsActive() && team == Team.oddle && !isolated && PathLength() < 13f)
             {
-                Damage(playerAttack.damage);
+                Vector2 direction = (rb.position - (Vector2)playerAttack.transform.position).normalized;
+                Damage(playerAttack.damage, true, true, direction, playerAttack.knockback);
+
                 Debug.Log(string.Format("ouch I have been hit. Health remaining: {0}", health));
                 musicscript.setIntensity(20f);
             }

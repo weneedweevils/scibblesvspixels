@@ -20,15 +20,13 @@ public class Attack : MonoBehaviour
     [Header("Attack Info")]
     //Stats
     public float damage = 100;
-    public float piercing = 3;
+    public float knockback = 3;
     public float attackCooldown = 0f;
     public CooldownTimer attackTimer;
     private float attackDuration = 30f/60f;
     
     //Hitbox
-    private BoxCollider2D hitbox;
-    private Vector2 initialHitboxOffset;
-    private Vector2 initialHitboxSize;
+    private PolygonCollider2D hitbox;
 
         /* ----- Reviving ----- */
 
@@ -48,9 +46,9 @@ public class Attack : MonoBehaviour
     public float lifestealRadius;
     public float lifestealCooldown = 10f;
     public float targetDistanceLifesteal = 150f;
-    public float lifestealDamagePerFrame = 0.01f;
-    public CooldownTimer lifestealTimer;
-    private float lifestealDuration = 5f;
+    public float lifestealDamage = 10f;
+    public float lifestealDuration = 5f;
+    private CooldownTimer lifestealTimer;
 
     //Misc
     private List<EnemyAI> allies = new List<EnemyAI>();
@@ -70,26 +68,21 @@ public class Attack : MonoBehaviour
     public GameObject musicmanager;
     BasicMusicScript musicscript;
 
-
     // Start is called before the first frame update
     void Start()
     {
         //Collect components
         playerMovement = player.GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
-        hitbox = GetComponent<BoxCollider2D>();
+        hitbox = GetComponent<PolygonCollider2D>();
         reviveImage = player.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>();
         reviveImage.transform.localScale *= reviveRadius * 10.45f;
         lifestealImage = player.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>();
         lifestealImage.transform.localScale *= lifestealRadius * 10.45f;
 
-        //Save initial attack hitbox information
-        initialHitboxOffset = hitbox.offset;
-        initialHitboxSize = hitbox.size;
-
         //Setup Timers
         reviveTimer = new CooldownTimer(reviveCooldown, reviveDuration);
-        attackTimer = new CooldownTimer(attackCooldown, attackDuration);
+        attackTimer = new CooldownTimer(attackDuration*0.75f, attackDuration*0.25f);
         lifestealTimer = new CooldownTimer(lifestealCooldown, lifestealDuration);
 
         // Get a reference to the script that controls the FMOD event
@@ -121,23 +114,11 @@ public class Attack : MonoBehaviour
         
     }
 
-    //Used to flip the attack hitbox as needed when rotating
-    public void FlipHitbox(bool flip)
-    {
-        if (flip)
-        {
-            hitbox.offset = -initialHitboxOffset;
-        } else
-        {
-            hitbox.offset = initialHitboxOffset;
-        }
-    }
-
     public void CheckAttack()
     {
         //Attack Timer
         attackTimer.Update();
-        if (!attackTimer.IsActive())
+        if (attackTimer.IsUseable())
         {
             animator.SetBool("attacking", false);
         }
@@ -221,6 +202,9 @@ public class Attack : MonoBehaviour
 
         }
         if (lifestealTimer.IsActive()) {
+
+            float dmg = lifestealDamage / lifestealDuration * Time.deltaTime;
+
             foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
             {
                 EnemyAI enemy = obj.GetComponent<EnemyAI>();
@@ -229,15 +213,15 @@ public class Attack : MonoBehaviour
                 {
                     if (enemy.team == Team.oddle)
                     {
-                        enemy.Damage(lifestealDamagePerFrame);
-                        player.GetComponent<PlayerMovement>().Heal(lifestealDamagePerFrame / 2); // HEALS
+                        enemy.Damage(dmg, false);
+                        player.GetComponent<PlayerMovement>().Heal(dmg / 2); // HEALS
                         //line.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, -1));
                         //line.SetPosition(1, new Vector3(enemy.transform.position.x, enemy.transform.position.y, -1));
                     }
                     else if (enemy.team == Team.player)
                     {
-                        enemy.Damage(lifestealDamagePerFrame);
-                        player.GetComponent<PlayerMovement>().Heal(lifestealDamagePerFrame); // HEALS
+                        enemy.Damage(dmg, false);
+                        player.GetComponent<PlayerMovement>().Heal(dmg); // HEALS
                         //line.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, -1));
                         //line.SetPosition(1, new Vector3(enemy.transform.position.x, enemy.transform.position.y, -1));
                     }

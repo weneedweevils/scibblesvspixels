@@ -47,10 +47,12 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D rbody;
 
     // Used to determine if dialogue is happening
+    [Header("Cutscene")]
     private GameObject dialogue;
     public bool timelinePlaying = false;
 
     // Health
+    [Header("Player Stats")]
     public float health;
     public float maxHealth;
     public HealthBarBehaviour healthBar;
