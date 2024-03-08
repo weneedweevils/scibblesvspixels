@@ -9,29 +9,37 @@ public enum Team {player, neutral, oddle};
 public enum State {idle, chase, follow, attack, dying, dead, reviving };
 public class EnemyAI : MonoBehaviour
 {
-    public GameObject player;
+
+        /* ----- Editor Variables ----- */
+
+    [Header("State")]
     public Team team = Team.oddle;
     public State state = State.chase;
-    public float speed = 200f;
-    public float seekDistance = 100f; 
-    public float nextWaypointDistance;
-    public Transform enemygraphics;
-    Transform target;
-    Path path;
-    int currentWaypoint = 0;
-    bool reachedEndOfPath;
-    Seeker seeker;
-    Rigidbody2D rb;
-    public float damage;
-    public Sprite attacksprite;
-    public float cooldown = 2f;
-    public float nextAttack;
     public bool isolated = false;
 
-    // Health
+    [Header("Stats")]
     public float health;
     public float maxHealth;
+    public float speed = 200f;
+    public float damage;
+    public float cooldown = 2f;
+    public float nextAttack;
+
+    [Header("Pathfinding")]
+    public float seekDistance = 100f; 
+    public float nextWaypointDistance;
+
+    [Header("References")]
+    public GameObject player;
     public EnemyHealthBarBehaviour healthBar;
+    public Transform enemygraphics;
+    public Sprite attacksprite;
+    public Color hurtCol = Color.red;
+    public string deathSfx;
+    public string attackSfx;
+    public GameObject musicmanager;
+
+        /* ----- Hidden Variables ----- */
 
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
@@ -39,7 +47,6 @@ public class EnemyAI : MonoBehaviour
     private float invincibilityDuration = 20f / 60f;
 
     //Animation and sprites
-    public Color hurtCol = Color.red;
     private SpriteRenderer doodleCrab;
     private SpriteRenderer gem;
     private Animator animator;
@@ -47,13 +54,15 @@ public class EnemyAI : MonoBehaviour
     private float deathDuration = 25f/60f;
     private float reviveDuration = 69f/60f;
 
-    // FMOD Event paths
-    public string deathSfx;
-    public string attackSfx;
+    //Pathfinding
+    private Transform target;
+    private Path path;
+    private int currentWaypoint = 0;
+    private Seeker seeker;
+    private Rigidbody2D rb;
 
     // Music manager script
-    public GameObject musicmanager;
-    BasicMusicScript musicscript;
+    private BasicMusicScript musicscript;
 
     private void OnDrawGizmosSelected()
     {
@@ -66,36 +75,32 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Collect References
         animator = GetComponentInChildren<Animator>();
         doodleCrab = gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>();
         gem = gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>();
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
-        //animator = transform.GetChild(0).gameObject.GetComponent<Animator>();
-        InvokeRepeating("CheckState", 0f, 0.5f); // this will call the checkstate function to update the path every half second
-        if (player == null)
-        {
-            player = GameObject.Find("Player");
-        }
+        player = GameObject.Find("Player");
+        musicmanager = GameObject.Find("Music");
+        musicscript = musicmanager.GetComponent<BasicMusicScript>();
+
+        //Initialize
         target = player.transform;
         health = maxHealth;
         healthBar.SetHealth(health, maxHealth);
 
+        //Create Timers
         invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
         invincibilityTimer2 = new CooldownTimer(3f, invincibilityDuration);
 
-        musicmanager = GameObject.Find("Music");
-        musicscript = musicmanager.GetComponent<BasicMusicScript>();
-
+        //Start a repeating functon
+        InvokeRepeating("CheckState", 0f, 0.5f); //Update the path every half second
     }
 
     void CheckState()
     {
         float inrange = Vector2.Distance(rb.position, target.position);
-
-      
-     
-        
 
         // if not travelling to a path and the player is within range calculate new path
         if (seeker.IsDone() && inrange < seekDistance)
@@ -120,25 +125,38 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        //Update Timers
         invincibilityTimer.Update();
         invincibilityTimer2.Update();
 
+        //Fix color after hurt
         if (invincibilityTimer.IsOnCooldown())
         {
             doodleCrab.color = Color.white;
         }
 
+        //State Manager
         switch (state)
         {
             case State.idle:
                 {
                     //idle Behaviour
+                    if (PathLength() < seekDistance)
+                    {
+                        state = State.chase;
+                    }
                     break;
                 }
             case State.chase:
                 {
                     //chase Behaviour
-                    MoveEnemy();
+                    if (PathLength() > seekDistance && team == Team.oddle)
+                    {
+                        state = State.idle;
+                    } else
+                    {
+                        MoveEnemy();
+                    }
                     break;
                 }
             case State.attack:
@@ -193,17 +211,16 @@ public class EnemyAI : MonoBehaviour
                 }
         }
         
+        //Check death conditions
         if (health <= 0 && state != State.dead && state != State.dying)
         {
             Kill(); // Ded
         }
-
     }
 
     // moves enemy and adjusts animation to face player
     void MoveEnemy()
     {
-        
         float triggerAttack = Vector2.Distance(rb.position, target.position);
 
         // if we are in range switch to the attack state
@@ -215,19 +232,9 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        if (path == null)
+        if (path == null || currentWaypoint >= path.vectorPath.Count)
         {
             return;
-        }
-
-        if (currentWaypoint >= path.vectorPath.Count)
-        {
-            reachedEndOfPath = true;
-            return;
-        }
-        else
-        {
-            reachedEndOfPath = false;
         }
 
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
@@ -353,7 +360,7 @@ public class EnemyAI : MonoBehaviour
     public float PathLength()
     {
         //No path
-        if (path == null)
+        if (isolated || path == null)
         {
             return float.MaxValue;
         }
@@ -374,7 +381,7 @@ public class EnemyAI : MonoBehaviour
         if (collision.gameObject.tag == "Attack" && invincibilityTimer.IsUseable() && health > 0)
         {
             Attack playerAttack = collision.gameObject.GetComponent<Attack>();
-            if (playerAttack != null && playerAttack.attackTimer.IsActive() && team == Team.oddle && !isolated && PathLength() < 13f)
+            if (playerAttack != null && playerAttack.attackTimer.IsActive() && team == Team.oddle && PathLength() < 13f)
             {
                 Vector2 direction = (rb.position - (Vector2)playerAttack.transform.position).normalized;
                 Damage(playerAttack.damage, true, true, direction, playerAttack.knockback);
