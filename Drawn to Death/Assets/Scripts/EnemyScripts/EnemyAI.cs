@@ -31,6 +31,7 @@ public class EnemyAI : MonoBehaviour
 
     [Header("References")]
     public GameObject player;
+    public Collider2D movementCollider;
     public EnemyHealthBarBehaviour healthBar;
     public Transform enemygraphics;
     public Sprite attacksprite;
@@ -297,31 +298,45 @@ public class EnemyAI : MonoBehaviour
         // Play the FMOD event correlating to the death
         FMODUnity.RuntimeManager.PlayOneShot(deathSfx);
         
+        //Set State
         if (team == Team.oddle) //First Death
         {
             team = Team.neutral;
         }
         health = 0;
         state = State.dying;
+
+        //Set Movement
+        rb.velocity = Vector2.zero;
+        movementCollider.enabled = false;
+
+        //Set Animation variables
         animator.SetBool("attacking", false);
         animator.SetBool("chasing", false);
         animator.SetBool("dying", true);
-        rb.velocity = Vector2.zero;
     }
 
     public bool Revive(float percentMaxHP = 1f, float percentDamage = 1f, float percentSpeed = 1f)
     {
         if (state == State.dead && team == Team.neutral)
         {
+            //Set State
             team = Team.player;
             state = State.reviving;
+
+            //Animation
             animator.SetBool("reviving", true);
             gem.enabled = true;
+
+            //Set Stats
             maxHealth *= percentMaxHP;
             damage *= percentDamage;
             speed *= percentSpeed;
             health = maxHealth;
-            
+
+            //Re-enable collisions
+            movementCollider.enabled = true;
+
             return true;
         } else
         {
