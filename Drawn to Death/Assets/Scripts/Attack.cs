@@ -82,7 +82,7 @@ public class Attack : MonoBehaviour
 
         //Setup Timers
         reviveTimer = new CooldownTimer(reviveCooldown, reviveDuration);
-        attackTimer = new CooldownTimer(attackDuration*0.75f, attackDuration*0.25f);
+        attackTimer = new CooldownTimer(attackDuration*0.35f, attackDuration*0.65f);
         lifestealTimer = new CooldownTimer(lifestealCooldown, lifestealDuration);
 
         // Get a reference to the script that controls the FMOD event

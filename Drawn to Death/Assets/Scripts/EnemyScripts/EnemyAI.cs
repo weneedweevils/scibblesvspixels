@@ -29,16 +29,17 @@ public class EnemyAI : MonoBehaviour
     public float seekDistance = 100f; 
     public float nextWaypointDistance;
 
+    [Header("Music and sound")]
+    public string deathSfx;
+    public string attackSfx;
+    
+
     [Header("References")]
-    public GameObject player;
     public Collider2D movementCollider;
     public EnemyHealthBarBehaviour healthBar;
     public Transform enemygraphics;
     public Sprite attacksprite;
     public Color hurtCol = Color.red;
-    public string deathSfx;
-    public string attackSfx;
-    public GameObject musicmanager;
 
         /* ----- Hidden Variables ----- */
 
@@ -62,7 +63,9 @@ public class EnemyAI : MonoBehaviour
     private Seeker seeker;
     private Rigidbody2D rb;
 
-    // Music manager script
+    //Misc
+    private GameObject player;
+    private GameObject musicmanager;
     private BasicMusicScript musicscript;
 
     private void OnDrawGizmosSelected()
