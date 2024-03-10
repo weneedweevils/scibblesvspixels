@@ -90,7 +90,6 @@ public class Attack : MonoBehaviour
 
         musicmanager = GameObject.Find("Music");
         musicscript = musicmanager.GetComponent<BasicMusicScript>();
-
     }
 
     // Update is called once per frame
@@ -258,7 +257,7 @@ public class Attack : MonoBehaviour
                 continue;
             }
 
-            float dist = Vector3.Distance(transform.position, enemy.transform.position);
+            float dist = enemy.PathLength();
             if (dist <= targetDistance && dist < minDist)
             {
                 target = enemy;
@@ -279,21 +278,26 @@ public class Attack : MonoBehaviour
             if (ally.state == State.dead || ally.state == State.dying)
             {
                 allies.Remove(ally);
-            } else if (target != null)  //Found  a target -> go attack target
+            } 
+            else if (target != null)  //Found  a target -> go attack target
             {
                 if (ally.state == State.follow)
                 {
                     ally.state = State.chase;
                 }
                 ally.SetTarget(target.transform);
-                print("Attacking");
 
-            } else  //No target and ally is not dead -> follow player
+            } 
+            else  //No target and ally is not dead -> follow player
             {
                 ally.state = State.follow;
-                ally.SetTarget(player);
-                print("Following");
+                ally.SetTarget(player, true);
             }
         }
+    }
+
+    public List<EnemyAI> GetAllies()
+    {
+        return allies;
     }
 }

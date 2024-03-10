@@ -26,7 +26,9 @@ public class EnemyAI : MonoBehaviour
     public float nextAttack;
 
     [Header("Pathfinding")]
-    public float seekDistance = 100f; 
+    public Seeker targetSeeker;
+    public Seeker playerSeeker;
+    public float seekDistance = 100f;
     public float nextWaypointDistance;
 
     [Header("Music and sound")]
@@ -58,23 +60,17 @@ public class EnemyAI : MonoBehaviour
 
     //Pathfinding
     private Transform target;
-    private Path path;
+    private Path targetPath;
+    private Path playerPath;
+    private bool targetIsPlayer = true;
     private int currentWaypoint = 0;
-    private Seeker seeker;
     private Rigidbody2D rb;
 
     //Misc
     private GameObject player;
+    private Attack playerAttack;
     private GameObject musicmanager;
     private BasicMusicScript musicscript;
-
-    private void OnDrawGizmosSelected()
-    {
-        if (path != null)
-        {
-            Debug.Log(string.Format("Path size: {0}\nPath length: {1}", path.vectorPath.Count, PathLength()));
-        }
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -83,9 +79,9 @@ public class EnemyAI : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         doodleCrab = gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>();
         gem = gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>();
-        seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player");
+        playerAttack = player.GetComponentInChildren<Attack>();
         musicmanager = GameObject.Find("Music");
         musicscript = musicmanager.GetComponent<BasicMusicScript>();
 
@@ -104,25 +100,83 @@ public class EnemyAI : MonoBehaviour
 
     void CheckState()
     {
-        float inrange = Vector2.Distance(rb.position, target.position);
-
-        // if not travelling to a path and the player is within range calculate new path
-        if (seeker.IsDone() && inrange < seekDistance)
+        //Update path to Player
+        float inrange = Vector2.Distance(rb.position, player.transform.position);
+        if (playerSeeker.IsDone() && inrange < seekDistance)
         {
-            seeker.StartPath(rb.position, target.position, OnPathComplete);
+            playerSeeker.StartPath(rb.position, player.transform.position, OnPlayerPathComplete);
         }
+
+        //Make an attempt at finding a new target
+        if (PathLength() > seekDistance * 0.5 && team == Team.oddle)
+        {
+            //Set the minimum target to the player
+            float dist = Vector2.Distance(rb.position, player.transform.position);
+            target = player.transform;
+            targetIsPlayer = true;
+
+            //Compare against player allies
+            foreach (EnemyAI enemy in playerAttack.GetAllies())
+            {
+                //Check if the ally is a better target
+                float newDist = Vector2.Distance(rb.position, enemy.transform.position);
+                if (newDist <= dist)
+                {
+                    dist = newDist;
+                    target = enemy.transform;
+                    targetIsPlayer = false;
+                }
+            }
+        }
+
+        //Check if the target is not the player
+        if (!targetIsPlayer)
+        {
+            //Update path to target
+            inrange = Vector2.Distance(rb.position, target.position);
+            if (targetSeeker.IsDone() && inrange < seekDistance)
+            {
+                targetSeeker.StartPath(rb.position, target.position, OnTargetPathComplete);
+            }
+        }
+        
     }
 
     // Checks if there is a path calculated
-    void OnPathComplete(Path p)
+    void OnTargetPathComplete(Path p)
+    {
+        if (targetIsPlayer)
+        {
+            targetPath = playerPath;
+            currentWaypoint = 0;
+        } 
+        else
+        {
+            if (!p.error)
+            {
+                targetPath = p;
+                currentWaypoint = 0;
+            } else
+            {
+                targetPath = null;
+            }
+        }
+    }
+
+    void OnPlayerPathComplete(Path p)
     {
         if (!p.error)
         {
-            path = p;
-            currentWaypoint = 0;
-        } else
+            playerPath = p;
+            if (targetIsPlayer)
+            {
+                targetPath = playerPath;
+                currentWaypoint = 0;
+            }
+        }
+        else
         {
-            path = null;
+            playerPath = null;
         }
     }
 
@@ -134,7 +188,8 @@ public class EnemyAI : MonoBehaviour
         invincibilityTimer2.Update();
 
         //Fix color after hurt
-        if (invincibilityTimer.IsOnCooldown())
+        if ( (invincibilityTimer.IsOnCooldown() && !invincibilityTimer2.IsActive()) || 
+             (invincibilityTimer2.IsOnCooldown() && !invincibilityTimer.IsActive()))
         {
             doodleCrab.color = Color.white;
         }
@@ -236,16 +291,16 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        if (path == null || currentWaypoint >= path.vectorPath.Count)
+        if (targetPath == null || currentWaypoint >= targetPath.vectorPath.Count)
         {
             return;
         }
 
-        Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
+        Vector2 direction = ((Vector2)targetPath.vectorPath[currentWaypoint] - rb.position).normalized;
         Vector2 force = direction * speed * Time.deltaTime;
         rb.AddForce(force);
 
-        float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
+        float distance = Vector2.Distance(rb.position, targetPath.vectorPath[currentWaypoint]);
 
         if (distance < nextWaypointDistance)
         {
@@ -275,7 +330,7 @@ public class EnemyAI : MonoBehaviour
             FMODUnity.RuntimeManager.PlayOneShot(attackSfx);
        
             Vector2 direction = ((Vector2)target.position - rb.position).normalized;
-            //rb.AddForce(direction * 25000f * Time.deltaTime);
+            rb.AddForce(direction * 25000f * Time.deltaTime);
             nextAttack = 0;
         }
 
@@ -364,19 +419,24 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    public void SetTarget(GameObject obj)
+    public void SetTarget(GameObject obj, bool isPlayer = false)
     {
         target = obj.transform;
+        targetIsPlayer = isPlayer;
     }
 
-    public void SetTarget(Transform transform)
+    public void SetTarget(Transform transform, bool isPlayer = false)
     {
         target = transform;
+        targetIsPlayer = isPlayer;
     }
 
     //Estimate the length of the current path
-    public float PathLength()
+    public float PathLength(bool toPlayer = false)
     {
+        //Path to calculate
+        Path path = toPlayer ? playerPath : targetPath;
+
         //No path
         if (isolated || path == null)
         {
@@ -399,24 +459,22 @@ public class EnemyAI : MonoBehaviour
         if (collision.gameObject.tag == "Attack" && invincibilityTimer.IsUseable() && health > 0)
         {
             Attack playerAttack = collision.gameObject.GetComponent<Attack>();
-            if (playerAttack != null && playerAttack.attackTimer.IsActive() && team == Team.oddle && PathLength() < 13f)
+            if (playerAttack != null && playerAttack.attackTimer.IsActive() && team == Team.oddle && PathLength(true) < 13f)
             {
                 Vector2 direction = (rb.position - (Vector2)playerAttack.transform.position).normalized;
                 Damage(playerAttack.damage, true, true, direction, playerAttack.knockback);
-
-                Debug.Log(string.Format("ouch I have been hit. Health remaining: {0}", health));
                 musicscript.setIntensity(20f);
             }
         }
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Enemy" && invincibilityTimer2.IsUseable() && health > 0)
         {
             EnemyAI otherai = collision.gameObject.GetComponent<EnemyAI>();
 
-            if (team == Team.oddle && otherai.team == Team.player && invincibilityTimer2.IsUseable() && health > 0)
+            if (team != otherai.team && otherai.team != Team.neutral)
             {
-                health -= 5;
+                Vector2 direction = (rb.position - (Vector2)otherai.transform.position).normalized;
+                Damage(otherai.damage, false, true, direction, playerAttack.knockback);
                 invincibilityTimer2.StartTimer();
-                Debug.Log(string.Format("ouch I have been hit. Health remaining: {0}", health));
             }
             healthBar.SetHealth(health, maxHealth);
         }
