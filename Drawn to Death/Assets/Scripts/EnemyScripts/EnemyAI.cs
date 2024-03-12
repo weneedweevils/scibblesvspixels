@@ -403,11 +403,11 @@ public class EnemyAI : MonoBehaviour
     }
 
     // Function to run when player takes damage
-    public void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 kockbackDir = default(Vector2), float kockbackPower = 0f)
+    public void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f)
     {
         health -= damageTaken;
         healthBar.SetHealth(health, maxHealth);
-        rb.velocity = kockbackDir.normalized * kockbackPower;
+        rb.velocity = knockbackDir.normalized * knockbackPower;
         
         if (makeInvincible)
         {
