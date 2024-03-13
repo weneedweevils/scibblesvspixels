@@ -100,6 +100,12 @@ public class EnemyAI : MonoBehaviour
 
     void CheckState()
     {
+        //Dead enemies dont move
+        if (state == State.dead || state == State.dying)
+        {
+            return;
+        }
+
         //Update path to Player
         float inrange = Vector2.Distance(rb.position, player.transform.position);
         if (playerSeeker.IsDone() && inrange < seekDistance)
@@ -108,25 +114,9 @@ public class EnemyAI : MonoBehaviour
         }
 
         //Make an attempt at finding a new target
-        if (PathLength() > seekDistance * 0.5 && team == Team.oddle)
+        if (target == null || (PathLength() > seekDistance * 0.5 && team == Team.oddle))
         {
-            //Set the minimum target to the player
-            float dist = Vector2.Distance(rb.position, player.transform.position);
-            target = player.transform;
-            targetIsPlayer = true;
-
-            //Compare against player allies
-            foreach (EnemyAI enemy in playerAttack.GetAllies())
-            {
-                //Check if the ally is a better target
-                float newDist = Vector2.Distance(rb.position, enemy.transform.position);
-                if (newDist <= dist)
-                {
-                    dist = newDist;
-                    target = enemy.transform;
-                    targetIsPlayer = false;
-                }
-            }
+            FindTarget();
         }
 
         //Check if the target is not the player
@@ -192,6 +182,12 @@ public class EnemyAI : MonoBehaviour
              (invincibilityTimer2.IsOnCooldown() && !invincibilityTimer.IsActive()))
         {
             doodleCrab.color = Color.white;
+        }
+        
+        //Check death conditions
+        if (health <= 0 && state != State.dead && state != State.dying)
+        {
+            Kill(); // Ded
         }
 
         //State Manager
@@ -269,17 +265,16 @@ public class EnemyAI : MonoBehaviour
                     break;
                 }
         }
-        
-        //Check death conditions
-        if (health <= 0 && state != State.dead && state != State.dying)
-        {
-            Kill(); // Ded
-        }
     }
 
     // moves enemy and adjusts animation to face player
     void MoveEnemy()
     {
+        if (target == null)
+        {
+            return;
+        }
+
         float triggerAttack = Vector2.Distance(rb.position, target.position);
 
         // if we are in range switch to the attack state
@@ -318,8 +313,34 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    private void FindTarget()
+    {
+        //Set the minimum target to the player
+        float dist = Vector2.Distance(rb.position, player.transform.position);
+        target = player.transform;
+        targetIsPlayer = true;
+
+        //Compare against player allies
+        foreach (EnemyAI enemy in playerAttack.GetAllies())
+        {
+            //Check if the ally is a better target
+            float newDist = Vector2.Distance(rb.position, enemy.transform.position);
+            if (newDist <= dist)
+            {
+                dist = newDist;
+                target = enemy.transform;
+                targetIsPlayer = false;
+            }
+        }
+    }
+
     public void Attack()
     {
+        if (target == null)
+        {
+            return;
+        }
+
         float triggerChase = Vector2.Distance(rb.position, target.position);
         nextAttack += Time.deltaTime;
 
@@ -363,6 +384,8 @@ public class EnemyAI : MonoBehaviour
         }
         health = 0;
         state = State.dying;
+        target = null;
+        targetIsPlayer = false;
 
         //Set Movement
         rb.velocity = Vector2.zero;
@@ -405,18 +428,38 @@ public class EnemyAI : MonoBehaviour
     // Function to run when player takes damage
     public void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f)
     {
+        //Dont hit dead bodies
+        if (state == State.dead || state == State.dying)
+        {
+            return;
+        }
+
+        //Inflict damage
         health -= damageTaken;
         healthBar.SetHealth(health, maxHealth);
+
+        //Check death conditions
+        if (health <= 0)
+        {
+            Kill(); // Ded
+            return;
+        }
+
+        //Apply Knockback
         rb.velocity = knockbackDir.normalized * knockbackPower;
         
-        if (makeInvincible)
-        {
-            invincibilityTimer.StartTimer();
-        }
+        //Flash hurt color
         if (animateHurt)
         {
             doodleCrab.color = hurtCol;
         }
+
+        //Start invincibility timer
+        if (makeInvincible)
+        {
+            invincibilityTimer.StartTimer();
+        }
+        
     }
 
     public void SetTarget(GameObject obj, bool isPlayer = false)
