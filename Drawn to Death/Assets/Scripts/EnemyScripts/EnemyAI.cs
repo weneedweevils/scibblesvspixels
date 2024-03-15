@@ -446,7 +446,10 @@ public class EnemyAI : MonoBehaviour
         }
 
         //Apply Knockback
-        rb.velocity = knockbackDir.normalized * knockbackPower;
+        if (knockbackPower > 0f)
+        {
+            rb.velocity = knockbackDir.normalized * knockbackPower;
+        }
         
         //Flash hurt color
         if (animateHurt)
