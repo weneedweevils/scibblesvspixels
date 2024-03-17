@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum Scene { Menu, Intructions, Level_1, Ded, End}
+public enum Scene { Menu, Intructions, Level_1, Level_2, Level_3, Shop, Ded, End}
 public class MenuManager : MonoBehaviour
 {
     public Scene nextScene;

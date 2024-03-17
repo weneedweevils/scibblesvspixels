@@ -12,7 +12,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
     //Input options
     [Header("Movement Controls")]
@@ -244,5 +244,19 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+    }
+
+    //Save Game Stuff
+    public void LoadData(GameData data)
+    {
+        if (!data.newGame)
+        {
+            transform.position = data.playerPosition;
+        }
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.playerPosition = transform.position;
     }
 }
