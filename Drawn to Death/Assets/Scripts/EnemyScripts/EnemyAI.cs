@@ -9,115 +9,209 @@ public enum Team {player, neutral, oddle};
 public enum State {idle, chase, follow, attack, dying, dead, reviving };
 public class EnemyAI : MonoBehaviour
 {
-    public GameObject player;
+
+        /* ----- Editor Variables ----- */
+
+    [Header("State")]
     public Team team = Team.oddle;
     public State state = State.chase;
+    public bool isolated = false;
+
+    [Header("Stats")]
+    public float health;
+    public float maxHealth;
     public float speed = 200f;
-    public float seekDistance = 100f; 
-    public float nextWaypointDistance;
-    public Transform enemygraphics;
-    Transform target;
-    Path path;
-    int currentWaypoint = 0;
-    bool reachedEndOfPath;
-    Seeker seeker;
-    Rigidbody2D rb;
     public float damage;
-    public Sprite attacksprite;
     public float cooldown = 2f;
     public float nextAttack;
 
-    // Health
-    public float health;
-    public float maxHealth;
+    [Header("Pathfinding")]
+    public Seeker targetSeeker;
+    public Seeker playerSeeker;
+    public float seekDistance = 100f;
+    public float nextWaypointDistance;
+
+    [Header("Music and sound")]
+    public string deathSfx;
+    public string attackSfx;
+    
+
+    [Header("References")]
+    public Collider2D movementCollider;
     public EnemyHealthBarBehaviour healthBar;
+    public Transform enemygraphics;
+    public Sprite attacksprite;
+    public Color hurtCol = Color.red;
+
+        /* ----- Hidden Variables ----- */
 
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
     public CooldownTimer invincibilityTimer2;
-    private float invincibilityDuration = 35f / 60f;
+    private float invincibilityDuration = 20f / 60f;
 
-    //Animation
+    //Animation and sprites
+    private SpriteRenderer doodleCrab;
+    private SpriteRenderer gem;
     private Animator animator;
     private float animationTimer = 0f;
     private float deathDuration = 25f/60f;
     private float reviveDuration = 69f/60f;
 
-    // FMOD Event paths
-    public string deathSfx;
-    public string attackSfx;
+    //Pathfinding
+    private Transform target;
+    private Path targetPath;
+    private Path playerPath;
+    private bool targetIsPlayer = true;
+    private int currentWaypoint = 0;
+    private Rigidbody2D rb;
 
-    // Music manager script
-    public GameObject musicmanager;
-    BasicMusicScript musicscript;
+    //Misc
+    private GameObject player;
+    private Attack playerAttack;
+    private GameObject musicmanager;
+    private BasicMusicScript musicscript;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        //Collect References
         animator = GetComponentInChildren<Animator>();
-        //spriterenderer = GetComponent<SpriteRenderer>();
-        seeker = GetComponent<Seeker>();
+        doodleCrab = gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        gem = gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
-        //animator = transform.GetChild(0).gameObject.GetComponent<Animator>();
-        InvokeRepeating("CheckState", 0f, 0.5f); // this will call the checkstate function to update the path every half second
-        if (player == null)
-        {
-            player = GameObject.Find("Player");
-        }
+        player = GameObject.Find("Player");
+        playerAttack = player.GetComponentInChildren<Attack>();
+        musicmanager = GameObject.Find("Music");
+        musicscript = musicmanager.GetComponent<BasicMusicScript>();
+
+        //Initialize
         target = player.transform;
         health = maxHealth;
         healthBar.SetHealth(health, maxHealth);
 
-        invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
+        //Create Timers
+        invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
         invincibilityTimer2 = new CooldownTimer(3f, invincibilityDuration);
 
-        musicmanager = GameObject.Find("Music");
-        musicscript = musicmanager.GetComponent<BasicMusicScript>();
-
+        //Start a repeating functon
+        InvokeRepeating("CheckState", 0f, 0.5f); //Update the path every half second
     }
 
     void CheckState()
     {
-        float inrange = Vector2.Distance(rb.position, target.position);
-
-      
-     
-        
-
-        // if not travelling to a path and the player is within range calculate new path
-        if (seeker.IsDone() && inrange < seekDistance)
+        //Dead enemies dont move
+        if (state == State.dead || state == State.dying)
         {
-            seeker.StartPath(rb.position, target.position, OnPathComplete);
+            return;
         }
+
+        //Update path to Player
+        float inrange = Vector2.Distance(rb.position, player.transform.position);
+        if (playerSeeker.IsDone() && inrange < seekDistance)
+        {
+            playerSeeker.StartPath(rb.position, player.transform.position, OnPlayerPathComplete);
+        }
+
+        //Make an attempt at finding a new target
+        if (target == null || (PathLength() > seekDistance * 0.5 && team == Team.oddle))
+        {
+            FindTarget();
+        }
+
+        //Check if the target is not the player
+        if (!targetIsPlayer)
+        {
+            //Update path to target
+            inrange = Vector2.Distance(rb.position, target.position);
+            if (targetSeeker.IsDone() && inrange < seekDistance)
+            {
+                targetSeeker.StartPath(rb.position, target.position, OnTargetPathComplete);
+            }
+        }
+        
     }
 
     // Checks if there is a path calculated
-    void OnPathComplete(Path p)
+    void OnTargetPathComplete(Path p)
+    {
+        if (targetIsPlayer)
+        {
+            targetPath = playerPath;
+            currentWaypoint = 0;
+        } 
+        else
+        {
+            if (!p.error)
+            {
+                targetPath = p;
+                currentWaypoint = 0;
+            } else
+            {
+                targetPath = null;
+            }
+        }
+    }
+
+    void OnPlayerPathComplete(Path p)
     {
         if (!p.error)
         {
-            path = p;
-            currentWaypoint = 0;
+            playerPath = p;
+            if (targetIsPlayer)
+            {
+                targetPath = playerPath;
+                currentWaypoint = 0;
+            }
+        }
+        else
+        {
+            playerPath = null;
         }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        //Update Timers
         invincibilityTimer.Update();
         invincibilityTimer2.Update();
+
+        //Fix color after hurt
+        if ( (invincibilityTimer.IsOnCooldown() && !invincibilityTimer2.IsActive()) || 
+             (invincibilityTimer2.IsOnCooldown() && !invincibilityTimer.IsActive()))
+        {
+            doodleCrab.color = Color.white;
+        }
+        
+        //Check death conditions
+        if (health <= 0 && state != State.dead && state != State.dying)
+        {
+            Kill(); // Ded
+        }
+
+        //State Manager
         switch (state)
         {
             case State.idle:
                 {
                     //idle Behaviour
+                    if (PathLength() < seekDistance)
+                    {
+                        state = State.chase;
+                    }
                     break;
                 }
             case State.chase:
                 {
                     //chase Behaviour
-                    MoveEnemy();
+                    if (PathLength() > seekDistance && team == Team.oddle)
+                    {
+                        state = State.idle;
+                    } else
+                    {
+                        MoveEnemy();
+                    }
                     break;
                 }
             case State.attack:
@@ -171,21 +265,18 @@ public class EnemyAI : MonoBehaviour
                     break;
                 }
         }
-        
-        if (health <= 0 && state != State.dead && state != State.dying)
-        {
-            Kill(); // Ded
-        }
-
     }
 
     // moves enemy and adjusts animation to face player
     void MoveEnemy()
     {
-        
+        if (target == null)
+        {
+            return;
+        }
+
         float triggerAttack = Vector2.Distance(rb.position, target.position);
-        //animator.SetBool("chasing", true);
-        Debug.Log(target);
+
         // if we are in range switch to the attack state
         if (triggerAttack < 10f)
         {
@@ -195,26 +286,16 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        if (path == null)
+        if (targetPath == null || currentWaypoint >= targetPath.vectorPath.Count)
         {
             return;
         }
 
-        if (currentWaypoint >= path.vectorPath.Count)
-        {
-            reachedEndOfPath = true;
-            return;
-        }
-        else
-        {
-            reachedEndOfPath = false;
-        }
-
-        Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
+        Vector2 direction = ((Vector2)targetPath.vectorPath[currentWaypoint] - rb.position).normalized;
         Vector2 force = direction * speed * Time.deltaTime;
         rb.AddForce(force);
 
-        float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
+        float distance = Vector2.Distance(rb.position, targetPath.vectorPath[currentWaypoint]);
 
         if (distance < nextWaypointDistance)
         {
@@ -232,8 +313,34 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    private void FindTarget()
+    {
+        //Set the minimum target to the player
+        float dist = Vector2.Distance(rb.position, player.transform.position);
+        target = player.transform;
+        targetIsPlayer = true;
+
+        //Compare against player allies
+        foreach (EnemyAI enemy in playerAttack.GetAllies())
+        {
+            //Check if the ally is a better target
+            float newDist = Vector2.Distance(rb.position, enemy.transform.position);
+            if (newDist <= dist)
+            {
+                dist = newDist;
+                target = enemy.transform;
+                targetIsPlayer = false;
+            }
+        }
+    }
+
     public void Attack()
     {
+        if (target == null)
+        {
+            return;
+        }
+
         float triggerChase = Vector2.Distance(rb.position, target.position);
         nextAttack += Time.deltaTime;
 
@@ -270,31 +377,47 @@ public class EnemyAI : MonoBehaviour
         // Play the FMOD event correlating to the death
         FMODUnity.RuntimeManager.PlayOneShot(deathSfx);
         
+        //Set State
         if (team == Team.oddle) //First Death
         {
             team = Team.neutral;
         }
         health = 0;
         state = State.dying;
+        target = null;
+        targetIsPlayer = false;
+
+        //Set Movement
+        rb.velocity = Vector2.zero;
+        movementCollider.enabled = false;
+
+        //Set Animation variables
         animator.SetBool("attacking", false);
         animator.SetBool("chasing", false);
         animator.SetBool("dying", true);
-        rb.velocity = Vector2.zero;
     }
 
     public bool Revive(float percentMaxHP = 1f, float percentDamage = 1f, float percentSpeed = 1f)
     {
         if (state == State.dead && team == Team.neutral)
         {
+            //Set State
             team = Team.player;
             state = State.reviving;
+
+            //Animation
             animator.SetBool("reviving", true);
-            gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
+            gem.enabled = true;
+
+            //Set Stats
             maxHealth *= percentMaxHP;
             damage *= percentDamage;
             speed *= percentSpeed;
             health = maxHealth;
-            
+
+            //Re-enable collisions
+            movementCollider.enabled = true;
+
             return true;
         } else
         {
@@ -303,21 +426,78 @@ public class EnemyAI : MonoBehaviour
     }
 
     // Function to run when player takes damage
-    public void Damage(float damageTaken)
+    public void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f)
     {
+        //Dont hit dead bodies
+        if (state == State.dead || state == State.dying)
+        {
+            return;
+        }
+
+        //Inflict damage
         health -= damageTaken;
-        invincibilityTimer.StartTimer();
         healthBar.SetHealth(health, maxHealth);
+
+        //Check death conditions
+        if (health <= 0)
+        {
+            Kill(); // Ded
+            return;
+        }
+
+        //Apply Knockback
+        if (knockbackPower > 0f)
+        {
+            rb.velocity = knockbackDir.normalized * knockbackPower;
+        }
+        
+        //Flash hurt color
+        if (animateHurt)
+        {
+            doodleCrab.color = hurtCol;
+        }
+
+        //Start invincibility timer
+        if (makeInvincible)
+        {
+            invincibilityTimer.StartTimer();
+        }
+        
     }
 
-    public void SetTarget(GameObject obj)
+    public void SetTarget(GameObject obj, bool isPlayer = false)
     {
         target = obj.transform;
+        targetIsPlayer = isPlayer;
     }
 
-    public void SetTarget(Transform transform)
+    public void SetTarget(Transform transform, bool isPlayer = false)
     {
         target = transform;
+        targetIsPlayer = isPlayer;
+    }
+
+    //Estimate the length of the current path
+    public float PathLength(bool toPlayer = false)
+    {
+        //Path to calculate
+        Path path = toPlayer ? playerPath : targetPath;
+
+        //No path
+        if (isolated || path == null)
+        {
+            return float.MaxValue;
+        }
+
+        //Need at least 2 values to estimate distance -> otherwise distance is practically 0
+        int size = path.vectorPath.Count;
+        if (size < 2)
+        {
+            return 0f;
+        }
+
+        //Distance estimate
+        return Vector3.Distance(path.vectorPath[0], path.vectorPath[1]) * size;
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -325,22 +505,22 @@ public class EnemyAI : MonoBehaviour
         if (collision.gameObject.tag == "Attack" && invincibilityTimer.IsUseable() && health > 0)
         {
             Attack playerAttack = collision.gameObject.GetComponent<Attack>();
-            if (playerAttack != null && playerAttack.attackTimer.IsActive() && team == Team.oddle)
+            if (playerAttack != null && playerAttack.attackTimer.IsActive() && team == Team.oddle && PathLength(true) < 13f)
             {
-                Damage(playerAttack.damage);
-                Debug.Log(string.Format("ouch I have been hit. Health remaining: {0}", health));
+                Vector2 direction = (rb.position - (Vector2)playerAttack.transform.position).normalized;
+                Damage(playerAttack.damage, true, true, direction, playerAttack.knockback);
                 musicscript.setIntensity(20f);
             }
         }
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Enemy" && invincibilityTimer2.IsUseable() && health > 0)
         {
             EnemyAI otherai = collision.gameObject.GetComponent<EnemyAI>();
 
-            if (team == Team.oddle && otherai.team == Team.player && invincibilityTimer2.IsUseable() && health > 0)
+            if (team != otherai.team && otherai.team != Team.neutral)
             {
-                health -= 5;
+                Vector2 direction = (rb.position - (Vector2)otherai.transform.position).normalized;
+                Damage(otherai.damage, false, true, direction, playerAttack.knockback);
                 invincibilityTimer2.StartTimer();
-                Debug.Log(string.Format("ouch I have been hit. Health remaining: {0}", health));
             }
             healthBar.SetHealth(health, maxHealth);
         }

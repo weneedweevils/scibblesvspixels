@@ -281,6 +281,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3692553448427789817}
+  - component: {fileID: 6020304625581923037}
   - component: {fileID: 3692553448427789816}
   - component: {fileID: 3692553448427789815}
   - component: {fileID: 3692553448427789814}
@@ -311,6 +312,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6020304625581923037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3692553448427789813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  drawGizmos: 1
+  detailedGizmos: 0
+  startEndModifier:
+    addPoints: 0
+    exactStartPoint: 0
+    exactEndPoint: 0
+    useRaycasting: 0
+    mask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    useGraphRaycasting: 0
+  traversableTags: -1
+  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  graphMask:
+    value: -1
 --- !u!114 &3692553448427789816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,21 +380,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca6c2af668c90cc4f8a1daefbb3d1492, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   team: 2
   state: 1
-  speed: 500
-  seekDistance: 100
-  nextWaypointDistance: 100
-  enemygraphics: {fileID: 3692553449529256141}
-  damage: 10
-  attacksprite: {fileID: 21300000, guid: 8cde66df1bd8d044e92784b35e37d295, type: 3}
-  cooldown: 2
-  nextAttack: 0
+  isolated: 0
   health: 50
   maxHealth: 50
+  speed: 500
+  damage: 10
+  cooldown: 2
+  nextAttack: 0
+  targetSeeker: {fileID: 6020304625581923037}
+  playerSeeker: {fileID: 3692553448427789816}
+  seekDistance: 100
+  nextWaypointDistance: 100
+  deathSfx: 
+  attackSfx: 
+  movementCollider: {fileID: 1406805573}
   healthBar: {fileID: 1826093999}
-  lifestealLineZ: 1
+  enemygraphics: {fileID: 3692553449529256141}
+  attacksprite: {fileID: 21300000, guid: 8cde66df1bd8d044e92784b35e37d295, type: 3}
+  hurtCol: {r: 0.9137255, g: 0.5647059, b: 0.5647059, a: 1}
 --- !u!50 &3692553448427789814
 Rigidbody2D:
   serializedVersion: 4
