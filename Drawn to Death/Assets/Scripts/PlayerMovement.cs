@@ -249,7 +249,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     //Save Game Stuff
     public void LoadData(GameData data)
     {
-        if (!data.newGame)
+        if (data.skipCutscene)
         {
             transform.position = data.playerPosition;
         }

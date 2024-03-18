@@ -55,6 +55,7 @@ public class DataPersistenceManager : MonoBehaviour
     public void NewGame()
     {
         this.gameData = new GameData();
+        dataHandler.Save(gameData);
     }
 
     [ContextMenu("Load Game")]
@@ -72,10 +73,10 @@ public class DataPersistenceManager : MonoBehaviour
         else
         {
             //Disable opening cutscene
-            if (!gameData.newGame)
+            if (gameData.skipCutscene)
             {
-                cutsceneObject.SetActive(false);
-                playerHealthObject.SetActive(true);
+                if (cutsceneObject != null) { cutsceneObject.SetActive(false); }
+                if (cutsceneObject != null) { playerHealthObject.SetActive(true); }
             }
 
             //pass data to other scripts so they can update it
@@ -90,7 +91,7 @@ public class DataPersistenceManager : MonoBehaviour
     public void SaveGame()
     {
         //pass data to other scripts so they can update it
-        gameData.newGame = false;
+        gameData.skipCutscene = true;
         gameData.scene = scene;
         foreach (IDataPersistence obj in dataPersistenceObjects)
         {
@@ -98,6 +99,16 @@ public class DataPersistenceManager : MonoBehaviour
         }
 
         //save the data to a file using the data handler
+        dataHandler.Save(gameData);
+    }
+
+    public GameData GetGameData()
+    {
+        return gameData;
+    }
+
+    public void UpdateGame()
+    {
         dataHandler.Save(gameData);
     }
 
