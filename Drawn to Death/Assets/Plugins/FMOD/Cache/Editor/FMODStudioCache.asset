@@ -63,7 +63,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638447570979520745
+  lastModified: 638447590200000000
   FileSizes: []
   Exists: 1
 --- !u!114 &-7014231553645440889
@@ -202,30 +202,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &-3236378674334640562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/CrabWalk/CrabSpeed
-  m_EditorClassIdentifier: 
-  Name: CrabSpeed
-  StudioPath: 
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 2919015658
-    data2: 1541798933
-  Type: 0
-  IsGlobal: 0
-  Labels: []
-  Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,7 +232,7 @@ MonoBehaviour:
   - {fileID: 8187828435867240241}
   StringsBanks:
   - {fileID: 3813868446394248927}
-  cacheTime: 638450644730948387
+  cacheTime: 638466234820000000
   cacheVersion: 131616
 --- !u!114 &1896689964916762652
 MonoBehaviour:
@@ -300,10 +276,10 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638450644730938412
+  lastModified: 638466167030000000
   FileSizes:
   - Name: 
-    Value: 1426
+    Value: 1378
   Exists: 1
 --- !u!114 &3982572514281053066
 MonoBehaviour:
@@ -326,13 +302,12 @@ MonoBehaviour:
   Banks:
   - {fileID: 6775500046944076196}
   IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters:
-  - {fileID: -3236378674334640562}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 50
+  Length: 3827
 --- !u!114 &4052825363665396515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,7 +351,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638450644730948387
+  lastModified: 638466234820000000
   FileSizes: []
   Exists: 1
 --- !u!114 &8187828435867240241
@@ -394,7 +369,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638447570979334885
+  lastModified: 638466167030000000
   FileSizes: []
   Exists: 1
 --- !u!114 &8321046519264524681

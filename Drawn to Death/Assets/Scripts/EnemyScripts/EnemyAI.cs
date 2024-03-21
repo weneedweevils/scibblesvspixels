@@ -526,4 +526,14 @@ public class EnemyAI : MonoBehaviour
         }
 
     }
+
+    public bool isDead(){
+        // Quick getter function that's used in CrabWalkSFX
+        if (state == State.dead){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }
