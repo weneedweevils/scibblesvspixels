@@ -400,6 +400,9 @@ MonoBehaviour:
   enemygraphics: {fileID: 3692553449529256141}
   attacksprite: {fileID: 21300000, guid: 8cde66df1bd8d044e92784b35e37d295, type: 3}
   hurtCol: {r: 0.9137255, g: 0.5647059, b: 0.5647059, a: 1}
+  slowed: 0
+  lifestealing: 0
+  slowDuration: 5
 --- !u!50 &3692553448427789814
 Rigidbody2D:
   serializedVersion: 4
@@ -471,7 +474,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -502,7 +505,7 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
+        time: 0.022220612
         value: 1
         inSlope: 0
         outSlope: 0
@@ -510,6 +513,15 @@ LineRenderer:
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4

@@ -232,9 +232,11 @@ MonoBehaviour:
   dashEnabled: 1
   dashBoost: 30
   dashCooldown: 1
+  dashBar: {fileID: 0}
   timelinePlaying: 0
   health: 100
   maxHealth: 100
+  invincibilityDuration: 0.5
   healthBar: {fileID: 0}
 --- !u!95 &2454788199460616605
 Animator:
@@ -506,18 +508,20 @@ MonoBehaviour:
   attackButton: 323
   reviveButton: 324
   lifestealButton: 116
-  damage: 10
+  damage: 20
   knockback: 15
   attackCooldown: 0.5
-  reviveRadius: 10
-  reviveCap: 5
-  reviveCooldown: 10
+  reviveRadius: 8
+  reviveCap: 50
+  reviveCooldown: 15
   targetDistance: 100
+  reviveBar: {fileID: 0}
   lifestealRadius: 15
   lifestealCooldown: 10
   targetDistanceLifesteal: 100
-  lifestealDamage: 10
+  lifestealDamage: 13
   lifestealDuration: 5
+  lifestealBar: {fileID: 0}
   sfx: event:/Eraser
   musicmanager: {fileID: 0}
 --- !u!60 &120045952777875683

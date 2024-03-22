@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
@@ -36,6 +37,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public float dashCooldown;
     private float dashtimer = 0;
     private bool dashed = false;
+    public Slider dashBar;
+    private CooldownBarBehaviour dashCooldownBar;
 
     //Animations
     private Animator animator;
@@ -55,11 +58,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     [Header("Player Stats")]
     public float health;
     public float maxHealth;
+    public float invincibilityDuration;
     public HealthBarBehaviour healthBar;
 
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
-    private float invincibilityDuration = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -69,6 +72,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         sprite = GetComponent<SpriteRenderer>();
         health = maxHealth;
         invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
+        dashCooldownBar = new CooldownBarBehaviour(dashBar, dashCooldown, Color.red, Color.green);
     }
 
     // Update is called once per frame
@@ -104,6 +108,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             else if (dashed)
             {
                 dashtimer += Time.deltaTime;
+                dashCooldownBar.SetBar(dashtimer);
                 if (dashtimer >= dashCooldown)
                 {
                     dashed = false;
@@ -199,8 +204,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Function to run when player heals
     public void Heal(float healthRestored)
     {
-        health += healthRestored;
-        invincibilityTimer.StartTimer();
+        if (health < maxHealth)
+        {
+            health += healthRestored;
+        }
+        else
+        {
+            health = maxHealth;
+        }
         healthBar.SetHealth(health, maxHealth);
     }
 

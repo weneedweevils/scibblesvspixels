@@ -7,7 +7,7 @@ public class CooldownTimer
     //Timer
     public float cooldownDuration;
     public float activeduration;
-    private float timer = 0f;
+    public float timer = 0f;
 
     //Cooldown
     private bool active = false;
