@@ -204,7 +204,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Function to run when player heals
     public void Heal(float healthRestored)
     {
-        health += healthRestored;
+        if (health < maxHealth)
+        {
+            health += healthRestored;
+        }
+        else
+        {
+            health = maxHealth;
+        }
         healthBar.SetHealth(health, maxHealth);
     }
 
