@@ -22,7 +22,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public KeyCode left = KeyCode.A;
     public KeyCode right = KeyCode.D;
     public KeyCode dash = KeyCode.Space;
-
+    public KeyCode recall = KeyCode.R;
+    
     //Movement Checks
     [Header("Physics")]
     public float accelerationCoefficient;   //how quickly it speeds up
@@ -43,6 +44,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     //Animations
     private Animator animator;
     private SpriteRenderer sprite;
+
+    //Recall
+    public float recallCooldown;
+    public float reacallTimer = 0f;
+    private bool recalled = false;
 
     //Physics info
     private Vector2 velocity, acceleration;
@@ -67,6 +73,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Start is called before the first frame update
     void Start()
     {
+        
         rbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
@@ -78,6 +85,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Update is called once per frame
     void Update()
     {
+       
+            
+      
         invincibilityTimer.Update();
         if (!inFreezeDialogue() && !timelinePlaying) // Disable movement if in dialogue/cutscene where we don't want movement
         {
@@ -101,6 +111,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             //Check if dash was activated
             if (!dashed && Input.GetKey(dash))
             {
+                Debug.Log("Dashing");
                 dashed = true;
                 velocity += velocity.normalized * dashBoost;
             }
@@ -116,6 +127,26 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                 }
             }
         }
+
+        
+        if(!recalled && Input.GetKey(recall)){
+            Debug.Log("Recalling");
+            recalled = true;
+            animator.SetBool("New Bool", true);
+            //StartCoroutine(Recall());
+        }
+        else if(recalled){
+            reacallTimer += Time.deltaTime;
+            if(reacallTimer >= recallCooldown){ 
+                //animator.SetBool("New Bool", false);
+                recalled = false;
+                reacallTimer = 0f;
+            }
+        }
+
+        
+
+       
         
         //Predict new position
         Vector2 currentPos = rbody.position;
@@ -126,8 +157,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         //Animate
         ManageAnimations();
-
         healthBar.SetHealth(health, maxHealth);
+        
+        
     }
 
     private float VelocityCalc(float a, float v, float modifier = 1f)
@@ -215,6 +247,16 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         healthBar.SetHealth(health, maxHealth);
     }
 
+    // Function to recall oodles that are on your team
+    // public IEnumerator Recall()
+    // {
+    //     animator.SetBool("New Bool", true);
+    //     yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f );
+    //     animator.SetBool("New Bool", false);
+    //     Debug.Log("Done Recalling");
+        
+    // }
+
     // Dialogue trigger
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -270,4 +312,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     {
         data.playerPosition = transform.position;
     }
+
+
 }

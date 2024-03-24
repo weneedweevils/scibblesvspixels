@@ -331,7 +331,7 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        Vector2 direction = ((Vector2)targetPath.vectorPath[currentWaypoint] - rb.position).normalized;
+        Vector2 direction = ((Vector2)targetPath.vectorPath[currentWaypoint] - rb.position + 2 * Vector2.down).normalized;
         Vector2 force = direction * speed * Time.deltaTime;
         rb.AddForce(force);
 
