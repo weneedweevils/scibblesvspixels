@@ -9,10 +9,13 @@ public class Spawner : MonoBehaviour
     public GameObject enemyObjects;
     public SpawnData[] spawnData;
 
-    [Header("Spawn Rate")]
+    [Header("Spawn Stats")]
     [Range(0, 1)]
     public float spawnChance;
+    [Min(0f)]
     public float timeBetweenAttempts;
+    [Min(0f)]
+    public float spawnRadius;
 
     [Header("Limits")]
     public Limit limit;
@@ -25,6 +28,12 @@ public class Spawner : MonoBehaviour
     private int spawnCount = 0;
     private float totalChance = 0f;
     private bool triggerActive = true;
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, spawnRadius);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -85,7 +94,9 @@ public class Spawner : MonoBehaviour
             GameObject enemy = GetRandomEnemy();
             if (enemy != null)
             {
-                Instantiate(enemy, transform).transform.SetParent(enemyObjects.transform);
+                GameObject newEnemy = Instantiate(enemy, transform);
+                newEnemy.transform.SetParent(enemyObjects.transform);
+                newEnemy.transform.position += new Vector3(Random.Range(0f, spawnRadius), Random.Range(0f, spawnRadius), 0);
                 ++spawnCount;
             }
         }
