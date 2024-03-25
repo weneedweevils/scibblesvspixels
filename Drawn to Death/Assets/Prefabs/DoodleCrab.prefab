@@ -283,13 +283,13 @@ GameObject:
   - component: {fileID: 3692553448427789817}
   - component: {fileID: 6020304625581923037}
   - component: {fileID: 3692553448427789816}
-  - component: {fileID: 3692553448427789815}
+  - component: {fileID: 408422483033921023}
   - component: {fileID: 3692553448427789814}
   - component: {fileID: 1406805573}
   - component: {fileID: 7096973642769452535}
   - component: {fileID: -8105401679918981246}
   m_Layer: 0
-  m_Name: baseEnemyObject
+  m_Name: DoodleCrab
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -368,7 +368,7 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
---- !u!114 &3692553448427789815
+--- !u!114 &408422483033921023
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -377,7 +377,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3692553448427789813}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca6c2af668c90cc4f8a1daefbb3d1492, type: 3}
+  m_Script: {fileID: 11500000, guid: 8314aad9857e34046a6fc126e4d52d62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   team: 2
@@ -387,23 +387,23 @@ MonoBehaviour:
   maxHealth: 50
   speed: 500
   damage: 10
-  cooldown: 2
-  nextAttack: 0
+  attackCooldown: 2
+  attackDistance: 15
   targetSeeker: {fileID: 6020304625581923037}
   playerSeeker: {fileID: 3692553448427789816}
   seekDistance: 100
   nextWaypointDistance: 100
   deathSfx: 
   attackSfx: 
-  movementCollider: {fileID: 1406805573}
-  healthBar: {fileID: 1826093999}
-  enemygraphics: {fileID: 3692553449529256141}
-  attacksprite: {fileID: 21300000, guid: 8cde66df1bd8d044e92784b35e37d295, type: 3}
-  hurtCol: {r: 0.9137255, g: 0.5647059, b: 0.5647059, a: 1}
-  doodleCrab: {fileID: 0}
   slowed: 0
   lifestealing: 0
-  slowDuration: 5
+  slowDuration: 0
+  movementCollider: {fileID: 1406805573}
+  healthBar: {fileID: 1826093999}
+  enemygraphics: {fileID: 3692553448427789817}
+  attacksprite: {fileID: 0}
+  hurtCol: {r: 0.9137255, g: 0.5647059, b: 0.5647059, a: 1}
+  selfImage: {fileID: 3692553449529256177}
 --- !u!50 &3692553448427789814
 Rigidbody2D:
   serializedVersion: 4

@@ -7,7 +7,7 @@ using Pathfinding;
 // if you want to use this in FSM inherit from EnemybaseState class
 public enum Team {player, neutral, oddle};
 public enum State {idle, chase, follow, attack, dying, dead, reviving };
-public class EnemyAI : MonoBehaviour
+public abstract class EnemyAI : MonoBehaviour
 {
 
         /* ----- Editor Variables ----- */
@@ -22,8 +22,8 @@ public class EnemyAI : MonoBehaviour
     public float maxHealth;
     public float speed = 200f;
     public float damage;
-    public float cooldown = 2f;
-    public float nextAttack;
+    public float attackCooldown;
+    public float attackDistance;
 
     [Header("Pathfinding")]
     public Seeker targetSeeker;
@@ -35,53 +35,54 @@ public class EnemyAI : MonoBehaviour
     public string deathSfx;
     public string attackSfx;
     
+    [Header("Effects")]
+    public bool slowed = false;
+    public bool lifestealing = false;
+    public CooldownTimer slowedTimer;
+    public float slowDuration;
 
     [Header("References")]
     public Collider2D movementCollider;
     public EnemyHealthBarBehaviour healthBar;
     public Transform enemygraphics;
-    public Sprite attacksprite;
     public Color hurtCol = Color.red;
+    public SpriteRenderer selfImage;
 
         /* ----- Hidden Variables ----- */
 
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
     public CooldownTimer invincibilityTimer2;
-    private float invincibilityDuration = 20f / 60f;
+    public CooldownTimer attackTimer;
+    protected float invincibilityDuration = 20f / 60f;
 
     //Animation and sprites
-    public SpriteRenderer doodleCrab;
-    private SpriteRenderer gem;
-    private Animator animator;
-    private float animationTimer = 0f;
-    private float deathDuration = 25f/60f;
-    private float reviveDuration = 69f/60f;
+    protected SpriteRenderer gem;
+    protected Animator animator;
+    protected float animationTimer = 0f;
+    protected float deathDuration = 25f/60f;
+    protected float reviveDuration = 69f/60f;
 
     //Pathfinding
-    private Transform target;
-    private Path targetPath;
-    private Path playerPath;
-    private bool targetIsPlayer = true;
-    private int currentWaypoint = 0;
-    private Rigidbody2D rb;
+    protected Transform target;
+    protected Path targetPath;
+    protected Path playerPath;
+    protected bool targetIsPlayer = true;
+    protected int currentWaypoint = 0;
+    protected Rigidbody2D rb;
 
     //Misc
-    private GameObject player;
-    private Attack playerAttack;
-    private GameObject musicmanager;
-    private BasicMusicScript musicscript;
-    public bool slowed = false;
-    public bool lifestealing = false;
-    public CooldownTimer slowedTimer;
-    public float slowDuration;
+    protected GameObject player;
+    protected Attack playerAttack;
+    protected GameObject musicmanager;
+    protected BasicMusicScript musicscript;
 
     // Start is called before the first frame update
     void Start()
     {
         //Collect References
         animator = GetComponentInChildren<Animator>();
-        doodleCrab = gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        selfImage = gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>();
         gem = gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player");
@@ -97,13 +98,14 @@ public class EnemyAI : MonoBehaviour
         //Create Timers
         invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
         invincibilityTimer2 = new CooldownTimer(3f, invincibilityDuration);
+        attackTimer = new CooldownTimer(attackCooldown, 0f);
         slowedTimer = new CooldownTimer(0.1f, slowDuration);
 
         //Start a repeating functon
         InvokeRepeating("CheckState", 0f, 0.5f); //Update the path every half second
     }
 
-    void CheckState()
+    private void CheckState()
     {
         //Dead enemies dont move
         if (state == State.dead || state == State.dying)
@@ -134,11 +136,10 @@ public class EnemyAI : MonoBehaviour
                 targetSeeker.StartPath(rb.position, target.position, OnTargetPathComplete);
             }
         }
-        
     }
 
     // Checks if there is a path calculated
-    void OnTargetPathComplete(Path p)
+    private void OnTargetPathComplete(Path p)
     {
         if (targetIsPlayer)
         {
@@ -158,7 +159,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void OnPlayerPathComplete(Path p)
+    private void OnPlayerPathComplete(Path p)
     {
         if (!p.error)
         {
@@ -176,11 +177,12 @@ public class EnemyAI : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    protected void FixedUpdate()
     {
         //Update Timers
         invincibilityTimer.Update();
         invincibilityTimer2.Update();
+        attackTimer.Update();
         slowedTimer.Update();
 
         //Fix color after hurt
@@ -188,7 +190,7 @@ public class EnemyAI : MonoBehaviour
              (invincibilityTimer2.IsOnCooldown() && !invincibilityTimer.IsActive()) ||
              (!lifestealing && team == Team.player) )
         {
-            doodleCrab.color = Color.white;
+            selfImage.color = Color.white;
         }
         
         //Check death conditions
@@ -205,7 +207,7 @@ public class EnemyAI : MonoBehaviour
                 speed /= 2;
                 slowed = true;
             }
-            doodleCrab.color = Color.red;
+            selfImage.color = Color.red;
         }
 
         // Start timer to end slow if not in lifesteal zone anymore but still slowed
@@ -217,7 +219,7 @@ public class EnemyAI : MonoBehaviour
         // Change color if slowed but not being lifestolen
         if (slowedTimer.IsActive() && !lifestealing)
         {
-            doodleCrab.color = Color.yellow;
+            selfImage.color = Color.yellow;
         }
 
         // End slow if timer is done
@@ -225,7 +227,7 @@ public class EnemyAI : MonoBehaviour
         {
             slowed = false;
             speed *= 2;
-            doodleCrab.color = Color.white;
+            selfImage.color = Color.white;
         }
 
         //State Manager
@@ -246,7 +248,14 @@ public class EnemyAI : MonoBehaviour
                     if (PathLength() > seekDistance && team == Team.oddle)
                     {
                         state = State.idle;
-                    } else
+                    }
+                    else if (PathLength() <= attackDistance)
+                    {
+                        animator.SetBool("chasing", false);
+                        animator.SetBool("attacking", true);
+                        state = State.attack;
+                    }
+                    else
                     {
                         MoveEnemy();
                     }
@@ -254,9 +263,17 @@ public class EnemyAI : MonoBehaviour
                 }
             case State.attack:
                 {
-                    if (Time.time > nextAttack)
+                    if (target != null && attackTimer.IsUseable())
                     {
                         Attack();
+                        attackTimer.StartTimer();
+                    }
+                    if (PathLength() > attackDistance)
+                    {
+                        animator.SetBool("attacking", false);
+                        animator.SetBool("chasing", true);
+                        state = State.chase;
+                        return;
                     }
                     break;
                 }
@@ -264,7 +281,7 @@ public class EnemyAI : MonoBehaviour
                 {
                     //dying Behaviour
                     animationTimer += Time.deltaTime;
-                    doodleCrab.color = Color.white;
+                    selfImage.color = Color.white;
                     if (animationTimer >= deathDuration)
                     {
                         animationTimer = 0f;
@@ -276,7 +293,7 @@ public class EnemyAI : MonoBehaviour
             case State.dead:
                 {
                     //dead Behaviour
-                    doodleCrab.color = Color.white;
+                    selfImage.color = Color.white;
                     if (team == Team.player)
                     {
                         Destroy(gameObject);
@@ -307,53 +324,8 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    // moves enemy and adjusts animation to face player
-    void MoveEnemy()
-    {
-        if (target == null)
-        {
-            return;
-        }
-
-        float triggerAttack = Vector2.Distance(rb.position, target.position);
-
-        // if we are in range switch to the attack state
-        if (triggerAttack < 10f)
-        {
-            animator.SetBool("chasing", false);
-            animator.SetBool("attacking", true);
-            state = State.attack;
-            return;
-        }
-
-        if (targetPath == null || currentWaypoint >= targetPath.vectorPath.Count)
-        {
-            return;
-        }
-
-        Vector2 direction = ((Vector2)targetPath.vectorPath[currentWaypoint] - rb.position + 2 * Vector2.down).normalized;
-        Vector2 force = direction * speed * Time.deltaTime;
-        rb.AddForce(force);
-
-        float distance = Vector2.Distance(rb.position, targetPath.vectorPath[currentWaypoint]);
-
-        if (distance < nextWaypointDistance)
-        {
-            currentWaypoint++;
-            
-        }
-
-        if (rb.velocity.x >= 0.01f)
-        {
-            enemygraphics.localRotation = Quaternion.Euler(0, 180, 0);
-        }
-        else if (rb.velocity.x <= -0.01f)
-        {
-            enemygraphics.localRotation = Quaternion.Euler(0, 0, 0);
-        }
-    }
-
-    private void FindTarget()
+    //Make an attempt at finding a new target
+    protected void FindTarget()
     {
         //Set the minimum target to the player
         float dist = Vector2.Distance(rb.position, player.transform.position);
@@ -374,44 +346,45 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    public void Attack()
+    //Moves this entity
+    virtual protected void MoveEnemy()
     {
-        if (target == null)
+        if (target == null || targetPath == null || currentWaypoint >= targetPath.vectorPath.Count)
         {
             return;
         }
 
-        float triggerChase = Vector2.Distance(rb.position, target.position);
-        nextAttack += Time.deltaTime;
+        //Calculate direction to travel to the next waypoint
+        Vector2 direction = ((Vector2)targetPath.vectorPath[currentWaypoint] - rb.position + 2 * Vector2.down).normalized;
 
+        //Apply a force in that direction
+        Vector2 force = direction * speed * Time.deltaTime;
+        rb.AddForce(force);
 
-        if (nextAttack >= cooldown)
+        //Check distance to the current waypoint
+        float distance = Vector2.Distance(rb.position, targetPath.vectorPath[currentWaypoint]);
+
+        //If close enough to the current waypoint target the next waypoint
+        if (distance < nextWaypointDistance)
         {
-            // Play the FMOD event correlating to the attack
-            FMODUnity.RuntimeManager.PlayOneShot(attackSfx);
-       
-            Vector2 direction = ((Vector2)target.position - rb.position).normalized;
-            rb.AddForce(direction * 25000f * Time.deltaTime);
-            nextAttack = 0;
+            currentWaypoint++;
         }
 
-        if (triggerChase > 10f)
+        //Rotate enemy according to its direction of travel
+        if (rb.velocity.x >= 0.01f)
         {
-            animator.SetBool("attacking", false);
-            animator.SetBool("chasing", true);
-            if (team == Team.player)
-            {
-                state = State.chase;
-            }
-            if (team == Team.oddle)
-            {
-                state = State.chase;
-            }
-            return;
-          
+            enemygraphics.localRotation = Quaternion.Euler(0, 180, 0);
+        }
+        else if (rb.velocity.x <= -0.01f)
+        {
+            enemygraphics.localRotation = Quaternion.Euler(0, 0, 0);
         }
     }
 
+    //Attack behaviour for this entity
+    abstract protected void Attack();
+
+    //Kill this entity
     public void Kill()
     {
         // Play the FMOD event correlating to the death
@@ -444,6 +417,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    //Revive this entity as an ally to the player
     public bool Revive(float percentMaxHP = 1f, float percentDamage = 1f, float percentSpeed = 1f)
     {
         if (state == State.dead && team == Team.neutral)
@@ -501,7 +475,7 @@ public class EnemyAI : MonoBehaviour
         //Flash hurt color
         if (animateHurt)
         {
-            doodleCrab.color = hurtCol;
+            selfImage.color = hurtCol;
         }
 
         //Start invincibility timer
@@ -512,12 +486,14 @@ public class EnemyAI : MonoBehaviour
         
     }
 
+    //Set a new target using a GameObject
     public void SetTarget(GameObject obj, bool isPlayer = false)
     {
         target = obj.transform;
         targetIsPlayer = isPlayer;
     }
 
+    //Set a new target using a Transform
     public void SetTarget(Transform transform, bool isPlayer = false)
     {
         target = transform;
@@ -547,7 +523,7 @@ public class EnemyAI : MonoBehaviour
         return Vector3.Distance(path.vectorPath[0], path.vectorPath[1]) * size;
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    protected void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Attack" && invincibilityTimer.IsUseable() && health > 0)
         {
