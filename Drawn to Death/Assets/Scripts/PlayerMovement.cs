@@ -13,6 +13,7 @@ using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
 
+
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
     //Input options
@@ -50,7 +51,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     [SerializeField] private SpriteRenderer pencil;
     private GameObject[] enemies;
     private CooldownTimer recallTimer;
-   
+
+    //camera 
+    private Camera cam;
+    private float targetZoom;
+    private float zoomFactor = 3;
+    private static float noZoom;
+    private bool animationDone = true;
 
 
     //Physics info
@@ -76,6 +83,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Start is called before the first frame update
     void Start()
     {
+        
+        cam = Camera.main;
+        noZoom = cam.orthographicSize;
+        targetZoom = cam.orthographicSize;
+       
+
         rbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
@@ -111,11 +124,15 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             //Determine acceleration
             acceleration.x = ((Input.GetKey(left) ? -1 : 0) + (Input.GetKey(right) ? 1 : 0)) * accelerationCoefficient;
             acceleration.y = ((Input.GetKey(down) ? -1 : 0) + (Input.GetKey(up) ? 1 : 0)) * accelerationCoefficient;
+
         }
         else
         {
             acceleration.x = 0;
             acceleration.y = 0;
+            targetZoom -= zoomFactor * 0.1f;
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetZoom, Time.deltaTime*0.4f);
+           
         }
 
 
@@ -151,15 +168,17 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             recallTimer.StartTimer();
             pencil.enabled = false;
             StopMovement();
+            animationDone = false;
             animator.SetBool("New Bool", true);
         }
-    
-         
- 
-        
 
-       
-        
+        if (cam.orthographicSize <= noZoom && animationDone == true)
+        {
+
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, noZoom, Time.deltaTime * 5f);
+            targetZoom = noZoom;
+        }
+
         //Predict new position
         Vector2 currentPos = rbody.position;
         Vector2 newPos = currentPos + velocity * Time.fixedDeltaTime;
@@ -264,6 +283,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public void teleport()
     {
         animator.SetBool("New Bool", false);
+        animationDone = true;
         pencil.enabled = true;
         enemies = null;
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
