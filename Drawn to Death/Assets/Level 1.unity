@@ -24551,7 +24551,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &994535791
 Transform:
   m_ObjectHideFlags: 0
@@ -55858,6 +55858,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1955872478}
   m_PrefabAsset: {fileID: 0}
+--- !u!212 &1969237315 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3034122452498883460, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+    type: 3}
+  m_PrefabInstance: {fileID: 2462823223096369254}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1973839275
 GameObject:
   m_ObjectHideFlags: 0
@@ -56808,6 +56814,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2454788199460616576, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2454788199460616577, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
       propertyPath: m_RootOrder
@@ -56865,6 +56876,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
+      propertyPath: pencil
+      value: 
+      objectReference: {fileID: 1969237315}
+    - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
       propertyPath: dashBar
       value: 
       objectReference: {fileID: 766862908}
@@ -56873,10 +56889,30 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 1468501011}
+    - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: recallEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: recallCooldown
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2454788199460616583, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3966632181802528408, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163747329736801976, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5085683033935389857, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
