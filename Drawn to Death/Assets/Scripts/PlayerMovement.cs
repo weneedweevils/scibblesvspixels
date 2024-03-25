@@ -55,7 +55,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     //camera 
     private Camera cam;
     private float targetZoom;
-    private float zoomFactor = 3;
+    private float zoomFactor = 0.5f;
     private static float noZoom;
     private bool animationDone = true;
 
