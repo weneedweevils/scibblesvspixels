@@ -46,9 +46,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private SpriteRenderer sprite;
 
     //Recall
-    public float recallCooldown;
-    public float reacallTimer = 0f;
-    private bool recalled = false;
+    private float recallDuration = 115f/60f;
+    [SerializeField] private SpriteRenderer pencil;
+    private GameObject[] enemies;
+    private CooldownTimer recallTimer;
+   
+
 
     //Physics info
     private Vector2 velocity, acceleration;
@@ -73,22 +76,23 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Start is called before the first frame update
     void Start()
     {
-        
         rbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         health = maxHealth;
         invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
+        recallTimer = new CooldownTimer(0f, recallDuration);
         dashCooldownBar = new CooldownBarBehaviour(dashBar, dashCooldown, Color.red, Color.green);
     }
 
     // Update is called once per frame
     void Update()
     {
-       
-            
-      
+
+
+        recallTimer.Update();
         invincibilityTimer.Update();
+
         if (!inFreezeDialogue() && !timelinePlaying) // Disable movement if in dialogue/cutscene where we don't want movement
         {
             //Determine acceleration
@@ -101,6 +105,20 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             acceleration.y = 0;
         }
 
+        // disable movement if player is recalling
+        if (!recallTimer.IsActive()) 
+        {
+            //Determine acceleration
+            acceleration.x = ((Input.GetKey(left) ? -1 : 0) + (Input.GetKey(right) ? 1 : 0)) * accelerationCoefficient;
+            acceleration.y = ((Input.GetKey(down) ? -1 : 0) + (Input.GetKey(up) ? 1 : 0)) * accelerationCoefficient;
+        }
+        else
+        {
+            acceleration.x = 0;
+            acceleration.y = 0;
+        }
+
+
         //Calculate velocity
         velocity.x = VelocityCalc(acceleration.x, velocity.x, speedModifier);
         velocity.y = VelocityCalc(acceleration.y, velocity.y, speedModifier);
@@ -111,14 +129,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             //Check if dash was activated
             if (!dashed && Input.GetKey(dash))
             {
-                Debug.Log("Dashing");
+               Debug.Log("Dashing");
                 dashed = true;
                 velocity += velocity.normalized * dashBoost;
             }
             //Dash cooldown
             else if (dashed)
             {
-                dashtimer += Time.deltaTime;
+               dashtimer += Time.deltaTime;
                 dashCooldownBar.SetBar(dashtimer);
                 if (dashtimer >= dashCooldown)
                 {
@@ -128,22 +146,16 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             }
         }
 
-        
-        if(!recalled && Input.GetKey(recall)){
-            Debug.Log("Recalling");
-            recalled = true;
+        // Recall Ability
+        if(recallTimer.IsUseable() && Input.GetKey(recall)){
+            recallTimer.StartTimer();
+            pencil.enabled = false;
+            StopMovement();
             animator.SetBool("New Bool", true);
-            //StartCoroutine(Recall());
         }
-        else if(recalled){
-            reacallTimer += Time.deltaTime;
-            if(reacallTimer >= recallCooldown){ 
-                //animator.SetBool("New Bool", false);
-                recalled = false;
-                reacallTimer = 0f;
-            }
-        }
-
+    
+         
+ 
         
 
        
@@ -247,15 +259,25 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         healthBar.SetHealth(health, maxHealth);
     }
 
-    // Function to recall oodles that are on your team
-    // public IEnumerator Recall()
-    // {
-    //     animator.SetBool("New Bool", true);
-    //     yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f );
-    //     animator.SetBool("New Bool", false);
-    //     Debug.Log("Done Recalling");
-        
-    // }
+ 
+    // Teleport function which is called as an animation event in g'liches recall animation
+    public void teleport()
+    {
+        animator.SetBool("New Bool", false);
+        pencil.enabled = true;
+        enemies = null;
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        Debug.Log(enemies.Length);
+        foreach( GameObject enemy in enemies) {
+            EnemyAI enemyai = enemy.GetComponent<EnemyAI>();
+            if (enemyai.team == Team.player)
+            {
+                enemy.transform.position = transform.position;
+            }
+        }
+
+    }
+      
 
     // Dialogue trigger
     private void OnTriggerStay2D(Collider2D collision)
