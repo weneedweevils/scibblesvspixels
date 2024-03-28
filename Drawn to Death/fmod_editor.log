@@ -3,10 +3,10 @@
 [LOG] SystemI::init                            : Initialize version=20220 (139317), maxchannels=256, flags=0x00020000
 [LOG] SystemI::setOutputInternal               : Setting output to 'FMOD Core Audio Output'
 [LOG] OutputCoreAudio::init                    : Output running 2 channels at 48000Hz sample rate.
-[LOG] OutputCoreAudio::init                    : Maximum hardware read size: 480 samples, Software buffer size: 512 samples, Number of software buffers: 4.
+[LOG] OutputCoreAudio::init                    : Maximum hardware read size: 512 samples, Software buffer size: 512 samples, Number of software buffers: 4.
 [LOG] Thread::initThread                       : Init FMOD stream thread. Affinity: 0x4000000000000003, Priority: 0xFFFF7FFB, Stack Size: 98304, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Affinity: 0x4000000000000001, Priority: 0xFFFF7FFA, Stack Size: 81920, Semaphore: Yes, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 0x7ff6f03ce408 isAsync 0 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 0x7fc3b3ef1008 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Affinity: 0x4000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
@@ -18,6 +18,1209 @@
 [LOG] Manager::readBank                        : fileversion = 142, compatVersion = 140 (oldest = 44, newest = 142)
 [LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
 [LOG] Manager::readBank                        : fileversion = 142, compatVersion = 140 (oldest = 44, newest = 142)
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 221856
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 13696
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 0x313c8593c
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 0x1682dbc24
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 0x1682dbce2
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 0x1682dbd15
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 0x1682dbdb4
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0x7fc3b2d8bff8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='GLichWalkE1', format=5, channels=1, frequency=48000, lengthbytes=1888, lengthpcm=24000, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.999969.
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3a8809308, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3a88098f8, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3a8809308
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3a8809c48, queue head = 0x7fc3b1bb71b8, queue count = 1
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3a88095d0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 7218
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Beep Boops', format=5, channels=2, frequency=48000, lengthbytes=631520, lengthpcm=2532909, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.164001.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3a8809308
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3a88098f8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3a88098c0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 21654
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Spoopy Space Ghost', format=5, channels=2, frequency=48000, lengthbytes=481120, lengthpcm=1926590, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.264557.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3a88098f8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3a8809c48
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3a8809f10
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 14436
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Drum Synth Kit', format=5, channels=2, frequency=48000, lengthbytes=178656, lengthpcm=1748244, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.854675.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3a8809c48
+[LOG] SoundI::release                          : Jail_Spoopy Space Ghost (0x7fc3b1bb65e8)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3b1bb51c8)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3b1bb5358)
+[LOG] SoundI::release                          : Jail_Beep Boops (0x7fc3b1bca1f8)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3b43a1688)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3b43a1f48)
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 221856
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 13696
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 0x313c8593c
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 0x1682dbc24
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 0x1682dbce2
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 0x1682dbd15
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 0x1682dbdb4
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0x7fc3b2d84b68
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='GlichHurt4', format=5, channels=2, frequency=48000, lengthbytes=7584, lengthpcm=25203, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.999969.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 221856
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 13696
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 0x313c8593c
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 0x1682dbc24
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 0x1682dbce2
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 0x1682dbd15
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 0x1682dbdb4
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0x7fc3b2d84b68
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='GlichHurt1', format=5, channels=1, frequency=48000, lengthbytes=7136, lengthpcm=41050, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.999969.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 221856
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 13696
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 0x313c8593c
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 0x1682dbc24
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 0x1682dbce2
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 0x1682dbd15
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 0x1682dbdb4
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0x7fc3b2d84b68
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='GlichHurt5', format=5, channels=2, frequency=48000, lengthbytes=9440, lengthpcm=28338, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.999969.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 221856
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 13696
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 0x313c8593c
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 0x1682dbc24
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 0x1682dbce2
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 0x1682dbd15
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 0x1682dbdb4
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0x7fc3b2d84b68
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='GlichHurt2', format=5, channels=2, frequency=48000, lengthbytes=3936, lengthpcm=11956, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.999969.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 221856
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 13696
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 0x313c8593c
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 0x1682dbc24
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 0x1682dbce2
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 0x1682dbd15
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 0x1682dbdb4
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0x7fc3b2d84b68
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='GlichHurt3', format=5, channels=2, frequency=48000, lengthbytes=3200, lengthpcm=9298, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.986145.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 221856
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 13696
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 0x313c8593c
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 0x1682dbc24
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 0x1682dbce2
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 0x1682dbd15
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 0x1682dbdb4
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0x7fc3b2d92ed8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='CrabAttack2', format=5, channels=2, frequency=48000, lengthbytes=3232, lengthpcm=14314, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.893341.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 221856
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 13696
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 0x313c8593c
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 0x1682dbc24
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 0x1682dbce2
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 0x1682dbd15
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 0x1682dbdb4
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0x7fc3b2d92ed8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='CrabAttack1', format=5, channels=2, frequency=48000, lengthbytes=3808, lengthpcm=16476, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.999969.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 221856
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 13696
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 0x313c8593c
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 0x1682dbc24
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 0x1682dbce2
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 0x1682dbd15
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 0x1682dbdb4
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0x7fc3b2d92ed8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='CrabAttack4', format=5, channels=2, frequency=48000, lengthbytes=9120, lengthpcm=27673, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.999969.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 221856
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 13696
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 0x313c8593c
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 0x1682dbc24
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 0x1682dbce2
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 0x1682dbd15
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 0x1682dbdb4
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0x7fc3b2d92ed8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='CrabAttack3', format=5, channels=2, frequency=48000, lengthbytes=4768, lengthpcm=19343, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.999969.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 221856
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 13696
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 0x313c8593c
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 0x1682dbc24
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 0x1682dbce2
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 0x1682dbd15
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 0x1682dbdb4
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0x7fc3e7f61318
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='CrabDeath5', format=5, channels=2, frequency=48000, lengthbytes=12096, lengthpcm=34389, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.999969.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 221856
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 13696
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 0x313c8593c
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 0x1682dbc24
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 0x1682dbce2
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 0x1682dbd15
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 0x1682dbdb4
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0x7fc3e7f61318
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='CrabDeath2', format=5, channels=2, frequency=48000, lengthbytes=7456, lengthpcm=28478, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.999969.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 221856
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 13696
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 0x313c8593c
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 0x1682dbc24
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 0x1682dbce2
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 0x1682dbd15
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 0x1682dbdb4
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0x7fc3e7f61318
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='CrabDeath4', format=5, channels=2, frequency=48000, lengthbytes=3104, lengthpcm=12895, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.999969.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 221856
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 13696
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 0x313c8593c
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 0x1682dbc24
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 0x1682dbce2
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 0x1682dbd15
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 0x1682dbdb4
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0x7fc3e7f61318
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='CrabDeath1', format=5, channels=2, frequency=48000, lengthbytes=7936, lengthpcm=30599, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.991913.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 221856
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 13696
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 0x313c8593c
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 0x1682dbc24
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 0x1682dbce2
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 0x1682dbd15
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 0x1682dbdb4
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0x7fc3e7f61318
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='CrabDeath3', format=5, channels=2, frequency=48000, lengthbytes=6880, lengthpcm=29553, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.932343.
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3b2ba14b8, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3b2ba1948, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2ba14b8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2ba1780
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3b2ba1dd8, queue head = 0x7fc3b1bb71b8, queue count = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 21635
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Lead Synth (Background)', format=5, channels=2, frequency=48000, lengthbytes=241632, lengthpcm=2104919, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.175018.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2ba14b8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2ba1948
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2ba1c10
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Beep Boops', format=5, channels=2, frequency=48000, lengthbytes=631520, lengthpcm=2532909, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.164001.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2ba1948
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2ba1dd8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2b709e0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Drum Synth Kit', format=5, channels=2, frequency=48000, lengthbytes=178656, lengthpcm=1748244, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.854675.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2ba1dd8
+[LOG] SoundI::release                          : Jail_Drum Synth Kit (0x7fc3a8809c48)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3b437b6d8)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3b437b868)
+[LOG] SoundI::release                          : Jail_Beep Boops (0x7fc3a8809308)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3b2d8ab38)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3b4386758)
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3b2b70358, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3b2b706a8, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2b70358
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3b2b71a28, queue head = 0x7fc3b1bb71b8, queue count = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3f001bfa0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 21635
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSound                     :     filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3b2b71eb8, queue head = 0x7fc3b1bb71b8, queue count = 2
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Lead Synth (Background)', format=5, channels=2, frequency=48000, lengthbytes=241632, lengthpcm=2104919, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.175018.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2b70358
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2b706a8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2b71860
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Beep Boops', format=5, channels=2, frequency=48000, lengthbytes=631520, lengthpcm=2532909, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.164001.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2b706a8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2b71a28
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2b71cf0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Drum Synth Kit', format=5, channels=2, frequency=48000, lengthbytes=178656, lengthpcm=1748244, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.854675.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2b71a28
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2b71eb8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2b72180
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Spoopy Space Ghost', format=5, channels=2, frequency=48000, lengthbytes=481120, lengthpcm=1926590, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.264557.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2b71eb8
+[LOG] SoundI::release                          : Jail_Drum Synth Kit (0x7fc3b2ba1dd8)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3f0182248)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3f0180b98)
+[LOG] SoundI::release                          : Jail_Beep Boops (0x7fc3b2ba1948)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3f0181858)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3f01819e8)
+[LOG] SoundI::release                          : Jail_Lead Synth (Background) (0x7fc3b2ba14b8)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3b437cca8)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3b43844e8)
+[LOG] SoundI::release                          : Jail_Spoopy Space Ghost (0x7fc3a88098f8)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3b2de7c18)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3b436d968)
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3a8812798, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3a8812ae8, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3a8812798
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b4618210
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 21635
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3b2b60498, queue head = 0x7fc3b1bb71b8, queue count = 1
+[LOG] SystemI::createSound                     :     filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3b2b69808, queue head = 0x7fc3b1bb71b8, queue count = 2
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Lead Synth (Background)', format=5, channels=2, frequency=48000, lengthbytes=241632, lengthpcm=2104919, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.175018.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3a8812798
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3a8812ae8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b46093b0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Beep Boops', format=5, channels=2, frequency=48000, lengthbytes=631520, lengthpcm=2532909, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.164001.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3a8812ae8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2b60498
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2b6eae0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Drum Synth Kit', format=5, channels=2, frequency=48000, lengthbytes=178656, lengthpcm=1748244, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.854675.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2b60498
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2b69808
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2b61230
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Spoopy Space Ghost', format=5, channels=2, frequency=48000, lengthbytes=481120, lengthpcm=1926590, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.264557.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2b69808
+[LOG] SoundI::release                          : Jail_Spoopy Space Ghost (0x7fc3b2b71eb8)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3f0147e98)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3f01214a8)
+[LOG] SoundI::release                          : Jail_Drum Synth Kit (0x7fc3b2b71a28)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3f014d4a8)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3f014d708)
+[LOG] SoundI::release                          : Jail_Beep Boops (0x7fc3b2b706a8)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3f014e798)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3f014e928)
+[LOG] SoundI::release                          : Jail_Lead Synth (Background) (0x7fc3b2b70358)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3f014dee8)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3f014e078)
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3f0197d78, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3f0197d78
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3f0198348, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3f0198040
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 21635
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSound                     :     filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3f01987d8, queue head = 0x7fc3b1bb71b8, queue count = 1
+[LOG] SystemI::createSound                     :     filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3f0198c68, queue head = 0x7fc3b1bb71b8, queue count = 2
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Lead Synth (Background)', format=5, channels=2, frequency=48000, lengthbytes=241632, lengthpcm=2104919, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.175018.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3f0197d78
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3f0198348
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3f0198610
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Beep Boops', format=5, channels=2, frequency=48000, lengthbytes=631520, lengthpcm=2532909, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.164001.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3f0198348
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3f01987d8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3f0198aa0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Drum Synth Kit', format=5, channels=2, frequency=48000, lengthbytes=178656, lengthpcm=1748244, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.854675.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3f01987d8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3f0198c68
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3f0198f30
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Spoopy Space Ghost', format=5, channels=2, frequency=48000, lengthbytes=481120, lengthpcm=1926590, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.264557.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3f0198c68
+[LOG] SoundI::release                          : Jail_Spoopy Space Ghost (0x7fc3b2b69808)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3f01911f8)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3f0191458)
+[LOG] SoundI::release                          : Jail_Drum Synth Kit (0x7fc3b2b60498)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3f0190808)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3f0190998)
+[LOG] SoundI::release                          : Jail_Beep Boops (0x7fc3a8812ae8)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3f018adb8)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3f018af48)
+[LOG] SoundI::release                          : Jail_Lead Synth (Background) (0x7fc3a8812798)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3f018b6a8)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3f018b838)
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3a8815858, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3a8815de8, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3a8815858
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3a8815b20
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3a8816278, queue head = 0x7fc3b1bb71b8, queue count = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 21635
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSound                     :     filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3b2b59ad8, queue head = 0x7fc3b1bb71b8, queue count = 2
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Lead Synth (Background)', format=5, channels=2, frequency=48000, lengthbytes=241632, lengthpcm=2104919, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.175018.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3a8815858
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3a8815de8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3a88160b0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Beep Boops', format=5, channels=2, frequency=48000, lengthbytes=631520, lengthpcm=2532909, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.164001.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3a8815de8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3a8816278
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3a8816540
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Drum Synth Kit', format=5, channels=2, frequency=48000, lengthbytes=178656, lengthpcm=1748244, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.854675.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3a8816278
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2b59ad8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2b58a00
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Spoopy Space Ghost', format=5, channels=2, frequency=48000, lengthbytes=481120, lengthpcm=1926590, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.264557.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2b59ad8
+[LOG] SoundI::release                          : Jail_Spoopy Space Ghost (0x7fc3f0198c68)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3b2b5a008)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3b2b5a198)
+[LOG] SoundI::release                          : Jail_Drum Synth Kit (0x7fc3f01987d8)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3b2b99bc8)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3b2ba1738)
+[LOG] SoundI::release                          : Jail_Beep Boops (0x7fc3f0198348)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3b2b5e858)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3b2b5ebf8)
+[LOG] SoundI::release                          : Jail_Lead Synth (Background) (0x7fc3f0197d78)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3b2b6b078)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3b2b6b208)
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3b2b6cec8, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3b2b6b078, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2b6cec8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3b2b6b3c8, queue head = 0x7fc3b1bb71b8, queue count = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2b5fa20
+[LOG] SystemI::createSound                     :     filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 21635
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3b2ba1838, queue head = 0x7fc3b1bb71b8, queue count = 2
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Lead Synth (Background)', format=5, channels=2, frequency=48000, lengthbytes=241632, lengthpcm=2104919, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.175018.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2b6cec8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2b6b078
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2b64570
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Beep Boops', format=5, channels=2, frequency=48000, lengthbytes=631520, lengthpcm=2532909, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.164001.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2b6b078
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2b6b3c8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2ba1670
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Drum Synth Kit', format=5, channels=2, frequency=48000, lengthbytes=178656, lengthpcm=1748244, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.854675.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2b6b3c8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2ba1838
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2ba1b00
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Spoopy Space Ghost', format=5, channels=2, frequency=48000, lengthbytes=481120, lengthpcm=1926590, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.264557.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2ba1838
+[LOG] SoundI::release                          : Jail_Spoopy Space Ghost (0x7fc3b2b59ad8)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3f01ae958)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3f01aebb8)
+[LOG] SoundI::release                          : Jail_Drum Synth Kit (0x7fc3a8816278)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3f01ade98)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3f01ae0f8)
+[LOG] SoundI::release                          : Jail_Beep Boops (0x7fc3a8815de8)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3f01ad5e8)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3f01ad778)
+[LOG] SoundI::release                          : Jail_Lead Synth (Background) (0x7fc3a8815858)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3f01acd38)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3f01acec8)
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3f01d0908, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3f01d0908
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3f01d0bd0
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 21635
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3f01d0d98, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] SystemI::createSound                     :     filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3f01d12b8, queue head = 0x7fc3b1bb71b8, queue count = 1
+[LOG] SystemI::createSound                     :     filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3f01d1748, queue head = 0x7fc3b1bb71b8, queue count = 2
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Lead Synth (Background)', format=5, channels=2, frequency=48000, lengthbytes=241632, lengthpcm=2104919, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.175018.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3f01d0908
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3f01d0d98
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3f01d1060
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Beep Boops', format=5, channels=2, frequency=48000, lengthbytes=631520, lengthpcm=2532909, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.164001.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3f01d0d98
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3f01d12b8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3f01d1580
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Drum Synth Kit', format=5, channels=2, frequency=48000, lengthbytes=178656, lengthpcm=1748244, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.854675.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3f01d12b8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3f01d1748
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3f01d1a10
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Spoopy Space Ghost', format=5, channels=2, frequency=48000, lengthbytes=481120, lengthpcm=1926590, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.264557.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3f01d1748
+[LOG] SoundI::release                          : Jail_Spoopy Space Ghost (0x7fc3b2ba1838)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3f01bc638)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3f01bc898)
+[LOG] SoundI::release                          : Jail_Drum Synth Kit (0x7fc3b2b6b3c8)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3f01bf5f8)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3f01bf858)
+[LOG] SoundI::release                          : Jail_Beep Boops (0x7fc3b2b6b078)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3f01bec08)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3f01bed98)
+[LOG] SoundI::release                          : Jail_Lead Synth (Background) (0x7fc3b2b6cec8)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3f01be218)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3f01be3a8)
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3b2b41378, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2b41378
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3b2b4e238, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] SystemI::createSound                     :     filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3b2ba18a8, queue head = 0x7fc3b1bb71b8, queue count = 1
+[LOG] SystemI::createSound                     :     filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3b2b401c8, queue head = 0x7fc3b1bb71b8, queue count = 2
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2b6d930
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 21635
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Lead Synth (Background)', format=5, channels=2, frequency=48000, lengthbytes=241632, lengthpcm=2104919, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.175018.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2b41378
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2b4e238
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2b4e500
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Beep Boops', format=5, channels=2, frequency=48000, lengthbytes=631520, lengthpcm=2532909, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.164001.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2b4e238
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2ba18a8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2b591d0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Drum Synth Kit', format=5, channels=2, frequency=48000, lengthbytes=178656, lengthpcm=1748244, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.854675.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2ba18a8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2b401c8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2b40490
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Spoopy Space Ghost', format=5, channels=2, frequency=48000, lengthbytes=481120, lengthpcm=1926590, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.264557.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2b401c8
+[LOG] SoundI::release                          : Jail_Spoopy Space Ghost (0x7fc3f01d1748)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3a88130a8)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3a8807578)
+[LOG] SoundI::release                          : Jail_Drum Synth Kit (0x7fc3f01d12b8)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3a8807f88)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3a88081e8)
+[LOG] SoundI::release                          : Jail_Beep Boops (0x7fc3f01d0d98)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3a881a398)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3a8817c68)
+[LOG] SoundI::release                          : Jail_Lead Synth (Background) (0x7fc3f01d0908)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3a8816558)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3a88198e8)
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3b2b564a8, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2b564a8
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2b469a0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 21635
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3b2b45bf8, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] SystemI::createSound                     :     filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3b2b47fe8, queue head = 0x7fc3b1bb71b8, queue count = 1
+[LOG] SystemI::createSound                     :     filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3b2b40728, queue head = 0x7fc3b1bb71b8, queue count = 2
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Lead Synth (Background)', format=5, channels=2, frequency=48000, lengthbytes=241632, lengthpcm=2104919, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.175018.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2b564a8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2b45bf8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2b4a580
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Beep Boops', format=5, channels=2, frequency=48000, lengthbytes=631520, lengthpcm=2532909, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.164001.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2b45bf8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2b47fe8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2b417f0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Drum Synth Kit', format=5, channels=2, frequency=48000, lengthbytes=178656, lengthpcm=1748244, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.854675.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2b47fe8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2b40728
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2b5e260
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Spoopy Space Ghost', format=5, channels=2, frequency=48000, lengthbytes=481120, lengthpcm=1926590, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.264557.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2b40728
+[LOG] SoundI::release                          : Jail_Spoopy Space Ghost (0x7fc3b2b401c8)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3f01e0db8)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3f01e1018)
+[LOG] SoundI::release                          : Jail_Drum Synth Kit (0x7fc3b2ba18a8)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3f01e02f8)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3f01e0558)
+[LOG] SoundI::release                          : Jail_Beep Boops (0x7fc3b2b4e238)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3f01dcef8)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3f01dfa98)
+[LOG] SoundI::release                          : Jail_Lead Synth (Background) (0x7fc3b2b41378)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3f01d8d98)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3f01dd548)
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3a881d848, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3a881d848
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3a881db98, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3a881d430
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 21635
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSound                     :     filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3a881e028, queue head = 0x7fc3b1bb71b8, queue count = 1
+[LOG] SystemI::createSound                     :     filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3a8807c08, queue head = 0x7fc3b1bb71b8, queue count = 2
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Lead Synth (Background)', format=5, channels=2, frequency=48000, lengthbytes=241632, lengthpcm=2104919, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.175018.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3a881d848
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3a881db98
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3a881de60
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Beep Boops', format=5, channels=2, frequency=48000, lengthbytes=631520, lengthpcm=2532909, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.164001.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3a881db98
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3a881e028
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3a881e2f0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Drum Synth Kit', format=5, channels=2, frequency=48000, lengthbytes=178656, lengthpcm=1748244, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.854675.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3a881e028
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3a8807c08
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3a881e5e0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Spoopy Space Ghost', format=5, channels=2, frequency=48000, lengthbytes=481120, lengthpcm=1926590, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.264557.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3a8807c08
+[LOG] SoundI::release                          : Jail_Spoopy Space Ghost (0x7fc3b2b40728)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3f01e6318)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3f01e9e18)
+[LOG] SoundI::release                          : Jail_Drum Synth Kit (0x7fc3b2b47fe8)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3f01e9618)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3f01e9878)
+[LOG] SoundI::release                          : Jail_Beep Boops (0x7fc3b2b45bf8)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3f01e8c28)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3f01e8db8)
+[LOG] SoundI::release                          : Jail_Lead Synth (Background) (0x7fc3b2b564a8)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3f01e8378)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3f01e8508)
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3b2b27c48, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2b27c48
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3b2b27f98, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2b39f90
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 21635
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSound                     :     filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3f01feda8, queue head = 0x7fc3b1bb71b8, queue count = 1
+[LOG] SystemI::createSound                     :     filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3a89061f8, queue head = 0x7fc3b1bb71b8, queue count = 2
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Lead Synth (Background)', format=5, channels=2, frequency=48000, lengthbytes=241632, lengthpcm=2104919, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.175018.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2b27c48
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b2b27f98
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3b2b28260
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Beep Boops', format=5, channels=2, frequency=48000, lengthbytes=631520, lengthpcm=2532909, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.164001.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b2b27f98
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3f01feda8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3a8906030
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Drum Synth Kit', format=5, channels=2, frequency=48000, lengthbytes=178656, lengthpcm=1748244, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.854675.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3f01feda8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3a89061f8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3a89064c0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 28872
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Spoopy Space Ghost', format=5, channels=2, frequency=48000, lengthbytes=481120, lengthpcm=1926590, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.264557.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3a89061f8
+[LOG] SoundI::release                          : Jail_Spoopy Space Ghost (0x7fc3a8807c08)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3b2b4fe58)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3b2b4ffe8)
+[LOG] SoundI::release                          : Jail_Drum Synth Kit (0x7fc3a881e028)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3b2b3f568)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3b2b3d6a8)
+[LOG] SoundI::release                          : Jail_Beep Boops (0x7fc3a881db98)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3b2b4e258)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3b2b3e098)
+[LOG] SoundI::release                          : Jail_Lead Synth (Background) (0x7fc3a881d848)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3b2b44578)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3b2b40ab8)
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3b4625928, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3b4625928
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSound                     : filename = Assets/FMODBanks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3a88180c0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Beep Boops', format=5, channels=2, frequency=48000, lengthbytes=631520, lengthpcm=2532909, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.164001.
+[LOG] SystemI::createSound                     :     FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3a8814a78, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3b4625928
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3a8814a78
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMODBanks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2303840
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 7904
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0x7fc3a88148f0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Jail_Spoopy Space Ghost', format=5, channels=2, frequency=48000, lengthbytes=481120, lengthpcm=1926590, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.264557.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3a8814a78
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 0x7fc3a88108d8, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3a88108d8
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3a88151c8, queue head = 0x7fc3b1bb71b8, queue count = 0
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3a88140b8, queue head = 0x7fc3b1bb71b8, queue count = 1
+[LOG] AsyncThread::add                         :     add sound to async queue : soundi = 0x7fc3a8818208, queue head = 0x7fc3b1bb71b8, queue count = 2
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3b4625928)
+[LOG] SoundI::release                          :         Jail_Beep Boops (0x7fc3b619ee38)
+[LOG] SoundI::release                          :         Jail_Beep Boops (0x7fc3f0180798)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3a8814a78)
+[LOG] SoundI::release                          :         Jail_Spoopy Space Ghost (0x7fc3b287b728)
+[LOG] SoundI::release                          :         Jail_Spoopy Space Ghost (0x7fc3b287b8b8)
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3a88108d8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3a88151c8
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3a88151c8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3a88140b8
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3a88140b8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0x7fc3a8818208
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0x7fc3a8818208
+[LOG] SoundI::release                          : Jail_Spoopy Space Ghost (0x7fc3a89061f8)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3a8811558)
+[LOG] SoundI::release                          :     Jail_Spoopy Space Ghost (0x7fc3a8818208)
+[LOG] SoundI::release                          : Jail_Drum Synth Kit (0x7fc3f01feda8)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3a8812dd8)
+[LOG] SoundI::release                          :     Jail_Drum Synth Kit (0x7fc3a88108d8)
+[LOG] SoundI::release                          : Jail_Beep Boops (0x7fc3b2b27f98)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3a8813f28)
+[LOG] SoundI::release                          :     Jail_Beep Boops (0x7fc3a88140b8)
+[LOG] SoundI::release                          : Jail_Lead Synth (Background) (0x7fc3b2b27c48)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3a8815038)
+[LOG] SoundI::release                          :     Jail_Lead Synth (Background) (0x7fc3a88151c8)
+[LOG] SoundI::release                          :  (0x7fc3b2b7a6b8)
+[LOG] SoundI::release                          :     GlichHurt3 (0x7fc3b2b7a828)
+[LOG] SoundI::release                          :  (0x7fc3b2b9e308)
+[LOG] SoundI::release                          :     GlichHurt5 (0x7fc3b2b99088)
+[LOG] SoundI::release                          :  (0x7fc3b2b993a8)
+[LOG] SoundI::release                          :     GlichHurt2 (0x7fc3b2b78a78)
+[LOG] SoundI::release                          :  (0x7fc3b2b9d048)
+[LOG] SoundI::release                          :     GlichHurt1 (0x7fc3b2b9d1b8)
+[LOG] SoundI::release                          :  (0x7fc3b1be5548)
+[LOG] SoundI::release                          :     GlichHurt4 (0x7fc3b1bb63b8)
+[LOG] SoundI::release                          :  (0x7fc3b4308d78)
+[LOG] SoundI::release                          :     CrabAttack4 (0x7fc3b4308ee8)
+[LOG] SoundI::release                          :  (0x7fc3b4307328)
+[LOG] SoundI::release                          :     CrabAttack2 (0x7fc3b4307498)
+[LOG] SoundI::release                          :  (0x7fc3b43733c8)
+[LOG] SoundI::release                          :     CrabAttack3 (0x7fc3b4373538)
+[LOG] SoundI::release                          :  (0x7fc3b436c1d8)
+[LOG] SoundI::release                          :     CrabAttack1 (0x7fc3b4308a58)
+[LOG] SoundI::release                          :  (0x7fc3e7f62658)
+[LOG] SoundI::release                          :     CrabDeath3 (0x7fc3e7f627c8)
+[LOG] SoundI::release                          :  (0x7fc3e7f618e8)
+[LOG] SoundI::release                          :     CrabDeath5 (0x7fc3e7f61a58)
+[LOG] SoundI::release                          :  (0x7fc3e7f5ee88)
+[LOG] SoundI::release                          :     CrabDeath4 (0x7fc3e7f63b18)
+[LOG] SoundI::release                          :  (0x7fc3e7f621c8)
+[LOG] SoundI::release                          :     CrabDeath1 (0x7fc3e7f62338)
+[LOG] SoundI::release                          :  (0x7fc3e7f5ed18)
+[LOG] SoundI::release                          :     CrabDeath2 (0x7fc3e7f637f8)
+[LOG] SoundI::release                          :  (0x7fc3b2d8ad48)
+[LOG] SoundI::release                          :     GLichWalkE1 (0x7fc3f0116448)
+[LOG] SoundI::release                          :  (0x7fc3b43a24b8)
+[LOG] SoundI::release                          :     EraserWoosh (0x7fc3b43a2628)
+[LOG] SoundI::release                          :  (0x7fc3b1bb6998)
+[LOG] SoundI::release                          :     EraserHit (0x7fc3b1bb6b08)
+[LOG] SoundI::release                          :  (0x7fc3b1bb5f78)
+[LOG] SoundI::release                          :     CrabWalk2 (0x7fc3b1bb60e8)
+[LOG] Thread::callback                         : FMOD Studio update thread finished.
+[LOG] Thread::callback                         : FMOD Studio bank load thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
+[LOG] Thread::callback                         : FMOD Studio sample load thread finished.
+[LOG] LiveUpdate::release                      : 
+[LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
+[LOG] Thread::callback                         : FMOD stream thread finished.
+[LOG] Thread::callback                         : FMOD mixer thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
+[LOG] SystemI::close                           : Closed.
 [LOG] Thread::callback                         : FMOD Studio bank load thread finished.
 [LOG] Thread::callback                         : FMOD Studio sample load thread finished.
 [LOG] LiveUpdate::release                      : 
@@ -25,3 +1228,5 @@
 [LOG] Thread::callback                         : FMOD stream thread finished.
 [LOG] Thread::callback                         : FMOD mixer thread finished.
 [LOG] SystemI::close                           : Closed.
+[LOG] Thread::callback                         : FMOD nonblocking thread (0) finished.
+[LOG] Thread::callback                         : FMOD file thread finished.

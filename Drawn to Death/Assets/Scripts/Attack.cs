@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 
 public class Attack : MonoBehaviour
@@ -37,6 +38,8 @@ public class Attack : MonoBehaviour
     public float reviveCooldown = 0f;
     public float targetDistance = 100f;
     public CooldownTimer reviveTimer;
+    public Slider reviveBar;
+    private CooldownBarBehaviour reviveCooldownBar;
     private float reviveDuration = 69f / 60f;
 
          /* ----- Lifesteal ----- */
@@ -48,7 +51,9 @@ public class Attack : MonoBehaviour
     public float targetDistanceLifesteal = 150f;
     public float lifestealDamage = 10f;
     public float lifestealDuration = 5f;
+    public Slider lifestealBar;
     private CooldownTimer lifestealTimer;
+    private CooldownBarBehaviour lifestealCooldownBar;
 
     //Misc
     private List<EnemyAI> allies = new List<EnemyAI>();
@@ -61,8 +66,11 @@ public class Attack : MonoBehaviour
     //Animation
     private Animator animator;
 
-    // FMOD sound event path
-    public string sfx;
+    // FMOD sound event paths
+    public string eraserSfx;
+    public string reviveSfx;
+    // Condition for playing hit version of eraserSfx
+    public int isHit;
 
     // Music manager script
     public GameObject musicmanager;
@@ -80,13 +88,16 @@ public class Attack : MonoBehaviour
         lifestealImage = player.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>();
         lifestealImage.transform.localScale *= lifestealRadius * 10.45f;
 
-        //Setup Timers
+        //Setup Timers and cooldown bars
         reviveTimer = new CooldownTimer(reviveCooldown, reviveDuration);
         attackTimer = new CooldownTimer(attackDuration*0.35f, attackDuration*0.65f);
         lifestealTimer = new CooldownTimer(lifestealCooldown, lifestealDuration);
+        reviveCooldownBar = new CooldownBarBehaviour(reviveBar, reviveCooldown, Color.red, Color.green);
+        lifestealCooldownBar = new CooldownBarBehaviour(lifestealBar, lifestealCooldown, Color.red, Color.green);
 
         // Get a reference to the script that controls the FMOD event
         //eraserSFX = GetComponent<eraserSFX>;
+        isHit = 0;
 
         musicmanager = GameObject.Find("Music");
         musicscript = musicmanager.GetComponent<BasicMusicScript>();
@@ -125,8 +136,13 @@ public class Attack : MonoBehaviour
         //Attack
         if (attackTimer.IsUseable() && Input.GetKey(attackButton))
         {
-            // Play the FMOD event correlating to the attack
-            FMODUnity.RuntimeManager.PlayOneShot(sfx);
+
+            // FMODUnity.RuntimeManager.PlayOneShot(eraserSfx, isHit);
+            var instance = FMODUnity.RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToGUID(eraserSfx));
+            instance.setParameterByName("IsHit", isHit);
+            instance.start();
+            instance.release();
+            isHit = 0;
 
             animator.SetBool("attacking", true);
             attackTimer.StartTimer();
@@ -170,10 +186,15 @@ public class Attack : MonoBehaviour
                     {
                         allies.Add(enemy);
                         reviveTimer.StartTimer();
+                        FMODUnity.RuntimeManager.PlayOneShot(reviveSfx);
                     }
                 }
             }
             reviveImage.enabled = false;
+        }
+        if (reviveTimer.IsOnCooldown())
+        {
+            reviveCooldownBar.SetBar(reviveTimer.timer);
         }
     }
 
@@ -182,7 +203,6 @@ public class Attack : MonoBehaviour
         //Lifesteal Timer
         lifestealTimer.Update();
 
-        //Freeze Movement while reviving
         if (lifestealTimer.IsUseable() && Input.GetKeyDown(lifestealButton))
         {
             lifestealImage.enabled = true;
@@ -194,14 +214,14 @@ public class Attack : MonoBehaviour
             foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
             {
                 EnemyAI enemy = obj.GetComponent<EnemyAI>();
-                LineRenderer line = enemy.GetComponent<LineRenderer>();
+                //LineRenderer line = enemy.GetComponent<LineRenderer>();
                 //line.SetPosition(0, Vector3.zero);
                 //line.SetPosition(1, Vector3.zero);
+                enemy.lifestealing = false;
             }
 
         }
         if (lifestealTimer.IsActive()) {
-
             float dmg = lifestealDamage / lifestealDuration * Time.deltaTime;
 
             foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
@@ -214,6 +234,7 @@ public class Attack : MonoBehaviour
                     {
                         enemy.Damage(dmg, false);
                         player.GetComponent<PlayerMovement>().Heal(dmg / 2); // HEALS
+                        enemy.lifestealing = true;
                         //line.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, -1));
                         //line.SetPosition(1, new Vector3(enemy.transform.position.x, enemy.transform.position.y, -1));
                     }
@@ -221,16 +242,22 @@ public class Attack : MonoBehaviour
                     {
                         enemy.Damage(dmg, false);
                         player.GetComponent<PlayerMovement>().Heal(dmg); // HEALS
+                        enemy.lifestealing = true;
                         //line.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, -1));
                         //line.SetPosition(1, new Vector3(enemy.transform.position.x, enemy.transform.position.y, -1));
                     }
                 }
                 else
                 {
+                    enemy.lifestealing = false;
                     //line.SetPosition(0, Vector3.zero);
                     //line.SetPosition(1, Vector3.zero);
                 }
             }
+        }
+        if (lifestealTimer.IsOnCooldown())
+        {
+            lifestealCooldownBar.SetBar(lifestealTimer.timer);
         }
     }
 

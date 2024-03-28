@@ -51,7 +51,7 @@ public class EnemyAI : MonoBehaviour
     private float invincibilityDuration = 20f / 60f;
 
     //Animation and sprites
-    private SpriteRenderer doodleCrab;
+    public SpriteRenderer doodleCrab;
     private SpriteRenderer gem;
     private Animator animator;
     private float animationTimer = 0f;
@@ -71,6 +71,10 @@ public class EnemyAI : MonoBehaviour
     private Attack playerAttack;
     private GameObject musicmanager;
     private BasicMusicScript musicscript;
+    public bool slowed = false;
+    public bool lifestealing = false;
+    public CooldownTimer slowedTimer;
+    public float slowDuration;
 
     // Start is called before the first frame update
     void Start()
@@ -93,6 +97,7 @@ public class EnemyAI : MonoBehaviour
         //Create Timers
         invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
         invincibilityTimer2 = new CooldownTimer(3f, invincibilityDuration);
+        slowedTimer = new CooldownTimer(0.1f, slowDuration);
 
         //Start a repeating functon
         InvokeRepeating("CheckState", 0f, 0.5f); //Update the path every half second
@@ -176,10 +181,12 @@ public class EnemyAI : MonoBehaviour
         //Update Timers
         invincibilityTimer.Update();
         invincibilityTimer2.Update();
+        slowedTimer.Update();
 
         //Fix color after hurt
         if ( (invincibilityTimer.IsOnCooldown() && !invincibilityTimer2.IsActive()) || 
-             (invincibilityTimer2.IsOnCooldown() && !invincibilityTimer.IsActive()))
+             (invincibilityTimer2.IsOnCooldown() && !invincibilityTimer.IsActive()) ||
+             (!lifestealing && team == Team.player) )
         {
             doodleCrab.color = Color.white;
         }
@@ -188,6 +195,37 @@ public class EnemyAI : MonoBehaviour
         if (health <= 0 && state != State.dead && state != State.dying)
         {
             Kill(); // Ded
+        }
+
+        // Check if being lifestolen
+        if (lifestealing)
+        {
+            if (!slowed && team == Team.oddle) // Only slow enemy Oodles
+            {
+                speed /= 2;
+                slowed = true;
+            }
+            doodleCrab.color = Color.red;
+        }
+
+        // Start timer to end slow if not in lifesteal zone anymore but still slowed
+        if (!lifestealing && slowed && slowedTimer.IsUseable())
+        {
+            slowedTimer.StartTimer();
+        }
+
+        // Change color if slowed but not being lifestolen
+        if (slowedTimer.IsActive() && !lifestealing)
+        {
+            doodleCrab.color = Color.yellow;
+        }
+
+        // End slow if timer is done
+        if (slowedTimer.IsOnCooldown() && !lifestealing && slowed)
+        {
+            slowed = false;
+            speed *= 2;
+            doodleCrab.color = Color.white;
         }
 
         //State Manager
@@ -226,6 +264,7 @@ public class EnemyAI : MonoBehaviour
                 {
                     //dying Behaviour
                     animationTimer += Time.deltaTime;
+                    doodleCrab.color = Color.white;
                     if (animationTimer >= deathDuration)
                     {
                         animationTimer = 0f;
@@ -237,6 +276,7 @@ public class EnemyAI : MonoBehaviour
             case State.dead:
                 {
                     //dead Behaviour
+                    doodleCrab.color = Color.white;
                     if (team == Team.player)
                     {
                         Destroy(gameObject);
@@ -395,6 +435,13 @@ public class EnemyAI : MonoBehaviour
         animator.SetBool("attacking", false);
         animator.SetBool("chasing", false);
         animator.SetBool("dying", true);
+
+        // Remove slow if on at death
+        if (slowed)
+        {
+            slowed = false;
+            speed *= 2;
+        }
     }
 
     public bool Revive(float percentMaxHP = 1f, float percentDamage = 1f, float percentSpeed = 1f)
@@ -505,6 +552,7 @@ public class EnemyAI : MonoBehaviour
         if (collision.gameObject.tag == "Attack" && invincibilityTimer.IsUseable() && health > 0)
         {
             Attack playerAttack = collision.gameObject.GetComponent<Attack>();
+            
             if (playerAttack != null && playerAttack.attackTimer.IsActive() && team == Team.oddle && PathLength(true) < 13f)
             {
                 Vector2 direction = (rb.position - (Vector2)playerAttack.transform.position).normalized;
