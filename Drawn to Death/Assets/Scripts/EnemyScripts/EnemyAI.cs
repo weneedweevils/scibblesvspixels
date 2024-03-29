@@ -60,8 +60,9 @@ public abstract class EnemyAI : MonoBehaviour
     protected SpriteRenderer gem;
     protected Animator animator;
     protected float animationTimer = 0f;
-    protected float deathDuration = 25f/60f;
-    protected float reviveDuration = 69f/60f;
+    protected float attackDuration = 0f;
+    protected float deathDuration = 0f;
+    protected float reviveDuration = 0f;
 
     //Pathfinding
     protected Transform target;
@@ -70,6 +71,7 @@ public abstract class EnemyAI : MonoBehaviour
     protected bool targetIsPlayer = true;
     protected int currentWaypoint = 0;
     protected Rigidbody2D rb;
+    protected Vector2 pathOffset = new Vector2(0, 1.5f);
 
     //Misc
     protected GameObject player;
@@ -78,7 +80,7 @@ public abstract class EnemyAI : MonoBehaviour
     protected BasicMusicScript musicscript;
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         //Collect References
         animator = GetComponentInChildren<Animator>();
@@ -98,7 +100,7 @@ public abstract class EnemyAI : MonoBehaviour
         //Create Timers
         invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
         invincibilityTimer2 = new CooldownTimer(3f, invincibilityDuration);
-        attackTimer = new CooldownTimer(attackCooldown, 0f);
+        attackTimer = new CooldownTimer(attackCooldown, attackDuration);
         slowedTimer = new CooldownTimer(0.1f, slowDuration);
 
         //Start a repeating functon
@@ -114,10 +116,10 @@ public abstract class EnemyAI : MonoBehaviour
         }
 
         //Update path to Player
-        float inrange = Vector2.Distance(rb.position, player.transform.position);
+        float inrange = Vector2.Distance(rb.position, player.transform.position - (Vector3)pathOffset);
         if (playerSeeker.IsDone() && inrange < seekDistance)
         {
-            playerSeeker.StartPath(rb.position, player.transform.position, OnPlayerPathComplete);
+            playerSeeker.StartPath(rb.position, player.transform.position - (Vector3)pathOffset, OnPlayerPathComplete);
         }
 
         //Make an attempt at finding a new target
@@ -130,10 +132,10 @@ public abstract class EnemyAI : MonoBehaviour
         if (!targetIsPlayer)
         {
             //Update path to target
-            inrange = Vector2.Distance(rb.position, target.position);
+            inrange = Vector2.Distance(rb.position, target.position - (Vector3)pathOffset);
             if (targetSeeker.IsDone() && inrange < seekDistance)
             {
-                targetSeeker.StartPath(rb.position, target.position, OnTargetPathComplete);
+                targetSeeker.StartPath(rb.position, target.position - (Vector3)pathOffset, OnTargetPathComplete);
             }
         }
     }
@@ -177,7 +179,7 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     // Update is called once per frame
-    protected void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         //Update Timers
         invincibilityTimer.Update();
@@ -251,8 +253,6 @@ public abstract class EnemyAI : MonoBehaviour
                     }
                     else if (PathLength() <= attackDistance)
                     {
-                        animator.SetBool("chasing", false);
-                        animator.SetBool("attacking", true);
                         state = State.attack;
                     }
                     else
@@ -263,11 +263,9 @@ public abstract class EnemyAI : MonoBehaviour
                 }
             case State.attack:
                 {
-                    if (target != null && attackTimer.IsUseable())
-                    {
-                        Attack();
-                        attackTimer.StartTimer();
-                    }
+                    //Activate Attack behaviour
+                    Attack();
+
                     if (PathLength() > attackDistance)
                     {
                         animator.SetBool("attacking", false);
@@ -355,7 +353,7 @@ public abstract class EnemyAI : MonoBehaviour
         }
 
         //Calculate direction to travel to the next waypoint
-        Vector2 direction = ((Vector2)targetPath.vectorPath[currentWaypoint] - rb.position + 2 * Vector2.down).normalized;
+        Vector2 direction = ((Vector2)targetPath.vectorPath[currentWaypoint] - rb.position + pathOffset).normalized;
 
         //Apply a force in that direction
         Vector2 force = direction * speed * Time.deltaTime;
@@ -498,6 +496,12 @@ public abstract class EnemyAI : MonoBehaviour
     {
         target = transform;
         targetIsPlayer = isPlayer;
+    }
+
+    //Get current target
+    public Transform GetTarget()
+    {
+        return target;
     }
 
     //Estimate the length of the current path

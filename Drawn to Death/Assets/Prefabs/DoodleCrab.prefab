@@ -393,15 +393,14 @@ MonoBehaviour:
   playerSeeker: {fileID: 3692553448427789816}
   seekDistance: 100
   nextWaypointDistance: 100
-  deathSfx: 
-  attackSfx: 
+  deathSfx: event:/CrabDeath
+  attackSfx: event:/CrabAttack
   slowed: 0
   lifestealing: 0
   slowDuration: 0
   movementCollider: {fileID: 1406805573}
   healthBar: {fileID: 1826093999}
   enemygraphics: {fileID: 3692553448427789817}
-  attacksprite: {fileID: 0}
   hurtCol: {r: 0.9137255, g: 0.5647059, b: 0.5647059, a: 1}
   selfImage: {fileID: 3692553449529256177}
 --- !u!50 &3692553448427789814
@@ -438,7 +437,7 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 4}
+  m_Offset: {x: 0, y: -3}
   serializedVersion: 2
   m_Radius: 2.5
 --- !u!58 &7096973642769452535
@@ -589,7 +588,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3692553449529256140}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3692553448427789817}

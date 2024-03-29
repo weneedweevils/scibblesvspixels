@@ -101,8 +101,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Update is called once per frame
     void Update()
     {
-
-
         recallTimer.Update();
         invincibilityTimer.Update();
 
@@ -262,6 +260,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         health -= damageTaken;
         invincibilityTimer.StartTimer();
         healthBar.SetHealth(health, maxHealth);
+
+        if (health <= 0)
+        {
+            Debug.Log("oooof I am ded RIP :(");
+            MenuManager.GotoScene(Scene.Ded);
+        }
     }
 
     // Function to run when player heals
@@ -332,11 +336,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             {
                 Debug.Log("oooof I have collided with an enemy");
                 Damage(collision.gameObject.GetComponent<EnemyAI>().damage);
-                if (health <= 0)
-                {
-                    Debug.Log("oooof I am ded RIP :(");
-                    MenuManager.GotoScene(Scene.Ded);
-                }
             }
         }
     }
@@ -354,6 +353,4 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     {
         data.playerPosition = transform.position;
     }
-
-
 }
