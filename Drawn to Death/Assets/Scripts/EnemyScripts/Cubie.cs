@@ -20,6 +20,7 @@ public class Cubie : EnemyAI
         deathDuration = 40f / 60f;
         reviveDuration = 69f / 60f;
         attackDuration = 60f / 60f;
+        invincibilityDuration = 16f / 60f;
 
         //Create a windup timer
         windupTimer = new CooldownTimer(0f, windupDuration);

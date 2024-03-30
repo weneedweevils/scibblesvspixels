@@ -99,7 +99,7 @@ public abstract class EnemyAI : MonoBehaviour
 
         //Create Timers
         invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
-        invincibilityTimer2 = new CooldownTimer(3f, invincibilityDuration);
+        invincibilityTimer2 = new CooldownTimer(0f, invincibilityDuration);
         attackTimer = new CooldownTimer(attackCooldown, attackDuration);
         slowedTimer = new CooldownTimer(0.1f, slowDuration);
 
@@ -189,7 +189,7 @@ public abstract class EnemyAI : MonoBehaviour
 
         //Fix color after hurt
         if ( (invincibilityTimer.IsOnCooldown() && !invincibilityTimer2.IsActive()) || 
-             (invincibilityTimer2.IsOnCooldown() && !invincibilityTimer.IsActive()) ||
+             (invincibilityTimer2.IsUseable() && !invincibilityTimer.IsActive()) ||
              (!lifestealing && team == Team.player) )
         {
             selfImage.color = Color.white;
@@ -525,32 +525,5 @@ public abstract class EnemyAI : MonoBehaviour
 
         //Distance estimate
         return Vector3.Distance(path.vectorPath[0], path.vectorPath[1]) * size;
-    }
-
-    protected void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Attack" && invincibilityTimer.IsUseable() && health > 0)
-        {
-            Attack playerAttack = collision.gameObject.GetComponent<Attack>();
-            if (playerAttack != null && playerAttack.attackTimer.IsActive() && team == Team.oddle && PathLength(true) < 13f)
-            {
-                Vector2 direction = (rb.position - (Vector2)playerAttack.transform.position).normalized;
-                Damage(playerAttack.damage, true, true, direction, playerAttack.knockback);
-                musicscript.setIntensity(20f);
-            }
-        }
-        if (collision.gameObject.tag == "Enemy" && invincibilityTimer2.IsUseable() && health > 0)
-        {
-            EnemyAI otherai = collision.gameObject.GetComponent<EnemyAI>();
-
-            if (team != otherai.team && otherai.team != Team.neutral)
-            {
-                Vector2 direction = (rb.position - (Vector2)otherai.transform.position).normalized;
-                Damage(otherai.damage, false, true, direction, playerAttack.knockback);
-                invincibilityTimer2.StartTimer();
-            }
-            healthBar.SetHealth(health, maxHealth);
-        }
-
     }
 }

@@ -302,14 +302,21 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     }
       
-
-    // Dialogue trigger
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Dialogue")
+        switch (collision.gameObject.tag)
         {
-            dialogue = collision.gameObject;
-            dialogue.GetComponent<DialogueController>().ActivateDialogue();
+            //Dialogue trigger
+            case "Dialogue":
+                {
+                    dialogue = collision.gameObject;
+                    dialogue.GetComponent<DialogueController>().ActivateDialogue();
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
         }
     }
 
@@ -329,15 +336,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Enemy" && invincibilityTimer.IsUseable())
-        {
-            EnemyAI enemyai = collision.gameObject.GetComponent<EnemyAI>();
-            if (enemyai.team == Team.oddle)
-            {
-                Debug.Log("oooof I have collided with an enemy");
-                Damage(collision.gameObject.GetComponent<EnemyAI>().damage);
-            }
-        }
+        return;
     }
 
     //Save Game Stuff

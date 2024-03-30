@@ -11,7 +11,8 @@ public class DoodleCrab : EnemyAI
     {
         deathDuration = 25f / 60f;
         reviveDuration = 69f / 60f;
-        attackDuration = 4f / 60f;
+        attackDuration = 12f / 60f;
+        invincibilityDuration = 20f / 60f;
         base.Start();
     }
 
@@ -42,6 +43,46 @@ public class DoodleCrab : EnemyAI
         {
             animator.SetBool("attacking", false);
             animator.SetBool("chasing", true);
+        }
+    }
+
+    protected void OnTriggerStay2D(Collider2D collision)
+    {
+        if (health > 0)
+        {
+            switch (collision.gameObject.tag)
+            {
+                case "Player":
+                    {
+                        //Get a reference to the player
+                        PlayerMovement player = collision.gameObject.GetComponent<PlayerMovement>();
+                        if (attackTimer.IsActive() && team == Team.oddle && player.invincibilityTimer.IsUseable())
+                        {
+                            //Damage player
+                            player.Damage(damage);
+                        }
+                        break;
+                    }
+                case "Enemy":
+                    {
+                        //Get a reference to the enemy
+                        EnemyAI otherAI = collision.gameObject.GetComponent<EnemyAI>();
+                        if (attackTimer.IsActive() && otherAI != null && team != otherAI.team && otherAI.team != Team.neutral && otherAI.invincibilityTimer2.IsUseable())
+                        {
+                            Debug.Log(string.Format("{0} Hut {1} for {2} damage", name, otherAI.name, damage));
+                            //Damage enemy
+                            otherAI.Damage(damage, false, true);
+
+                            //Start enemies secondary invincibility timer
+                            otherAI.invincibilityTimer2.StartTimer();
+                        }
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
         }
     }
 }

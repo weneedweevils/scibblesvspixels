@@ -52,26 +52,35 @@ public class Projectile : MonoBehaviour
         switch (collision.gameObject.tag)
         {
             case "Enemy":
-                EnemyAI enemyai = collision.gameObject.GetComponent<EnemyAI>();
-                if (team != Team.neutral && enemyai.team != team && !(enemyai.state == State.dead || enemyai.state == State.dying))
                 {
-                    enemyai.Damage(damage, true, true, velocity.normalized, 7f);
-                    Destroy(gameObject);
+                    EnemyAI enemyai = collision.gameObject.GetComponent<EnemyAI>();
+                    if (team != Team.neutral && enemyai.team != team && !(enemyai.state == State.dead || enemyai.state == State.dying))
+                    {
+                        enemyai.Damage(damage, true, true, velocity.normalized, 7f);
+                        Destroy(gameObject);
+                    }
+                    break;
                 }
-                break;
             case "Player":
-                if (team == Team.oddle)
                 {
-                    PlayerMovement Player = collision.gameObject.GetComponent<PlayerMovement>();
-                    Player.Damage(damage);
-                    Destroy(gameObject);
+                    if (team == Team.oddle)
+                    {
+                        PlayerMovement Player = collision.gameObject.GetComponent<PlayerMovement>();
+                        Player.Damage(damage);
+                        Destroy(gameObject);
+                    }
+                    break;
                 }
-                break;
             case "Obstacle":
-                Destroy(gameObject);
-                break;
+                {
+                    Destroy(gameObject);
+                    break;
+                }
             default:
-                break;
+                {
+                    Debug.Log("Unknown collision with: " + collision.gameObject.name);
+                    break;
+                }
         }
     }
 }
