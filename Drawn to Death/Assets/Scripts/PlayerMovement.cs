@@ -13,6 +13,7 @@ using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
 
+
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
     //Input options
@@ -22,7 +23,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public KeyCode left = KeyCode.A;
     public KeyCode right = KeyCode.D;
     public KeyCode dash = KeyCode.Space;
-
+    public KeyCode recall = KeyCode.R;
+    
     //Movement Checks
     [Header("Physics")]
     public float accelerationCoefficient;   //how quickly it speeds up
@@ -43,6 +45,20 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     //Animations
     private Animator animator;
     private SpriteRenderer sprite;
+
+    //Recall
+    private float recallDuration = 115f/60f;
+    [SerializeField] private SpriteRenderer pencil;
+    private GameObject[] enemies;
+    private CooldownTimer recallTimer;
+
+    //camera 
+    private Camera cam;
+    private float targetZoom;
+    private float zoomFactor = 0.5f;
+    private static float noZoom;
+    private bool animationDone = true;
+
 
     //Physics info
     private Vector2 velocity, acceleration;
@@ -67,18 +83,27 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Start is called before the first frame update
     void Start()
     {
+        
+        cam = Camera.main;
+        noZoom = cam.orthographicSize;
+        targetZoom = cam.orthographicSize;
+       
+
         rbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         health = maxHealth;
         invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
+        recallTimer = new CooldownTimer(0f, recallDuration);
         dashCooldownBar = new CooldownBarBehaviour(dashBar, dashCooldown, Color.red, Color.green);
     }
 
     // Update is called once per frame
     void Update()
     {
+        recallTimer.Update();
         invincibilityTimer.Update();
+
         if (!inFreezeDialogue() && !timelinePlaying) // Disable movement if in dialogue/cutscene where we don't want movement
         {
             //Determine acceleration
@@ -91,6 +116,24 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             acceleration.y = 0;
         }
 
+        // disable movement if player is recalling
+        if (!recallTimer.IsActive()) 
+        {
+            //Determine acceleration
+            acceleration.x = ((Input.GetKey(left) ? -1 : 0) + (Input.GetKey(right) ? 1 : 0)) * accelerationCoefficient;
+            acceleration.y = ((Input.GetKey(down) ? -1 : 0) + (Input.GetKey(up) ? 1 : 0)) * accelerationCoefficient;
+
+        }
+        else
+        {
+            acceleration.x = 0;
+            acceleration.y = 0;
+            targetZoom -= zoomFactor * 0.1f;
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetZoom, Time.deltaTime*0.4f);
+           
+        }
+
+
         //Calculate velocity
         velocity.x = VelocityCalc(acceleration.x, velocity.x, speedModifier);
         velocity.y = VelocityCalc(acceleration.y, velocity.y, speedModifier);
@@ -101,13 +144,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             //Check if dash was activated
             if (!dashed && Input.GetKey(dash))
             {
+               Debug.Log("Dashing");
                 dashed = true;
                 velocity += velocity.normalized * dashBoost;
             }
             //Dash cooldown
             else if (dashed)
             {
-                dashtimer += Time.deltaTime;
+               dashtimer += Time.deltaTime;
                 dashCooldownBar.SetBar(dashtimer);
                 if (dashtimer >= dashCooldown)
                 {
@@ -116,7 +160,23 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                 }
             }
         }
-        
+
+        // Recall Ability
+        if(recallTimer.IsUseable() && Input.GetKey(recall)){
+            recallTimer.StartTimer();
+            pencil.enabled = false;
+            StopMovement();
+            animationDone = false;
+            animator.SetBool("New Bool", true);
+        }
+
+        if (cam.orthographicSize <= noZoom && animationDone == true)
+        {
+
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, noZoom, Time.deltaTime * 5f);
+            targetZoom = noZoom;
+        }
+
         //Predict new position
         Vector2 currentPos = rbody.position;
         Vector2 newPos = currentPos + velocity * Time.fixedDeltaTime;
@@ -126,8 +186,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         //Animate
         ManageAnimations();
-
         healthBar.SetHealth(health, maxHealth);
+        
+        
     }
 
     private float VelocityCalc(float a, float v, float modifier = 1f)
@@ -199,6 +260,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         health -= damageTaken;
         invincibilityTimer.StartTimer();
         healthBar.SetHealth(health, maxHealth);
+
+        if (health <= 0)
+        {
+            Debug.Log("oooof I am ded RIP :(");
+            MenuManager.GotoScene(Scene.Ded);
+        }
     }
 
     // Function to run when player heals
@@ -215,13 +282,41 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         healthBar.SetHealth(health, maxHealth);
     }
 
-    // Dialogue trigger
+ 
+    // Teleport function which is called as an animation event in g'liches recall animation
+    public void teleport()
+    {
+        animator.SetBool("New Bool", false);
+        animationDone = true;
+        pencil.enabled = true;
+        enemies = null;
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        Debug.Log(enemies.Length);
+        foreach( GameObject enemy in enemies) {
+            EnemyAI enemyai = enemy.GetComponent<EnemyAI>();
+            if (enemyai.team == Team.player)
+            {
+                enemy.transform.position = transform.position;
+            }
+        }
+
+    }
+      
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Dialogue")
+        switch (collision.gameObject.tag)
         {
-            dialogue = collision.gameObject;
-            dialogue.GetComponent<DialogueController>().ActivateDialogue();
+            //Dialogue trigger
+            case "Dialogue":
+                {
+                    dialogue = collision.gameObject;
+                    dialogue.GetComponent<DialogueController>().ActivateDialogue();
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
         }
     }
 
@@ -241,20 +336,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Enemy" && invincibilityTimer.IsUseable())
-        {
-            EnemyAI enemyai = collision.gameObject.GetComponent<EnemyAI>();
-            if (enemyai.team == Team.oddle)
-            {
-                Debug.Log("oooof I have collided with an enemy");
-                Damage(collision.gameObject.GetComponent<EnemyAI>().damage);
-                if (health <= 0)
-                {
-                    Debug.Log("oooof I am ded RIP :(");
-                    MenuManager.GotoScene(Scene.Ded);
-                }
-            }
-        }
+        return;
     }
 
     //Save Game Stuff
