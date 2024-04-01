@@ -130,7 +130,7 @@ public class Attack : MonoBehaviour
         }
 
         //Attack
-        if (attackTimer.IsUseable() && Input.GetKey(attackButton))
+        if (attackTimer.IsUseable() && playerMovement.CanUseAbility() && Input.GetKey(attackButton))
         {
             // Play the FMOD event correlating to the attack
             FMODUnity.RuntimeManager.PlayOneShot(sfx);
@@ -156,31 +156,34 @@ public class Attack : MonoBehaviour
         }
 
         //Revive
-        if (Input.GetKey(reviveButton) && reviveTimer.IsUseable())
+        if (playerMovement.CanUseAbility())
         {
-            reviveImage.enabled = true;
-        }
-        if (Input.GetKeyUp(reviveButton) && reviveTimer.IsUseable())
-        {
-            Debug.Log("Attempting to revive enemies");
-            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
+            if (Input.GetKey(reviveButton) && reviveTimer.IsUseable())
             {
-                EnemyAI enemy = obj.GetComponent<EnemyAI>();
-                if (enemy == null || allies.Count >= reviveCap)
+                reviveImage.enabled = true;
+            }
+            if (Input.GetKeyUp(reviveButton) && reviveTimer.IsUseable())
+            {
+                Debug.Log("Attempting to revive enemies");
+                foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
                 {
-                    continue;
-                }
-
-                if (CustomDist(reviveImage.transform.position, enemy.transform.position + 2.5f * Vector3.down) <= reviveRadius)
-                {
-                    if (enemy.Revive(0.8f, 0.8f, 1f))
+                    EnemyAI enemy = obj.GetComponent<EnemyAI>();
+                    if (enemy == null || allies.Count >= reviveCap)
                     {
-                        allies.Add(enemy);
-                        reviveTimer.StartTimer();
+                        continue;
+                    }
+
+                    if (CustomDist(reviveImage.transform.position, enemy.transform.position + 2.5f * Vector3.down) <= reviveRadius)
+                    {
+                        if (enemy.Revive(0.8f, 0.8f, 1f))
+                        {
+                            allies.Add(enemy);
+                            reviveTimer.StartTimer();
+                        }
                     }
                 }
+                reviveImage.enabled = false;
             }
-            reviveImage.enabled = false;
         }
         if (reviveTimer.IsOnCooldown())
         {

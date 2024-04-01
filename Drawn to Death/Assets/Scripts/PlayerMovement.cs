@@ -37,20 +37,20 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public bool dashEnabled;
     public float dashBoost;
     public float dashCooldown;
-    private float dashtimer = 0;
-    private bool dashed = false;
+    public CooldownTimer dashTimer;
     public Slider dashBar;
     private CooldownBarBehaviour dashCooldownBar;
 
     //Animations
     private Animator animator;
     private SpriteRenderer sprite;
+    private Attack weapon;
 
     //Recall
     private float recallDuration = 115f/60f;
     [SerializeField] private SpriteRenderer pencil;
     private GameObject[] enemies;
-    private CooldownTimer recallTimer;
+    public CooldownTimer recallTimer;
 
     //camera 
     private Camera cam;
@@ -58,7 +58,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private float zoomFactor = 0.5f;
     private static float noZoom;
     private bool animationDone = true;
-
 
     //Physics info
     private Vector2 velocity, acceleration;
@@ -83,16 +82,17 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Start is called before the first frame update
     void Start()
     {
-        
         cam = Camera.main;
         noZoom = cam.orthographicSize;
         targetZoom = cam.orthographicSize;
-       
 
         rbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
+        weapon = GetComponentInChildren<Attack>();
+
         health = maxHealth;
+        dashTimer = new CooldownTimer(dashCooldown, dashBoost / friction);
         invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
         recallTimer = new CooldownTimer(0f, recallDuration);
         dashCooldownBar = new CooldownBarBehaviour(dashBar, dashCooldown, Color.red, Color.green);
@@ -101,6 +101,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Update is called once per frame
     void Update()
     {
+        dashTimer.Update();
         recallTimer.Update();
         invincibilityTimer.Update();
 
@@ -133,36 +134,27 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
            
         }
 
-
         //Calculate velocity
         velocity.x = VelocityCalc(acceleration.x, velocity.x, speedModifier);
         velocity.y = VelocityCalc(acceleration.y, velocity.y, speedModifier);
         
         //Dash ability
-        if (dashEnabled)
+        if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && Input.GetKey(dash) && Mathf.Abs(velocity.magnitude) > 0f)
         {
-            //Check if dash was activated
-            if (!dashed && Input.GetKey(dash))
-            {
-               Debug.Log("Dashing");
-                dashed = true;
-                velocity += velocity.normalized * dashBoost;
-            }
-            //Dash cooldown
-            else if (dashed)
-            {
-               dashtimer += Time.deltaTime;
-                dashCooldownBar.SetBar(dashtimer);
-                if (dashtimer >= dashCooldown)
-                {
-                    dashed = false;
-                    dashtimer = 0f;
-                }
-            }
+            velocity += velocity.normalized * dashBoost;
+            animator.SetBool("dashing", true);
+            weapon.gameObject.SetActive(false);
+            dashTimer.StartTimer();
+        } 
+        else if (dashTimer.IsOnCooldown())
+        {
+            animator.SetBool("dashing", false);
+            weapon.gameObject.SetActive(true);
+            dashCooldownBar.SetBar(dashTimer.timer);
         }
-
+            
         // Recall Ability
-        if(recallTimer.IsUseable() && Input.GetKey(recall)){
+        if(recallTimer.IsUseable() && CanUseAbility() && Input.GetKey(recall)){
             recallTimer.StartTimer();
             pencil.enabled = false;
             StopMovement();
@@ -187,8 +179,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         //Animate
         ManageAnimations();
         healthBar.SetHealth(health, maxHealth);
-        
-        
     }
 
     private float VelocityCalc(float a, float v, float modifier = 1f)
@@ -220,9 +210,18 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         if (!inFreezeDialogue() && !timelinePlaying)
         {
-            //Flip the sprite according to mouse position relative to the players position
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            sprite.flipX = mousePosition.x < transform.position.x;
+            if (dashTimer.IsActive() && velocity.x != 0f)
+            {
+                //Flip the sprite according to movement
+                sprite.flipX = velocity.x < 0f;
+            }
+            else
+            {
+                //Flip the sprite according to mouse position relative to the players position
+                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                sprite.flipX = mousePosition.x < transform.position.x;
+            }
+            
         }
 
         //Account for backwards movement
@@ -257,6 +256,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Function to run when player takes damage
     public void Damage(float damageTaken)
     {
+        if (dashTimer.IsActive())
+        {
+            return;
+        }
         health -= damageTaken;
         invincibilityTimer.StartTimer();
         healthBar.SetHealth(health, maxHealth);
@@ -281,7 +284,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
         healthBar.SetHealth(health, maxHealth);
     }
-
  
     // Teleport function which is called as an animation event in g'liches recall animation
     public void teleport()
@@ -337,6 +339,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private void OnCollisionEnter2D(Collision2D collision)
     {
         return;
+    }
+
+    public bool CanUseAbility()
+    {
+        return !(weapon.reviveTimer.IsActive() || dashTimer.IsActive() || recallTimer.IsActive());
     }
 
     //Save Game Stuff
