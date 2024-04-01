@@ -10,7 +10,6 @@ public class DoodleCrab : EnemyAI
     override protected void Start()
     {
         deathDuration = 25f / 60f;
-        reviveDuration = 69f / 60f;
         attackDuration = 12f / 60f;
         invincibilityDuration = 20f / 60f;
         base.Start();

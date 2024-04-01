@@ -340,7 +340,9 @@ MonoBehaviour:
   dashBoost: 30
   dashCooldown: 1
   dashBar: {fileID: 0}
+  animator: {fileID: 0}
   pencil: {fileID: 3034122452498883460}
+  animationDone: 1
   timelinePlaying: 0
   health: 100
   maxHealth: 100
@@ -461,7 +463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632ae7eb1d4ce49d38a1e38ee7efe7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guid: 78ccc76d3889c822-ed8bb3f8f3f832ee
+  guid: 638e7d81febb3a93-353056770cb6a972
 --- !u!61 &3786005922980315812
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -660,7 +662,7 @@ MonoBehaviour:
   attackCooldown: 0.5
   reviveRadius: 8
   reviveCap: 50
-  reviveCooldown: 15
+  reviveCooldown: 10
   targetDistance: 100
   reviveBar: {fileID: 0}
   lifestealRadius: 15

@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private CooldownBarBehaviour dashCooldownBar;
 
     //Animations
-    private Animator animator;
+    [HideInInspector] public Animator animator;
     private SpriteRenderer sprite;
     private Attack weapon;
 
@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private float targetZoom;
     private float zoomFactor = 0.5f;
     private static float noZoom;
-    private bool animationDone = true;
+    [HideInInspector] public bool animationDone = true;
 
     //Physics info
     private Vector2 velocity, acceleration;
@@ -123,15 +123,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             //Determine acceleration
             acceleration.x = ((Input.GetKey(left) ? -1 : 0) + (Input.GetKey(right) ? 1 : 0)) * accelerationCoefficient;
             acceleration.y = ((Input.GetKey(down) ? -1 : 0) + (Input.GetKey(up) ? 1 : 0)) * accelerationCoefficient;
-
         }
         else
         {
             acceleration.x = 0;
             acceleration.y = 0;
-            targetZoom -= zoomFactor * 0.1f;
-            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetZoom, Time.deltaTime*0.4f);
-           
+            ZoomCamera(zoomFactor);
         }
 
         //Calculate velocity
@@ -143,13 +140,16 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
             velocity += velocity.normalized * dashBoost;
             animator.SetBool("dashing", true);
-            weapon.gameObject.SetActive(false);
+            pencil.enabled = false;
             dashTimer.StartTimer();
-        } 
+        }
         else if (dashTimer.IsOnCooldown())
         {
-            animator.SetBool("dashing", false);
-            weapon.gameObject.SetActive(true);
+            if (animator.GetBool("dashing")) 
+            { 
+                pencil.enabled = true;
+                animator.SetBool("dashing", false);
+            }
             dashCooldownBar.SetBar(dashTimer.timer);
         }
             
@@ -162,9 +162,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             animator.SetBool("New Bool", true);
         }
 
-        if (cam.orthographicSize <= noZoom && animationDone == true)
+        if (cam.orthographicSize != noZoom && animationDone == true)
         {
-
             cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, noZoom, Time.deltaTime * 5f);
             targetZoom = noZoom;
         }
@@ -208,7 +207,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         //Set the speed parameter in the animator
         animator.SetFloat("speed", velocity.magnitude);
 
-        if (!inFreezeDialogue() && !timelinePlaying)
+        if (!inFreezeDialogue() && !timelinePlaying && !recallTimer.IsActive())
         {
             if (dashTimer.IsActive() && velocity.x != 0f)
             {
@@ -285,6 +284,19 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         healthBar.SetHealth(health, maxHealth);
     }
  
+    //Some abilities can not be used simultaneously - Check to see if any of those are not active
+    public bool CanUseAbility()
+    {
+        return !(weapon.reviveTimer.IsActive() || dashTimer.IsActive() || recallTimer.IsActive());
+    }
+
+    //Animate the camera zoom
+    public void ZoomCamera(float zoom)
+    {
+        targetZoom -= zoom * 0.1f;
+        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetZoom, Time.deltaTime * 0.4f);
+    }
+
     // Teleport function which is called as an animation event in g'liches recall animation
     public void teleport()
     {
@@ -301,7 +313,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                 enemy.transform.position = transform.position;
             }
         }
-
     }
       
     private void OnTriggerStay2D(Collider2D collision)
@@ -339,11 +350,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private void OnCollisionEnter2D(Collision2D collision)
     {
         return;
-    }
-
-    public bool CanUseAbility()
-    {
-        return !(weapon.reviveTimer.IsActive() || dashTimer.IsActive() || recallTimer.IsActive());
     }
 
     //Save Game Stuff

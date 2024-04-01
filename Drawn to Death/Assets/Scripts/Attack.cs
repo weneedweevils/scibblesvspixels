@@ -40,7 +40,7 @@ public class Attack : MonoBehaviour
     public CooldownTimer reviveTimer;
     public Slider reviveBar;
     private CooldownBarBehaviour reviveCooldownBar;
-    private float reviveDuration = 69f / 60f;
+    private float reviveDuration = 138f / 60f;
 
          /* ----- Lifesteal ----- */
 
@@ -65,6 +65,7 @@ public class Attack : MonoBehaviour
 
     //Animation
     private Animator animator;
+    private SpriteRenderer sprite;
 
     // FMOD sound event path
     public string sfx;
@@ -79,6 +80,7 @@ public class Attack : MonoBehaviour
         //Collect components
         playerMovement = player.GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
         hitbox = GetComponent<PolygonCollider2D>();
         reviveImage = player.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>();
         reviveImage.transform.localScale *= reviveRadius * 10.45f;
@@ -150,6 +152,7 @@ public class Attack : MonoBehaviour
         {
             playerMovement.speedModifier = 0f;
             playerMovement.StopMovement();
+            playerMovement.ZoomCamera(0.25f);
         } else
         {
             playerMovement.speedModifier = 1f;
@@ -179,6 +182,9 @@ public class Attack : MonoBehaviour
                         {
                             allies.Add(enemy);
                             reviveTimer.StartTimer();
+                            playerMovement.animator.SetBool("reviving", true);
+                            sprite.enabled = false;
+                            playerMovement.animationDone = false;
                         }
                     }
                 }
@@ -188,6 +194,12 @@ public class Attack : MonoBehaviour
         if (reviveTimer.IsOnCooldown())
         {
             reviveCooldownBar.SetBar(reviveTimer.timer);
+            if (playerMovement.animator.GetBool("reviving"))
+            {
+                sprite.enabled = true;
+                playerMovement.animator.SetBool("reviving", false);
+                playerMovement.animationDone = true;
+            }
         }
     }
 

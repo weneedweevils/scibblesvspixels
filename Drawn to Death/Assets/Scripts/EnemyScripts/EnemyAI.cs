@@ -62,7 +62,7 @@ public abstract class EnemyAI : MonoBehaviour
     protected float animationTimer = 0f;
     protected float attackDuration = 0f;
     protected float deathDuration = 0f;
-    protected float reviveDuration = 0f;
+    protected float reviveDuration = 138f / 60f;
 
     //Pathfinding
     protected Transform target;

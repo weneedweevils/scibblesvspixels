@@ -18,7 +18,6 @@ public class Cubie : EnemyAI
     {
         //Override variables
         deathDuration = 40f / 60f;
-        reviveDuration = 69f / 60f;
         attackDuration = 60f / 60f;
         invincibilityDuration = 16f / 60f;
 
