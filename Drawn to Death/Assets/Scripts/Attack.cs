@@ -347,8 +347,6 @@ public class Attack : MonoBehaviour
                         Vector2 direction = ((Vector2)enemy.transform.position - (Vector2)transform.position).normalized;
                         //Damage enemy
                         enemy.Damage(damage, true, true, direction, knockback);
-                        //Set music intensity
-                        musicscript.setIntensity(20f);
                     }
                     break;
                 }
