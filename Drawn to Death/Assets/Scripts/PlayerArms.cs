@@ -20,7 +20,7 @@ public class PlayerArms : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (sprite != null && !player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying)
+        if (sprite != null && !player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying && Time.timeScale != 0f)
         {
             //Get mouse position
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

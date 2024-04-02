@@ -111,7 +111,7 @@ public class Attack : MonoBehaviour
             musicscript.setIntensity(30f);
         }
         
-        if (!player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying)
+        if (!player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying && Time.timeScale!=0f)
         {
             CheckAttack();
             CheckRevive();
