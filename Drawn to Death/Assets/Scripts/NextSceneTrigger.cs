@@ -25,7 +25,6 @@ public class NextSceneTrigger : MonoBehaviour
             data.skipCutscene = false;
             DataPersistenceManager.instance.UpdateGame();
         }
-        
         MenuManager.GotoScene(nextScene);
     }
 }
