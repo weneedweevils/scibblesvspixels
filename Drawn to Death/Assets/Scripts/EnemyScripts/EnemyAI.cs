@@ -75,6 +75,7 @@ public abstract class EnemyAI : MonoBehaviour
 
     //Misc
     protected GameObject player;
+    protected PlayerMovement playerMovement;
     protected Attack playerAttack;
     protected GameObject musicmanager;
     protected BasicMusicScript musicscript;
@@ -88,6 +89,7 @@ public abstract class EnemyAI : MonoBehaviour
         gem = gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player");
+        playerMovement = player.GetComponent<PlayerMovement>();
         playerAttack = player.GetComponentInChildren<Attack>();
         musicmanager = GameObject.Find("Music");
         musicscript = musicmanager.GetComponent<BasicMusicScript>();

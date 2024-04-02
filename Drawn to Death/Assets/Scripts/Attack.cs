@@ -64,7 +64,7 @@ public class Attack : MonoBehaviour
     /* ----- Misc ----- */
 
     //Animation
-    private Animator animator;
+    [HideInInspector] public Animator animator;
     private SpriteRenderer sprite;
 
     // FMOD sound event paths

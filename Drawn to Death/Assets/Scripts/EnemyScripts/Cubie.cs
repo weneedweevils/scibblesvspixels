@@ -30,11 +30,14 @@ public class Cubie : EnemyAI
 
     override protected void FixedUpdate()
     {
-        //Update the windup timer
-        windupTimer.Update();
+        if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
+        {
+            //Update the windup timer
+            windupTimer.Update();
 
-        //Continue with the base class implementation of FixedUpdate
-        base.FixedUpdate();
+            //Continue with the base class implementation of FixedUpdate
+            base.FixedUpdate();
+        }
     }
 
     override protected void Attack()

@@ -17,8 +17,11 @@ public class DoodleCrab : EnemyAI
 
     override protected void FixedUpdate()
     {
-        //Continue with the base class implementation of FixedUpdate
-        base.FixedUpdate();
+        if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
+        {
+            //Continue with the base class implementation of FixedUpdate
+            base.FixedUpdate();
+        }
     }
 
     override protected void Attack()

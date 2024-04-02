@@ -76,6 +76,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public float invincibilityDuration;
     public HealthBarBehaviour healthBar;
 
+    [Header("Other")]
+    [SerializeField] private GameObject hud;
+
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
 
@@ -106,14 +109,17 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         invincibilityTimer.Update();
         
         // Disable movement if in dialogue/cutscene where we don't want movement
-        if (!inFreezeDialogue() && !timelinePlaying) 
+        if (!inFreezeDialogue() && !timelinePlaying)
         {
+            hud.SetActive(true);
             //Determine acceleration
             acceleration.x = ((Input.GetKey(left) ? -1 : 0) + (Input.GetKey(right) ? 1 : 0)) * accelerationCoefficient;
             acceleration.y = ((Input.GetKey(down) ? -1 : 0) + (Input.GetKey(up) ? 1 : 0)) * accelerationCoefficient;
         }
         else
         {
+            hud.SetActive(false);
+            weapon.animator.SetBool("attacking", false);
             acceleration.x = 0;
             acceleration.y = 0;
         }
