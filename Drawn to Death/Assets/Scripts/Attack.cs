@@ -173,7 +173,7 @@ public class Attack : MonoBehaviour
 
                 if (CustomDist(reviveImage.transform.position, enemy.transform.position + 2.5f * Vector3.down) <= reviveRadius)
                 {
-                    if (enemy.Revive(0.5f, 0.5f, 0.9f))
+                    if (enemy.Revive(0.8f, 0.8f, 1f))
                     {
                         allies.Add(enemy);
                         reviveTimer.StartTimer();
@@ -316,5 +316,31 @@ public class Attack : MonoBehaviour
     public List<EnemyAI> GetAllies()
     {
         return allies;
+    }
+
+    protected void OnTriggerStay2D(Collider2D collision)
+    {
+        switch (collision.gameObject.tag)
+        {
+            case "Enemy":
+                {
+                    //Get a reference to the enemy
+                    EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
+                    if (attackTimer.IsActive() && enemy != null && enemy.team == Team.oddle && enemy.invincibilityTimer.IsUseable())
+                    {
+                        //Calculate knockback
+                        Vector2 direction = ((Vector2)enemy.transform.position - (Vector2)transform.position).normalized;
+                        //Damage enemy
+                        enemy.Damage(damage, true, true, direction, knockback);
+                        //Set music intensity
+                        musicscript.setIntensity(20f);
+                    }
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
     }
 }
