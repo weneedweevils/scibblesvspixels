@@ -28,6 +28,7 @@ public class Spawner : MonoBehaviour
     private int spawnCount = 0;
     private float totalChance = 0f;
     private bool triggerActive = true;
+    private PlayerMovement playerMovement;
 
     void OnDrawGizmosSelected()
     {
@@ -38,6 +39,7 @@ public class Spawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
         limitTimer = new CooldownTimer(0f, timeLimit);
         attemptTimer = new CooldownTimer(timeBetweenAttempts, 0f);
         foreach(SpawnData data in spawnData)
@@ -53,7 +55,7 @@ public class Spawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (active)
+        if (active && !playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
         {
             //Update Timers
             limitTimer.Update();

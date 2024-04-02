@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
@@ -62,7 +62,7 @@ public abstract class EnemyAI : MonoBehaviour
     protected float animationTimer = 0f;
     protected float attackDuration = 0f;
     protected float deathDuration = 0f;
-    protected float reviveDuration = 0f;
+    protected float reviveDuration = 138f / 60f;
 
     //Pathfinding
     protected Transform target;
@@ -75,6 +75,7 @@ public abstract class EnemyAI : MonoBehaviour
 
     //Misc
     protected GameObject player;
+    protected PlayerMovement playerMovement;
     protected Attack playerAttack;
     protected GameObject musicmanager;
     protected BasicMusicScript musicscript;
@@ -88,6 +89,7 @@ public abstract class EnemyAI : MonoBehaviour
         gem = gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player");
+        playerMovement = player.GetComponent<PlayerMovement>();
         playerAttack = player.GetComponentInChildren<Attack>();
         musicmanager = GameObject.Find("Music");
         musicscript = musicmanager.GetComponent<BasicMusicScript>();
@@ -525,5 +527,11 @@ public abstract class EnemyAI : MonoBehaviour
 
         //Distance estimate
         return Vector3.Distance(path.vectorPath[0], path.vectorPath[1]) * size;
+    }
+    
+    public bool isDead()
+    {
+        // Quick getter function that's used in CrabWalkSFX
+        return (state == State.dead);
     }
 }

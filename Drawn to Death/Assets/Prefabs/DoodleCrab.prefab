@@ -288,6 +288,7 @@ GameObject:
   - component: {fileID: 1406805573}
   - component: {fileID: 7096973642769452535}
   - component: {fileID: -8105401679918981246}
+  - component: {fileID: 8803404619746449255}
   m_Layer: 0
   m_Name: DoodleCrab
   m_TagString: Enemy
@@ -563,6 +564,25 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &8803404619746449255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3692553448427789813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2a12638a6a2c48ae8778a97ad3a8234, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fmodEvent:
+    Guid:
+      Data1: 303504757
+      Data2: 1146050523
+      Data3: -535311979
+      Data4: 1333973189
+    Path: event:/CrabWalk
 --- !u!1 &3692553449529256140
 GameObject:
   m_ObjectHideFlags: 0

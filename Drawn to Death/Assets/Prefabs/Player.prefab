@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1399807148}
   - component: {fileID: 1399807147}
   - component: {fileID: 1399807150}
+  - component: {fileID: 7240034892591243871}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -103,6 +104,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7240034892591243871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399807146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 2454788199460616583}
 --- !u!1 &1977690071197480962
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,7 +231,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2454788199460616583}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -103.6, y: 9.81, z: 0}
+  m_LocalPosition: {x: -114.5, y: -45.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8419687115835509560}
@@ -340,7 +354,9 @@ MonoBehaviour:
   dashBoost: 30
   dashCooldown: 1
   dashBar: {fileID: 0}
+  animator: {fileID: 0}
   pencil: {fileID: 3034122452498883460}
+  animationDone: 1
   timelinePlaying: 0
   health: 100
   maxHealth: 100
@@ -461,7 +477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632ae7eb1d4ce49d38a1e38ee7efe7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guid: 78ccc76d3889c822-ed8bb3f8f3f832ee
+  guid: 37e94a882049b35f-101f65d53f107fc8
 --- !u!61 &3786005922980315812
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -660,7 +676,7 @@ MonoBehaviour:
   attackCooldown: 0.5
   reviveRadius: 8
   reviveCap: 50
-  reviveCooldown: 15
+  reviveCooldown: 10
   targetDistance: 100
   reviveBar: {fileID: 0}
   lifestealRadius: 15
@@ -669,8 +685,9 @@ MonoBehaviour:
   lifestealDamage: 13
   lifestealDuration: 5
   lifestealBar: {fileID: 0}
-  sfx: event:/Eraser
-  musicmanager: {fileID: 0}
+  eraserSfx: event:/Eraser
+  reviveSfx: event:/ReviveAbility
+  isHit: 0
 --- !u!60 &120045952777875683
 PolygonCollider2D:
   m_ObjectHideFlags: 0

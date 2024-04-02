@@ -8,6 +8,7 @@ namespace DialogueSystem
         // These variables are only needed if using this in timeline
         [SerializeField] private GameObject nextCutscene;
         [SerializeField] private GameObject dialogueObject;
+
         // Starts dialogue in a coroutine
         private void OnEnable()
         {

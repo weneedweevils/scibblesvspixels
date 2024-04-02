@@ -40,7 +40,7 @@ public class Attack : MonoBehaviour
     public CooldownTimer reviveTimer;
     public Slider reviveBar;
     private CooldownBarBehaviour reviveCooldownBar;
-    private float reviveDuration = 69f / 60f;
+    private float reviveDuration = 138f / 60f;
 
          /* ----- Lifesteal ----- */
 
@@ -64,14 +64,14 @@ public class Attack : MonoBehaviour
     /* ----- Misc ----- */
 
     //Animation
-    private Animator animator;
+    [HideInInspector] public Animator animator;
+    private SpriteRenderer sprite;
 
-    // FMOD sound event path
-    public string sfx;
-
-    // Music manager script
-    public GameObject musicmanager;
-    BasicMusicScript musicscript;
+    // FMOD sound event paths
+    public string eraserSfx;
+    public string reviveSfx;
+    // Condition for playing hit version of eraserSfx
+    public int isHit;
 
     // Start is called before the first frame update
     void Start()
@@ -79,6 +79,7 @@ public class Attack : MonoBehaviour
         //Collect components
         playerMovement = player.GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
         hitbox = GetComponent<PolygonCollider2D>();
         reviveImage = player.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>();
         reviveImage.transform.localScale *= reviveRadius * 10.45f;
@@ -94,9 +95,7 @@ public class Attack : MonoBehaviour
 
         // Get a reference to the script that controls the FMOD event
         //eraserSFX = GetComponent<eraserSFX>;
-
-        musicmanager = GameObject.Find("Music");
-        musicscript = musicmanager.GetComponent<BasicMusicScript>();
+        isHit = 0;
     }
 
     // Update is called once per frame
@@ -106,12 +105,8 @@ public class Attack : MonoBehaviour
         {
             ControlAllies();
         }
-
-        if(allies.Count > 3) {
-            musicscript.setIntensity(30f);
-        }
         
-        if (!player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying)
+        if (!player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying && Time.timeScale!=0f)
         {
             CheckAttack();
             CheckRevive();
@@ -130,10 +125,15 @@ public class Attack : MonoBehaviour
         }
 
         //Attack
-        if (attackTimer.IsUseable() && Input.GetKey(attackButton))
+        if (attackTimer.IsUseable() && playerMovement.CanUseAbility() && Input.GetKey(attackButton))
         {
-            // Play the FMOD event correlating to the attack
-            FMODUnity.RuntimeManager.PlayOneShot(sfx);
+
+            // FMODUnity.RuntimeManager.PlayOneShot(eraserSfx, isHit);
+            var instance = FMODUnity.RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToGUID(eraserSfx));
+            instance.setParameterByName("IsHit", isHit);
+            instance.start();
+            instance.release();
+            isHit = 0;
 
             animator.SetBool("attacking", true);
             attackTimer.StartTimer();
@@ -150,41 +150,55 @@ public class Attack : MonoBehaviour
         {
             playerMovement.speedModifier = 0f;
             playerMovement.StopMovement();
+            playerMovement.ZoomCamera(0.25f);
         } else
         {
             playerMovement.speedModifier = 1f;
         }
 
         //Revive
-        if (Input.GetKey(reviveButton) && reviveTimer.IsUseable())
+        if (playerMovement.CanUseAbility())
         {
-            reviveImage.enabled = true;
-        }
-        if (Input.GetKeyUp(reviveButton) && reviveTimer.IsUseable())
-        {
-            Debug.Log("Attempting to revive enemies");
-            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
+            if (Input.GetKey(reviveButton) && reviveTimer.IsUseable())
             {
-                EnemyAI enemy = obj.GetComponent<EnemyAI>();
-                if (enemy == null || allies.Count >= reviveCap)
+                reviveImage.enabled = true;
+            }
+            if (Input.GetKeyUp(reviveButton) && reviveTimer.IsUseable())
+            {
+                Debug.Log("Attempting to revive enemies");
+                foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
                 {
-                    continue;
-                }
-
-                if (CustomDist(reviveImage.transform.position, enemy.transform.position + 2.5f * Vector3.down) <= reviveRadius)
-                {
-                    if (enemy.Revive(0.8f, 0.8f, 1f))
+                    EnemyAI enemy = obj.GetComponent<EnemyAI>();
+                    if (enemy == null || allies.Count >= reviveCap)
                     {
-                        allies.Add(enemy);
-                        reviveTimer.StartTimer();
+                        continue;
+                    }
+
+                    if (CustomDist(reviveImage.transform.position, enemy.transform.position + 2.5f * Vector3.down) <= reviveRadius)
+                    {
+                        if (enemy.Revive(0.8f, 0.8f, 1f))
+                        {
+                            allies.Add(enemy);
+                            reviveTimer.StartTimer();
+                            playerMovement.animator.SetBool("reviving", true);
+                            sprite.enabled = false;
+                            playerMovement.animationDone = false;
+                            FMODUnity.RuntimeManager.PlayOneShot(reviveSfx);
+                        }
                     }
                 }
+                reviveImage.enabled = false;
             }
-            reviveImage.enabled = false;
         }
         if (reviveTimer.IsOnCooldown())
         {
             reviveCooldownBar.SetBar(reviveTimer.timer);
+            if (playerMovement.animator.GetBool("reviving"))
+            {
+                sprite.enabled = true;
+                playerMovement.animator.SetBool("reviving", false);
+                playerMovement.animationDone = true;
+            }
         }
     }
 
@@ -332,8 +346,6 @@ public class Attack : MonoBehaviour
                         Vector2 direction = ((Vector2)enemy.transform.position - (Vector2)transform.position).normalized;
                         //Damage enemy
                         enemy.Damage(damage, true, true, direction, knockback);
-                        //Set music intensity
-                        musicscript.setIntensity(20f);
                     }
                     break;
                 }

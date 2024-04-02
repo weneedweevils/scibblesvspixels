@@ -18,7 +18,6 @@ public class Cubie : EnemyAI
     {
         //Override variables
         deathDuration = 40f / 60f;
-        reviveDuration = 69f / 60f;
         attackDuration = 60f / 60f;
         invincibilityDuration = 16f / 60f;
 
@@ -31,11 +30,14 @@ public class Cubie : EnemyAI
 
     override protected void FixedUpdate()
     {
-        //Update the windup timer
-        windupTimer.Update();
+        if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
+        {
+            //Update the windup timer
+            windupTimer.Update();
 
-        //Continue with the base class implementation of FixedUpdate
-        base.FixedUpdate();
+            //Continue with the base class implementation of FixedUpdate
+            base.FixedUpdate();
+        }
     }
 
     override protected void Attack()
