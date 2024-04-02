@@ -73,10 +73,6 @@ public class Attack : MonoBehaviour
     // Condition for playing hit version of eraserSfx
     public int isHit;
 
-    // Music manager script
-    public GameObject musicmanager;
-    BasicMusicScript musicscript;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -100,9 +96,6 @@ public class Attack : MonoBehaviour
         // Get a reference to the script that controls the FMOD event
         //eraserSFX = GetComponent<eraserSFX>;
         isHit = 0;
-
-        musicmanager = GameObject.Find("Music");
-        musicscript = musicmanager.GetComponent<BasicMusicScript>();
     }
 
     // Update is called once per frame
@@ -112,12 +105,8 @@ public class Attack : MonoBehaviour
         {
             ControlAllies();
         }
-
-        if(allies.Count > 3) {
-            musicscript.setIntensity(30f);
-        }
         
-        if (!player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying)
+        if (!player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying && Time.timeScale!=0f)
         {
             CheckAttack();
             CheckRevive();
