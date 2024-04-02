@@ -104,8 +104,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         dashTimer.Update();
         recallTimer.Update();
         invincibilityTimer.Update();
-
-        if (!inFreezeDialogue() && !timelinePlaying) // Disable movement if in dialogue/cutscene where we don't want movement
+        
+        // Disable movement if in dialogue/cutscene where we don't want movement
+        if (!inFreezeDialogue() && !timelinePlaying) 
         {
             //Determine acceleration
             acceleration.x = ((Input.GetKey(left) ? -1 : 0) + (Input.GetKey(right) ? 1 : 0)) * accelerationCoefficient;
@@ -118,13 +119,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
 
         // disable movement if player is recalling
-        if (!recallTimer.IsActive()) 
-        {
-            //Determine acceleration
-            acceleration.x = ((Input.GetKey(left) ? -1 : 0) + (Input.GetKey(right) ? 1 : 0)) * accelerationCoefficient;
-            acceleration.y = ((Input.GetKey(down) ? -1 : 0) + (Input.GetKey(up) ? 1 : 0)) * accelerationCoefficient;
-        }
-        else
+        if (recallTimer.IsActive())
         {
             acceleration.x = 0;
             acceleration.y = 0;
@@ -236,8 +231,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Ensures movement is disabled if dialogue wants it to be
     public bool inFreezeDialogue()
     {
+        
         if (dialogue != null)
         {
+            
             if (!dialogue.GetComponent<DialogueController>().DialogueActive()) // Ensures dialogue object is destroyed if movement freeze is on
             {
                 dialogue.SetActive(false); // Deactivates dialogue after end, can be changed if we ever want repeatable dialogue
@@ -317,6 +314,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       
     private void OnTriggerStay2D(Collider2D collision)
     {
+        return;
+    }
+
+    // Dialogue enter
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
         switch (collision.gameObject.tag)
         {
             //Dialogue trigger
@@ -345,11 +348,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public void SetTimelineActive(bool isActive)
     {
         timelinePlaying = isActive;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        return;
     }
 
     //Save Game Stuff
