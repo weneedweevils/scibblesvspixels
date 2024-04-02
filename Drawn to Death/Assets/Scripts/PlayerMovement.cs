@@ -78,6 +78,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     [Header("Other")]
     [SerializeField] private GameObject hud;
+    public GameObject pauseUi;
 
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
@@ -109,7 +110,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         invincibilityTimer.Update();
         
         // Disable movement if in dialogue/cutscene where we don't want movement
-        if (!inFreezeDialogue() && !timelinePlaying)
+        if (!inFreezeDialogue() && !timelinePlaying && pauseUi.active == false)
         {
             hud.SetActive(true);
             //Determine acceleration

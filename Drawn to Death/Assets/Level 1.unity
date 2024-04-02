@@ -25612,6 +25612,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PauseMenuUI: {fileID: 378511322}
+  ControlsUI: {fileID: 0}
+  MenuUI: {fileID: 0}
   Menu: 1
 --- !u!114 &1468501007
 MonoBehaviour:
@@ -26067,7 +26069,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1621257183
 Transform:
   m_ObjectHideFlags: 0
@@ -54710,6 +54712,11 @@ PrefabInstance:
       propertyPath: dashBar
       value: 
       objectReference: {fileID: 766862908}
+    - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: pauseUi
+      value: 
+      objectReference: {fileID: 378511322}
     - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
       propertyPath: healthBar

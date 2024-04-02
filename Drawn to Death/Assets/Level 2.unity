@@ -2235,6 +2235,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PauseMenuUI: {fileID: 0}
+  ControlsUI: {fileID: 0}
+  MenuUI: {fileID: 0}
   Menu: 1
 --- !u!114 &258245323
 MonoBehaviour:
@@ -5411,6 +5413,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6074531825526881062, guid: e8b02fdc4f8f19f4c96223a716dcae5e,
     type: 3}
   m_PrefabInstance: {fileID: 600057000}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &615067888 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1287945786770114790, guid: cf97480c00ce98e49b9f271a666560b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 208544578}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &631146648
 GameObject:
@@ -104092,6 +104100,11 @@ PrefabInstance:
       propertyPath: dashBar
       value: 
       objectReference: {fileID: 1567685596}
+    - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: pauseUi
+      value: 
+      objectReference: {fileID: 615067888}
     - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
       propertyPath: healthBar
