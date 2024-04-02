@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
@@ -525,5 +525,11 @@ public abstract class EnemyAI : MonoBehaviour
 
         //Distance estimate
         return Vector3.Distance(path.vectorPath[0], path.vectorPath[1]) * size;
+    }
+    
+    public bool isDead()
+    {
+        // Quick getter function that's used in CrabWalkSFX
+        return (state == State.dead);
     }
 }

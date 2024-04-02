@@ -67,8 +67,11 @@ public class Attack : MonoBehaviour
     private Animator animator;
     private SpriteRenderer sprite;
 
-    // FMOD sound event path
-    public string sfx;
+    // FMOD sound event paths
+    public string eraserSfx;
+    public string reviveSfx;
+    // Condition for playing hit version of eraserSfx
+    public int isHit;
 
     // Music manager script
     public GameObject musicmanager;
@@ -96,6 +99,7 @@ public class Attack : MonoBehaviour
 
         // Get a reference to the script that controls the FMOD event
         //eraserSFX = GetComponent<eraserSFX>;
+        isHit = 0;
 
         musicmanager = GameObject.Find("Music");
         musicscript = musicmanager.GetComponent<BasicMusicScript>();
@@ -134,8 +138,13 @@ public class Attack : MonoBehaviour
         //Attack
         if (attackTimer.IsUseable() && playerMovement.CanUseAbility() && Input.GetKey(attackButton))
         {
-            // Play the FMOD event correlating to the attack
-            FMODUnity.RuntimeManager.PlayOneShot(sfx);
+
+            // FMODUnity.RuntimeManager.PlayOneShot(eraserSfx, isHit);
+            var instance = FMODUnity.RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToGUID(eraserSfx));
+            instance.setParameterByName("IsHit", isHit);
+            instance.start();
+            instance.release();
+            isHit = 0;
 
             animator.SetBool("attacking", true);
             attackTimer.StartTimer();
@@ -185,6 +194,7 @@ public class Attack : MonoBehaviour
                             playerMovement.animator.SetBool("reviving", true);
                             sprite.enabled = false;
                             playerMovement.animationDone = false;
+                            FMODUnity.RuntimeManager.PlayOneShot(reviveSfx);
                         }
                     }
                 }
