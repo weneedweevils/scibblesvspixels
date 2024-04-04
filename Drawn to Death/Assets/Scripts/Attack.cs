@@ -340,7 +340,8 @@ public class Attack : MonoBehaviour
                 {
                     //Get a reference to the enemy
                     EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
-                    if (attackTimer.IsActive() && enemy != null && enemy.team == Team.oddle && enemy.invincibilityTimer.IsUseable())
+                    if (attackTimer.IsActive() && enemy != null && enemy.team == Team.oddle && enemy.invincibilityTimer.IsUseable() &&
+                        enemy.PathLength(true) <= 15f)
                     {
                         //Calculate knockback
                         Vector2 direction = ((Vector2)enemy.transform.position - (Vector2)transform.position).normalized;
