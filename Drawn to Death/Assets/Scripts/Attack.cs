@@ -201,23 +201,10 @@ public class Attack : MonoBehaviour
         //Lifesteal Timer
         lifestealTimer.Update();
 
-        if (lifestealTimer.IsUseable() && Input.GetKeyDown(lifestealButton))
+        if (playerMovement.CanUseAbility() && lifestealTimer.IsUseable() && Input.GetKeyDown(lifestealButton))
         {
             lifestealImage.enabled = true;
             lifestealTimer.StartTimer();
-        }
-        else if (lifestealTimer.IsOnCooldown())
-        {
-            lifestealImage.enabled = false;
-            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
-            {
-                EnemyAI enemy = obj.GetComponent<EnemyAI>();
-                //LineRenderer line = enemy.GetComponent<LineRenderer>();
-                //line.SetPosition(0, Vector3.zero);
-                //line.SetPosition(1, Vector3.zero);
-                enemy.lifestealing = false;
-            }
-
         }
         if (lifestealTimer.IsActive()) {
             float dmg = lifestealDamage / lifestealDuration * Time.deltaTime;
@@ -255,6 +242,12 @@ public class Attack : MonoBehaviour
         }
         if (lifestealTimer.IsOnCooldown())
         {
+            lifestealImage.enabled = false;
+            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
+            {
+                EnemyAI enemy = obj.GetComponent<EnemyAI>();
+                enemy.lifestealing = false;
+            }
             lifestealCooldownBar.SetBar(lifestealTimer.timer);
         }
     }
