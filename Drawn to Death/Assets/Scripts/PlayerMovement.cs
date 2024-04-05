@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
@@ -47,15 +48,18 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private Attack weapon;
 
     //Recall
-    private float recallDuration = 115f/60f;
+    //private float recallDuration = 115f/60f;
     [SerializeField] private SpriteRenderer pencil;
     private GameObject[] enemies;
     public CooldownTimer recallTimer;
+    public Slider recallBar;
+    private CooldownBarBehaviour recallCooldownBar;
+    public float allyHealPercentage;
 
     //camera 
     private Camera cam;
     private float targetZoom;
-    private float zoomFactor = 0.5f;
+    //private float zoomFactor = 0.5f;
     private static float noZoom;
     [HideInInspector] public bool animationDone = true;
 
@@ -98,15 +102,16 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         health = maxHealth;
         dashTimer = new CooldownTimer(dashCooldown, dashBoost / friction);
         invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
-        recallTimer = new CooldownTimer(0f, recallDuration);
-        dashCooldownBar = new CooldownBarBehaviour(dashBar, dashCooldown, Color.red, Color.green);
+        recallTimer = weapon.reviveTimer; // Recall and Revive share duration and cooldown timer lengths
+        dashCooldownBar = new CooldownBarBehaviour(dashBar, dashCooldown, Color.gray, Color.magenta);
+        recallCooldownBar = new CooldownBarBehaviour(recallBar, weapon.reviveCooldown, Color.gray, Color.magenta);
     }
 
     // Update is called once per frame
     void Update()
     {
         dashTimer.Update();
-        recallTimer.Update();
+        //recallTimer.Update();
         invincibilityTimer.Update();
         
         // Disable movement if in dialogue/cutscene where we don't want movement
@@ -130,7 +135,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
             acceleration.x = 0;
             acceleration.y = 0;
-            ZoomCamera(zoomFactor);
+            //ZoomCamera(zoomFactor);
         }
 
         //Calculate velocity
@@ -143,6 +148,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             velocity += velocity.normalized * dashBoost;
             animator.SetBool("dashing", true);
             pencil.enabled = false;
+            sprite.color = new Color(255, 255, 255, 0.50f);
             dashTimer.StartTimer();
         }
         else if (dashTimer.IsOnCooldown())
@@ -151,17 +157,22 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             { 
                 pencil.enabled = true;
                 animator.SetBool("dashing", false);
+                sprite.color = new Color(255, 255, 255, 1f);
             }
             dashCooldownBar.SetBar(dashTimer.timer);
         }
             
         // Recall Ability
-        if(recallTimer.IsUseable() && CanUseAbility() && Input.GetKey(recall)){
+        if (recallTimer.IsUseable() && CanUseAbility() && Input.GetKey(recall)){
             recallTimer.StartTimer();
             pencil.enabled = false;
             StopMovement();
             animationDone = false;
             animator.SetBool("New Bool", true);
+        }
+        else if (recallTimer.IsOnCooldown())
+        {
+            recallCooldownBar.SetBar(recallTimer.timer);
         }
 
         if (cam.orthographicSize != noZoom && animationDone == true)
@@ -316,6 +327,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             if (enemyai.team == Team.player)
             {
                 enemy.transform.position = transform.position;
+                enemyai.Heal(enemyai.maxHealth * allyHealPercentage);
+                enemyai.buffed = true;
+                enemyai.speed *= 2;
+                enemyai.damage *= 2;
+                enemyai.attackTimer.SetCooldown(enemyai.attackCooldown / 2);
             }
         }
     }
