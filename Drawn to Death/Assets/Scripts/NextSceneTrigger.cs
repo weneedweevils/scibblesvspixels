@@ -19,11 +19,14 @@ public class NextSceneTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player" && nextScene != Scene.End)
+        if (collision.gameObject.tag == "Player")
         {
-            GameData data = DataPersistenceManager.instance.GetGameData();
-            data.skipCutscene = false;
-            DataPersistenceManager.instance.UpdateGame();
+            if (nextScene != Scene.End)
+            {
+                GameData data = DataPersistenceManager.instance.GetGameData();
+                data.skipCutscene = false;
+                DataPersistenceManager.instance.UpdateGame();
+            }
             MenuManager.GotoScene(nextScene);
         }
     }
