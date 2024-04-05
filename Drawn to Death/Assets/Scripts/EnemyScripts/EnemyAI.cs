@@ -49,6 +49,8 @@ public abstract class EnemyAI : MonoBehaviour
     public EnemyHealthBarBehaviour healthBar;
     public Transform enemygraphics;
     public Color hurtCol = Color.red;
+    public Color reviveCol = Color.green;
+    public Color allyCol = Color.green;
     public SpriteRenderer selfImage;
 
         /* ----- Hidden Variables ----- */
@@ -198,10 +200,10 @@ public abstract class EnemyAI : MonoBehaviour
         if ( (invincibilityTimer.IsOnCooldown() && !invincibilityTimer2.IsActive()) || 
              (invincibilityTimer2.IsUseable() && !invincibilityTimer.IsActive()) ||
              (!lifestealing && team == Team.player) )
-            {
-                selfImage.color = Color.white;
-            }
-
+        {
+            selfImage.color = (team == Team.player ? allyCol : Color.white);
+        }
+        
         //Check death conditions
         if (health <= 0 && state != State.dead && state != State.dying)
         {
@@ -254,7 +256,7 @@ public abstract class EnemyAI : MonoBehaviour
         {
             slowed = false;
             speed *= 2;
-            selfImage.color = Color.white;
+            selfImage.color = team == Team.player ? allyCol : Color.white;
         }
 
         //State Manager
@@ -316,10 +318,17 @@ public abstract class EnemyAI : MonoBehaviour
             case State.dead:
                 {
                     //dead Behaviour
-                    selfImage.color = Color.white;
                     if (team == Team.player)
                     {
                         Destroy(gameObject);
+                    }
+                    else if(playerAttack.reviveTimer.IsUseable() && playerAttack.InReviveRange(transform))
+                    {
+                        selfImage.color = reviveCol;
+                    } 
+                    else 
+                    {
+                        selfImage.color = Color.white;
                     }
                     break;
                 }

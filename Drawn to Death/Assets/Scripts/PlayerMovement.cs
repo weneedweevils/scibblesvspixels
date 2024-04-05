@@ -150,6 +150,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             pencil.enabled = false;
             sprite.color = new Color(255, 255, 255, 0.50f);
             dashTimer.StartTimer();
+            FMODUnity.RuntimeManager.PlayOneShot("event:/DashAbility");
         }
         else if (dashTimer.IsOnCooldown())
         {
@@ -167,6 +168,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             recallTimer.StartTimer();
             pencil.enabled = false;
             StopMovement();
+            FMODUnity.RuntimeManager.PlayOneShot("event:/RallyAbility");
             animationDone = false;
             animator.SetBool("New Bool", true);
         }
@@ -363,10 +365,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Dialogue exit
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (dialogue != null) {
-            dialogue.SetActive(false); // Deactivates dialogue after trigger, can be changed if we ever want repeatable dialogue
-            dialogue = null;
-        }
+        //if (dialogue != null) {
+            //dialogue.SetActive(false); // Deactivates dialogue after trigger, can be changed if we ever want repeatable dialogue
+            //dialogue = null;
+        //}
     }
 
     public void SetTimelineActive(bool isActive)
@@ -377,10 +379,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     //Save Game Stuff
     public void LoadData(GameData data)
     {
+        /*
         if (data.skipCutscene)
         {
             transform.position = data.playerPosition;
-        }
+        }*/
     }
 
     public void SaveData(ref GameData data)
