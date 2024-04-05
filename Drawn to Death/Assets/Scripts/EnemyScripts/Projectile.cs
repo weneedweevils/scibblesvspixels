@@ -48,7 +48,6 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Hit object");
         switch (collision.gameObject.tag)
         {
             case "Enemy":
@@ -78,7 +77,6 @@ public class Projectile : MonoBehaviour
                 }
             default:
                 {
-                    Debug.Log("Unknown collision with: " + collision.gameObject.name);
                     break;
                 }
         }
