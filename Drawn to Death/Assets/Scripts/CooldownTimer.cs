@@ -61,4 +61,9 @@ public class CooldownTimer
     {
         active = true;
     }
+
+    public void SetCooldown(float cooldownValue)
+    {
+        cooldownDuration = cooldownValue;
+    }
 }

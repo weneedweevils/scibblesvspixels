@@ -41,7 +41,7 @@ public class Attack : MonoBehaviour
     public CooldownTimer reviveTimer;
     public Slider reviveBar;
     private CooldownBarBehaviour reviveCooldownBar;
-    private float reviveDuration = 138f / 60f;
+    private float reviveDuration = 126f / 60f; // Revive and Recall share timer
 
          /* ----- Lifesteal ----- */
 
@@ -88,8 +88,8 @@ public class Attack : MonoBehaviour
         reviveTimer = new CooldownTimer(reviveCooldown, reviveDuration);
         attackTimer = new CooldownTimer(attackDuration*0.35f, attackDuration*0.65f);
         lifestealTimer = new CooldownTimer(lifestealCooldown, lifestealDuration);
-        reviveCooldownBar = new CooldownBarBehaviour(reviveBar, reviveCooldown, Color.red, Color.green);
-        lifestealCooldownBar = new CooldownBarBehaviour(lifestealBar, lifestealCooldown, Color.red, Color.green);
+        reviveCooldownBar = new CooldownBarBehaviour(reviveBar, reviveCooldown, Color.gray, Color.magenta);
+        lifestealCooldownBar = new CooldownBarBehaviour(lifestealBar, lifestealCooldown, Color.gray, Color.magenta);
 
         // Get a reference to the script that controls the FMOD event
         //eraserSFX = GetComponent<eraserSFX>;
@@ -148,9 +148,8 @@ public class Attack : MonoBehaviour
         {
             playerMovement.speedModifier = 0f;
             playerMovement.StopMovement();
-            playerMovement.ZoomCamera(0.25f);
-        } 
-        else
+            playerMovement.ZoomCamera(0.35f); // Revive and Recall share timer
+        } else
         {
             playerMovement.speedModifier = 1f;
         }
