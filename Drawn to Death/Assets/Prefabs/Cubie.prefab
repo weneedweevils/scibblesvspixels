@@ -482,14 +482,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 2
-  state: 1
+  state: 0
   isolated: 0
   health: 25
   maxHealth: 25
   speed: 200
-  damage: 10
+  damage: 8
   attackCooldown: 5
-  attackDistance: 50
+  attackDistance: 40
   targetSeeker: {fileID: 6909617949889408915}
   playerSeeker: {fileID: 4562456546076731574}
   seekDistance: 150
@@ -503,6 +503,8 @@ MonoBehaviour:
   healthBar: {fileID: 896092915186945761}
   enemygraphics: {fileID: 4562456546076731575}
   hurtCol: {r: 0.91372555, g: 0.5647059, b: 0.5647059, a: 1}
+  reviveCol: {r: 0.2784314, g: 0.7058824, b: 0.2627451, a: 1}
+  allyCol: {r: 0.59607846, g: 0.8980393, b: 0.59607846, a: 1}
   selfImage: {fileID: 4562456545923964351}
   ProjectileObject: {fileID: 8362002342163769882, guid: aa29f81adcea664408876b86c97306d8,
     type: 3}

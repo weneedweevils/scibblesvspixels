@@ -9,15 +9,17 @@ public class DataPersistenceManager : MonoBehaviour
 
     [Header("File Storage Config")]
     [SerializeField] private string fileName;
-    [SerializeField] private bool newGame;
-    [SerializeField] private bool loadGame;
-    [SerializeField] private bool saveGame;
-
 
     [Header("Scene Variables and References")]
     [SerializeField] private Scene scene;
     [SerializeField] private GameObject cutsceneObject;
-    [SerializeField] private GameObject playerHealthObject;
+    [SerializeField] private GameObject hud;
+
+    [Header("On Start Options")]
+    [SerializeField] private bool newGame;
+    [SerializeField] private bool loadGame;
+    [SerializeField] private bool saveGame;
+    public bool skipCutsceneOnLoad = true;
 
     private GameData gameData;
     private List<IDataPersistence> dataPersistenceObjects;
@@ -73,10 +75,10 @@ public class DataPersistenceManager : MonoBehaviour
         else
         {
             //Disable opening cutscene
-            if (gameData.skipCutscene)
+            if (gameData.skipCutscene && skipCutsceneOnLoad)
             {
                 if (cutsceneObject != null) { cutsceneObject.SetActive(false); }
-                if (cutsceneObject != null) { playerHealthObject.SetActive(true); }
+                if (cutsceneObject != null) { hud.SetActive(true); }
             }
 
             //pass data to other scripts so they can update it
