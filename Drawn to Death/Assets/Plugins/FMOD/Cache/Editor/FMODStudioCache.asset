@@ -15,9 +15,36 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638478654324908533
+  lastModified: 638476144833705025
   FileSizes: []
   Exists: 1
+--- !u!114 &-7257553921649755376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/DashAbility
+  m_EditorClassIdentifier: 
+  Path: event:/DashAbility
+  Guid:
+    Data1: -1891867660
+    Data2: 1261785641
+    Data3: -1000101714
+    Data4: 69249008
+  Banks:
+  - {fileID: 6794467903610354309}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1500
 --- !u!114 &-5119783431379813597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,12 +151,14 @@ MonoBehaviour:
   - {fileID: -5119783431379813597}
   - {fileID: 336344827727746503}
   - {fileID: 5047161402427833993}
+  - {fileID: -7257553921649755376}
+  - {fileID: 2734649584844473153}
   EditorParameters: []
   MasterBanks:
   - {fileID: -7853550995034015514}
   StringsBanks:
   - {fileID: 1766554572796294048}
-  cacheTime: 638478654324968549
+  cacheTime: 638479218901596332
   cacheVersion: 131616
 --- !u!114 &336344827727746503
 MonoBehaviour:
@@ -174,11 +203,38 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638478654324918613
+  lastModified: 638479218901576386
   FileSizes:
   - Name: 
-    Value: 1422
+    Value: 1518
   Exists: 1
+--- !u!114 &2734649584844473153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/RallyAbility
+  m_EditorClassIdentifier: 
+  Path: event:/RallyAbility
+  Guid:
+    Data1: 309744987
+    Data2: 1197408698
+    Data3: 447619740
+    Data4: 1942790570
+  Banks:
+  - {fileID: 6794467903610354309}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4000
 --- !u!114 &3894088465723026671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,7 +435,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638478654324968549
+  lastModified: 638479218901596332
   FileSizes: []
   Exists: 1
 --- !u!114 &7318641604640380683
@@ -445,6 +501,6 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638447486032997810
+  lastModified: 638447570979520745
   FileSizes: []
   Exists: 1
