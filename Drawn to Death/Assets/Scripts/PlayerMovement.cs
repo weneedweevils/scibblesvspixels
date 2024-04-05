@@ -144,6 +144,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             animator.SetBool("dashing", true);
             pencil.enabled = false;
             dashTimer.StartTimer();
+            FMODUnity.RuntimeManager.PlayOneShot("event:/DashAbility");
         }
         else if (dashTimer.IsOnCooldown())
         {
@@ -160,6 +161,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             recallTimer.StartTimer();
             pencil.enabled = false;
             StopMovement();
+            FMODUnity.RuntimeManager.PlayOneShot("event:/RallyAbility");
             animationDone = false;
             animator.SetBool("New Bool", true);
         }
