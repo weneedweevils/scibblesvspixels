@@ -13,8 +13,9 @@ public class Attack : MonoBehaviour
     //Use key
     [Header("Controls")]
     public KeyCode attackButton = KeyCode.Mouse0;
-    public KeyCode reviveButton = KeyCode.Mouse1;
-    public KeyCode lifestealButton = KeyCode.T;
+    public KeyCode lifestealButton = KeyCode.Mouse1;
+    public KeyCode reviveButton = KeyCode.R;
+    
 
         /* ----- Attacking ----- */
 
@@ -57,7 +58,6 @@ public class Attack : MonoBehaviour
 
     //Misc
     private List<EnemyAI> allies = new List<EnemyAI>();
-    private SpriteRenderer reviveImage;
     private SpriteRenderer lifestealImage;
 
 
@@ -81,8 +81,6 @@ public class Attack : MonoBehaviour
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         hitbox = GetComponent<PolygonCollider2D>();
-        reviveImage = player.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>();
-        reviveImage.transform.localScale *= reviveRadius * 10.45f;
         lifestealImage = player.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>();
         lifestealImage.transform.localScale *= lifestealRadius * 10.45f;
 
@@ -151,7 +149,8 @@ public class Attack : MonoBehaviour
             playerMovement.speedModifier = 0f;
             playerMovement.StopMovement();
             playerMovement.ZoomCamera(0.25f);
-        } else
+        } 
+        else
         {
             playerMovement.speedModifier = 1f;
         }
@@ -160,10 +159,6 @@ public class Attack : MonoBehaviour
         if (playerMovement.CanUseAbility())
         {
             if (Input.GetKey(reviveButton) && reviveTimer.IsUseable())
-            {
-                reviveImage.enabled = true;
-            }
-            if (Input.GetKeyUp(reviveButton) && reviveTimer.IsUseable())
             {
                 Debug.Log("Attempting to revive enemies");
                 foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
@@ -174,7 +169,7 @@ public class Attack : MonoBehaviour
                         continue;
                     }
 
-                    if (CustomDist(reviveImage.transform.position, enemy.transform.position + 2.5f * Vector3.down) <= reviveRadius)
+                    if (InReviveRange(enemy.transform))
                     {
                         if (enemy.Revive(0.8f, 0.8f, 1f))
                         {
@@ -187,7 +182,6 @@ public class Attack : MonoBehaviour
                         }
                     }
                 }
-                reviveImage.enabled = false;
             }
         }
         if (reviveTimer.IsOnCooldown())
@@ -270,6 +264,11 @@ public class Attack : MonoBehaviour
         float xScale = 1f;
         float yScale = 0.5f;
         return Mathf.Sqrt(Mathf.Pow(((a.x - b.x) / xScale), 2) + Mathf.Pow(((a.y - b.y) / yScale), 2));
+    }
+
+    public bool InReviveRange(Transform other)
+    {
+        return (CustomDist(transform.position, other.position) <= reviveRadius);
     }
 
     public void ControlAllies()

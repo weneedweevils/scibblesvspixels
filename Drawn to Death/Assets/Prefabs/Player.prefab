@@ -362,6 +362,8 @@ MonoBehaviour:
   maxHealth: 100
   invincibilityDuration: 0.5
   healthBar: {fileID: 0}
+  hud: {fileID: 0}
+  pauseUi: {fileID: 0}
 --- !u!95 &2454788199460616605
 Animator:
   serializedVersion: 3
@@ -477,7 +479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632ae7eb1d4ce49d38a1e38ee7efe7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guid: 37e94a882049b35f-101f65d53f107fc8
+  guid: 1866325097df7bc6-06a020fd66d82934
 --- !u!61 &3786005922980315812
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -669,8 +671,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 2454788199460616583}
   attackButton: 323
-  reviveButton: 324
-  lifestealButton: 116
+  reviveButton: 114
+  lifestealButton: 324
   damage: 20
   knockback: 15
   attackCooldown: 0.5
@@ -685,6 +687,7 @@ MonoBehaviour:
   lifestealDamage: 13
   lifestealDuration: 5
   lifestealBar: {fileID: 0}
+  animator: {fileID: 0}
   eraserSfx: event:/Eraser
   reviveSfx: event:/ReviveAbility
   isHit: 0
