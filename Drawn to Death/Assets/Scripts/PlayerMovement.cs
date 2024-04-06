@@ -131,7 +131,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
 
         // disable movement if player is recalling
-        if (recallTimer.IsActive())
+        if (weapon.reviveTimer.IsActive())
         {
             acceleration.x = 0;
             acceleration.y = 0;
@@ -164,17 +164,17 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
             
         // Recall Ability
-        if (recallTimer.IsUseable() && CanUseAbility() && Input.GetKey(recall)){
-            recallTimer.StartTimer();
+        if (weapon.reviveTimer.IsUseable() && CanUseAbility() && Input.GetKey(recall)){
+            weapon.reviveTimer.StartTimer();
             pencil.enabled = false;
             StopMovement();
             FMODUnity.RuntimeManager.PlayOneShot("event:/RallyAbility");
             animationDone = false;
             animator.SetBool("New Bool", true);
         }
-        else if (recallTimer.IsOnCooldown())
+        else if (weapon.reviveTimer.IsOnCooldown())
         {
-            recallCooldownBar.SetBar(recallTimer.timer);
+            recallCooldownBar.SetBar(weapon.reviveTimer.timer);
         }
 
         if (cam.orthographicSize != noZoom && animationDone == true)
@@ -222,7 +222,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         //Set the speed parameter in the animator
         animator.SetFloat("speed", velocity.magnitude);
 
-        if (!inFreezeDialogue() && !timelinePlaying && !recallTimer.IsActive())
+        if (!inFreezeDialogue() && !timelinePlaying && !weapon.reviveTimer.IsActive())
         {
             if (dashTimer.IsActive() && velocity.x != 0f)
             {
@@ -304,7 +304,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     //Some abilities can not be used simultaneously - Check to see if any of those are not active
     public bool CanUseAbility()
     {
-        return !(weapon.reviveTimer.IsActive() || dashTimer.IsActive() || recallTimer.IsActive()) &&
+        return !(weapon.reviveTimer.IsActive() || dashTimer.IsActive()) &&
                !(inFreezeDialogue() || timelinePlaying);
     }
 
