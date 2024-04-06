@@ -26,29 +26,32 @@ public class CooldownBarBehaviour
     {
         cooldownBar.value = current;
 
-        if (cooldownBar.maxValue - cooldownBar.value < 0.1f && !filled) // Flash white when full
-        {
-            cooldownBar.fillRect.GetComponentInChildren<Image>().color = Color.white;
-            if (frames >= 25)
-            {
-                filled = true;
-            }
-            else
-            {
-                frames += 1;
-            }
-        }
-        else if (cooldownBar.maxValue - cooldownBar.value >= 0.1f)
-        {
-            filled = false;
-            frames = 0f;
-            // Dynamically changes the color of the healthbar based on remaining health
-            cooldownBar.fillRect.GetComponentInChildren<Image>().color = Color.Lerp(low, high, cooldownBar.normalizedValue);
-        }
-        else
-        {
-            // Dynamically changes the color of the healthbar based on remaining health
-            cooldownBar.fillRect.GetComponentInChildren<Image>().color = Color.Lerp(low, high, cooldownBar.normalizedValue);
-        }
+        // Dynamically changes the color of the healthbar based on remaining health
+        cooldownBar.fillRect.GetComponentInChildren<Image>().color = Color.Lerp(low, high, cooldownBar.normalizedValue);
+
+        //if (cooldownBar.maxValue - cooldownBar.value < 0.1f && !filled) // Flash white when full
+        //{
+        //    cooldownBar.fillRect.GetComponentInChildren<Image>().color = Color.white;
+        //    if (frames >= 25)
+        //    {
+        //        filled = true;
+        //    }
+        //    else
+        //    {
+        //        frames += 1;
+        //    }
+        //}
+        //else if (cooldownBar.maxValue - cooldownBar.value >= 0.1f)
+        //{
+        //    filled = false;
+        //    frames = 0f;
+        //    // Dynamically changes the color of the healthbar based on remaining health
+        //    cooldownBar.fillRect.GetComponentInChildren<Image>().color = Color.Lerp(low, high, cooldownBar.normalizedValue);
+        //}
+        //else
+        //{
+        //    // Dynamically changes the color of the healthbar based on remaining health
+        //    cooldownBar.fillRect.GetComponentInChildren<Image>().color = Color.Lerp(low, high, cooldownBar.normalizedValue);
+        //}
     }
 }
