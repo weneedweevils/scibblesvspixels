@@ -39,7 +39,10 @@ public abstract class EnemyAI : MonoBehaviour
     public bool slowed = false;
     public bool lifestealing = false;
     public CooldownTimer slowedTimer;
+    public CooldownTimer buffTimer;
     public float slowDuration;
+    public float buffDuration;
+    public bool buffed = false;
 
     [Header("References")]
     public Collider2D movementCollider;
@@ -106,6 +109,7 @@ public abstract class EnemyAI : MonoBehaviour
         invincibilityTimer2 = new CooldownTimer(0f, invincibilityDuration);
         attackTimer = new CooldownTimer(attackCooldown, attackDuration);
         slowedTimer = new CooldownTimer(0.1f, slowDuration);
+        buffTimer = new CooldownTimer(0.1f, buffDuration);
 
         //Start a repeating functon
         InvokeRepeating("CheckState", 0f, 0.5f); //Update the path every half second
@@ -190,6 +194,7 @@ public abstract class EnemyAI : MonoBehaviour
         invincibilityTimer2.Update();
         attackTimer.Update();
         slowedTimer.Update();
+        buffTimer.Update();
 
         //Fix color after hurt
         if ( (invincibilityTimer.IsOnCooldown() && !invincibilityTimer2.IsActive()) || 
@@ -203,6 +208,24 @@ public abstract class EnemyAI : MonoBehaviour
         if (health <= 0 && state != State.dead && state != State.dying)
         {
             Kill(); // Ded
+        }
+
+        // Check if buffed
+        if (buffed)
+        {
+            if (buffTimer.IsOnCooldown())
+            {
+                buffed = false;
+                speed /= 2;
+                damage /= 2;
+                attackTimer.SetCooldown(attackCooldown);
+                selfImage.color = Color.white;
+            }
+            if (buffTimer.IsUseable())
+            {
+                buffTimer.StartTimer();
+            }
+            selfImage.color = Color.magenta;
         }
 
         // Check if being lifestolen
@@ -455,7 +478,7 @@ public abstract class EnemyAI : MonoBehaviour
         }
     }
 
-    // Function to run when player takes damage
+    // Function to run when enemies/allies takes damage
     public void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f)
     {
         //Dont hit dead bodies
@@ -493,6 +516,20 @@ public abstract class EnemyAI : MonoBehaviour
             invincibilityTimer.StartTimer();
         }
         
+    }
+
+    // Function to run when enemies/allies heal
+    public void Heal(float healthRestored)
+    {
+        if (health < maxHealth)
+        {
+            health += healthRestored;
+        }
+        else
+        {
+            health = maxHealth;
+        }
+        healthBar.SetHealth(health, maxHealth);
     }
 
     //Set a new target using a GameObject
