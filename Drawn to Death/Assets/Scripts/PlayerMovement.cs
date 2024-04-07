@@ -14,6 +14,7 @@ using UnityEngine.Timeline;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using static System.Net.Mime.MediaTypeNames;
+using MilkShake;
 
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
@@ -85,6 +86,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     [SerializeField] private GameObject hud;
     public GameObject pauseUi;
     private GameObject panel; // This is the panel that contains in image whose color can be changed to simulate a damage effect
+    public ShakePreset myShakePreset;
     
     
 
@@ -289,7 +291,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             return;
         }
 
+        Shaker.ShakeAll(myShakePreset);
         ChangeScreenColor(true);
+
         health -= damageTaken;
         invincibilityTimer.StartTimer();
         healthBar.SetHealth(health, maxHealth);

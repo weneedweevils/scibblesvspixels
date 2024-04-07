@@ -481,10 +481,10 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     // Function to run when enemies/allies takes damage
-    public void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f)
+    public void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f, bool lifeSteal = false)
     {
         //Dont hit dead bodies
-        if (state == State.dead || state == State.dying)
+        if (state == State.dead || state == State.dying || (team == Team.player && playerAttack.reviveTimer.IsActive() && !lifeSteal))
         {
             return;
         }
@@ -517,6 +517,8 @@ public abstract class EnemyAI : MonoBehaviour
         {
             invincibilityTimer.StartTimer();
         }
+
+        return;
         
     }
 

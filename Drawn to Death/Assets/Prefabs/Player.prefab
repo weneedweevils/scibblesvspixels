@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1399807147}
   - component: {fileID: 1399807150}
   - component: {fileID: 7240034892591243871}
+  - component: {fileID: 3462483169460010922}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -117,6 +118,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attenuationObject: {fileID: 2454788199460616583}
+--- !u!114 &3462483169460010922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399807146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1697a0132719bae458729c9e99c0c716, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  addToGlobalShakers: 1
 --- !u!1 &1977690071197480962
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,6 +380,7 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   hud: {fileID: 0}
   pauseUi: {fileID: 0}
+  myShakePreset: {fileID: 11400000, guid: e5d41b595dad9f8459dc7b99c17d346f, type: 2}
 --- !u!95 &2454788199460616605
 Animator:
   serializedVersion: 3
@@ -481,7 +496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632ae7eb1d4ce49d38a1e38ee7efe7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guid: 451152481047cc48-9ffd59e38598b81b
+  guid: 49407d0ef89d2c86-b3861c4bcd765870
 --- !u!61 &3786005922980315812
 BoxCollider2D:
   m_ObjectHideFlags: 0

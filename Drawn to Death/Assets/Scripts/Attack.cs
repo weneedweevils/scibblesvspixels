@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
+using TMPro;
 
 public class Attack : MonoBehaviour
 {
@@ -59,6 +60,7 @@ public class Attack : MonoBehaviour
     //Misc
     private List<EnemyAI> allies = new List<EnemyAI>();
     private SpriteRenderer lifestealImage;
+    public TextMeshProUGUI uiCounter;
 
 
     /* ----- Misc ----- */
@@ -103,6 +105,8 @@ public class Attack : MonoBehaviour
         {
             ControlAllies();
         }
+
+        uiCounter.text = allies.Count.ToString();
         
         if (!player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying && Time.timeScale!=0f)
         {
@@ -199,6 +203,7 @@ public class Attack : MonoBehaviour
     {
         //Lifesteal Timer
         lifestealTimer.Update();
+ 
 
         if (playerMovement.CanUseAbility() && lifestealTimer.IsUseable() && Input.GetKeyDown(lifestealButton))
         {
@@ -216,19 +221,23 @@ public class Attack : MonoBehaviour
                 {
                     if (enemy.team == Team.oddle)
                     {
-                        enemy.Damage(dmg, false);
+                        enemy.Damage(dmg, false, lifeSteal:true);
+                        
                         player.GetComponent<PlayerMovement>().Heal(dmg / 2); // HEALS
                         enemy.lifestealing = true;
                         //line.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, -1));
                         //line.SetPosition(1, new Vector3(enemy.transform.position.x, enemy.transform.position.y, -1));
+                        
                     }
                     else if (enemy.team == Team.player)
                     {
-                        enemy.Damage(dmg, false);
+
+                        enemy.Damage(dmg, false, lifeSteal: true);
                         player.GetComponent<PlayerMovement>().Heal(dmg); // HEALS
                         enemy.lifestealing = true;
                         //line.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, -1));
                         //line.SetPosition(1, new Vector3(enemy.transform.position.x, enemy.transform.position.y, -1));
+                        
                     }
                 }
                 else
@@ -279,7 +288,7 @@ public class Attack : MonoBehaviour
                 continue;
             }
 
-            float dist = enemy.PathLength();
+            float dist = enemy.PathLength(true);
             if (dist <= targetDistance && dist < minDist)
             {
                 target = enemy;
