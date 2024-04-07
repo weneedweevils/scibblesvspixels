@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using UnityEngine.UIElements;
 
 // Used this video for most of the script https://www.youtube.com/watch?v=jvtFUfJ6CP8a
 // if you want to use this in FSM inherit from EnemybaseState class
@@ -52,6 +53,7 @@ public abstract class EnemyAI : MonoBehaviour
     public Color reviveCol = Color.green;
     public Color allyCol = Color.green;
     public SpriteRenderer selfImage;
+    public GameObject panel;
 
         /* ----- Hidden Variables ----- */
 

@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 using static System.Net.Mime.MediaTypeNames;
 
 
@@ -39,7 +40,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public float dashBoost;
     public float dashCooldown;
     public CooldownTimer dashTimer;
-    public Slider dashBar;
+    public UnityEngine.UI.Slider dashBar;
     private CooldownBarBehaviour dashCooldownBar;
 
     //Animations
@@ -52,7 +53,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     [SerializeField] private SpriteRenderer pencil;
     private GameObject[] enemies;
     public CooldownTimer recallTimer;
-    public Slider recallBar;
+    public UnityEngine.UI.Slider recallBar;
     private CooldownBarBehaviour recallCooldownBar;
     public float allyHealPercentage;
 
@@ -83,9 +84,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     [Header("Other")]
     [SerializeField] private GameObject hud;
     public GameObject pauseUi;
+    private GameObject panel; // This is the panel that contains in image whose color can be changed to simulate a damage effect
+    
+    
 
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
+    private UnityEngine.UI.Image damageScreen;
 
     // Start is called before the first frame update
     void Start()
@@ -105,6 +110,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         recallTimer = weapon.reviveTimer; // Recall and Revive share duration and cooldown timer lengths
         dashCooldownBar = new CooldownBarBehaviour(dashBar, dashCooldown, Color.gray, Color.magenta);
         recallCooldownBar = new CooldownBarBehaviour(recallBar, weapon.reviveCooldown, Color.gray, Color.magenta);
+
+        panel = GameObject.FindGameObjectWithTag("DamageFlash");
+        damageScreen = panel.GetComponent<UnityEngine.UI.Image>();
     }
 
     // Update is called once per frame
@@ -193,6 +201,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         //Animate
         ManageAnimations();
         healthBar.SetHealth(health, maxHealth);
+
+        //change screen flash back to normal 
+        ChangeScreenColor(false);
+       
     }
 
     private float VelocityCalc(float a, float v, float modifier = 1f)
@@ -276,6 +288,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
             return;
         }
+
+        ChangeScreenColor(true);
         health -= damageTaken;
         invincibilityTimer.StartTimer();
         healthBar.SetHealth(health, maxHealth);
@@ -286,6 +300,29 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             MenuManager.GotoScene(Scene.Ded);
         }
     }
+
+    // function to handle changing the color of the screen when damaged
+    public void ChangeScreenColor(bool damaged)
+    {
+        if (damageScreen != null)
+        {
+            if (damageScreen.color.a > 0 && !damaged)
+            {
+                var temp = damageScreen.color;
+                temp.a -= 0.005f;
+                damageScreen.color = temp;
+
+            }
+            // change screen to red by adjusting alpha value
+            if (damaged)
+            {
+                var temp = damageScreen.color;
+                temp.a = 0.5f;
+                damageScreen.color = temp;
+            }
+        }
+    }
+
 
     // Function to run when player heals
     public void Heal(float healthRestored)
