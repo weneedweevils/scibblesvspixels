@@ -24,6 +24,7 @@ public abstract class EnemyAI : MonoBehaviour
     public float damage;
     public float attackCooldown;
     public float attackDistance;
+    public float slowdownFactor = 3f;
 
     [Header("Pathfinding")]
     public Seeker targetSeeker;
@@ -233,7 +234,7 @@ public abstract class EnemyAI : MonoBehaviour
         {
             if (!slowed && team == Team.oddle) // Only slow enemy Oodles
             {
-                speed /= 2;
+                speed /= slowdownFactor;
                 slowed = true;
             }
             selfImage.color = Color.red;
@@ -255,7 +256,7 @@ public abstract class EnemyAI : MonoBehaviour
         if (slowedTimer.IsOnCooldown() && !lifestealing && slowed)
         {
             slowed = false;
-            speed *= 2;
+            speed *= slowdownFactor;
             selfImage.color = team == Team.player ? allyCol : Color.white;
         }
 
