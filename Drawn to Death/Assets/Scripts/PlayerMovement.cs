@@ -176,7 +176,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
             
         // Recall Ability
-        if (weapon.reviveTimer.IsUseable() && CanUseAbility() && Input.GetKey(recall)){
+        if (weapon.reviveTimer.IsUseable() && CanUseAbility() && Input.GetKey(recall) && weapon.GetAllies().Count>0){
             weapon.reviveTimer.StartTimer();
             pencil.enabled = false;
             StopMovement();
@@ -293,7 +293,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             return;
         }
 
-        shakeCam.Shake(myShakePreset);
+        if (shakeCam != null)
+        {
+            shakeCam.Shake(myShakePreset);
+        }
+
         ChangeScreenColor(true);
 
         health -= damageTaken;
