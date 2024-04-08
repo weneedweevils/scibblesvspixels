@@ -105,9 +105,10 @@ public class Attack : MonoBehaviour
         {
             ControlAllies();
         }
-
-        uiCounter.text = allies.Count.ToString();
-        
+        if (uiCounter != null)
+        {
+            uiCounter.text = allies.Count.ToString();
+        }
         if (!player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying && Time.timeScale!=0f)
         {
             CheckAttack();

@@ -87,6 +87,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public GameObject pauseUi;
     private GameObject panel; // This is the panel that contains in image whose color can be changed to simulate a damage effect
     public ShakePreset myShakePreset;
+    public Shaker shakeCam;
     
     
 
@@ -115,6 +116,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         panel = GameObject.FindGameObjectWithTag("DamageFlash");
         damageScreen = panel.GetComponent<UnityEngine.UI.Image>();
+       
     }
 
     // Update is called once per frame
@@ -291,7 +293,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             return;
         }
 
-        Shaker.ShakeAll(myShakePreset);
+        shakeCam.Shake(myShakePreset);
         ChangeScreenColor(true);
 
         health -= damageTaken;
