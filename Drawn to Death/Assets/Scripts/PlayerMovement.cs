@@ -89,6 +89,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private UnityEngine.UI.Image restricted;
     public ShakePreset myShakePreset;
     public Shaker shakeCam;
+
     
     
 
@@ -262,6 +263,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void ManageAnimations()
     {
+       
         //Set the speed parameter in the animator
         animator.SetFloat("speed", velocity.magnitude);
 
@@ -276,13 +278,17 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             {
                 //Flip the sprite according to mouse position relative to the players position
                 Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+
                 sprite.flipX = mousePosition.x < transform.position.x;
+
             }
-            
+
         }
 
         //Account for backwards movement
         animator.SetBool("backwards", velocity.x != 0f && (velocity.x < 0f != sprite.flipX));
+        
     }
 
     public void StopMovement()
@@ -331,12 +337,20 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         invincibilityTimer.StartTimer();
         healthBar.SetHealth(health, maxHealth);
 
+      
+
         if (health <= 0)
         {
+          
             Debug.Log("oooof I am ded RIP :(");
             MenuManager.GotoScene(Scene.Ded);
         }
     }
+
+ 
+       
+        
+    
 
     // function to handle changing the color of the screen when damaged
     public void ChangeScreenColor(bool damaged)
