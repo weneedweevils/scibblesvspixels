@@ -86,6 +86,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     [SerializeField] private GameObject hud;
     public GameObject pauseUi;
     private GameObject panel; // This is the panel that contains in image whose color can be changed to simulate a damage effect
+    private UnityEngine.UI.Image restricted;
     public ShakePreset myShakePreset;
     public Shaker shakeCam;
     
@@ -116,6 +117,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         panel = GameObject.FindGameObjectWithTag("DamageFlash");
         damageScreen = panel.GetComponent<UnityEngine.UI.Image>();
+
+        restricted = GameObject.Find("RestrictRally").GetComponent<UnityEngine.UI.Image>();
        
     }
 
@@ -174,8 +177,27 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             }
             dashCooldownBar.SetBar(dashTimer.timer);
         }
-            
+
         // Recall Ability
+
+        // Update X over Recall UI
+        if (restricted != null)
+        {
+            if (weapon.GetAllies().Count == 0)
+            {
+                var temp = restricted.color;
+                temp.a = 1f;
+                restricted.color = temp;
+            }
+            else
+            {
+                var temp = restricted.color;
+                temp.a = 0f;
+                restricted.color = temp;
+            }
+        }
+
+        // If player pressed recall and they are not on cooldown and they have allies, do recall
         if (weapon.reviveTimer.IsUseable() && CanUseAbility() && Input.GetKey(recall) && weapon.GetAllies().Count>0){
             weapon.reviveTimer.StartTimer();
             pencil.enabled = false;
@@ -183,17 +205,22 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             FMODUnity.RuntimeManager.PlayOneShot("event:/RallyAbility");
             animationDone = false;
             animator.SetBool("New Bool", true);
+            
         }
         else if (weapon.reviveTimer.IsOnCooldown())
         {
             recallCooldownBar.SetBar(weapon.reviveTimer.timer);
         }
 
+        
+
+
         if (cam.orthographicSize != noZoom && animationDone == true)
         {
             cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, noZoom, Time.deltaTime * 5f);
             targetZoom = noZoom;
         }
+
 
         //Predict new position
         Vector2 currentPos = rbody.position;
@@ -332,6 +359,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             }
         }
     }
+
+ 
 
 
     // Function to run when player heals
