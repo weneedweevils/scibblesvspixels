@@ -24,6 +24,33 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &-8296637110823047609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/PencilSnap
+  m_EditorClassIdentifier: 
+  Path: event:/PencilSnap
+  Guid:
+    Data1: -1197300659
+    Data2: 1222820971
+    Data3: 843024525
+    Data4: 1083446768
+  Banks:
+  - {fileID: 4239488217956977592}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4374
 --- !u!114 &-8265355613792489783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,7 +136,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638482039610000000
+  lastModified: 638482194650000000
   FileSizes: []
   Exists: 1
 --- !u!114 &-6398945634125407533
@@ -310,12 +337,14 @@ MonoBehaviour:
   - {fileID: 92634032118725457}
   - {fileID: -2139127987520359414}
   - {fileID: 3856085370948523900}
+  - {fileID: -8296637110823047609}
+  - {fileID: 404742019991061992}
   EditorParameters: []
   MasterBanks:
   - {fileID: -6739459720092019666}
   StringsBanks:
   - {fileID: 7797934752597644469}
-  cacheTime: 638482044640000000
+  cacheTime: 638482197880000000
   cacheVersion: 131616
 --- !u!114 &92634032118725457
 MonoBehaviour:
@@ -345,6 +374,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &404742019991061992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/OodleKnightAttack
+  m_EditorClassIdentifier: 
+  Path: event:/OodleKnightAttack
+  Guid:
+    Data1: -289516396
+    Data2: 1133958231
+    Data3: 1572154288
+    Data4: -1734565241
+  Banks:
+  - {fileID: 4239488217956977592}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1523
 --- !u!114 &452028480001304215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -487,7 +543,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638482044640000000
+  lastModified: 638482197880000000
   FileSizes: []
   Exists: 1
 --- !u!114 &4248065584152844610
@@ -708,10 +764,10 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638482044640000000
+  lastModified: 638482194650000000
   FileSizes:
   - Name: 
-    Value: 2260
+    Value: 2344
   Exists: 1
 --- !u!114 &8242747836718603898
 MonoBehaviour:
