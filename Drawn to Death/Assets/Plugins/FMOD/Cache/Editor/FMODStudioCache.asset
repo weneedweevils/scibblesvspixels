@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8999642855625844223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/GlichDialogueMad/GlichDialogueMad
+  m_EditorClassIdentifier: 
+  Name: GlichDialogueMad
+  StudioPath: 
+  Min: 0
+  Max: 3
+  Default: 1.5
+  ID:
+    data1: 1842180285
+    data2: 2745136745
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &-8265355613792489783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/OodleDialogueGeneral/OodlerDialogueGeneral
+  m_EditorClassIdentifier: 
+  Name: OodlerDialogueGeneral
+  StudioPath: 
+  Min: 0
+  Max: 4
+  Default: 2
+  ID:
+    data1: 1319693129
+    data2: 1342347915
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-8016587225858822277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,9 +63,37 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638480099569688533
+  lastModified: 638481873920000000
   FileSizes: []
   Exists: 1
+--- !u!114 &-6832347123653039277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/GlichDialogueGeneral
+  m_EditorClassIdentifier: 
+  Path: event:/GlichDialogueGeneral
+  Guid:
+    Data1: 1578118677
+    Data2: 1275607896
+    Data3: -1828671599
+    Data4: 274770619
+  Banks:
+  - {fileID: 4239488217956977592}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 5230207443223865336}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-6739459720092019666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33,7 +109,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638480099569520343
+  lastModified: 638482039610000000
   FileSizes: []
   Exists: 1
 --- !u!114 &-6398945634125407533
@@ -144,6 +220,62 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-2139127987520359414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/GlichDialogueMad
+  m_EditorClassIdentifier: 
+  Path: event:/GlichDialogueMad
+  Guid:
+    Data1: 88451555
+    Data2: 1334396074
+    Data3: 1993160596
+    Data4: 1870340626
+  Banks:
+  - {fileID: 4239488217956977592}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -8999642855625844223}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-368533891237958184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/OodlerDialogueConfused
+  m_EditorClassIdentifier: 
+  Path: event:/OodlerDialogueConfused
+  Guid:
+    Data1: 414351043
+    Data2: 1153803166
+    Data3: 737146004
+    Data4: 74229030
+  Banks:
+  - {fileID: 4239488217956977592}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 4157479222591802341}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,13 +304,47 @@ MonoBehaviour:
   - {fileID: -2418673337401263459}
   - {fileID: 7162611894938168009}
   - {fileID: 8565912107568882131}
+  - {fileID: -6832347123653039277}
+  - {fileID: 5320699614408215862}
+  - {fileID: -368533891237958184}
+  - {fileID: 92634032118725457}
+  - {fileID: -2139127987520359414}
+  - {fileID: 3856085370948523900}
   EditorParameters: []
   MasterBanks:
   - {fileID: -6739459720092019666}
   StringsBanks:
   - {fileID: 7797934752597644469}
-  cacheTime: 638480099569728536
+  cacheTime: 638482039610000000
   cacheVersion: 131616
+--- !u!114 &92634032118725457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/OodleDialogueGeneral
+  m_EditorClassIdentifier: 
+  Path: event:/OodleDialogueGeneral
+  Guid:
+    Data1: -2001524018
+    Data2: 1300591871
+    Data3: -912540482
+    Data4: -37138128
+  Banks:
+  - {fileID: 4239488217956977592}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -8265355613792489783}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &452028480001304215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,6 +396,34 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &3856085370948523900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/GlichDialogueConfused
+  m_EditorClassIdentifier: 
+  Path: event:/GlichDialogueConfused
+  Guid:
+    Data1: 1818707455
+    Data2: 1125815505
+    Data3: 1872392617
+    Data4: 950402479
+  Banks:
+  - {fileID: 4239488217956977592}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 5800204136709450509}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &3882907685932165424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,11 +440,35 @@ MonoBehaviour:
   StudioPath: 
   Min: 0
   Max: 5
-  Default: 0
+  Default: 2.5
   ID:
     data1: 1268923689
     data2: 495225294
-  Type: 1
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &4157479222591802341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/OodlerDialogueConfused/OodlerDialogueConfused
+  m_EditorClassIdentifier: 
+  Name: OodlerDialogueConfused
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 1424895566
+    data2: 3896175710
+  Type: 0
   IsGlobal: 0
   Labels: []
   Exists: 1
@@ -269,7 +487,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638480099569728536
+  lastModified: 638482039610000000
   FileSizes: []
   Exists: 1
 --- !u!114 &4248065584152844610
@@ -299,6 +517,58 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 50
   Length: 3827
+--- !u!114 &5230207443223865336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/GlichDialogueGeneral/GlichDialogueGeneral
+  m_EditorClassIdentifier: 
+  Name: GlichDialogueGeneral
+  StudioPath: 
+  Min: 0
+  Max: 2
+  Default: 1
+  ID:
+    data1: 2632409136
+    data2: 120435025
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &5320699614408215862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/OodlerDialogueQuestion
+  m_EditorClassIdentifier: 
+  Path: event:/OodlerDialogueQuestion
+  Guid:
+    Data1: 835358060
+    Data2: 1074817601
+    Data3: 1150651057
+    Data4: -527908716
+  Banks:
+  - {fileID: 4239488217956977592}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 6232768733487298603}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &5586026124975961398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +590,54 @@ MonoBehaviour:
     data1: 3535946335
     data2: 2883146917
   Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &5800204136709450509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/GlichDialogueConfused/GlichDialogueConfused
+  m_EditorClassIdentifier: 
+  Name: GlichDialogueConfused
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 1339209380
+    data2: 2589228340
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &6232768733487298603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/OodlerDialogueQuestion/OodlerDialogueQuestion
+  m_EditorClassIdentifier: 
+  Name: OodlerDialogueQuestion
+  StudioPath: 
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 3192507160
+    data2: 2474113166
+  Type: 0
   IsGlobal: 0
   Labels: []
   Exists: 1
@@ -390,10 +708,10 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638480099569530357
+  lastModified: 638482039610000000
   FileSizes:
   - Name: 
-    Value: 1690
+    Value: 2260
   Exists: 1
 --- !u!114 &8242747836718603898
 MonoBehaviour:
