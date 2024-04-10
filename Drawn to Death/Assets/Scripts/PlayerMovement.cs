@@ -59,6 +59,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public UnityEngine.UI.Slider recallBar;
     private CooldownBarBehaviour recallCooldownBar;
     public float allyHealPercentage;
+    
+    private UnityEngine.UI.Image recallNotifier;
+    private bool activatedRecallNotifier = false;
 
     //camera 
     private Camera cam;
@@ -93,8 +96,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public Shaker shakeCam;
 
     
-    
-
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
     private UnityEngine.UI.Image damageScreen;
@@ -118,10 +119,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         dashCooldownBar = new CooldownBarBehaviour(dashBar, dashCooldown, Color.gray, Color.magenta);
         recallCooldownBar = new CooldownBarBehaviour(recallBar, weapon.reviveCooldown, Color.gray, Color.magenta);
         dashNotifier = dashBar.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();
+        recallNotifier = recallBar.transform.GetChild(3).GetComponent<UnityEngine.UI.Image>();
 
         panel = GameObject.FindGameObjectWithTag("DamageFlash");
         damageScreen = panel.GetComponent<UnityEngine.UI.Image>();
-        
+
         restricted = GameObject.Find("RestrictRally").GetComponent<UnityEngine.UI.Image>();
        
     }
@@ -216,7 +218,31 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                 var temp = restricted.color;
                 temp.a = 0f;
                 restricted.color = temp;
+                Debug.Log("we have friends");
+
+                if((recallTimer.IsUseable()||weapon.reviveTimer.IsUseable()) && !activatedRecallNotifier){
+                    Debug.Log("we herejkandjknjadfjin");
+                    var temp1 = recallNotifier.color;
+                    temp1.a = 1f;
+                    recallNotifier.color = temp1;
+                    activatedRecallNotifier = true;
+                }
             }
+        }
+
+        if ((Input.GetKey(recall)||Input.GetKey(weapon.reviveButton)) && weapon.GetAllies().Count>0){
+            Debug.Log("we in here" );
+            weapon.activatedReviveNotifier = false;
+            activatedRecallNotifier = false;
+        }
+        
+
+        if (recallNotifier.color.a > 0)
+        {
+            var temp = recallNotifier.color;
+            temp.a -= 0.01f;
+            recallNotifier.color = temp;
+
         }
 
         // If player pressed recall and they are not on cooldown and they have allies, do recall
@@ -227,15 +253,21 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             FMODUnity.RuntimeManager.PlayOneShot("event:/RallyAbility");
             animationDone = false;
             animator.SetBool("New Bool", true);
-            
         }
+
+
         else if (weapon.reviveTimer.IsOnCooldown())
         {
             recallCooldownBar.SetBar(weapon.reviveTimer.timer);
         }
 
         
+       
 
+        //  if ((Input.GetKey(recall)||Input.GetKey(weapon.reviveButton)) && weapon.GetAllies().Count>0){
+        //     Debug.Log("we in here" );
+        //     activatedRecallNotifier = false;
+        // }
 
         if (cam.orthographicSize != noZoom && animationDone == true)
         {

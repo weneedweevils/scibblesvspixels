@@ -44,7 +44,7 @@ public class Attack : MonoBehaviour
     private CooldownBarBehaviour reviveCooldownBar;
     private float reviveDuration = 126f / 60f; // Revive and Recall share timer
     private UnityEngine.UI.Image reviveNotifier;
-    private bool activatedReviveNotifier = false;
+    public bool activatedReviveNotifier = false;
 
          /* ----- Lifesteal ----- */
 
@@ -197,7 +197,9 @@ public class Attack : MonoBehaviour
 
                     if (InReviveRange(enemy.transform))
                     {
+
                          activatedReviveNotifier = false;
+
                         if (enemy.Revive(0.8f, 0.8f, 1f))
                         {
                             allies.Add(enemy);
