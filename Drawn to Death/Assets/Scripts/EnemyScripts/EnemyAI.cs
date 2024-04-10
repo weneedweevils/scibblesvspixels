@@ -475,7 +475,7 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     //Revive this entity as an ally to the player
-    virtual public bool Revive(float percentMaxHP = 1f, float percentDamage = 1f, float percentSpeed = 1f)
+    virtual public bool Revive(float percentMaxHP = 1f, float percentDamage = 1f, float percentSpeed = 1f, float percentAttkSpeed = 1f)
     {
         if (state == State.dead && team == Team.neutral)
         {
@@ -492,6 +492,7 @@ public abstract class EnemyAI : MonoBehaviour
             damage *= percentDamage;
             speed *= percentSpeed;
             health = maxHealth;
+            attackTimer.SetCooldown(attackTimer.cooldownDuration * percentAttkSpeed);
 
             //Re-enable collisions
             movementCollider.enabled = true;

@@ -34,7 +34,7 @@ public class DoodleBars : EnemyAI
         return;
     }
 
-    override public bool Revive(float percentMaxHP = 1f, float percentDamage = 1f, float percentSpeed = 1f)
+    override public bool Revive(float percentMaxHP = 1f, float percentDamage = 1f, float percentSpeed = 1f, float percentAttkSpeed = 1f)
     {
         return false;
     }

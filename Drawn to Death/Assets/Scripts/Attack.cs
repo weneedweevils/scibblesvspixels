@@ -178,7 +178,7 @@ public class Attack : MonoBehaviour
 
                     if (InReviveRange(enemy.transform))
                     {
-                        if (enemy.Revive(0.8f, 0.8f, 1f))
+                        if (enemy.Revive(0.8f, 0.8f, 1f, 0.75f))
                         {
                             allies.Add(enemy);
                             reviveTimer.StartTimer();
