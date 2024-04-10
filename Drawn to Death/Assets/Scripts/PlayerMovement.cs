@@ -222,7 +222,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                 temp.a = 0f;
                 restricted.color = temp;
                 
-                if((recallTimer.IsUseable()||weapon.reviveTimer.IsUseable()) && !activatedRecallNotifier){
+                if(weapon.reviveTimer.IsUseable() && !activatedRecallNotifier){
                     var temp1 = recallNotifier.color;
                     temp1.a = 1f;
                     recallNotifier.color = temp1;
