@@ -294,6 +294,8 @@ public abstract class EnemyAI : MonoBehaviour
                 }
             case State.chase:
                 {
+                    animator.SetBool("attacking", false);
+                    animator.SetBool("chasing", true);
                     //chase Behaviour
                     if (PathLength() > seekDistance && team == Team.oddle)
                     {
@@ -371,6 +373,8 @@ public abstract class EnemyAI : MonoBehaviour
             case State.follow:
                 {
                     //follow Behaviour
+                    animator.SetBool("attacking", false);
+                    animator.SetBool("chasing", true);
                     MoveEnemy();
                     break;
                 }
