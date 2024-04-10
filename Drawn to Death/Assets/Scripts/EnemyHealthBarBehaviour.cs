@@ -34,4 +34,9 @@ public class EnemyHealthBarBehaviour : MonoBehaviour
     {
         healthBar.transform.position = Camera.main.WorldToScreenPoint(transform.parent.position + offset);
     }
+
+    public void Disable()
+    {
+        healthBar.gameObject.SetActive(false);
+    }
 }

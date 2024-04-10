@@ -6,6 +6,7 @@ public class DoodleCrab : EnemyAI
 {
     [Header("Doodle Crab Specific References")]
     public float lungeForce = 25000f;
+    public bool cutscene = false;
 
     override protected void Start()
     {
@@ -21,6 +22,16 @@ public class DoodleCrab : EnemyAI
         {
             //Continue with the base class implementation of FixedUpdate
             base.FixedUpdate();
+            if (cutscene)
+            {
+                cutscene = false;
+                base.healthBar.SetHealth(base.health, base.maxHealth);
+            }
+        }
+        else if (!cutscene)
+        {
+            cutscene = true;
+            base.healthBar.Disable();
         }
     }
 
