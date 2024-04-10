@@ -165,6 +165,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         
         //Dash ability
 
+        // if dash is useable flash the dash notifier
         if(dashTimer.IsUseable() && !activatedDashNotifier){
             var temp1 = dashNotifier.color;
             temp1.a = 1f;
@@ -172,7 +173,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             activatedDashNotifier = true;
         }
 
-          if (dashNotifier.color.a > 0 )
+        // if dash notifier is visible, decrease the alpha value
+        if (dashNotifier.color.a > 0 )
         {
             var temp = dashNotifier.color;
             temp.a -= 0.01f;
@@ -207,6 +209,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         // Update X over Recall UI
         if (restricted != null)
         {
+            // if we have no allies show x over the icon otherwise flash the recall notifier if off cooldown
             if (weapon.GetAllies().Count == 0)
             {
                 var temp = restricted.color;
@@ -218,7 +221,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                 var temp = restricted.color;
                 temp.a = 0f;
                 restricted.color = temp;
-
+                
                 if((recallTimer.IsUseable()||weapon.reviveTimer.IsUseable()) && !activatedRecallNotifier){
                     var temp1 = recallNotifier.color;
                     temp1.a = 1f;
@@ -228,12 +231,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             }
         }
 
+        // reset notifier if we have allies or have pressed revive or recall
         if ((Input.GetKey(recall)||Input.GetKey(weapon.reviveButton)) && weapon.GetAllies().Count>0){
             weapon.activatedReviveNotifier = false;
             activatedRecallNotifier = false;
         }
         
-
+        // if recall notifier is visible, decrease the alpha value
         if (recallNotifier.color.a > 0)
         {
             var temp = recallNotifier.color;
@@ -258,13 +262,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             recallCooldownBar.SetBar(weapon.reviveTimer.timer);
         }
 
-        
-       
-
-        //  if ((Input.GetKey(recall)||Input.GetKey(weapon.reviveButton)) && weapon.GetAllies().Count>0){
-        //     Debug.Log("we in here" );
-        //     activatedRecallNotifier = false;
-        // }
 
         if (cam.orthographicSize != noZoom && animationDone == true)
         {

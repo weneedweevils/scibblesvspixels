@@ -22,6 +22,7 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // If the player is not in a dialogue or timeline, then the pause menu can be accessed via escape
         if(!player.inFreezeDialogue() && !player.timelinePlaying){
             if (Input.GetKeyDown(KeyCode.Escape)) {
 
@@ -52,13 +53,14 @@ public class PauseMenu : MonoBehaviour
       
         
     }
+
+    // resumes the game
     public void Resume(){
         PauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         gameIsPaused = false;
-        Debug.Log("WORKING");
-        
     }
+    // pauses the game
     void Pause(){
         PauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
@@ -67,12 +69,14 @@ public class PauseMenu : MonoBehaviour
 
     }
 
+    // load menu
     public void LoadMenu(){
         SceneManager.LoadScene(Menu);
         Time.timeScale = 1f;
         gameIsPaused = false;
     }
 
+    // load controls/instructions screen
     public void InstructionScreen()
     {
         MenuUI.SetActive(false);
@@ -81,23 +85,27 @@ public class PauseMenu : MonoBehaviour
         
     }
 
+    // go back from controls/instructions screen to pause screen
     public void ControlsBack()
     {
         ControlsUI.SetActive(false);
         MenuUI.SetActive(true);
     }
 
+    // go back to from settings screen to pause ui
     public void SettingsBack(){
         SettingsUI.SetActive(false);
         MenuUI.SetActive(true);
     }
 
+    // go to the settings menu
     public void SettingsMenu()
     {
         SettingsUI.SetActive(true);
         MenuUI.SetActive(false);
     }
 
+    // quit the game
     public void QuitGame()
     {
         Application.Quit();

@@ -154,6 +154,7 @@ public class Attack : MonoBehaviour
         //Revive Timer
         reviveTimer.Update();
         
+        // if revive is at max cooldown, flash the notifier
          if(reviveTimer.IsUseable() && !activatedReviveNotifier){
             var temp1 = reviveNotifier.color;
             temp1.a = 1f;
@@ -161,7 +162,8 @@ public class Attack : MonoBehaviour
             activatedReviveNotifier = true;
         }
 
-         if (reviveNotifier.color.a > 0 )
+        // bring revive notifier alpha back to zero after it flashes
+        if (reviveNotifier.color.a > 0 )
         {
             var temp = reviveNotifier.color;
             temp.a -= 0.01f;
@@ -198,7 +200,7 @@ public class Attack : MonoBehaviour
                     if (InReviveRange(enemy.transform))
                     {
 
-                         activatedReviveNotifier = false;
+                         activatedReviveNotifier = false; // used for flashing icon on cooldown bar
 
                         if (enemy.Revive(0.8f, 0.8f, 1f))
                         {
@@ -247,6 +249,7 @@ public class Attack : MonoBehaviour
 
         }
 
+        //if we use life steal ability set the notifier to false
         if (playerMovement.CanUseAbility() && lifestealTimer.IsUseable() && Input.GetKeyDown(lifestealButton))
         {
             activatedLsNotifier = false;
