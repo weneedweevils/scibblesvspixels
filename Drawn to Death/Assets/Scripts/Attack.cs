@@ -56,6 +56,8 @@ public class Attack : MonoBehaviour
     public Slider lifestealBar;
     private CooldownTimer lifestealTimer;
     private CooldownBarBehaviour lifestealCooldownBar;
+     private UnityEngine.UI.Image lifeStealNotifier;
+     private bool activatedLsNotifier = false;
 
     //Misc
     private List<EnemyAI> allies = new List<EnemyAI>();
@@ -92,6 +94,7 @@ public class Attack : MonoBehaviour
         lifestealTimer = new CooldownTimer(lifestealCooldown, lifestealDuration);
         reviveCooldownBar = new CooldownBarBehaviour(reviveBar, reviveCooldown, Color.gray, Color.magenta);
         lifestealCooldownBar = new CooldownBarBehaviour(lifestealBar, lifestealCooldown, Color.gray, Color.magenta);
+        lifeStealNotifier = lifestealBar.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();;
 
         // Get a reference to the script that controls the FMOD event
         //eraserSFX = GetComponent<eraserSFX>;
@@ -204,12 +207,38 @@ public class Attack : MonoBehaviour
     {
         //Lifesteal Timer
         lifestealTimer.Update();
- 
+
+        // change the notifier to flash if it is not on cool down
+        // if(!activatedLsNotifier){
+        //     var temp1 = lifeStealNotifier.color;
+        //     temp1.a = 1f;
+        //     lifeStealNotifier.color = temp1;
+        //     activatedLsNotifier = true;
+        // }
+
+        if(lifestealTimer.IsUseable() && !activatedLsNotifier){
+            var temp1 = lifeStealNotifier.color;
+            temp1.a = 1f;
+            lifeStealNotifier.color = temp1;
+            activatedLsNotifier = true;
+        }
+
+        // bring life steal notifier alpha back to zero after it flashes
+        if (lifeStealNotifier.color.a > 0 )
+        {
+            var temp = lifeStealNotifier.color;
+            temp.a -= 0.005f;
+            lifeStealNotifier.color = temp;
+
+        }
 
         if (playerMovement.CanUseAbility() && lifestealTimer.IsUseable() && Input.GetKeyDown(lifestealButton))
         {
+            activatedLsNotifier = false;
             lifestealImage.enabled = true;
             lifestealTimer.StartTimer();
+
+             
         }
         if (lifestealTimer.IsActive()) {
             float dmg = lifestealDamage / lifestealDuration * Time.deltaTime;
