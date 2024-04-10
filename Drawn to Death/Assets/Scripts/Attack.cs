@@ -43,6 +43,8 @@ public class Attack : MonoBehaviour
     public Slider reviveBar;
     private CooldownBarBehaviour reviveCooldownBar;
     private float reviveDuration = 126f / 60f; // Revive and Recall share timer
+    private UnityEngine.UI.Image reviveNotifier;
+    private bool activatedReviveNotifier = false;
 
          /* ----- Lifesteal ----- */
 
@@ -56,8 +58,8 @@ public class Attack : MonoBehaviour
     public Slider lifestealBar;
     private CooldownTimer lifestealTimer;
     private CooldownBarBehaviour lifestealCooldownBar;
-     private UnityEngine.UI.Image lifeStealNotifier;
-     private bool activatedLsNotifier = false;
+    private UnityEngine.UI.Image lifeStealNotifier;
+    private bool activatedLsNotifier = false;
 
     //Misc
     private List<EnemyAI> allies = new List<EnemyAI>();
@@ -94,7 +96,8 @@ public class Attack : MonoBehaviour
         lifestealTimer = new CooldownTimer(lifestealCooldown, lifestealDuration);
         reviveCooldownBar = new CooldownBarBehaviour(reviveBar, reviveCooldown, Color.gray, Color.magenta);
         lifestealCooldownBar = new CooldownBarBehaviour(lifestealBar, lifestealCooldown, Color.gray, Color.magenta);
-        lifeStealNotifier = lifestealBar.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();;
+        lifeStealNotifier = lifestealBar.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();
+        reviveNotifier = reviveBar.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();
 
         // Get a reference to the script that controls the FMOD event
         //eraserSFX = GetComponent<eraserSFX>;
@@ -150,6 +153,21 @@ public class Attack : MonoBehaviour
     {
         //Revive Timer
         reviveTimer.Update();
+        
+         if(reviveTimer.IsUseable() && !activatedReviveNotifier){
+            var temp1 = reviveNotifier.color;
+            temp1.a = 1f;
+            reviveNotifier.color = temp1;
+            activatedReviveNotifier = true;
+        }
+
+         if (reviveNotifier.color.a > 0 )
+        {
+            var temp = reviveNotifier.color;
+            temp.a -= 0.01f;
+            reviveNotifier.color = temp;
+
+        }
 
         //Freeze Movement while reviving
         if (reviveTimer.IsActive())
@@ -168,6 +186,7 @@ public class Attack : MonoBehaviour
             if (Input.GetKey(reviveButton) && reviveTimer.IsUseable())
             {
                 Debug.Log("Attempting to revive enemies");
+               
                 foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
                 {
                     EnemyAI enemy = obj.GetComponent<EnemyAI>();
@@ -178,6 +197,7 @@ public class Attack : MonoBehaviour
 
                     if (InReviveRange(enemy.transform))
                     {
+                         activatedReviveNotifier = false;
                         if (enemy.Revive(0.8f, 0.8f, 1f))
                         {
                             allies.Add(enemy);
@@ -208,14 +228,6 @@ public class Attack : MonoBehaviour
         //Lifesteal Timer
         lifestealTimer.Update();
 
-        // change the notifier to flash if it is not on cool down
-        // if(!activatedLsNotifier){
-        //     var temp1 = lifeStealNotifier.color;
-        //     temp1.a = 1f;
-        //     lifeStealNotifier.color = temp1;
-        //     activatedLsNotifier = true;
-        // }
-
         if(lifestealTimer.IsUseable() && !activatedLsNotifier){
             var temp1 = lifeStealNotifier.color;
             temp1.a = 1f;
@@ -227,7 +239,7 @@ public class Attack : MonoBehaviour
         if (lifeStealNotifier.color.a > 0 )
         {
             var temp = lifeStealNotifier.color;
-            temp.a -= 0.005f;
+            temp.a -= 0.01f;
             lifeStealNotifier.color = temp;
 
         }
