@@ -228,6 +228,7 @@ public class Attack : MonoBehaviour
         //Lifesteal Timer
         lifestealTimer.Update();
 
+        // check if if cooldown is at max
         if(lifestealTimer.IsUseable() && !activatedLsNotifier){
             var temp1 = lifeStealNotifier.color;
             temp1.a = 1f;

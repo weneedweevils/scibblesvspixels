@@ -43,6 +43,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public CooldownTimer dashTimer;
     public UnityEngine.UI.Slider dashBar;
     private CooldownBarBehaviour dashCooldownBar;
+    private UnityEngine.UI.Image dashNotifier;
+    private bool activatedDashNotifier = false;
 
     //Animations
     [HideInInspector] public Animator animator;
@@ -115,10 +117,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         recallTimer = weapon.reviveTimer; // Recall and Revive share duration and cooldown timer lengths
         dashCooldownBar = new CooldownBarBehaviour(dashBar, dashCooldown, Color.gray, Color.magenta);
         recallCooldownBar = new CooldownBarBehaviour(recallBar, weapon.reviveCooldown, Color.gray, Color.magenta);
+        dashNotifier = dashBar.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();
 
         panel = GameObject.FindGameObjectWithTag("DamageFlash");
         damageScreen = panel.GetComponent<UnityEngine.UI.Image>();
-
+        
         restricted = GameObject.Find("RestrictRally").GetComponent<UnityEngine.UI.Image>();
        
     }
@@ -159,8 +162,26 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         velocity.y = VelocityCalc(acceleration.y, velocity.y, speedModifier);
         
         //Dash ability
+
+        if(dashTimer.IsUseable() && !activatedDashNotifier){
+            var temp1 = dashNotifier.color;
+            temp1.a = 1f;
+            dashNotifier.color = temp1;
+            activatedDashNotifier = true;
+        }
+
+          if (dashNotifier.color.a > 0 )
+        {
+            var temp = dashNotifier.color;
+            temp.a -= 0.01f;
+            dashNotifier.color = temp;
+
+        }
+
+
         if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && Input.GetKey(dash) && Mathf.Abs(velocity.magnitude) > 0f)
         {
+            activatedDashNotifier = false;
             velocity += velocity.normalized * dashBoost;
             animator.SetBool("dashing", true);
             pencil.enabled = false;
