@@ -87,4 +87,12 @@ public class Cubie : EnemyAI
             rb.AddForce(force);
         }
     }
+
+    override public void Stun()
+    {
+        attackTimer.StartCooldown();
+        windupTimer.ResetTimer();
+        animator.SetBool("attacking", false);
+        animator.SetBool("chasing", true);
+    }
 }

@@ -540,10 +540,18 @@ public abstract class EnemyAI : MonoBehaviour
         if (makeInvincible)
         {
             invincibilityTimer.StartTimer();
+            Stun();
         }
 
         return;
         
+    }
+
+    virtual public void Stun()
+    {
+        attackTimer.StartCooldown();
+        animator.SetBool("attacking", false);
+        animator.SetBool("chasing", true);
     }
 
     // Function to run when enemies/allies heal
