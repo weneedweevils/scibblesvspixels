@@ -272,7 +272,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Function to run when player takes damage
     public void Damage(float damageTaken)
     {
-        if (dashTimer.IsActive())
+        if (dashTimer.IsActive() || inFreezeDialogue() || timelinePlaying)
         {
             return;
         }

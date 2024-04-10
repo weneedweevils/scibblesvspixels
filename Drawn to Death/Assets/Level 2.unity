@@ -1693,6 +1693,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7109232612418458142, guid: cf97480c00ce98e49b9f271a666560b7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -8.619995
+      objectReference: {fileID: 0}
+    - target: {fileID: 7701299363077394828, guid: cf97480c00ce98e49b9f271a666560b7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -8.619995
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf97480c00ce98e49b9f271a666560b7, type: 3}
 --- !u!224 &208544579 stripped
@@ -1805,13 +1815,14 @@ GameObject:
   - component: {fileID: 223325744}
   - component: {fileID: 223325743}
   - component: {fileID: 223325742}
+  - component: {fileID: 223325745}
   m_Layer: 0
   m_Name: DialogueLine3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &223325741
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1891,6 +1902,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223325740}
   m_CullTransparentMesh: 0
+--- !u!114 &223325745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223325740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 88451555
+      Data2: 1334396074
+      Data3: 1993160596
+      Data4: 1870340626
+    Path: event:/GlichDialogueMad
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &232734114
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2254,6 +2296,7 @@ MonoBehaviour:
   PauseMenuUI: {fileID: 615067888}
   ControlsUI: {fileID: 208544580}
   MenuUI: {fileID: 208544581}
+  SettingsUI: {fileID: 0}
   Menu: 1
 --- !u!114 &258245323
 MonoBehaviour:
@@ -3122,13 +3165,14 @@ GameObject:
   - component: {fileID: 349603883}
   - component: {fileID: 349603882}
   - component: {fileID: 349603881}
+  - component: {fileID: 349603884}
   m_Layer: 0
   m_Name: DialogueLine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &349603880
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3208,6 +3252,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 349603879}
   m_CullTransparentMesh: 0
+--- !u!114 &349603884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 349603879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 88451555
+      Data2: 1334396074
+      Data3: 1993160596
+      Data4: 1870340626
+    Path: event:/GlichDialogueMad
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &352863293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4866,13 +4941,14 @@ GameObject:
   - component: {fileID: 532541606}
   - component: {fileID: 532541605}
   - component: {fileID: 532541604}
+  - component: {fileID: 532541607}
   m_Layer: 0
   m_Name: DialogueLine3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &532541603
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4952,6 +5028,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 532541602}
   m_CullTransparentMesh: 0
+--- !u!114 &532541607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 532541602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -2001524018
+      Data2: 1300591871
+      Data3: -912540482
+      Data4: -37138128
+    Path: event:/OodleDialogueGeneral
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &543115627
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5380,13 +5487,14 @@ GameObject:
   - component: {fileID: 631146652}
   - component: {fileID: 631146651}
   - component: {fileID: 631146650}
+  - component: {fileID: 631146653}
   m_Layer: 0
   m_Name: DialogueLine3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &631146649
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5466,6 +5574,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 631146648}
   m_CullTransparentMesh: 0
+--- !u!114 &631146653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631146648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -2001524018
+      Data2: 1300591871
+      Data3: -912540482
+      Data4: -37138128
+    Path: event:/OodleDialogueGeneral
+  Event: 
+  PlayEvent: 1
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &643588023
 GameObject:
   m_ObjectHideFlags: 0
@@ -5478,13 +5617,14 @@ GameObject:
   - component: {fileID: 643588027}
   - component: {fileID: 643588026}
   - component: {fileID: 643588025}
+  - component: {fileID: 643588028}
   m_Layer: 0
   m_Name: DialogueLine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &643588024
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5564,6 +5704,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 643588023}
   m_CullTransparentMesh: 0
+--- !u!114 &643588028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643588023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -2001524018
+      Data2: 1300591871
+      Data3: -912540482
+      Data4: -37138128
+    Path: event:/OodleDialogueGeneral
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &644859712
 GameObject:
   m_ObjectHideFlags: 0
@@ -5810,13 +5981,14 @@ GameObject:
   - component: {fileID: 669826609}
   - component: {fileID: 669826608}
   - component: {fileID: 669826607}
+  - component: {fileID: 669826610}
   m_Layer: 0
   m_Name: DialogueLine5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &669826606
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5896,6 +6068,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 669826605}
   m_CullTransparentMesh: 0
+--- !u!114 &669826610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669826605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 88451555
+      Data2: 1334396074
+      Data3: 1993160596
+      Data4: 1870340626
+    Path: event:/GlichDialogueMad
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &672078434
 GameObject:
   m_ObjectHideFlags: 0
@@ -5908,13 +6111,14 @@ GameObject:
   - component: {fileID: 672078438}
   - component: {fileID: 672078437}
   - component: {fileID: 672078436}
+  - component: {fileID: 672078439}
   m_Layer: 0
   m_Name: DialogueLine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &672078435
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5994,6 +6198,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 672078434}
   m_CullTransparentMesh: 0
+--- !u!114 &672078439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672078434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1578118677
+      Data2: 1275607896
+      Data3: -1828671599
+      Data4: 274770619
+    Path: event:/GlichDialogueGeneral
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &679160705
 GameObject:
   m_ObjectHideFlags: 0
@@ -6794,13 +7029,14 @@ GameObject:
   - component: {fileID: 756574120}
   - component: {fileID: 756574119}
   - component: {fileID: 756574118}
+  - component: {fileID: 756574121}
   m_Layer: 0
   m_Name: DialogueLine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &756574117
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6880,6 +7116,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 756574116}
   m_CullTransparentMesh: 0
+--- !u!114 &756574121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 756574116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 88451555
+      Data2: 1334396074
+      Data3: 1993160596
+      Data4: 1870340626
+    Path: event:/GlichDialogueMad
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &756950634
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7771,13 +8038,14 @@ GameObject:
   - component: {fileID: 834799086}
   - component: {fileID: 834799085}
   - component: {fileID: 834799084}
+  - component: {fileID: 834799087}
   m_Layer: 0
   m_Name: DialogueLine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &834799083
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7857,6 +8125,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 834799082}
   m_CullTransparentMesh: 0
+--- !u!114 &834799087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834799082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1818707455
+      Data2: 1125815505
+      Data3: 1872392617
+      Data4: 950402479
+    Path: event:/GlichDialogueConfused
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &837974481
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8315,13 +8614,14 @@ GameObject:
   - component: {fileID: 911044398}
   - component: {fileID: 911044397}
   - component: {fileID: 911044396}
+  - component: {fileID: 911044399}
   m_Layer: 0
   m_Name: DialogueLine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &911044395
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8402,6 +8702,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 911044394}
   m_CullTransparentMesh: 0
+--- !u!114 &911044399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911044394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -2001524018
+      Data2: 1300591871
+      Data3: -912540482
+      Data4: -37138128
+    Path: event:/OodleDialogueGeneral
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &930045010
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8887,13 +9218,14 @@ GameObject:
   - component: {fileID: 955492275}
   - component: {fileID: 955492274}
   - component: {fileID: 955492273}
+  - component: {fileID: 955492276}
   m_Layer: 0
   m_Name: DialogueLine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &955492272
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8973,6 +9305,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 955492271}
   m_CullTransparentMesh: 0
+--- !u!114 &955492276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955492271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -2001524018
+      Data2: 1300591871
+      Data3: -912540482
+      Data4: -37138128
+    Path: event:/OodleDialogueGeneral
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!4 &975572175 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6074531825526881062, guid: e8b02fdc4f8f19f4c96223a716dcae5e,
@@ -9042,6 +9405,7 @@ GameObject:
   - component: {fileID: 981141993}
   - component: {fileID: 981141992}
   - component: {fileID: 981141991}
+  - component: {fileID: 981141994}
   m_Layer: 0
   m_Name: DialogueLine2
   m_TagString: Untagged
@@ -9128,6 +9492,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 981141989}
   m_CullTransparentMesh: 0
+--- !u!114 &981141994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981141989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1578118677
+      Data2: 1275607896
+      Data3: -1828671599
+      Data4: 274770619
+    Path: event:/GlichDialogueGeneral
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &983066260
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10949,13 +11344,14 @@ GameObject:
   - component: {fileID: 1211677312}
   - component: {fileID: 1211677311}
   - component: {fileID: 1211677310}
+  - component: {fileID: 1211677313}
   m_Layer: 0
   m_Name: DialogueLine5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1211677309
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11035,6 +11431,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1211677308}
   m_CullTransparentMesh: 0
+--- !u!114 &1211677313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211677308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 414351043
+      Data2: 1153803166
+      Data3: 737146004
+      Data4: 74229030
+    Path: event:/OodlerDialogueConfused
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &1234302977
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11127,13 +11554,14 @@ GameObject:
   - component: {fileID: 1238319540}
   - component: {fileID: 1238319539}
   - component: {fileID: 1238319538}
+  - component: {fileID: 1238319541}
   m_Layer: 0
   m_Name: DialogueLine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1238319537
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11213,6 +11641,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1238319536}
   m_CullTransparentMesh: 0
+--- !u!114 &1238319541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238319536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -2001524018
+      Data2: 1300591871
+      Data3: -912540482
+      Data4: -37138128
+    Path: event:/OodleDialogueGeneral
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &1240101302
 GameObject:
   m_ObjectHideFlags: 0
@@ -61177,13 +61636,14 @@ GameObject:
   - component: {fileID: 1482655369}
   - component: {fileID: 1482655368}
   - component: {fileID: 1482655367}
+  - component: {fileID: 1482655370}
   m_Layer: 0
   m_Name: DialogueLine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1482655366
 RectTransform:
   m_ObjectHideFlags: 0
@@ -61263,6 +61723,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1482655365}
   m_CullTransparentMesh: 0
+--- !u!114 &1482655370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482655365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 88451555
+      Data2: 1334396074
+      Data3: 1993160596
+      Data4: 1870340626
+    Path: event:/GlichDialogueMad
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &1500794732
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -101586,13 +102077,14 @@ GameObject:
   - component: {fileID: 1818448271}
   - component: {fileID: 1818448270}
   - component: {fileID: 1818448269}
+  - component: {fileID: 1818448272}
   m_Layer: 0
   m_Name: DialogueLine4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1818448268
 RectTransform:
   m_ObjectHideFlags: 0
@@ -101672,6 +102164,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1818448267}
   m_CullTransparentMesh: 0
+--- !u!114 &1818448272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818448267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1578118677
+      Data2: 1275607896
+      Data3: -1828671599
+      Data4: 274770619
+    Path: event:/GlichDialogueGeneral
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &1824858374
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -101918,13 +102441,14 @@ GameObject:
   - component: {fileID: 1858017141}
   - component: {fileID: 1858017140}
   - component: {fileID: 1858017139}
+  - component: {fileID: 1858017142}
   m_Layer: 0
   m_Name: DialogueLine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1858017138
 RectTransform:
   m_ObjectHideFlags: 0
@@ -102004,6 +102528,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1858017137}
   m_CullTransparentMesh: 0
+--- !u!114 &1858017142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1858017137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -2001524018
+      Data2: 1300591871
+      Data3: -912540482
+      Data4: -37138128
+    Path: event:/OodleDialogueGeneral
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &1872484887
 GameObject:
   m_ObjectHideFlags: 0
@@ -102016,13 +102571,14 @@ GameObject:
   - component: {fileID: 1872484891}
   - component: {fileID: 1872484890}
   - component: {fileID: 1872484889}
+  - component: {fileID: 1872484892}
   m_Layer: 0
   m_Name: DialogueLine4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1872484888
 RectTransform:
   m_ObjectHideFlags: 0
@@ -102102,6 +102658,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1872484887}
   m_CullTransparentMesh: 0
+--- !u!114 &1872484892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872484887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -2001524018
+      Data2: 1300591871
+      Data3: -912540482
+      Data4: -37138128
+    Path: event:/OodleDialogueGeneral
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &1879871080
 GameObject:
   m_ObjectHideFlags: 0
@@ -102188,13 +102775,14 @@ GameObject:
   - component: {fileID: 1880701306}
   - component: {fileID: 1880701305}
   - component: {fileID: 1880701304}
+  - component: {fileID: 1880701307}
   m_Layer: 0
   m_Name: DialogueLine4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1880701303
 RectTransform:
   m_ObjectHideFlags: 0
@@ -102274,6 +102862,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1880701302}
   m_CullTransparentMesh: 0
+--- !u!114 &1880701307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880701302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 835358060
+      Data2: 1074817601
+      Data3: 1150651057
+      Data4: -527908716
+    Path: event:/OodlerDialogueQuestion
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &1885322336
 GameObject:
   m_ObjectHideFlags: 0
@@ -102809,13 +103428,14 @@ GameObject:
   - component: {fileID: 1900873788}
   - component: {fileID: 1900873787}
   - component: {fileID: 1900873786}
+  - component: {fileID: 1900873789}
   m_Layer: 0
   m_Name: DialogueLine3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1900873785
 RectTransform:
   m_ObjectHideFlags: 0
@@ -102895,6 +103515,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1900873784}
   m_CullTransparentMesh: 0
+--- !u!114 &1900873789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900873784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1578118677
+      Data2: 1275607896
+      Data3: -1828671599
+      Data4: 274770619
+    Path: event:/GlichDialogueGeneral
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &1917645587
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -104167,13 +104818,14 @@ GameObject:
   - component: {fileID: 2025852019}
   - component: {fileID: 2025852018}
   - component: {fileID: 2025852017}
+  - component: {fileID: 2025852020}
   m_Layer: 0
   m_Name: DialogueLine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2025852016
 RectTransform:
   m_ObjectHideFlags: 0
@@ -104253,6 +104905,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2025852015}
   m_CullTransparentMesh: 0
+--- !u!114 &2025852020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025852015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1578118677
+      Data2: 1275607896
+      Data3: -1828671599
+      Data4: 274770619
+    Path: event:/GlichDialogueGeneral
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &2027126885
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -104810,13 +105493,14 @@ GameObject:
   - component: {fileID: 2105631001}
   - component: {fileID: 2105631000}
   - component: {fileID: 2105630999}
+  - component: {fileID: 2105631002}
   m_Layer: 0
   m_Name: DialogueLine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2105630998
 RectTransform:
   m_ObjectHideFlags: 0
@@ -104896,6 +105580,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2105630997}
   m_CullTransparentMesh: 0
+--- !u!114 &2105631002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105630997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 835358060
+      Data2: 1074817601
+      Data3: 1150651057
+      Data4: -527908716
+    Path: event:/OodlerDialogueQuestion
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &2107455283
 GameObject:
   m_ObjectHideFlags: 0
@@ -105918,13 +106633,45 @@ GameObject:
   - component: {fileID: 5432614375084733376}
   - component: {fileID: 5432614375084733377}
   - component: {fileID: 5432614375084733378}
+  - component: {fileID: 5432614375084733381}
   m_Layer: 0
   m_Name: DialogueLine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
+--- !u!114 &5432614375084733381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5432614375084733380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -2001524018
+      Data2: 1300591871
+      Data3: -912540482
+      Data4: -37138128
+    Path: event:/OodleDialogueGeneral
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!222 &5432614375446944241
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -106090,13 +106837,45 @@ GameObject:
   - component: {fileID: 5432614376176839666}
   - component: {fileID: 5432614376176839667}
   - component: {fileID: 5432614376176839665}
+  - component: {fileID: 5432614376176839670}
   m_Layer: 0
   m_Name: DialogueLine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
+--- !u!114 &5432614376176839670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5432614376176839669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 414351043
+      Data2: 1153803166
+      Data3: 737146004
+      Data4: 74229030
+    Path: event:/OodlerDialogueConfused
+  Event: 
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &6074531825965053929
 PrefabInstance:
   m_ObjectHideFlags: 0

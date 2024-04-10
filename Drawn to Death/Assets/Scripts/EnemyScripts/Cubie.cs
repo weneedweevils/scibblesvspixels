@@ -10,6 +10,7 @@ public class Cubie : EnemyAI
     private bool createdProjectile = true;
     private float windupDuration = 40f / 60f;
     private CooldownTimer windupTimer;
+    public bool cutscene = false;
 
     //Random walk direction
     private Vector2 direction = new Vector2(0, 0);
@@ -37,6 +38,17 @@ public class Cubie : EnemyAI
 
             //Continue with the base class implementation of FixedUpdate
             base.FixedUpdate();
+
+            if (cutscene)
+            {
+                cutscene = false;
+                base.healthBar.SetHealth(base.health, base.maxHealth);
+            }
+        }
+        else if (!cutscene)
+        {
+            cutscene = true;
+            base.healthBar.Disable();
         }
     }
 
