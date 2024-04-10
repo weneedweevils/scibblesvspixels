@@ -31,6 +31,7 @@ public abstract class EnemyAI : MonoBehaviour
     public Seeker playerSeeker;
     public float seekDistance = 100f;
     public float nextWaypointDistance;
+    public EnemyAI[] blockers;
 
     [Header("Music and sound")]
     public string deathSfx;
@@ -115,6 +116,11 @@ public abstract class EnemyAI : MonoBehaviour
 
         //Start a repeating functon
         InvokeRepeating("CheckState", 0f, 0.5f); //Update the path every half second
+
+        if (blockers.Length != 0)
+        {
+            isolated = true;
+        }
     }
 
     private void CheckState()
@@ -191,6 +197,19 @@ public abstract class EnemyAI : MonoBehaviour
     // Update is called once per frame
     protected virtual void FixedUpdate()
     {
+        //Check Blockers
+        if (isolated && blockers.Length > 0)
+        {
+            foreach (EnemyAI blocker in blockers)
+            {
+                if (blocker.isDead())
+                {
+                    isolated = false;
+                    break;
+                }
+            }
+        }
+        
         //Update Timers
         invincibilityTimer.Update();
         invincibilityTimer2.Update();

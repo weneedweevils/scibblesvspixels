@@ -396,8 +396,8 @@ MonoBehaviour:
   team: 2
   state: 0
   isolated: 0
-  health: 100
-  maxHealth: 100
+  health: 150
+  maxHealth: 150
   speed: 0
   damage: 0
   attackCooldown: 100
@@ -406,6 +406,7 @@ MonoBehaviour:
   playerSeeker: {fileID: 4189887901981635619}
   seekDistance: 20
   nextWaypointDistance: 1
+  blockers: []
   deathSfx: 
   attackSfx: 
   slowed: 0
@@ -416,9 +417,9 @@ MonoBehaviour:
   movementCollider: {fileID: 756136004653378014}
   healthBar: {fileID: 7613638573370512721}
   enemygraphics: {fileID: 6527833784005707315}
-  hurtCol: {r: 1, g: 0, b: 0, a: 1}
-  reviveCol: {r: 0, g: 1, b: 0, a: 1}
-  allyCol: {r: 0, g: 1, b: 0, a: 1}
+  hurtCol: {r: 0.91372555, g: 0.5647059, b: 0.5647059, a: 1}
+  reviveCol: {r: 0.2784314, g: 0.7058824, b: 0.2627451, a: 1}
+  allyCol: {r: 0.59607846, g: 0.8980393, b: 0.59607846, a: 1}
   selfImage: {fileID: 6527833784005707279}
   panel: {fileID: 0}
 --- !u!50 &6527833785316111112
