@@ -218,10 +218,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                 var temp = restricted.color;
                 temp.a = 0f;
                 restricted.color = temp;
-                Debug.Log("we have friends");
 
                 if((recallTimer.IsUseable()||weapon.reviveTimer.IsUseable()) && !activatedRecallNotifier){
-                    Debug.Log("we herejkandjknjadfjin");
                     var temp1 = recallNotifier.color;
                     temp1.a = 1f;
                     recallNotifier.color = temp1;
@@ -231,7 +229,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
 
         if ((Input.GetKey(recall)||Input.GetKey(weapon.reviveButton)) && weapon.GetAllies().Count>0){
-            Debug.Log("we in here" );
             weapon.activatedReviveNotifier = false;
             activatedRecallNotifier = false;
         }

@@ -12,33 +12,41 @@ public class PauseMenu : MonoBehaviour
     public GameObject MenuUI;
     public GameObject SettingsUI;
     public int Menu = 0;
+    private PlayerMovement player;
+
+    void Start()
+    {
+        player = GameObject.Find("Player").GetComponent<PlayerMovement>();
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) {
+        if(!player.inFreezeDialogue() && !player.timelinePlaying){
+            if (Input.GetKeyDown(KeyCode.Escape)) {
 
-            if (!ControlsUI.activeSelf && !SettingsUI.activeSelf)
-            {
-
-                if (gameIsPaused == true)
-                {
-                    Resume();
-                }
-                else
+                if (!ControlsUI.activeSelf && !SettingsUI.activeSelf)
                 {
 
-                    Pause();
-                }
-            }
-            if(ControlsUI.activeSelf)
-            {
-                ControlsBack();
-            }
+                    if (gameIsPaused == true)
+                    {
+                        Resume();
+                    }
+                    else
+                    {
 
-            if (SettingsUI.activeSelf)
-            {
-                SettingsBack();
+                        Pause();
+                    }
+                }
+                if(ControlsUI.activeSelf)
+                {
+                    ControlsBack();
+                }
+
+                if (SettingsUI.activeSelf)
+                {
+                    SettingsBack();
+                }
             }
         }
       
