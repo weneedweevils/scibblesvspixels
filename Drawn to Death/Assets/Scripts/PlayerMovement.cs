@@ -86,6 +86,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
+    private bool hit = false;
+    private SpriteRenderer eraser;
 
     // Start is called before the first frame update
     void Start()
@@ -98,6 +100,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         weapon = GetComponentInChildren<Attack>();
+        eraser = transform.GetChild(0).GetChild(0).gameObject.GetComponent<SpriteRenderer>();
 
         health = maxHealth;
         dashTimer = new CooldownTimer(dashCooldown, dashBoost / friction);
@@ -113,6 +116,18 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         dashTimer.Update();
         //recallTimer.Update();
         invincibilityTimer.Update();
+
+        if (invincibilityTimer.IsActive() && hit) // Illustrates Iframes
+        {
+            sprite.color = new Color(255, 255, 255, 0.70f);
+            eraser.color = new Color(255, 255, 255, 0.70f);
+        }
+        else if (invincibilityTimer.IsUseable() && hit)
+        {
+            sprite.color = new Color(255, 255, 255, 1f);
+            eraser.color = new Color(255, 255, 255, 1f);
+            hit = false;
+        }
         
         // Disable movement if in dialogue/cutscene where we don't want movement
         if (!inFreezeDialogue() && !timelinePlaying && pauseUi.active == false)
@@ -279,6 +294,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         health -= damageTaken;
         invincibilityTimer.StartTimer();
         healthBar.SetHealth(health, maxHealth);
+        hit = true;
 
         if (health <= 0)
         {
