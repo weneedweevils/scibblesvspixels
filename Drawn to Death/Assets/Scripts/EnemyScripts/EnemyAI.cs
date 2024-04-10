@@ -359,7 +359,7 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     //Make an attempt at finding a new target
-    protected void FindTarget()
+    virtual protected void FindTarget()
     {
         //Set the minimum target to the player
         float dist = Vector2.Distance(rb.position, player.transform.position);
@@ -419,7 +419,7 @@ public abstract class EnemyAI : MonoBehaviour
     abstract protected void Attack();
 
     //Kill this entity
-    public void Kill()
+    virtual public void Kill()
     {
         // Play the FMOD event correlating to the death
         FMODUnity.RuntimeManager.PlayOneShot(deathSfx);
@@ -452,7 +452,7 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     //Revive this entity as an ally to the player
-    public bool Revive(float percentMaxHP = 1f, float percentDamage = 1f, float percentSpeed = 1f)
+    virtual public bool Revive(float percentMaxHP = 1f, float percentDamage = 1f, float percentSpeed = 1f)
     {
         if (state == State.dead && team == Team.neutral)
         {
@@ -481,7 +481,7 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     // Function to run when enemies/allies takes damage
-    public void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f, bool lifeSteal = false)
+    virtual public void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f, bool lifeSteal = false)
     {
         //Dont hit dead bodies
         if (state == State.dead || state == State.dying || (team == Team.player && playerAttack.reviveTimer.IsActive() && !lifeSteal))
@@ -523,7 +523,7 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     // Function to run when enemies/allies heal
-    public void Heal(float healthRestored)
+    virtual public void Heal(float healthRestored)
     {
         if (health < maxHealth)
         {
@@ -537,27 +537,27 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     //Set a new target using a GameObject
-    public void SetTarget(GameObject obj, bool isPlayer = false)
+    virtual public void SetTarget(GameObject obj, bool isPlayer = false)
     {
         target = obj.transform;
         targetIsPlayer = isPlayer;
     }
 
     //Set a new target using a Transform
-    public void SetTarget(Transform transform, bool isPlayer = false)
+    virtual public void SetTarget(Transform transform, bool isPlayer = false)
     {
         target = transform;
         targetIsPlayer = isPlayer;
     }
 
     //Get current target
-    public Transform GetTarget()
+    virtual public Transform GetTarget()
     {
         return target;
     }
 
     //Estimate the length of the current path
-    public float PathLength(bool toPlayer = false)
+    virtual public float PathLength(bool toPlayer = false)
     {
         //Path to calculate
         Path path = toPlayer ? playerPath : targetPath;
@@ -578,10 +578,10 @@ public abstract class EnemyAI : MonoBehaviour
         //Distance estimate
         return Vector3.Distance(path.vectorPath[0], path.vectorPath[1]) * size;
     }
-    
-    public bool isDead()
+
+    virtual public bool isDead()
     {
         // Quick getter function that's used in CrabWalkSFX
-        return (state == State.dead);
+        return (state == State.dead || state == State.dying);
     }
 }
