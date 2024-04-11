@@ -9,10 +9,15 @@ public class Projectile : MonoBehaviour
     public float speed = 0f;
     public float damage = 0f;
     private Rigidbody2D rbody;
-    private Vector2 velocity = new Vector2(0, 0); 
+    private Vector2 velocity = new Vector2(0, 0);
+    private Color allyCol = Color.green;
+    private SpriteRenderer selfImage;
 
     private void Start()
     {
+        // Get Projectile Sprite
+        selfImage = gameObject.transform.GetComponent<SpriteRenderer>();
+
         //Get references
         rbody = GetComponent<Rigidbody2D>();
         EnemyAI parent = transform.GetComponentInParent<EnemyAI>();
@@ -36,6 +41,9 @@ public class Projectile : MonoBehaviour
     {
         if (team != Team.neutral)
         {
+            // Hue shift projectile green if ally
+            selfImage.color = team == Team.player ? allyCol : Color.white;
+
             //Predict new position
             Vector2 currentPos = rbody.position;
             Vector2 newPos = currentPos + velocity * Time.fixedDeltaTime;
