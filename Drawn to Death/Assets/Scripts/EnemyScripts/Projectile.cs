@@ -42,7 +42,10 @@ public class Projectile : MonoBehaviour
         if (team != Team.neutral)
         {
             // Hue shift projectile green if ally
-            selfImage.color = team == Team.player ? allyCol : Color.white;
+            if (team == Team.player)
+            {
+                selfImage.color = allyCol;
+            }
 
             //Predict new position
             Vector2 currentPos = rbody.position;

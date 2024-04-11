@@ -83,8 +83,10 @@ public class Cubie : EnemyAI
 
             if (sceneName == "Level 3"){
                 Instantiate(DarkProjectileObject, transform);
+                Debug.Log("dark projectile");
             }
             else{
+                Debug.Log("light projectile");
                 Instantiate(ProjectileObject, transform);
             }
         }
