@@ -199,10 +199,8 @@ public class Attack : MonoBehaviour
 
                     if (InReviveRange(enemy.transform))
                     {
-
-                         activatedReviveNotifier = false; // used for flashing icon on cooldown bar
-
-                        if (enemy.Revive(0.8f, 0.8f, 1f))
+                        activatedReviveNotifier = false; // used for flashing icon on cooldown bar
+                        if (enemy.Revive(0.8f, 0.8f, 1f, 0.75f))
                         {
                             allies.Add(enemy);
                             reviveTimer.StartTimer();

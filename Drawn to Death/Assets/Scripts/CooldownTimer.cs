@@ -60,6 +60,22 @@ public class CooldownTimer
     public void StartTimer()
     {
         active = true;
+        onCooldown = false;
+        timer = 0f;
+    }
+
+    public void StartCooldown()
+    {
+        active = false;
+        onCooldown = true;
+        timer = 0f;
+    }
+
+    public void ResetTimer()
+    {
+        active = false;
+        onCooldown = false;
+        timer = 0f;
     }
 
     public void SetCooldown(float cooldownValue)
