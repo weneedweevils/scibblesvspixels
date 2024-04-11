@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Cubie : EnemyAI
 {
     [Header("Cubie Specific References")]
     public GameObject ProjectileObject;
+    public GameObject DarkProjectileObject;
 
     private bool createdProjectile = true;
     private float windupDuration = 40f / 60f;
@@ -14,6 +16,8 @@ public class Cubie : EnemyAI
 
     //Random walk direction
     private Vector2 direction = new Vector2(0, 0);
+    private UnityEngine.SceneManagement.Scene currentScene;
+    private string sceneName;
 
     override protected void Start()
     {
@@ -24,6 +28,10 @@ public class Cubie : EnemyAI
 
         //Create a windup timer
         windupTimer = new CooldownTimer(0f, windupDuration);
+
+        // find scene
+        currentScene = SceneManager.GetActiveScene();
+        sceneName = currentScene.name;
 
         //Continue with the base class implementation of Start
         base.Start();
@@ -72,7 +80,15 @@ public class Cubie : EnemyAI
             createdProjectile = true;
 
             //Create a projectile
-            Instantiate(ProjectileObject, transform);
+
+            if (sceneName == "Level 3"){
+                Instantiate(DarkProjectileObject, transform);
+                Debug.Log("dark projectile");
+            }
+            else{
+                Debug.Log("light projectile");
+                Instantiate(ProjectileObject, transform);
+            }
         }
 
         if (attackTimer.IsOnCooldown())
@@ -84,5 +100,13 @@ public class Cubie : EnemyAI
             Vector2 force = direction * speed / 2 * Time.deltaTime;
             rb.AddForce(force);
         }
+    }
+
+    override public void Stun()
+    {
+        attackTimer.StartCooldown();
+        windupTimer.ResetTimer();
+        animator.SetBool("attacking", false);
+        animator.SetBool("chasing", true);
     }
 }

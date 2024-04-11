@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1399807147}
   - component: {fileID: 1399807150}
   - component: {fileID: 7240034892591243871}
+  - component: {fileID: 3462483169460010922}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -28,11 +29,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1399807146}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.76000214, y: -2.08, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2454788199460616577}
-  m_RootOrder: 3
+  m_Father: {fileID: 6294523286497286637}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &1399807148
 Camera:
@@ -117,6 +118,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attenuationObject: {fileID: 2454788199460616583}
+--- !u!114 &3462483169460010922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399807146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1697a0132719bae458729c9e99c0c716, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  addToGlobalShakers: 1
+--- !u!1 &884346896144496753
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6294523286497286637}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6294523286497286637
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 884346896144496753}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.76000214, y: -2.079998, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1399807149}
+  m_Father: {fileID: 2454788199460616577}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1977690071197480962
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,7 +282,7 @@ Transform:
   - {fileID: 8419687115835509560}
   - {fileID: 1761505635879665622}
   - {fileID: 3120870490734568903}
-  - {fileID: 1399807149}
+  - {fileID: 6294523286497286637}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -366,6 +411,8 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   hud: {fileID: 0}
   pauseUi: {fileID: 0}
+  myShakePreset: {fileID: 11400000, guid: e5d41b595dad9f8459dc7b99c17d346f, type: 2}
+  shakeCam: {fileID: 3462483169460010922}
 --- !u!95 &2454788199460616605
 Animator:
   serializedVersion: 3
@@ -481,7 +528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632ae7eb1d4ce49d38a1e38ee7efe7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guid: dc075fea02993fe8-eae498f122020a08
+  guid: 7ae7068c62c481e2-88f729991bebc9a5
 --- !u!61 &3786005922980315812
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -681,7 +728,7 @@ MonoBehaviour:
   reviveRadius: 10
   reviveCap: 50
   reviveCooldown: 8
-  targetDistance: 100
+  targetDistance: 50
   reviveBar: {fileID: 0}
   lifestealRadius: 20
   lifestealCooldown: 10
@@ -689,6 +736,7 @@ MonoBehaviour:
   lifestealDamage: 13
   lifestealDuration: 5
   lifestealBar: {fileID: 0}
+  uiCounter: {fileID: 0}
   animator: {fileID: 0}
   eraserSfx: event:/Eraser
   reviveSfx: event:/ReviveAbility

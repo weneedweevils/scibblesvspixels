@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DoodleCrab : EnemyAI
 {
@@ -67,12 +68,13 @@ public class DoodleCrab : EnemyAI
             {
                 case "Player":
                     {
+      
                         //Get a reference to the player
                         PlayerMovement player = collision.gameObject.GetComponent<PlayerMovement>();
                         if (attackTimer.IsActive() && team == Team.oddle && player.invincibilityTimer.IsUseable())
                         {
                             //Damage player
-                            player.Damage(damage);
+                            player.Damage(damage);  
                         }
                         break;
                     }

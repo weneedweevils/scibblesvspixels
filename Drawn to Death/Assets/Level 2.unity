@@ -175,6 +175,11 @@ PrefabInstance:
       objectReference: {fileID: 2062209204}
     - target: {fileID: 2484373823062185862, guid: 15ab63cf82d98af4e8c9847085fba9eb,
         type: 3}
+      propertyPath: activationTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2484373823062185862, guid: 15ab63cf82d98af4e8c9847085fba9eb,
+        type: 3}
       propertyPath: timeBetweenAttempts
       value: 4
       objectReference: {fileID: 0}
@@ -1693,6 +1698,26 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4375029549245500282, guid: cf97480c00ce98e49b9f271a666560b7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -4.66922
+      objectReference: {fileID: 0}
+    - target: {fileID: 4375029549245500282, guid: cf97480c00ce98e49b9f271a666560b7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847102961336990574, guid: cf97480c00ce98e49b9f271a666560b7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -4.6691895
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847102961336990574, guid: cf97480c00ce98e49b9f271a666560b7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 42
+      objectReference: {fileID: 0}
     - target: {fileID: 7109232612418458142, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2296,7 +2321,7 @@ MonoBehaviour:
   PauseMenuUI: {fileID: 615067888}
   ControlsUI: {fileID: 208544580}
   MenuUI: {fileID: 208544581}
-  SettingsUI: {fileID: 0}
+  SettingsUI: {fileID: 1556940944}
   Menu: 1
 --- !u!114 &258245323
 MonoBehaviour:
@@ -2871,7 +2896,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.03}
   m_SpriteTilingProperty:
     border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
     pivot: {x: 0.5, y: 0.5}
@@ -2882,7 +2907,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 0.16}
+  m_Size: {x: 0.16, y: 0.09}
   m_EdgeRadius: 0
 --- !u!212 &331108977
 SpriteRenderer:
@@ -3080,6 +3105,11 @@ PrefabInstance:
       propertyPath: enemyObjects
       value: 
       objectReference: {fileID: 2062209204}
+    - target: {fileID: 2484373823062185862, guid: 15ab63cf82d98af4e8c9847085fba9eb,
+        type: 3}
+      propertyPath: activationTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2484373823062185862, guid: 15ab63cf82d98af4e8c9847085fba9eb,
         type: 3}
       propertyPath: timeBetweenAttempts
@@ -4395,6 +4425,11 @@ PrefabInstance:
       propertyPath: enemyObjects
       value: 
       objectReference: {fileID: 2062209204}
+    - target: {fileID: 2484373823062185862, guid: 15ab63cf82d98af4e8c9847085fba9eb,
+        type: 3}
+      propertyPath: activationTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2484373823062185862, guid: 15ab63cf82d98af4e8c9847085fba9eb,
         type: 3}
       propertyPath: timeBetweenAttempts
@@ -9996,6 +10031,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1060149633}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1072999445 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6194432944155221184, guid: 34d9b55fa170a444bb86050513388636,
+    type: 3}
+  m_PrefabInstance: {fileID: 1567685591}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1077481076
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10652,6 +10699,11 @@ PrefabInstance:
       propertyPath: enemyObjects
       value: 
       objectReference: {fileID: 2062209204}
+    - target: {fileID: 2484373823062185862, guid: 15ab63cf82d98af4e8c9847085fba9eb,
+        type: 3}
+      propertyPath: activationTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2484373823062185862, guid: 15ab63cf82d98af4e8c9847085fba9eb,
         type: 3}
       propertyPath: timeBetweenAttempts
@@ -60748,6 +60800,11 @@ PrefabInstance:
       objectReference: {fileID: 2062209204}
     - target: {fileID: 2484373823062185862, guid: 15ab63cf82d98af4e8c9847085fba9eb,
         type: 3}
+      propertyPath: activationTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2484373823062185862, guid: 15ab63cf82d98af4e8c9847085fba9eb,
+        type: 3}
       propertyPath: timeBetweenAttempts
       value: 4
       objectReference: {fileID: 0}
@@ -61899,6 +61956,11 @@ PrefabInstance:
       objectReference: {fileID: 2062209204}
     - target: {fileID: 2484373823062185862, guid: 15ab63cf82d98af4e8c9847085fba9eb,
         type: 3}
+      propertyPath: activationTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2484373823062185862, guid: 15ab63cf82d98af4e8c9847085fba9eb,
+        type: 3}
       propertyPath: timeBetweenAttempts
       value: 3
       objectReference: {fileID: 0}
@@ -62141,6 +62203,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1549708519}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1556940944 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6100101626040810436, guid: cf97480c00ce98e49b9f271a666560b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 208544578}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1567685591
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62148,6 +62216,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 258245320}
     m_Modifications:
+    - target: {fileID: 329403744865587886, guid: 34d9b55fa170a444bb86050513388636,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 16.923706
+      objectReference: {fileID: 0}
+    - target: {fileID: 329403744865587886, guid: 34d9b55fa170a444bb86050513388636,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -0.035396576
+      objectReference: {fileID: 0}
+    - target: {fileID: 329403744865587886, guid: 34d9b55fa170a444bb86050513388636,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.5200043
+      objectReference: {fileID: 0}
+    - target: {fileID: 329403744865587886, guid: 34d9b55fa170a444bb86050513388636,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.017687798
+      objectReference: {fileID: 0}
+    - target: {fileID: 2951171092953893880, guid: 34d9b55fa170a444bb86050513388636,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 458.89294
+      objectReference: {fileID: 0}
+    - target: {fileID: 2951171092953893880, guid: 34d9b55fa170a444bb86050513388636,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.2599945
+      objectReference: {fileID: 0}
     - target: {fileID: 7112277499973439840, guid: 34d9b55fa170a444bb86050513388636,
         type: 3}
       propertyPath: m_Name
@@ -104113,6 +104211,11 @@ PrefabInstance:
       propertyPath: reviveBar
       value: 
       objectReference: {fileID: 1567685595}
+    - target: {fileID: 5085683033935389857, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: uiCounter
+      value: 
+      objectReference: {fileID: 1072999445}
     - target: {fileID: 5085683033935389857, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
       propertyPath: lifestealBar

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum Limit { None, Time, Unit, Either, Both}
+public enum ActivationTrigger { None, Collider, Blocker}
 public class Spawner : MonoBehaviour
 {
     [Header("References")]
@@ -21,7 +22,9 @@ public class Spawner : MonoBehaviour
     public Limit limit;
     public float timeLimit;
     public int unitLimit;
-    public bool active = true;
+    public ActivationTrigger activationTrigger = ActivationTrigger.None;
+    public EnemyAI[] blockers;
+    [HideInInspector] public bool active = true;
 
     private CooldownTimer attemptTimer;
     private CooldownTimer limitTimer;
@@ -46,6 +49,8 @@ public class Spawner : MonoBehaviour
         {
             totalChance += data.weight;
         }
+        active = (  (activationTrigger == ActivationTrigger.None) || 
+                    (activationTrigger == ActivationTrigger.Blocker && blockers.Length == 0));
         if (active)
         {
             ActivateSpawner();
@@ -55,6 +60,19 @@ public class Spawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Check Blockers
+        if (triggerActive && activationTrigger == ActivationTrigger.Blocker)
+        {
+            foreach (EnemyAI blocker in blockers)
+            {
+                if (blocker.isDead())
+                {
+                    ActivateSpawner();
+                    break;
+                }
+            }
+        }
+
         if (active && !playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
         {
             //Update Timers
@@ -129,7 +147,7 @@ public class Spawner : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (triggerActive && collision.gameObject.tag == "Player")
+        if (triggerActive && activationTrigger == ActivationTrigger.Collider && collision.gameObject.tag == "Player")
         {
             ActivateSpawner();
         }

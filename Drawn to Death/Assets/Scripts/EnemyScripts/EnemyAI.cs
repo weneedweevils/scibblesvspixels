@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using UnityEngine.UIElements;
 
 // Used this video for most of the script https://www.youtube.com/watch?v=jvtFUfJ6CP8a
 // if you want to use this in FSM inherit from EnemybaseState class
@@ -31,6 +32,7 @@ public abstract class EnemyAI : MonoBehaviour
     public Seeker playerSeeker;
     public float seekDistance = 100f;
     public float nextWaypointDistance;
+    public EnemyAI[] blockers;
 
     [Header("Music and sound")]
     public string deathSfx;
@@ -53,6 +55,7 @@ public abstract class EnemyAI : MonoBehaviour
     public Color reviveCol = Color.green;
     public Color allyCol = Color.green;
     public SpriteRenderer selfImage;
+    public GameObject panel;
 
         /* ----- Hidden Variables ----- */
 
@@ -114,6 +117,11 @@ public abstract class EnemyAI : MonoBehaviour
 
         //Start a repeating functon
         InvokeRepeating("CheckState", 0f, 0.5f); //Update the path every half second
+
+        if (blockers.Length != 0)
+        {
+            isolated = true;
+        }
     }
 
     private void CheckState()
@@ -190,6 +198,19 @@ public abstract class EnemyAI : MonoBehaviour
     // Update is called once per frame
     protected virtual void FixedUpdate()
     {
+        //Check Blockers
+        if (isolated && blockers.Length > 0)
+        {
+            foreach (EnemyAI blocker in blockers)
+            {
+                if (blocker.isDead())
+                {
+                    isolated = false;
+                    break;
+                }
+            }
+        }
+        
         //Update Timers
         invincibilityTimer.Update();
         invincibilityTimer2.Update();
@@ -274,6 +295,8 @@ public abstract class EnemyAI : MonoBehaviour
                 }
             case State.chase:
                 {
+                    animator.SetBool("attacking", false);
+                    animator.SetBool("chasing", true);
                     //chase Behaviour
                     if (PathLength() > seekDistance && team == Team.oddle)
                     {
@@ -351,6 +374,8 @@ public abstract class EnemyAI : MonoBehaviour
             case State.follow:
                 {
                     //follow Behaviour
+                    animator.SetBool("attacking", false);
+                    animator.SetBool("chasing", true);
                     MoveEnemy();
                     break;
                 }
@@ -358,7 +383,7 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     //Make an attempt at finding a new target
-    protected void FindTarget()
+    virtual protected void FindTarget()
     {
         //Set the minimum target to the player
         float dist = Vector2.Distance(rb.position, player.transform.position);
@@ -418,7 +443,7 @@ public abstract class EnemyAI : MonoBehaviour
     abstract protected void Attack();
 
     //Kill this entity
-    public void Kill()
+    virtual public void Kill()
     {
         // Play the FMOD event correlating to the death
         FMODUnity.RuntimeManager.PlayOneShot(deathSfx);
@@ -451,7 +476,7 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     //Revive this entity as an ally to the player
-    public bool Revive(float percentMaxHP = 1f, float percentDamage = 1f, float percentSpeed = 1f)
+    virtual public bool Revive(float percentMaxHP = 1f, float percentDamage = 1f, float percentSpeed = 1f, float percentAttkSpeed = 1f)
     {
         if (state == State.dead && team == Team.neutral)
         {
@@ -468,6 +493,7 @@ public abstract class EnemyAI : MonoBehaviour
             damage *= percentDamage;
             speed *= percentSpeed;
             health = maxHealth;
+            attackTimer.SetCooldown(attackTimer.cooldownDuration * percentAttkSpeed);
 
             //Re-enable collisions
             movementCollider.enabled = true;
@@ -480,10 +506,10 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     // Function to run when enemies/allies takes damage
-    public void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f)
+    virtual public void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f, bool lifeSteal = false)
     {
         //Dont hit dead bodies
-        if (state == State.dead || state == State.dying)
+        if (state == State.dead || state == State.dying || (team == Team.player && playerAttack.reviveTimer.IsActive() && !lifeSteal))
         {
             return;
         }
@@ -515,12 +541,22 @@ public abstract class EnemyAI : MonoBehaviour
         if (makeInvincible)
         {
             invincibilityTimer.StartTimer();
+            Stun();
         }
+
+        return;
         
     }
 
+    virtual public void Stun()
+    {
+        attackTimer.StartCooldown();
+        animator.SetBool("attacking", false);
+        animator.SetBool("chasing", true);
+    }
+
     // Function to run when enemies/allies heal
-    public void Heal(float healthRestored)
+    virtual public void Heal(float healthRestored)
     {
         if (health < maxHealth)
         {
@@ -534,27 +570,27 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     //Set a new target using a GameObject
-    public void SetTarget(GameObject obj, bool isPlayer = false)
+    virtual public void SetTarget(GameObject obj, bool isPlayer = false)
     {
         target = obj.transform;
         targetIsPlayer = isPlayer;
     }
 
     //Set a new target using a Transform
-    public void SetTarget(Transform transform, bool isPlayer = false)
+    virtual public void SetTarget(Transform transform, bool isPlayer = false)
     {
         target = transform;
         targetIsPlayer = isPlayer;
     }
 
     //Get current target
-    public Transform GetTarget()
+    virtual public Transform GetTarget()
     {
         return target;
     }
 
     //Estimate the length of the current path
-    public float PathLength(bool toPlayer = false)
+    virtual public float PathLength(bool toPlayer = false)
     {
         //Path to calculate
         Path path = toPlayer ? playerPath : targetPath;
@@ -575,10 +611,10 @@ public abstract class EnemyAI : MonoBehaviour
         //Distance estimate
         return Vector3.Distance(path.vectorPath[0], path.vectorPath[1]) * size;
     }
-    
-    public bool isDead()
+
+    virtual public bool isDead()
     {
         // Quick getter function that's used in CrabWalkSFX
-        return (state == State.dead);
+        return (state == State.dead || state == State.dying);
     }
 }
