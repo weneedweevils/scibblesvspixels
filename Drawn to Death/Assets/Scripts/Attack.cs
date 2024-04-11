@@ -222,13 +222,17 @@ public class Attack : MonoBehaviour
                         //line.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, -1));
                         //line.SetPosition(1, new Vector3(enemy.transform.position.x, enemy.transform.position.y, -1));
                     }
-                    else if (enemy.team == Team.player)
+                    else if (enemy.team == Team.player && playerMovement.health < playerMovement.maxHealth) // Won't lifesteal from allies if full health
                     {
                         enemy.Damage(dmg, false);
                         player.GetComponent<PlayerMovement>().Heal(dmg); // HEALS
                         enemy.lifestealing = true;
                         //line.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, -1));
                         //line.SetPosition(1, new Vector3(enemy.transform.position.x, enemy.transform.position.y, -1));
+                    }
+                    else
+                    {
+                        enemy.lifestealing = false;
                     }
                 }
                 else
