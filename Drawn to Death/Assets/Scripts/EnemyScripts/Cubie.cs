@@ -20,7 +20,7 @@ public class Cubie : EnemyAI
         //Override variables
         deathDuration = 40f / 60f;
         attackDuration = 60f / 60f;
-        invincibilityDuration = 16f / 60f;
+        invincibilityDuration = 20f / 60f;
 
         //Create a windup timer
         windupTimer = new CooldownTimer(0f, windupDuration);

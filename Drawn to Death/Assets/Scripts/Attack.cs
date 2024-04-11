@@ -54,11 +54,13 @@ public class Attack : MonoBehaviour
     public float lifestealDuration = 5f;
     public Slider lifestealBar;
     private CooldownTimer lifestealTimer;
+    private CooldownTimer lifestealStartTimer;
     private CooldownBarBehaviour lifestealCooldownBar;
 
     //Misc
     private List<EnemyAI> allies = new List<EnemyAI>();
     private SpriteRenderer lifestealImage;
+    public bool lifestealStart;
 
 
     /* ----- Misc ----- */
@@ -88,6 +90,7 @@ public class Attack : MonoBehaviour
         reviveTimer = new CooldownTimer(reviveCooldown, reviveDuration);
         attackTimer = new CooldownTimer(attackDuration*0.35f, attackDuration*0.65f);
         lifestealTimer = new CooldownTimer(lifestealCooldown, lifestealDuration);
+        lifestealStartTimer = new CooldownTimer(0.65f, 0.35f);
         reviveCooldownBar = new CooldownBarBehaviour(reviveBar, reviveCooldown, Color.gray, Color.magenta);
         lifestealCooldownBar = new CooldownBarBehaviour(lifestealBar, lifestealCooldown, Color.gray, Color.magenta);
 
@@ -115,26 +118,29 @@ public class Attack : MonoBehaviour
 
     public void CheckAttack()
     {
-        //Attack Timer
-        attackTimer.Update();
-        if (attackTimer.IsUseable())
+        if (!lifestealStart)
         {
-            animator.SetBool("attacking", false);
-        }
+            //Attack Timer
+            attackTimer.Update();
+            if (attackTimer.IsUseable())
+            {
+                animator.SetBool("attacking", false);
+            }
 
-        //Attack
-        if (attackTimer.IsUseable() && playerMovement.CanUseAbility() && Input.GetKey(attackButton))
-        {
+            //Attack
+            if (attackTimer.IsUseable() && playerMovement.CanUseAbility() && Input.GetKey(attackButton))
+            {
 
-            // FMODUnity.RuntimeManager.PlayOneShot(eraserSfx, isHit);
-            var instance = FMODUnity.RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToGUID(eraserSfx));
-            instance.setParameterByName("IsHit", isHit);
-            instance.start();
-            instance.release();
-            isHit = 0;
+                // FMODUnity.RuntimeManager.PlayOneShot(eraserSfx, isHit);
+                var instance = FMODUnity.RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToGUID(eraserSfx));
+                instance.setParameterByName("IsHit", isHit);
+                instance.start();
+                instance.release();
+                isHit = 0;
 
-            animator.SetBool("attacking", true);
-            attackTimer.StartTimer();
+                animator.SetBool("attacking", true);
+                attackTimer.StartTimer();
+            }
         }
     }
 
@@ -199,13 +205,26 @@ public class Attack : MonoBehaviour
     {
         //Lifesteal Timer
         lifestealTimer.Update();
+        lifestealStartTimer.Update();
 
         if (playerMovement.CanUseAbility() && lifestealTimer.IsUseable() && Input.GetKeyDown(lifestealButton))
         {
-            lifestealImage.enabled = true;
             lifestealTimer.StartTimer();
+            lifestealStartTimer.StartTimer();
+            animator.SetBool("lifestealstart", true);
+            lifestealStart = true;
         }
-        if (lifestealTimer.IsActive()) {
+        if (lifestealStartTimer.IsUseable())
+        {
+            lifestealStart = false;
+            animator.SetBool("lifestealstart", false);
+        }
+        if (lifestealTimer.IsActive() && lifestealStartTimer.IsOnCooldown())
+        {
+            lifestealImage.enabled = true;
+        }
+        if (lifestealTimer.IsActive() && lifestealImage.enabled) {
+
             float dmg = lifestealDamage / lifestealDuration * Time.deltaTime;
 
             foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
