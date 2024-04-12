@@ -83,6 +83,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     [Header("Other")]
     [SerializeField] private GameObject hud;
     public GameObject pauseUi;
+    private GameObject lifestealOrb;
+    private bool orb = false;
+    private CooldownTimer lifestealEndTimer;
 
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
@@ -98,11 +101,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         weapon = GetComponentInChildren<Attack>();
+        lifestealOrb = transform.GetChild(4).gameObject;
 
         health = maxHealth;
         dashTimer = new CooldownTimer(dashCooldown, dashBoost / friction);
         invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
         recallTimer = weapon.reviveTimer; // Recall and Revive share duration and cooldown timer lengths
+        lifestealEndTimer = new CooldownTimer(0.2f, 0.532f);
         dashCooldownBar = new CooldownBarBehaviour(dashBar, dashCooldown, Color.gray, Color.magenta);
         recallCooldownBar = new CooldownBarBehaviour(recallBar, weapon.reviveCooldown, Color.gray, Color.magenta);
     }
@@ -113,6 +118,25 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         dashTimer.Update();
         //recallTimer.Update();
         invincibilityTimer.Update();
+        lifestealEndTimer.Update();
+
+        // Handles lifesteal animation
+        if (weapon.lifestealTimer.IsActive() && weapon.lifestealStartTimer.IsOnCooldown() && !orb)
+        {
+            lifestealOrb.SetActive(true);
+            lifestealOrb.GetComponent<Animator>().SetTrigger("lifestealstart");
+            orb = true;
+        }
+        else if (weapon.lifestealTimer.IsOnCooldown() && orb)
+        {
+            lifestealOrb.GetComponent<Animator>().SetTrigger("lifestealend");
+            lifestealEndTimer.StartTimer();
+            orb = false;
+        }
+        else if (lifestealEndTimer.IsOnCooldown())
+        {
+            lifestealOrb.SetActive(false);
+        }
         
         // Disable movement if in dialogue/cutscene where we don't want movement
         if (!inFreezeDialogue() && !timelinePlaying && pauseUi.active == false)

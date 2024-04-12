@@ -53,8 +53,8 @@ public class Attack : MonoBehaviour
     public float lifestealDamage = 10f;
     public float lifestealDuration = 5f;
     public Slider lifestealBar;
-    private CooldownTimer lifestealTimer;
-    private CooldownTimer lifestealStartTimer;
+    public CooldownTimer lifestealTimer;
+    public CooldownTimer lifestealStartTimer;
     private CooldownBarBehaviour lifestealCooldownBar;
 
     //Misc
