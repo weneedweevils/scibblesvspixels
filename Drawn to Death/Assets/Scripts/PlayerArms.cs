@@ -36,5 +36,9 @@ public class PlayerArms : MonoBehaviour
             //Rotate towards mouse position
             transform.rotation = Quaternion.AngleAxis(angle, sprite.flipX ? Vector3.back : Vector3.forward);
         }
+        if (weapon.GetComponent<Attack>().lifestealStart)
+        {
+            transform.rotation = Quaternion.AngleAxis(0f, Vector3.zero);
+        }
     }
 }
