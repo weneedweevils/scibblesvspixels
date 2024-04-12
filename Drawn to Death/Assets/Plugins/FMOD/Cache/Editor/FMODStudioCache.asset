@@ -24,6 +24,33 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &-8902777268253569109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/CubieDeath
+  m_EditorClassIdentifier: 
+  Path: event:/CubieDeath
+  Guid:
+    Data1: -1748057880
+    Data2: 1317637005
+    Data3: 1539942034
+    Data4: 170170985
+  Banks:
+  - {fileID: 4239488217956977592}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 838
 --- !u!114 &-8296637110823047609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,7 +144,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638484756165646689
+  lastModified: 638484602402238765
   FileSizes: []
   Exists: 1
 --- !u!114 &-6832347123653039277
@@ -163,7 +190,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638480099569520343
+  lastModified: 638479485133237937
   FileSizes: []
   Exists: 1
 --- !u!114 &-6398945634125407533
@@ -410,6 +437,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-342967078492133809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/WeNeedWeevils
+  m_EditorClassIdentifier: 
+  Path: event:/WeNeedWeevils
+  Guid:
+    Data1: -1683103616
+    Data2: 1317216661
+    Data3: 1114303912
+    Data4: -1108586190
+  Banks:
+  - {fileID: 5605494156491117616}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2375
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,7 +512,7 @@ MonoBehaviour:
   - {fileID: -6739459720092019666}
   StringsBanks:
   - {fileID: 7797934752597644469}
-  cacheTime: 638484756165676176
+  cacheTime: 638484602402278666
   cacheVersion: 131616
 --- !u!114 &92634032118725457
 MonoBehaviour:
@@ -620,6 +674,30 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &3091821092335714463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/CubieSwish/CubieSwish
+  m_EditorClassIdentifier: 
+  Name: CubieSwish
+  StudioPath: 
+  Min: 0
+  Max: 3
+  Default: 0
+  ID:
+    data1: 3376521817
+    data2: 3752117279
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &3856085370948523900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -762,7 +840,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638484756165676176
+  lastModified: 638484602402278666
   FileSizes: []
   Exists: 1
 --- !u!114 &4248065584152844610
@@ -807,7 +885,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Movie.bank
   Name: Movie
   StudioPath: bank:/Movie
-  lastModified: 638484756165516697
+  lastModified: 638484602402059257
   FileSizes: []
   Exists: 1
 --- !u!114 &5230207443223865336
@@ -885,6 +963,24 @@ MonoBehaviour:
   Type: 1
   IsGlobal: 0
   Labels: []
+  Exists: 1
+--- !u!114 &5605494156491117616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Movie.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMODBanks/Desktop/Movie.bank
+  Name: Movie
+  StudioPath: bank:/Movie
+  lastModified: 638484602402059257
+  FileSizes: []
   Exists: 1
 --- !u!114 &5800204136709450509
 MonoBehaviour:
@@ -1001,7 +1097,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638484756165463524
+  lastModified: 638484602401959524
   FileSizes:
   - Name: 
     Value: 2756
