@@ -528,7 +528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632ae7eb1d4ce49d38a1e38ee7efe7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guid: 7ae7068c62c481e2-88f729991bebc9a5
+  guid: 41a4723c9ef8b60f-b6c8c8fda2aefa3d
 --- !u!61 &3786005922980315812
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -730,6 +730,7 @@ MonoBehaviour:
   reviveCooldown: 8
   targetDistance: 50
   reviveBar: {fileID: 0}
+  activatedReviveNotifier: 0
   lifestealRadius: 20
   lifestealCooldown: 10
   targetDistanceLifesteal: 100
@@ -740,6 +741,13 @@ MonoBehaviour:
   animator: {fileID: 0}
   eraserSfx: event:/Eraser
   reviveSfx: event:/ReviveAbility
+  lifestealSfx:
+    Guid:
+      Data1: 185662461
+      Data2: 1314066250
+      Data3: 783591817
+      Data4: 1941709118
+    Path: event:/LifestealAbility
   isHit: 0
 --- !u!60 &120045952777875683
 PolygonCollider2D:
