@@ -234,6 +234,7 @@ public abstract class EnemyAI : MonoBehaviour
             if (!slowed && team == Team.oddle) // Only slow enemy Oodles
             {
                 speed /= 2;
+                attackTimer.SetCooldown(attackCooldown * 1.5f);
                 slowed = true;
             }
             selfImage.color = Color.red;
@@ -256,6 +257,7 @@ public abstract class EnemyAI : MonoBehaviour
         {
             slowed = false;
             speed *= 2;
+            attackTimer.SetCooldown(attackCooldown);
             selfImage.color = team == Team.player ? allyCol : Color.white;
         }
 

@@ -25,10 +25,15 @@ public class Spawner : MonoBehaviour
 
     private CooldownTimer attemptTimer;
     private CooldownTimer limitTimer;
+    private CooldownTimer animationTimer;
     private int spawnCount = 0;
     private float totalChance = 0f;
     private bool triggerActive = true;
     private PlayerMovement playerMovement;
+    private GameObject spawnAnimation;
+    private Vector3 spawnPosition;
+    private GameObject enemy;
+    private bool spawnTime;
 
     void OnDrawGizmosSelected()
     {
@@ -42,6 +47,9 @@ public class Spawner : MonoBehaviour
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
         limitTimer = new CooldownTimer(0f, timeLimit);
         attemptTimer = new CooldownTimer(timeBetweenAttempts, 0f);
+        animationTimer = new CooldownTimer(0f, 1.6f);
+        spawnAnimation = transform.GetChild(0).gameObject;
+        spawnAnimation.transform.position = transform.position;
         foreach(SpawnData data in spawnData)
         {
             totalChance += data.weight;
@@ -60,12 +68,28 @@ public class Spawner : MonoBehaviour
             //Update Timers
             limitTimer.Update();
             attemptTimer.Update();
+            animationTimer.Update();
 
             //Make a spawn attempt
-            if (attemptTimer.IsUseable())
+            if (attemptTimer.IsUseable() && AttemptSpawn() && !spawnTime)
             {
-                AttemptSpawn();
-                attemptTimer.StartTimer();
+                enemy = GetRandomEnemy();
+                if (enemy != null)
+                {
+                    spawnAnimation.transform.position = transform.position;
+                    spawnPosition = new Vector3(Random.Range(0f, spawnRadius), Random.Range(0f, spawnRadius), 0);
+                    Vector3 animationPosition = spawnPosition;
+                    animationPosition.x -= 3.25f;
+                    animationPosition.y += 2.3f;
+                    spawnAnimation.transform.position += animationPosition;
+                    spawnAnimation.SetActive(true);
+                    animationTimer.StartTimer();
+                    spawnTime = true;
+                }
+                else
+                {
+                    attemptTimer.StartTimer();
+                }
             }
 
             //Check time limit
@@ -85,23 +109,25 @@ public class Spawner : MonoBehaviour
             {
                 active = false;
             }
+
+            // Disable animation and spawn enemy
+            if (animationTimer.IsUseable() && spawnTime)
+            {
+                spawnAnimation.SetActive(false);
+                GameObject newEnemy = Instantiate(enemy, transform);
+                newEnemy.transform.SetParent(enemyObjects.transform);
+                newEnemy.transform.position += spawnPosition;
+                ++spawnCount;
+                spawnTime = false;
+                attemptTimer.StartTimer();
+            }
         }
     }
 
-    public void AttemptSpawn()
+    public bool AttemptSpawn()
     {
         float value = Random.Range(0f, 1f);
-        if (spawnChance > 0f && value <= spawnChance)
-        {
-            GameObject enemy = GetRandomEnemy();
-            if (enemy != null)
-            {
-                GameObject newEnemy = Instantiate(enemy, transform);
-                newEnemy.transform.SetParent(enemyObjects.transform);
-                newEnemy.transform.position += new Vector3(Random.Range(0f, spawnRadius), Random.Range(0f, spawnRadius), 0);
-                ++spawnCount;
-            }
-        }
+        return spawnChance > 0f && value <= spawnChance;
     }
 
     public GameObject GetRandomEnemy()
