@@ -24,6 +24,33 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &-8902777268253569109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/CubieDeath
+  m_EditorClassIdentifier: 
+  Path: event:/CubieDeath
+  Guid:
+    Data1: -1748057880
+    Data2: 1317637005
+    Data3: 1539942034
+    Data4: 170170985
+  Banks:
+  - {fileID: 4239488217956977592}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 838
 --- !u!114 &-8296637110823047609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,6 +102,33 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &-8066933724649790096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/WeNeedWeevils
+  m_EditorClassIdentifier: 
+  Path: event:/WeNeedWeevils
+  Guid:
+    Data1: -1683103616
+    Data2: 1317216661
+    Data3: 1114303912
+    Data4: -1108586190
+  Banks:
+  - {fileID: 4302096344581785978}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2375
 --- !u!114 &-8016587225858822277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,7 +144,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638480099569688533
+  lastModified: 638484602402238765
   FileSizes: []
   Exists: 1
 --- !u!114 &-6832347123653039277
@@ -136,7 +190,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638480099569520343
+  lastModified: 638479485133237937
   FileSizes: []
   Exists: 1
 --- !u!114 &-6398945634125407533
@@ -219,6 +273,62 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &-5617809469646742736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/CubieSwish
+  m_EditorClassIdentifier: 
+  Path: event:/CubieSwish
+  Guid:
+    Data1: 2114814394
+    Data2: 1292438169
+    Data3: 1220270997
+    Data4: -1308684798
+  Banks:
+  - {fileID: 4239488217956977592}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -1647394584419702173}
+  MinDistance: 1
+  MaxDistance: 40
+  Length: 0
+--- !u!114 &-4876526390497422739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/CubieSwoosh
+  m_EditorClassIdentifier: 
+  Path: event:/CubieSwoosh
+  Guid:
+    Data1: -527277019
+    Data2: 1243307168
+    Data3: 585086394
+    Data4: 1469961074
+  Banks:
+  - {fileID: 4239488217956977592}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 3944989322430356511}
+  MinDistance: 0
+  MaxDistance: 40
+  Length: 0
 --- !u!114 &-2418673337401263459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,6 +385,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-1647394584419702173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/CubieSwish/CubieSwish
+  m_EditorClassIdentifier: 
+  Name: CubieSwish
+  StudioPath: 
+  Min: 0
+  Max: 3
+  Default: 0
+  ID:
+    data1: 3376521817
+    data2: 3752117279
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-368533891237958184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,6 +437,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-342967078492133809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/WeNeedWeevils
+  m_EditorClassIdentifier: 
+  Path: event:/WeNeedWeevils
+  Guid:
+    Data1: -1683103616
+    Data2: 1317216661
+    Data3: 1114303912
+    Data4: -1108586190
+  Banks:
+  - {fileID: 5605494156491117616}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2375
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +481,7 @@ MonoBehaviour:
   - {fileID: -6739459720092019666}
   - {fileID: -8016587225858822277}
   - {fileID: 4239488217956977592}
+  - {fileID: 4302096344581785978}
   EditorEvents:
   - {fileID: 8740774749428144641}
   - {fileID: 8242747836718603898}
@@ -339,12 +501,18 @@ MonoBehaviour:
   - {fileID: 3856085370948523900}
   - {fileID: -8296637110823047609}
   - {fileID: 404742019991061992}
+  - {fileID: -8066933724649790096}
+  - {fileID: 356066689164085712}
+  - {fileID: -4876526390497422739}
+  - {fileID: 1336639098571572299}
+  - {fileID: -5617809469646742736}
+  - {fileID: 3932644638757492515}
   EditorParameters: []
   MasterBanks:
   - {fileID: -6739459720092019666}
   StringsBanks:
   - {fileID: 7797934752597644469}
-  cacheTime: 638483964787927097
+  cacheTime: 638484602402278666
   cacheVersion: 131616
 --- !u!114 &92634032118725457
 MonoBehaviour:
@@ -374,6 +542,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &356066689164085712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/FinalCutscene
+  m_EditorClassIdentifier: 
+  Path: event:/FinalCutscene
+  Guid:
+    Data1: -1755133470
+    Data2: 1121891716
+    Data3: -535415413
+    Data4: -1989148986
+  Banks:
+  - {fileID: 4302096344581785978}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 102125
 --- !u!114 &404742019991061992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -428,6 +623,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4500
+--- !u!114 &1336639098571572299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/CubieAttack
+  m_EditorClassIdentifier: 
+  Path: event:/CubieAttack
+  Guid:
+    Data1: 1788446257
+    Data2: 1340595051
+    Data3: -1154478947
+    Data4: -275982537
+  Banks:
+  - {fileID: 4239488217956977592}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1177
 --- !u!114 &1742211377874227496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,17 +660,41 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/CrabDeath/Parameter 1
+  m_Name: parameter:/CrabDeath/CrabDeath
   m_EditorClassIdentifier: 
-  Name: Parameter 1
+  Name: CrabDeath
   StudioPath: 
   Min: 0
-  Max: 4
+  Max: 5
   Default: 0
   ID:
     data1: 3893901547
     data2: 1122882880
-  Type: 1
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &3091821092335714463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/CubieSwish/CubieSwish
+  m_EditorClassIdentifier: 
+  Name: CubieSwish
+  StudioPath: 
+  Min: 0
+  Max: 3
+  Default: 0
+  ID:
+    data1: 3376521817
+    data2: 3752117279
+  Type: 0
   IsGlobal: 0
   Labels: []
   Exists: 1
@@ -504,6 +750,57 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &3932644638757492515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/CubieDeath
+  m_EditorClassIdentifier: 
+  Path: event:/CubieDeath
+  Guid:
+    Data1: -1748057880
+    Data2: 1317637005
+    Data3: 1539942034
+    Data4: 170170985
+  Banks:
+  - {fileID: 4239488217956977592}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 838
+--- !u!114 &3944989322430356511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/CubieSwoosh/CubieSwoosh
+  m_EditorClassIdentifier: 
+  Name: CubieSwoosh
+  StudioPath: 
+  Min: 0
+  Max: 3
+  Default: 1.5
+  ID:
+    data1: 1222877233
+    data2: 3963723853
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &4157479222591802341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -543,7 +840,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638483964787927097
+  lastModified: 638484602402278666
   FileSizes: []
   Exists: 1
 --- !u!114 &4248065584152844610
@@ -571,8 +868,26 @@ MonoBehaviour:
   IsOneShot: 0
   Parameters: []
   MinDistance: 0
-  MaxDistance: 50
+  MaxDistance: 40
   Length: 3827
+--- !u!114 &4302096344581785978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Movie.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMODBanks/Desktop/Movie.bank
+  Name: Movie
+  StudioPath: bank:/Movie
+  lastModified: 638484602402059257
+  FileSizes: []
+  Exists: 1
 --- !u!114 &5230207443223865336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -648,6 +963,24 @@ MonoBehaviour:
   Type: 1
   IsGlobal: 0
   Labels: []
+  Exists: 1
+--- !u!114 &5605494156491117616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Movie.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMODBanks/Desktop/Movie.bank
+  Name: Movie
+  StudioPath: bank:/Movie
+  lastModified: 638484602402059257
+  FileSizes: []
   Exists: 1
 --- !u!114 &5800204136709450509
 MonoBehaviour:
@@ -764,10 +1097,10 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638483964787887089
+  lastModified: 638484602401959524
   FileSizes:
   - Name: 
-    Value: 2344
+    Value: 2756
   Exists: 1
 --- !u!114 &8242747836718603898
 MonoBehaviour:

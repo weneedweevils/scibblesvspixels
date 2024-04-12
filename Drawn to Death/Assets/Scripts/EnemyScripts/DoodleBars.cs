@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class DoodleBars : EnemyAI
 {
-    //[Header("Doodle Bars Specific References")]
-    
+    [Header("Doodle Bars Specific References")]
+    public DoodleBars[] friends;
 
     override protected void Start()
     {
@@ -37,5 +37,17 @@ public class DoodleBars : EnemyAI
     override public bool Revive(float percentMaxHP = 1f, float percentDamage = 1f, float percentSpeed = 1f, float percentAttkSpeed = 1f)
     {
         return false;
+    }
+
+    public override void Kill()
+    {
+        base.Kill();
+        foreach (DoodleBars friend in friends)
+        {
+            if (!friend.isDead())
+            {
+                friend.Damage(friend.health);
+            }
+        }
     }
 }

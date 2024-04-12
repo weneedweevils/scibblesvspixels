@@ -94,8 +94,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private UnityEngine.UI.Image restricted;
     public ShakePreset myShakePreset;
     public Shaker shakeCam;
+    private GameObject lifestealOrb;
+    private bool orb = false;
+    private CooldownTimer lifestealEndTimer;
 
-    
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
     private UnityEngine.UI.Image damageScreen;
@@ -114,11 +116,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         sprite = GetComponent<SpriteRenderer>();
         weapon = GetComponentInChildren<Attack>();
         eraser = transform.GetChild(0).GetChild(0).gameObject.GetComponent<SpriteRenderer>();
+        lifestealOrb = transform.GetChild(4).gameObject;
 
         health = maxHealth;
         dashTimer = new CooldownTimer(dashCooldown, dashBoost / friction);
         invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
         recallTimer = weapon.reviveTimer; // Recall and Revive share duration and cooldown timer lengths
+        lifestealEndTimer = new CooldownTimer(0.2f, 0.532f);
         dashCooldownBar = new CooldownBarBehaviour(dashBar, dashCooldown, Color.gray, Color.magenta);
         recallCooldownBar = new CooldownBarBehaviour(recallBar, weapon.reviveCooldown, Color.gray, Color.magenta);
         dashNotifier = dashBar.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();
@@ -137,6 +141,25 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         dashTimer.Update();
         //recallTimer.Update();
         invincibilityTimer.Update();
+        lifestealEndTimer.Update();
+
+        // Handles lifesteal animation
+        if (weapon.lifestealTimer.IsActive() && weapon.lifestealStartTimer.IsOnCooldown() && !orb)
+        {
+            lifestealOrb.SetActive(true);
+            lifestealOrb.GetComponent<Animator>().SetTrigger("lifestealstart");
+            orb = true;
+        }
+        else if (weapon.lifestealTimer.IsOnCooldown() && orb)
+        {
+            lifestealOrb.GetComponent<Animator>().SetTrigger("lifestealend");
+            lifestealEndTimer.StartTimer();
+            orb = false;
+        }
+        else if (lifestealEndTimer.IsOnCooldown())
+        {
+            lifestealOrb.SetActive(false);
+        }
 
         if (invincibilityTimer.IsActive() && hit) // Illustrates Iframes
         {
