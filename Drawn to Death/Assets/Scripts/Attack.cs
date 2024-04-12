@@ -56,7 +56,8 @@ public class Attack : MonoBehaviour
     public float lifestealDamage = 10f;
     public float lifestealDuration = 5f;
     public Slider lifestealBar;
-    private CooldownTimer lifestealTimer;
+    public CooldownTimer lifestealTimer;
+    public CooldownTimer lifestealStartTimer;
     private CooldownBarBehaviour lifestealCooldownBar;
     private UnityEngine.UI.Image lifeStealNotifier;
     private bool activatedLsNotifier = false;
@@ -64,6 +65,7 @@ public class Attack : MonoBehaviour
     //Misc
     private List<EnemyAI> allies = new List<EnemyAI>();
     private SpriteRenderer lifestealImage;
+    public bool lifestealStart;
     public TextMeshProUGUI uiCounter;
 
 
@@ -94,6 +96,7 @@ public class Attack : MonoBehaviour
         reviveTimer = new CooldownTimer(reviveCooldown, reviveDuration);
         attackTimer = new CooldownTimer(attackDuration*0.35f, attackDuration*0.65f);
         lifestealTimer = new CooldownTimer(lifestealCooldown, lifestealDuration);
+        lifestealStartTimer = new CooldownTimer(0.65f, 0.35f);
         reviveCooldownBar = new CooldownBarBehaviour(reviveBar, reviveCooldown, Color.gray, Color.magenta);
         lifestealCooldownBar = new CooldownBarBehaviour(lifestealBar, lifestealCooldown, Color.gray, Color.magenta);
         lifeStealNotifier = lifestealBar.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();
@@ -126,26 +129,29 @@ public class Attack : MonoBehaviour
 
     public void CheckAttack()
     {
-        //Attack Timer
-        attackTimer.Update();
-        if (attackTimer.IsUseable())
+        if (!lifestealStart)
         {
-            animator.SetBool("attacking", false);
-        }
+            //Attack Timer
+            attackTimer.Update();
+            if (attackTimer.IsUseable())
+            {
+                animator.SetBool("attacking", false);
+            }
 
-        //Attack
-        if (attackTimer.IsUseable() && playerMovement.CanUseAbility() && Input.GetKey(attackButton))
-        {
+            //Attack
+            if (attackTimer.IsUseable() && playerMovement.CanUseAbility() && Input.GetKey(attackButton))
+            {
 
-            // FMODUnity.RuntimeManager.PlayOneShot(eraserSfx, isHit);
-            var instance = FMODUnity.RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToGUID(eraserSfx));
-            instance.setParameterByName("IsHit", isHit);
-            instance.start();
-            instance.release();
-            isHit = 0;
+                // FMODUnity.RuntimeManager.PlayOneShot(eraserSfx, isHit);
+                var instance = FMODUnity.RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToGUID(eraserSfx));
+                instance.setParameterByName("IsHit", isHit);
+                instance.start();
+                instance.release();
+                isHit = 0;
 
-            animator.SetBool("attacking", true);
-            attackTimer.StartTimer();
+                animator.SetBool("attacking", true);
+                attackTimer.StartTimer();
+            }
         }
     }
 
@@ -229,6 +235,7 @@ public class Attack : MonoBehaviour
     {
         //Lifesteal Timer
         lifestealTimer.Update();
+        lifestealStartTimer.Update();
 
         // check if if cooldown is at max
         if(lifestealTimer.IsUseable() && !activatedLsNotifier){
@@ -251,12 +258,23 @@ public class Attack : MonoBehaviour
         if (playerMovement.CanUseAbility() && lifestealTimer.IsUseable() && Input.GetKeyDown(lifestealButton))
         {
             activatedLsNotifier = false;
+            lifestealTimer.StartTimer();
+            lifestealStartTimer.StartTimer();
+            animator.SetBool("lifestealstart", true);
+            lifestealStart = true;
+        }
+        if (lifestealStartTimer.IsUseable())
+        {
+            lifestealStart = false;
+            animator.SetBool("lifestealstart", false);
+        }
+        if (lifestealTimer.IsActive() && lifestealStartTimer.IsOnCooldown())
+        {
             lifestealImage.enabled = true;
             lifestealTimer.StartTimer();
-
-             
         }
-        if (lifestealTimer.IsActive()) {
+        if (lifestealTimer.IsActive() && lifestealImage.enabled) {
+
             float dmg = lifestealDamage / lifestealDuration * Time.deltaTime;
 
             foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
