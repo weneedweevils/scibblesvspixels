@@ -12,7 +12,9 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 using static System.Net.Mime.MediaTypeNames;
+using MilkShake;
 
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
@@ -39,8 +41,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public float dashBoost;
     public float dashCooldown;
     public CooldownTimer dashTimer;
-    public Slider dashBar;
+    public UnityEngine.UI.Slider dashBar;
     private CooldownBarBehaviour dashCooldownBar;
+    private UnityEngine.UI.Image dashNotifier;
+    private bool activatedDashNotifier = false;
 
     //Animations
     [HideInInspector] public Animator animator;
@@ -52,9 +56,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     [SerializeField] private SpriteRenderer pencil;
     private GameObject[] enemies;
     public CooldownTimer recallTimer;
-    public Slider recallBar;
+    public UnityEngine.UI.Slider recallBar;
     private CooldownBarBehaviour recallCooldownBar;
     public float allyHealPercentage;
+    
+    private UnityEngine.UI.Image recallNotifier;
+    private bool activatedRecallNotifier = false;
 
     //camera 
     private Camera cam;
@@ -83,12 +90,19 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     [Header("Other")]
     [SerializeField] private GameObject hud;
     public GameObject pauseUi;
+    private GameObject panel; // This is the panel that contains in image whose color can be changed to simulate a damage effect
+    private UnityEngine.UI.Image restricted;
+    public ShakePreset myShakePreset;
+    public Shaker shakeCam;
     private GameObject lifestealOrb;
     private bool orb = false;
     private CooldownTimer lifestealEndTimer;
 
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
+    private UnityEngine.UI.Image damageScreen;
+    private bool hit = false;
+    private SpriteRenderer eraser;
 
     // Start is called before the first frame update
     void Start()
@@ -101,6 +115,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         weapon = GetComponentInChildren<Attack>();
+        eraser = transform.GetChild(0).GetChild(0).gameObject.GetComponent<SpriteRenderer>();
         lifestealOrb = transform.GetChild(4).gameObject;
 
         health = maxHealth;
@@ -110,6 +125,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         lifestealEndTimer = new CooldownTimer(0.2f, 0.532f);
         dashCooldownBar = new CooldownBarBehaviour(dashBar, dashCooldown, Color.gray, Color.magenta);
         recallCooldownBar = new CooldownBarBehaviour(recallBar, weapon.reviveCooldown, Color.gray, Color.magenta);
+        dashNotifier = dashBar.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();
+        recallNotifier = recallBar.transform.GetChild(3).GetComponent<UnityEngine.UI.Image>();
+
+        panel = GameObject.FindGameObjectWithTag("DamageFlash");
+        damageScreen = panel.GetComponent<UnityEngine.UI.Image>();
+
+        restricted = GameObject.Find("RestrictRally").GetComponent<UnityEngine.UI.Image>();
+       
     }
 
     // Update is called once per frame
@@ -136,6 +159,18 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         else if (lifestealEndTimer.IsOnCooldown())
         {
             lifestealOrb.SetActive(false);
+        }
+
+        if (invincibilityTimer.IsActive() && hit) // Illustrates Iframes
+        {
+            sprite.color = new Color(255, 255, 255, 0.70f);
+            eraser.color = new Color(255, 255, 255, 0.70f);
+        }
+        else if (invincibilityTimer.IsUseable() && hit)
+        {
+            sprite.color = new Color(255, 255, 255, 1f);
+            eraser.color = new Color(255, 255, 255, 1f);
+            hit = false;
         }
         
         // Disable movement if in dialogue/cutscene where we don't want movement
@@ -167,8 +202,28 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         velocity.y = VelocityCalc(acceleration.y, velocity.y, speedModifier);
         
         //Dash ability
+
+        // if dash is useable flash the dash notifier
+        if(dashTimer.IsUseable() && !activatedDashNotifier){
+            var temp1 = dashNotifier.color;
+            temp1.a = 1f;
+            dashNotifier.color = temp1;
+            activatedDashNotifier = true;
+        }
+
+        // if dash notifier is visible, decrease the alpha value
+        if (dashNotifier.color.a > 0 )
+        {
+            var temp = dashNotifier.color;
+            temp.a -= 0.01f;
+            dashNotifier.color = temp;
+
+        }
+
+
         if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && Input.GetKey(dash) && Mathf.Abs(velocity.magnitude) > 0f)
         {
+            activatedDashNotifier = false;
             velocity += velocity.normalized * dashBoost;
             animator.SetBool("dashing", true);
             pencil.enabled = false;
@@ -186,9 +241,51 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             }
             dashCooldownBar.SetBar(dashTimer.timer);
         }
-            
+
         // Recall Ability
-        if (weapon.reviveTimer.IsUseable() && CanUseAbility() && Input.GetKey(recall)){
+
+        // Update X over Recall UI
+        if (restricted != null)
+        {
+            // if we have no allies show x over the icon otherwise flash the recall notifier if off cooldown
+            if (weapon.GetAllies().Count == 0)
+            {
+                var temp = restricted.color;
+                temp.a = 1f;
+                restricted.color = temp;
+            }
+            else
+            {
+                var temp = restricted.color;
+                temp.a = 0f;
+                restricted.color = temp;
+                
+                if(weapon.reviveTimer.IsUseable() && !activatedRecallNotifier){
+                    var temp1 = recallNotifier.color;
+                    temp1.a = 1f;
+                    recallNotifier.color = temp1;
+                    activatedRecallNotifier = true;
+                }
+            }
+        }
+
+        // reset notifier if we have allies or have pressed revive or recall
+        if ((Input.GetKey(recall)||Input.GetKey(weapon.reviveButton)) && weapon.GetAllies().Count>0){
+            weapon.activatedReviveNotifier = false;
+            activatedRecallNotifier = false;
+        }
+        
+        // if recall notifier is visible, decrease the alpha value
+        if (recallNotifier.color.a > 0)
+        {
+            var temp = recallNotifier.color;
+            temp.a -= 0.01f;
+            recallNotifier.color = temp;
+
+        }
+
+        // If player pressed recall and they are not on cooldown and they have allies, do recall
+        if (weapon.reviveTimer.IsUseable() && CanUseAbility() && Input.GetKey(recall) && weapon.GetAllies().Count>0){
             weapon.reviveTimer.StartTimer();
             pencil.enabled = false;
             StopMovement();
@@ -196,16 +293,20 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             animationDone = false;
             animator.SetBool("New Bool", true);
         }
+
+
         else if (weapon.reviveTimer.IsOnCooldown())
         {
             recallCooldownBar.SetBar(weapon.reviveTimer.timer);
         }
+
 
         if (cam.orthographicSize != noZoom && animationDone == true)
         {
             cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, noZoom, Time.deltaTime * 5f);
             targetZoom = noZoom;
         }
+
 
         //Predict new position
         Vector2 currentPos = rbody.position;
@@ -217,6 +318,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         //Animate
         ManageAnimations();
         healthBar.SetHealth(health, maxHealth);
+
+        //change screen flash back to normal 
+        ChangeScreenColor(false);
+       
     }
 
     private float VelocityCalc(float a, float v, float modifier = 1f)
@@ -243,6 +348,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void ManageAnimations()
     {
+       
         //Set the speed parameter in the animator
         animator.SetFloat("speed", velocity.magnitude);
 
@@ -257,13 +363,17 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             {
                 //Flip the sprite according to mouse position relative to the players position
                 Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+
                 sprite.flipX = mousePosition.x < transform.position.x;
+
             }
-            
+
         }
 
         //Account for backwards movement
         animator.SetBool("backwards", velocity.x != 0f && (velocity.x < 0f != sprite.flipX));
+        
     }
 
     public void StopMovement()
@@ -300,16 +410,58 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
             return;
         }
+
+        if (shakeCam != null)
+        {
+            shakeCam.Shake(myShakePreset);
+        }
+
+        ChangeScreenColor(true);
+
         health -= damageTaken;
         invincibilityTimer.StartTimer();
         healthBar.SetHealth(health, maxHealth);
+        hit = true;
+
+      
 
         if (health <= 0)
         {
+          
             Debug.Log("oooof I am ded RIP :(");
             MenuManager.GotoScene(Scene.Ded);
         }
     }
+
+ 
+       
+        
+    
+
+    // function to handle changing the color of the screen when damaged
+    public void ChangeScreenColor(bool damaged)
+    {
+        if (damageScreen != null)
+        {
+            if (damageScreen.color.a > 0 && !damaged)
+            {
+                var temp = damageScreen.color;
+                temp.a -= 0.005f;
+                damageScreen.color = temp;
+
+            }
+            // change screen to red by adjusting alpha value
+            if (damaged)
+            {
+                var temp = damageScreen.color;
+                temp.a = 0.5f;
+                damageScreen.color = temp;
+            }
+        }
+    }
+
+ 
+
 
     // Function to run when player heals
     public void Heal(float healthRestored)

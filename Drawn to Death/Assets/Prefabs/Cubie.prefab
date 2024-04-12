@@ -283,6 +283,7 @@ GameObject:
   - component: {fileID: 4562456545923964291}
   - component: {fileID: 4562456545923964351}
   - component: {fileID: 4562456545923964289}
+  - component: {fileID: 2095424512619995175}
   m_Layer: 0
   m_Name: Cubie
   m_TagString: Untagged
@@ -373,6 +374,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2095424512619995175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4562456545923964290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 469aba1e1af2c48c3ac92e2bdfee22ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4562456546076731579
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,18 +497,20 @@ MonoBehaviour:
   team: 2
   state: 0
   isolated: 0
-  health: 25
-  maxHealth: 25
+  health: 30
+  maxHealth: 30
   speed: 200
-  damage: 8
+  damage: 9
   attackCooldown: 5
   attackDistance: 40
+  slowdownFactor: 3
   targetSeeker: {fileID: 6909617949889408915}
   playerSeeker: {fileID: 4562456546076731574}
   seekDistance: 150
   nextWaypointDistance: 100
-  deathSfx: 
-  attackSfx: 
+  blockers: []
+  deathSfx: event:/CubieDeath
+  attackSfx: event:/CubieAttack
   slowed: 0
   lifestealing: 0
   slowDuration: 5
@@ -508,8 +523,12 @@ MonoBehaviour:
   reviveCol: {r: 0.2784314, g: 0.7058824, b: 0.2627451, a: 1}
   allyCol: {r: 0.59607846, g: 0.8980393, b: 0.59607846, a: 1}
   selfImage: {fileID: 4562456545923964351}
+  panel: {fileID: 0}
   ProjectileObject: {fileID: 8362002342163769882, guid: aa29f81adcea664408876b86c97306d8,
     type: 3}
+  DarkProjectileObject: {fileID: 8362002342163769882, guid: 174bf031ab0d5473ba2186f264f4278e,
+    type: 3}
+  cutscene: 0
 --- !u!50 &4562456546076731576
 Rigidbody2D:
   serializedVersion: 4

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
+using TMPro;
 
 public class Attack : MonoBehaviour
 {
@@ -42,6 +43,8 @@ public class Attack : MonoBehaviour
     public Slider reviveBar;
     private CooldownBarBehaviour reviveCooldownBar;
     private float reviveDuration = 126f / 60f; // Revive and Recall share timer
+    private UnityEngine.UI.Image reviveNotifier;
+    public bool activatedReviveNotifier = false;
 
          /* ----- Lifesteal ----- */
 
@@ -56,11 +59,14 @@ public class Attack : MonoBehaviour
     public CooldownTimer lifestealTimer;
     public CooldownTimer lifestealStartTimer;
     private CooldownBarBehaviour lifestealCooldownBar;
+    private UnityEngine.UI.Image lifeStealNotifier;
+    private bool activatedLsNotifier = false;
 
     //Misc
     private List<EnemyAI> allies = new List<EnemyAI>();
     private SpriteRenderer lifestealImage;
     public bool lifestealStart;
+    public TextMeshProUGUI uiCounter;
 
 
     /* ----- Misc ----- */
@@ -93,6 +99,8 @@ public class Attack : MonoBehaviour
         lifestealStartTimer = new CooldownTimer(0.65f, 0.35f);
         reviveCooldownBar = new CooldownBarBehaviour(reviveBar, reviveCooldown, Color.gray, Color.magenta);
         lifestealCooldownBar = new CooldownBarBehaviour(lifestealBar, lifestealCooldown, Color.gray, Color.magenta);
+        lifeStealNotifier = lifestealBar.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();
+        reviveNotifier = reviveBar.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();
 
         // Get a reference to the script that controls the FMOD event
         //eraserSFX = GetComponent<eraserSFX>;
@@ -106,7 +114,10 @@ public class Attack : MonoBehaviour
         {
             ControlAllies();
         }
-        
+        if (uiCounter != null)
+        {
+            uiCounter.text = allies.Count.ToString();
+        }
         if (!player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying && Time.timeScale!=0f)
         {
             CheckAttack();
@@ -148,6 +159,23 @@ public class Attack : MonoBehaviour
     {
         //Revive Timer
         reviveTimer.Update();
+        
+        // if revive is at max cooldown, flash the notifier
+         if(reviveTimer.IsUseable() && !activatedReviveNotifier){
+            var temp1 = reviveNotifier.color;
+            temp1.a = 1f;
+            reviveNotifier.color = temp1;
+            activatedReviveNotifier = true;
+        }
+
+        // bring revive notifier alpha back to zero after it flashes
+        if (reviveNotifier.color.a > 0 )
+        {
+            var temp = reviveNotifier.color;
+            temp.a -= 0.01f;
+            reviveNotifier.color = temp;
+
+        }
 
         //Freeze Movement while reviving
         if (reviveTimer.IsActive())
@@ -166,6 +194,7 @@ public class Attack : MonoBehaviour
             if (Input.GetKey(reviveButton) && reviveTimer.IsUseable())
             {
                 Debug.Log("Attempting to revive enemies");
+               
                 foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
                 {
                     EnemyAI enemy = obj.GetComponent<EnemyAI>();
@@ -176,7 +205,8 @@ public class Attack : MonoBehaviour
 
                     if (InReviveRange(enemy.transform))
                     {
-                        if (enemy.Revive(0.8f, 0.8f, 1f))
+                        activatedReviveNotifier = false; // used for flashing icon on cooldown bar
+                        if (enemy.Revive(0.8f, 0.8f, 1f, 0.75f))
                         {
                             allies.Add(enemy);
                             reviveTimer.StartTimer();
@@ -207,8 +237,27 @@ public class Attack : MonoBehaviour
         lifestealTimer.Update();
         lifestealStartTimer.Update();
 
+        // check if if cooldown is at max
+        if(lifestealTimer.IsUseable() && !activatedLsNotifier){
+            var temp1 = lifeStealNotifier.color;
+            temp1.a = 1f;
+            lifeStealNotifier.color = temp1;
+            activatedLsNotifier = true;
+        }
+
+        // bring life steal notifier alpha back to zero after it flashes
+        if (lifeStealNotifier.color.a > 0 )
+        {
+            var temp = lifeStealNotifier.color;
+            temp.a -= 0.01f;
+            lifeStealNotifier.color = temp;
+
+        }
+
+        //if we use life steal ability set the notifier to false
         if (playerMovement.CanUseAbility() && lifestealTimer.IsUseable() && Input.GetKeyDown(lifestealButton))
         {
+            activatedLsNotifier = false;
             lifestealTimer.StartTimer();
             lifestealStartTimer.StartTimer();
             animator.SetBool("lifestealstart", true);
@@ -222,6 +271,7 @@ public class Attack : MonoBehaviour
         if (lifestealTimer.IsActive() && lifestealStartTimer.IsOnCooldown())
         {
             lifestealImage.enabled = true;
+            lifestealTimer.StartTimer();
         }
         if (lifestealTimer.IsActive() && lifestealImage.enabled) {
 
@@ -235,19 +285,27 @@ public class Attack : MonoBehaviour
                 {
                     if (enemy.team == Team.oddle)
                     {
-                        enemy.Damage(dmg, false);
+                        enemy.Damage(dmg, false, lifeSteal:true);
+                        
                         player.GetComponent<PlayerMovement>().Heal(dmg / 2); // HEALS
                         enemy.lifestealing = true;
                         //line.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, -1));
                         //line.SetPosition(1, new Vector3(enemy.transform.position.x, enemy.transform.position.y, -1));
+                        
                     }
-                    else if (enemy.team == Team.player)
+                    else if (enemy.team == Team.player && playerMovement.health < playerMovement.maxHealth) // Won't lifesteal from allies if full health
                     {
-                        enemy.Damage(dmg, false);
+
+                        enemy.Damage(dmg, false, lifeSteal: true);
                         player.GetComponent<PlayerMovement>().Heal(dmg); // HEALS
                         enemy.lifestealing = true;
                         //line.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, -1));
                         //line.SetPosition(1, new Vector3(enemy.transform.position.x, enemy.transform.position.y, -1));
+                        
+                    }
+                    else
+                    {
+                        enemy.lifestealing = false;
                     }
                 }
                 else
@@ -298,7 +356,7 @@ public class Attack : MonoBehaviour
                 continue;
             }
 
-            float dist = enemy.PathLength();
+            float dist = enemy.PathLength(true);
             if (dist <= targetDistance && dist < minDist)
             {
                 target = enemy;
@@ -366,4 +424,7 @@ public class Attack : MonoBehaviour
                 }
         }
     }
+
+
+    
 }
