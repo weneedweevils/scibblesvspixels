@@ -101,6 +101,7 @@ public class Spawner : MonoBehaviour
                     animationPosition.y += 2.3f;
                     spawnAnimation.transform.position += animationPosition;
                     spawnAnimation.SetActive(true);
+                    FMODUnity.RuntimeManager.PlayOneShot("event:/Spawner", this.transform.position);
                     animationTimer.StartTimer();
                     spawnTime = true;
                 }

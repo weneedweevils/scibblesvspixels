@@ -78,6 +78,8 @@ public class Attack : MonoBehaviour
     // FMOD sound event paths
     public string eraserSfx;
     public string reviveSfx;
+    public FMODUnity.EventReference lifestealSfx;
+    private FMOD.Studio.EventInstance lifestealFmod;
     // Condition for playing hit version of eraserSfx
     public int isHit;
 
@@ -102,8 +104,8 @@ public class Attack : MonoBehaviour
         lifeStealNotifier = lifestealBar.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();
         reviveNotifier = reviveBar.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();
 
-        // Get a reference to the script that controls the FMOD event
-        //eraserSFX = GetComponent<eraserSFX>;
+        // Get a reference to the script that controls the lifestealFMOD event
+        lifestealFmod = FMODUnity.RuntimeManager.CreateInstance(lifestealSfx);
         isHit = 0;
     }
 
@@ -261,6 +263,7 @@ public class Attack : MonoBehaviour
             lifestealTimer.StartTimer();
             lifestealStartTimer.StartTimer();
             animator.SetBool("lifestealstart", true);
+            lifestealFmod.start();
             lifestealStart = true;
         }
         if (lifestealStartTimer.IsUseable())
@@ -272,6 +275,7 @@ public class Attack : MonoBehaviour
         {
             lifestealImage.enabled = true;
             lifestealTimer.StartTimer();
+             
         }
         if (lifestealTimer.IsActive() && lifestealImage.enabled) {
 
@@ -318,6 +322,7 @@ public class Attack : MonoBehaviour
         }
         if (lifestealTimer.IsOnCooldown())
         {
+            lifestealFmod.stop(0);
             lifestealImage.enabled = false;
             foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
             {
@@ -425,6 +430,9 @@ public class Attack : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        lifestealFmod.stop(0);
+    }
 
-    
 }
