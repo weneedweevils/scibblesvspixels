@@ -263,6 +263,7 @@ public class Attack : MonoBehaviour
             lifestealTimer.StartTimer();
             lifestealStartTimer.StartTimer();
             animator.SetBool("lifestealstart", true);
+            lifestealFmod.start();
             lifestealStart = true;
         }
         if (lifestealStartTimer.IsUseable())
@@ -274,7 +275,6 @@ public class Attack : MonoBehaviour
         {
             lifestealImage.enabled = true;
             lifestealTimer.StartTimer();
-            lifestealFmod.start();
              
         }
         if (lifestealTimer.IsActive() && lifestealImage.enabled) {
