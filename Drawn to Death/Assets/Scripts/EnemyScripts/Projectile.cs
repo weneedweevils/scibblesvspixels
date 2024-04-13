@@ -55,6 +55,11 @@ public class Projectile : MonoBehaviour
             //Debug.Log("Moving: " + velocity.ToString());
             rbody.MovePosition(newPos);
         }
+
+        if (velocity.magnitude == 0f)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
