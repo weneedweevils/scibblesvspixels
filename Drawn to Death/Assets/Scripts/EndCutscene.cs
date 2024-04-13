@@ -40,7 +40,7 @@ public class EndCutscene : MonoBehaviour
         
         if (videoPlayer.time > creditStartTime)
         {
-            credits.transform.position += scrollSpeed * Vector3.up;
+            credits.transform.position += scrollSpeed * Vector3.up * Time.deltaTime;
         }
     }
 }
