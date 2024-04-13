@@ -3958,6 +3958,7 @@ GameObject:
   - component: {fileID: 331108977}
   - component: {fileID: 331108976}
   - component: {fileID: 331108975}
+  - component: {fileID: 331108979}
   m_Layer: 0
   m_Name: Next Level Trigger
   m_TagString: Untagged
@@ -3977,7 +3978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af91999ce485f25408677d3b4d25eb9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextScene: 4
+  nextScene: 5
 --- !u!61 &331108976
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3988,10 +3989,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.03}
+  m_Offset: {x: 0.019528743, y: 0.030000001}
   m_SpriteTilingProperty:
     border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
     pivot: {x: 0.5, y: 0.5}
@@ -4002,7 +4003,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.16, y: 0.09}
+  m_Size: {x: 0.12094251, y: 0.09}
   m_EdgeRadius: 0
 --- !u!212 &331108977
 SpriteRenderer:
@@ -4068,6 +4069,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 60}
+--- !u!61 &331108979
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331108974}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.01200805, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.16, y: 0.16}
+    newSize: {x: 0.16, y: 0.16}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.07598391, y: 0.16}
+  m_EdgeRadius: 0
 --- !u!1 &333079148
 GameObject:
   m_ObjectHideFlags: 0
@@ -12542,7 +12569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: data.game
-  scene: 3
+  scene: 4
   cutsceneObject: {fileID: 1288129286}
   hud: {fileID: 1208167949}
   newGame: 0

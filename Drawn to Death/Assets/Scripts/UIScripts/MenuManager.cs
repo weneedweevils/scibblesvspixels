@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public enum Scene { Menu, Intructions, Level_1, Level_2, Level_3, Ded, End}
+public enum Scene {Splash_Screen, Menu, Intructions, Level_1, Level_2, Level_3, Ded, End}
 public class MenuManager : MonoBehaviour, IDataPersistence
 {
     public TextMeshProUGUI text;
@@ -13,8 +13,6 @@ public class MenuManager : MonoBehaviour, IDataPersistence
     public Scene nextScene;
     public bool newGame = false;
     public bool loadGame = false;
- 
-
   
     public void QuitGame(){
         Application.Quit();

@@ -23788,8 +23788,9 @@ GameObject:
   m_Component:
   - component: {fileID: 580820275}
   - component: {fileID: 580820274}
-  - component: {fileID: 580820273}
   - component: {fileID: 580820272}
+  - component: {fileID: 580820273}
+  - component: {fileID: 580820276}
   m_Layer: 0
   m_Name: Next Level Trigger
   m_TagString: Untagged
@@ -23809,7 +23810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af91999ce485f25408677d3b4d25eb9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextScene: 3
+  nextScene: 4
 --- !u!61 &580820273
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -23900,6 +23901,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 60}
+--- !u!61 &580820276
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580820271}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.03, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.16, y: 0.16}
+    newSize: {x: 0.16, y: 0.16}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.1, y: 0.16}
+  m_EdgeRadius: 0
 --- !u!1 &588115286
 GameObject:
   m_ObjectHideFlags: 0
@@ -53357,7 +53384,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: data.game
-  scene: 2
+  scene: 3
   cutsceneObject: {fileID: 994535790}
   hud: {fileID: 1642713482}
   newGame: 0
@@ -85387,7 +85414,7 @@ PrefabInstance:
     - target: {fileID: 329403744865587886, guid: 34d9b55fa170a444bb86050513388636,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 671483340784671356, guid: 34d9b55fa170a444bb86050513388636,
         type: 3}
@@ -85402,7 +85429,7 @@ PrefabInstance:
     - target: {fileID: 993157313028528038, guid: 34d9b55fa170a444bb86050513388636,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1515362696783754473, guid: 34d9b55fa170a444bb86050513388636,
         type: 3}
@@ -85647,7 +85674,7 @@ PrefabInstance:
     - target: {fileID: 7112277500976637648, guid: 34d9b55fa170a444bb86050513388636,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7112277501239952454, guid: 34d9b55fa170a444bb86050513388636,
         type: 3}
@@ -85672,7 +85699,7 @@ PrefabInstance:
     - target: {fileID: 7782294390403383815, guid: 34d9b55fa170a444bb86050513388636,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8568399632873200825, guid: 34d9b55fa170a444bb86050513388636,
         type: 3}
