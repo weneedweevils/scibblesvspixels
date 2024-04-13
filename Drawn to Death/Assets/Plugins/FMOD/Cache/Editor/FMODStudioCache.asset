@@ -51,6 +51,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 838
+--- !u!114 &-8372216382038079730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Spawner
+  m_EditorClassIdentifier: 
+  Path: event:/Spawner
+  Guid:
+    Data1: -1689486333
+    Data2: 1090809143
+    Data3: 1059536768
+    Data4: 731598380
+  Banks:
+  - {fileID: 4239488217956977592}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 45
+  Length: 1781
 --- !u!114 &-8296637110823047609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,7 +171,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638484602402238765
+  lastModified: 638485430687903766
   FileSizes: []
   Exists: 1
 --- !u!114 &-6832347123653039277
@@ -190,7 +217,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638479485133237937
+  lastModified: 638480099569520343
   FileSizes: []
   Exists: 1
 --- !u!114 &-6398945634125407533
@@ -329,6 +356,60 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 40
   Length: 0
+--- !u!114 &-2731723289424599918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MenuMusic
+  m_EditorClassIdentifier: 
+  Path: event:/MenuMusic
+  Guid:
+    Data1: 2027947595
+    Data2: 1256100390
+    Data3: -68506444
+    Data4: 1607852110
+  Banks:
+  - {fileID: -8016587225858822277}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 132000
+--- !u!114 &-2648129409474931377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/LifestealAbility
+  m_EditorClassIdentifier: 
+  Path: event:/LifestealAbility
+  Guid:
+    Data1: 185662461
+    Data2: 1314066250
+    Data3: 783591817
+    Data4: 1941709118
+  Banks:
+  - {fileID: 4239488217956977592}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4625
 --- !u!114 &-2418673337401263459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -507,12 +588,15 @@ MonoBehaviour:
   - {fileID: 1336639098571572299}
   - {fileID: -5617809469646742736}
   - {fileID: 3932644638757492515}
+  - {fileID: -2731723289424599918}
+  - {fileID: -8372216382038079730}
+  - {fileID: -2648129409474931377}
   EditorParameters: []
   MasterBanks:
   - {fileID: -6739459720092019666}
   StringsBanks:
   - {fileID: 7797934752597644469}
-  cacheTime: 638484602402278666
+  cacheTime: 638485430687943655
   cacheVersion: 131616
 --- !u!114 &92634032118725457
 MonoBehaviour:
@@ -840,7 +924,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638484602402278666
+  lastModified: 638485430687943655
   FileSizes: []
   Exists: 1
 --- !u!114 &4248065584152844610
@@ -885,7 +969,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Movie.bank
   Name: Movie
   StudioPath: bank:/Movie
-  lastModified: 638484602402059257
+  lastModified: 638484756165516697
   FileSizes: []
   Exists: 1
 --- !u!114 &5230207443223865336
@@ -1097,10 +1181,10 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638484602401959524
+  lastModified: 638485430658902241
   FileSizes:
   - Name: 
-    Value: 2756
+    Value: 2882
   Exists: 1
 --- !u!114 &8242747836718603898
 MonoBehaviour:

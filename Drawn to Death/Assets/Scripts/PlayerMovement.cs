@@ -116,7 +116,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         sprite = GetComponent<SpriteRenderer>();
         weapon = GetComponentInChildren<Attack>();
         eraser = transform.GetChild(0).GetChild(0).gameObject.GetComponent<SpriteRenderer>();
-        lifestealOrb = transform.GetChild(4).gameObject;
+        lifestealOrb = transform.GetChild(3).gameObject;
 
         health = maxHealth;
         dashTimer = new CooldownTimer(dashCooldown, dashBoost / friction);
