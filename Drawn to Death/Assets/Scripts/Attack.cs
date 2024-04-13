@@ -430,6 +430,9 @@ public class Attack : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        lifestealFmod.stop(0);
+    }
 
-    
 }
