@@ -17,6 +17,7 @@ public class EndCutscene : MonoBehaviour
     public UnityEngine.UI.Button skipButton;
     public float creditStartTime;
     public float scrollSpeed;
+    private bool skipped = false;
     
     
 
@@ -34,9 +35,10 @@ public class EndCutscene : MonoBehaviour
 
     public void SkipVideo()
     {
-        videoPlayer.time = videoPlayer.length;
+        videoPlayer.time = videoPlayer.length-10;
         instance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         skipButton.gameObject.SetActive(false);
+        skipped = true;
     }
 
     // Update is called once per frame
@@ -48,12 +50,11 @@ public class EndCutscene : MonoBehaviour
         }
         else if (videoStarted && !videoPlayer.isPlaying)
         {
-
             menuButton.SetActive(true);
             skipButton.gameObject.SetActive(false);
         }
 
-        if (videoPlayer.isPlaying)
+        if (videoPlayer.isPlaying && !skipped)
         {
             if(Input.GetMouseButtonDown(0))
             {
@@ -66,12 +67,18 @@ public class EndCutscene : MonoBehaviour
             }
         }
 
+        if (videoPlayer.time > videoPlayer.length - 20)
+        {
+            skipped = true;
+            skipButton.gameObject.SetActive(false);
+        }
+
         if (videoPlayer.time > creditStartTime)
         {
             credits.transform.position += scrollSpeed * Vector3.up * Time.deltaTime;
             if (Input.GetMouseButton(0))
             {
-                credits.transform.position += scrollSpeed*2 * Vector3.up * Time.deltaTime;
+                credits.transform.position += scrollSpeed*3 * Vector3.up * Time.deltaTime;
             }
         }
     }
