@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public enum Scene {Splash_Screen, Menu, Intructions, Level_1, Level_2, Level_3, Ded, End}
+public enum Scene {Splash_Screen, Menu, Intructions, Level_1, Level_2, Level_3, Ded, End, Credits}
 public class MenuManager : MonoBehaviour, IDataPersistence
 {
     public TextMeshProUGUI text;
@@ -46,6 +46,13 @@ public class MenuManager : MonoBehaviour, IDataPersistence
     {
         return;
     }
+
+    public void ShowCredits()
+    {
+        nextScene = Scene.Credits;
+        GotoScene(nextScene);
+    }
+
 
     public void OnHovered()
     {
