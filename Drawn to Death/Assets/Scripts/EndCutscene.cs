@@ -18,9 +18,6 @@ public class EndCutscene : MonoBehaviour
     public float creditStartTime;
     public float scrollSpeed;
     private bool skipped = false;
-    
-    
-
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +29,6 @@ public class EndCutscene : MonoBehaviour
         skipButton.onClick.AddListener(() => { SkipVideo(); });
     }
 
-
     public void SkipVideo()
     {
         videoPlayer.time = videoPlayer.length-10;
@@ -42,7 +38,7 @@ public class EndCutscene : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!videoStarted && videoPlayer.isPlaying)
         {

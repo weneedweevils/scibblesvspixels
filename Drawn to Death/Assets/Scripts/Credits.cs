@@ -7,11 +7,9 @@ using UnityEngine.UIElements;
 
 public class Credits : MonoBehaviour
 {
-
     public GameObject credits;
-    private float scrollSpeed = 50;
+    private float scrollSpeed = 100;
     public UnityEngine.UI.Button menuButton;
-
 
     private void MenuButton()
     {
@@ -22,13 +20,14 @@ public class Credits : MonoBehaviour
     {
         menuButton.onClick.AddListener(() => { MenuButton(); });
     }
+
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         credits.transform.position += scrollSpeed * Vector3.up * Time.deltaTime;
         if (Input.GetMouseButton(0))
         {
-            credits.transform.position += scrollSpeed*3 * Vector3.up * Time.deltaTime;
+            credits.transform.position += scrollSpeed * 3 * Vector3.up * Time.deltaTime;
         }
     }
 }
