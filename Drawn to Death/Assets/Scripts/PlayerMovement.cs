@@ -15,7 +15,7 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using static System.Net.Mime.MediaTypeNames;
 using MilkShake;
-
+using System.Threading;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
@@ -74,6 +74,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private Vector2 velocity, acceleration;
 
     Rigidbody2D rbody;
+    BoxCollider2D boxCollider;
+    private bool boxColliding = false;
 
     // Used to determine if dialogue is happening
     [Header("Cutscene")]
@@ -104,13 +106,17 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private bool hit = false;
     private SpriteRenderer eraser;
 
+ 
+
     // Start is called before the first frame update
     void Start()
     {
+
         cam = Camera.main;
         noZoom = cam.orthographicSize;
         targetZoom = cam.orthographicSize;
 
+        boxCollider = GetComponent<BoxCollider2D>();
         rbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
@@ -494,17 +500,23 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Teleport function which is called as an animation event in g'liches recall animation
     public void teleport()
     {
+        RaycastHit hit;
         animator.SetBool("New Bool", false);
         animationDone = true;
         pencil.enabled = true;
         enemies = null;
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
         Debug.Log(enemies.Length);
-        foreach( GameObject enemy in enemies) {
+
+        Vector3 Safespot = findOpenSpace();
+        Vector3 teleportRadius = new Vector3(3f, 3f, 0f);
+        Vector3 total = Vector3.Scale(Safespot, teleportRadius);
+
+        foreach ( GameObject enemy in enemies) {
             EnemyAI enemyai = enemy.GetComponent<EnemyAI>();
             if (enemyai.team == Team.player)
             {
-                enemy.transform.position = transform.position;
+                enemy.transform.position = transform.position + total;
                 enemyai.Heal(enemyai.maxHealth * allyHealPercentage);
                 enemyai.buffed = true;
                 enemyai.speed *= 2;
@@ -513,15 +525,54 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             }
         }
     }
-      
-    private void OnTriggerStay2D(Collider2D collision)
+
+    // This function will find a direction to teleport allies into that is not next to a wall
+    public Vector3 findOpenSpace()
     {
+
+
+        // offset used to make sure that the players position
+        var directions = new List<Vector3> { Vector3.down, Vector3.up, Vector3.left, Vector3.right, Vector3.left + Vector3.down, Vector3.right + Vector3.up, Vector3.left + Vector3.up, Vector3.right + Vector3.down };
+        Vector3 offSet = new Vector3(0f, -4f, 0f);
+        Vector3 PlayerPosition = transform.position + offSet;
+        int layerMask = 1 << 8;
+
+
+        // If we do not hit anything after 2 units consider it safe to teleport to
+        foreach(Vector3 direction in directions)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(PlayerPosition, direction, 3.0f, layerMask);
+            //Debug.DrawRay(PlayerPosition, (Vector3.up) * 100f, Color.red, 5f);
+            //float distance = hit.distance;
+            if (!hit)
+            {
+                return direction;
+            }
+        }
+
+        return Vector3.zero;
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {   
+
+        // maybe only get a reference to the walls object when using recall instead of calling this every collision
+        if (boxCollider.IsTouching(collision)){ 
+            boxColliding = true;
+            Vector2 direction = (collision.transform.position - transform.position).normalized;
+        }
+        else
+        {
+            boxColliding = false;
+        }
         return;
     }
 
     // Dialogue enter
     private void OnTriggerEnter2D(Collider2D collision)
     {
+     
+
         switch (collision.gameObject.tag)
         {
             //Dialogue trigger
