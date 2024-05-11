@@ -23,7 +23,7 @@ public class Cubie : EnemyAI
     {
         //Override variables
         deathDuration = 40f / 60f;
-        attackDuration = 60f / 60f;
+        attackDuration = 44f / 60f;
         invincibilityDuration = 20f / 60f;
 
         //Create a windup timer
@@ -105,9 +105,7 @@ public class Cubie : EnemyAI
 
     override public void Stun()
     {
-        attackTimer.StartCooldown();
         windupTimer.ResetTimer();
-        animator.SetBool("attacking", false);
-        animator.SetBool("chasing", true);
+        base.Stun();
     }
 }

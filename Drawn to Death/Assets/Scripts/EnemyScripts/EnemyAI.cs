@@ -82,6 +82,7 @@ public abstract class EnemyAI : MonoBehaviour
     protected Rigidbody2D rb;
     protected Vector2 pathOffset = new Vector2(0, 1.5f);
 
+
     //Misc
     protected GameObject player;
     protected PlayerMovement playerMovement;
@@ -552,7 +553,13 @@ public abstract class EnemyAI : MonoBehaviour
 
     virtual public void Stun()
     {
-        attackTimer.StartCooldown();
+        if (!attackTimer.IsOnCooldown())
+        {
+            attackTimer.StartCooldown(attackCooldown * 0.7f);
+        } else
+        {
+            attackTimer.StartCooldown(Mathf.Min(attackTimer.timer, attackCooldown * 0.7f));
+        }
         animator.SetBool("attacking", false);
         animator.SetBool("chasing", true);
     }
@@ -618,5 +625,11 @@ public abstract class EnemyAI : MonoBehaviour
     {
         // Quick getter function that's used in CrabWalkSFX
         return (state == State.dead || state == State.dying);
+    }
+
+    [ContextMenu("Path Length")]
+    private void ContextPathLength()
+    {
+        Debug.LogFormat("{0}\n{1}", PathLength(true), PathLength());
     }
 }

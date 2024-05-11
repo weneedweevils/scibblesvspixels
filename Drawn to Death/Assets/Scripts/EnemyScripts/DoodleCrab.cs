@@ -84,12 +84,12 @@ public class DoodleCrab : EnemyAI
                         EnemyAI otherAI = collision.gameObject.GetComponent<EnemyAI>();
                         if (attackTimer.IsActive() && otherAI != null && team != otherAI.team && otherAI.team != Team.neutral && otherAI.invincibilityTimer2.IsUseable())
                         {
-                            Debug.Log(string.Format("{0} Hut {1} for {2} damage", name, otherAI.name, damage));
                             //Damage enemy
                             otherAI.Damage(damage, false, true);
 
                             //Start enemies secondary invincibility timer
                             otherAI.invincibilityTimer2.StartTimer();
+                            otherAI.Stun();
                         }
                         break;
                     }
