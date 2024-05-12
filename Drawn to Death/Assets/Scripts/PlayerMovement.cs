@@ -434,7 +434,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         if (health <= 0)
         {
           
-            Debug.Log("oooof I am ded RIP :(");
             MenuManager.GotoScene(Scene.Ded);
         }
     }
@@ -506,11 +505,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         pencil.enabled = true;
         enemies = null;
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        Debug.Log(enemies.Length);
-
-        Vector3 Safespot = findOpenSpace();
+        
+        var Safespot = findOpenSpace();
         Vector3 teleportRadius = new Vector3(3f, 3f, 0f);
-        Vector3 total = Vector3.Scale(Safespot, teleportRadius);
+        Vector3 total = Vector3.Scale(Safespot.Item1, teleportRadius);
 
         foreach ( GameObject enemy in enemies) {
             EnemyAI enemyai = enemy.GetComponent<EnemyAI>();
@@ -527,44 +525,46 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     }
 
     // This function will find a direction to teleport allies into that is not next to a wall
-    public Vector3 findOpenSpace()
+    // returns a vector3 with the viable direction and a float with the distance of a ray in that direction
+    public (Vector3, float) findOpenSpace()
     {
 
 
-        // offset used to make sure that the players position
+        // offset used to make sure that the players position is not overlapping with wall
         var directions = new List<Vector3> { Vector3.down, Vector3.up, Vector3.left, Vector3.right, Vector3.left + Vector3.down, Vector3.right + Vector3.up, Vector3.left + Vector3.up, Vector3.right + Vector3.down };
         Vector3 offSet = new Vector3(0f, -4f, 0f);
         Vector3 PlayerPosition = transform.position + offSet;
         int layerMask = 1 << 8;
+        float best_distance = 0;
+        Vector3 bestDirection = Vector3.zero;
+        Vector2 point = new Vector2(0,0);
 
 
-        // If we do not hit anything after 2 units consider it safe to teleport to
-        foreach(Vector3 direction in directions)
+        // This for loop will go through all directions and teleport the enemies in the direction where there is the most available space
+        foreach (Vector3 direction in directions)
         {
-            RaycastHit2D hit = Physics2D.Raycast(PlayerPosition, direction, 3.0f, layerMask);
+            RaycastHit2D hit = Physics2D.Raycast(PlayerPosition, direction, Mathf.Infinity, layerMask);
             //Debug.DrawRay(PlayerPosition, (Vector3.up) * 100f, Color.red, 5f);
-            //float distance = hit.distance;
-            if (!hit)
+            
+            if (hit)
             {
-                return direction;
+                float distance = hit.distance;
+               
+                if (distance > best_distance)
+                {
+                    point = hit.point;
+                    best_distance = distance;
+                    bestDirection = direction;
+                    
+                }
             }
         }
-
-        return Vector3.zero;
+        var bestDirDis = (bestDirection, best_distance);
+        return bestDirDis;
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {   
-
-        // maybe only get a reference to the walls object when using recall instead of calling this every collision
-        if (boxCollider.IsTouching(collision)){ 
-            boxColliding = true;
-            Vector2 direction = (collision.transform.position - transform.position).normalized;
-        }
-        else
-        {
-            boxColliding = false;
-        }
         return;
     }
 
