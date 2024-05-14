@@ -449,7 +449,7 @@ public abstract class EnemyAI : MonoBehaviour
     virtual public void Kill()
     {
         // Play the FMOD event correlating to the death
-        FMODUnity.RuntimeManager.PlayOneShot(deathSfx);
+        FMODUnity.RuntimeManager.PlayOneShot(deathSfx, this.transform.position);
         
         //Set State
         if (team == Team.oddle) //First Death

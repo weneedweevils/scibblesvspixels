@@ -60,6 +60,7 @@ public class OodleKnight : EnemyAI
 
     override protected void Attack()
     {
+        
         //Face the target
         if (target.position.x > transform.position.x)
         {
@@ -117,6 +118,8 @@ public class OodleKnight : EnemyAI
             //Start the attack
             if (target != null && state == State.attack && attackTimer.IsUseable() && collision.gameObject.transform == target)
             {
+                FMODUnity.RuntimeManager.PlayOneShot("event:/OodleKnightAttack", this.transform.position);
+
                 windupTimer.StartTimer();
                 attackTimer.StartTimer();
                 animator.SetBool("attacking", true);
@@ -125,7 +128,7 @@ public class OodleKnight : EnemyAI
 
             //Try to damage the target
             if (attackTimer.IsActive() && windupTimer.IsOnCooldown())
-            {
+            {   
                 switch (collision.gameObject.tag)
                 {
                     case "Player":
