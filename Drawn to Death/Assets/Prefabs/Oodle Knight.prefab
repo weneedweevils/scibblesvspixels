@@ -174,7 +174,6 @@ GameObject:
   - component: {fileID: 6282859167183135427}
   - component: {fileID: 4484548907279993003}
   - component: {fileID: 6391424818990340868}
-  - component: {fileID: 8834317714552469005}
   m_Layer: 0
   m_Name: Oodle Knight
   m_TagString: Enemy
@@ -284,7 +283,7 @@ MonoBehaviour:
   nextWaypointDistance: 100
   blockers: []
   deathSfx: event:/OodleKnightDeath
-  attackSfx: 
+  attackSfx: event:/OodleKnightAttack
   slowed: 0
   lifestealing: 0
   slowDuration: 5
@@ -468,18 +467,6 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!114 &8834317714552469005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7210164956526106995}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94379689561c44b80ad24619ed1bb6fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7210164957156895818
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,6 +478,7 @@ GameObject:
   - component: {fileID: 7210164957156895819}
   - component: {fileID: 7210164957156895863}
   - component: {fileID: 7210164957156895817}
+  - component: {fileID: 1420889021754251169}
   m_Layer: 0
   m_Name: Oodle Knight
   m_TagString: Untagged
@@ -581,6 +569,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1420889021754251169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7210164957156895818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fd66fa4613ea4e229e00c2661eb6917, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7109252710197691850
 PrefabInstance:
   m_ObjectHideFlags: 0
