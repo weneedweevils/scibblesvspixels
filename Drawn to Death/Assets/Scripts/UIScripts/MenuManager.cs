@@ -64,4 +64,19 @@ public class MenuManager : MonoBehaviour, IDataPersistence
     {
         text.color = new Color(255, 255, 255, 1f);
     }
+
+    public void PlayAcceptSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UIAccept");
+    }
+
+    public void PlayLoadSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UILoad");
+    }
+
+    public void PlayBackSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UIBack");
+    }
 }
