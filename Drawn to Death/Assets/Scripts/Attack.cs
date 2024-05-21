@@ -413,16 +413,28 @@ public class Attack : MonoBehaviour
                 {
                     //Get a reference to the enemy
                     EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
-                    if (attackTimer.IsActive() && enemy != null && enemy.team == Team.oddle && enemy.invincibilityTimer.IsUseable() &&
-                        enemy.PathLength(true) <= 15f)
+                    if (attackTimer.IsActive() && enemy != null && enemy.team == Team.oddle && enemy.invincibilityTimer.IsUseable() &&enemy.PathLength(true) <= 15f)
                     {
                         //Calculate knockback
                         Vector2 direction = ((Vector2)enemy.transform.position - (Vector2)transform.position).normalized;
                         //Damage enemy
                         enemy.Damage(damage, true, true, direction, knockback);
+                     }
+                    break;
+                }
+
+            case "HealthPillar":
+                {
+                    PillarHealh pillar = collision.gameObject.GetComponent<PillarHealh>();
+                    Debug.Log(pillar.name);
+                    if (attackTimer.IsActive() && pillar != null && pillar.invincibilityTimer.IsUseable())
+                    {
+                        //Damage enemy
+                        pillar.PillarDamage(damage, true);
                     }
                     break;
                 }
+
             default:
                 {
                     break;

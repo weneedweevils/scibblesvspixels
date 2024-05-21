@@ -81,6 +81,7 @@ public abstract class EnemyAI : MonoBehaviour
     protected int currentWaypoint = 0;
     protected Rigidbody2D rb;
     protected Vector2 pathOffset = new Vector2(0, 1.5f);
+    private bool movable = true;
 
     //Misc
     protected GameObject player;
@@ -107,6 +108,7 @@ public abstract class EnemyAI : MonoBehaviour
         target = player.transform;
         health = maxHealth;
         healthBar.SetHealth(health, maxHealth);
+      
 
         //Create Timers
         invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
@@ -115,9 +117,16 @@ public abstract class EnemyAI : MonoBehaviour
         slowedTimer = new CooldownTimer(0.1f, slowDuration);
         buffTimer = new CooldownTimer(0.1f, buffDuration);
 
-        //Start a repeating functon
-        InvokeRepeating("CheckState", 0f, 0.5f); //Update the path every half second
 
+
+        //Start a repeating functon
+
+        if (gameObject.GetComponent("HealthPillar") == null)
+        { 
+            movable = false;
+            InvokeRepeating("CheckState", 0f, 0.5f); //Update the path every half second if not a movable object
+
+        }
         if (blockers.Length != 0)
         {
             isolated = true;
@@ -543,6 +552,8 @@ public abstract class EnemyAI : MonoBehaviour
         if (makeInvincible)
         {
             invincibilityTimer.StartTimer();
+
+         
             Stun();
         }
 
@@ -618,5 +629,10 @@ public abstract class EnemyAI : MonoBehaviour
     {
         // Quick getter function that's used in CrabWalkSFX
         return (state == State.dead || state == State.dying);
+    }
+
+    public CooldownTimer GetCooldownTimer()
+    {
+        return invincibilityTimer;
     }
 }
