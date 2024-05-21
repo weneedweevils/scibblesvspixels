@@ -82,16 +82,37 @@ public class DoodleCrab : EnemyAI
                     {
                         //Get a reference to the enemy
                         EnemyAI otherAI = collision.gameObject.GetComponent<EnemyAI>();
-                        if (attackTimer.IsActive() && otherAI != null && team != otherAI.team && otherAI.team != Team.neutral && otherAI.invincibilityTimer2.IsUseable())
-                        {
-                            Debug.Log(string.Format("{0} Hut {1} for {2} damage", name, otherAI.name, damage));
-                            //Damage enemy
-                            otherAI.Damage(damage, false, true);
+                        if (otherAI != null) {
+                            if (attackTimer.IsActive() && otherAI != null && team != otherAI.team && otherAI.team != Team.neutral && otherAI.invincibilityTimer2.IsUseable())
+                            {
+                                Debug.Log(string.Format("{0} Hut {1} for {2} damage", name, otherAI.name, damage));
+                                //Damage enemy
+                                otherAI.Damage(damage, false, true);
 
-                            //Start enemies secondary invincibility timer
-                            otherAI.invincibilityTimer2.StartTimer();
+                                //Start enemies secondary invincibility timer
+                                otherAI.invincibilityTimer2.StartTimer();
+                            }
                         }
+
+                        else
+                        {
+                            HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
+                            if (crystal != null)
+                            {
+                                Debug.Log(attackTimer.IsActive());
+                                Debug.Log(crystal.invincibilityTimer.IsUseable());
+                                //Debug.Log(otherAI.invincibilityTimer2.IsUseable());
+
+                                if (attackTimer.IsActive() && crystal != null && crystal.invincibilityTimer.IsUseable())
+                                {
+                                    //Damage crystal
+                                    crystal.CrystalDamage(damage, true);
+                                }
+                            }
+                        }
+
                         break;
+
                     }
                 default:
                     {

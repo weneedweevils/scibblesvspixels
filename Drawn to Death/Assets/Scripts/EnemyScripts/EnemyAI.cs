@@ -28,6 +28,7 @@ public abstract class EnemyAI : MonoBehaviour
     public float slowdownFactor = 3f;
 
     [Header("Pathfinding")]
+    public bool moving = true;
     public Seeker targetSeeker;
     public Seeker playerSeeker;
     public float seekDistance = 100f;
@@ -57,7 +58,8 @@ public abstract class EnemyAI : MonoBehaviour
     public SpriteRenderer selfImage;
     public GameObject panel;
 
-        /* ----- Hidden Variables ----- */
+
+    /* ----- Hidden Variables ----- */
 
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
@@ -81,7 +83,6 @@ public abstract class EnemyAI : MonoBehaviour
     protected int currentWaypoint = 0;
     protected Rigidbody2D rb;
     protected Vector2 pathOffset = new Vector2(0, 1.5f);
-    private bool movable = true;
 
     //Misc
     protected GameObject player;
@@ -121,9 +122,8 @@ public abstract class EnemyAI : MonoBehaviour
 
         //Start a repeating functon
 
-        if (gameObject.GetComponent("HealthPillar") == null)
+        if (moving)
         { 
-            movable = false;
             InvokeRepeating("CheckState", 0f, 0.5f); //Update the path every half second if not a movable object
 
         }

@@ -285,41 +285,44 @@ public class Attack : MonoBehaviour
             {
                 EnemyAI enemy = obj.GetComponent<EnemyAI>();
                 //LineRenderer line = enemy.GetComponent<LineRenderer>();
-                if (CustomDist(lifestealImage.transform.position, enemy.transform.position + 2.5f * Vector3.down) <= lifestealRadius)
+                if(enemy!= null)
                 {
-                    if (enemy.team == Team.oddle)
+                    if (CustomDist(lifestealImage.transform.position, enemy.transform.position + 2.5f * Vector3.down) <= lifestealRadius)
                     {
-                        enemy.Damage(dmg, false, lifeSteal:true);
-                        
-                        player.GetComponent<PlayerMovement>().Heal(dmg / 2); // HEALS
-                        enemy.lifestealing = true;
-                        //line.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, -1));
-                        //line.SetPosition(1, new Vector3(enemy.transform.position.x, enemy.transform.position.y, -1));
-                        
-                    }
-                    else if (enemy.team == Team.player && playerMovement.health < playerMovement.maxHealth) // Won't lifesteal from allies if full health
-                    {
+                        if (enemy.team == Team.oddle)
+                        {
+                            enemy.Damage(dmg, false, lifeSteal: true);
 
-                        enemy.Damage(dmg, false, lifeSteal: true);
-                        player.GetComponent<PlayerMovement>().Heal(dmg); // HEALS
-                        enemy.lifestealing = true;
-                        //line.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, -1));
-                        //line.SetPosition(1, new Vector3(enemy.transform.position.x, enemy.transform.position.y, -1));
-                        
+                            player.GetComponent<PlayerMovement>().Heal(dmg / 2); // HEALS
+                            enemy.lifestealing = true;
+                            //line.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, -1));
+                            //line.SetPosition(1, new Vector3(enemy.transform.position.x, enemy.transform.position.y, -1));
+
+                        }
+                        else if (enemy.team == Team.player && playerMovement.health < playerMovement.maxHealth) // Won't lifesteal from allies if full health
+                        {
+
+                            enemy.Damage(dmg, false, lifeSteal: true);
+                            player.GetComponent<PlayerMovement>().Heal(dmg); // HEALS
+                            enemy.lifestealing = true;
+                            //line.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, -1));
+                            //line.SetPosition(1, new Vector3(enemy.transform.position.x, enemy.transform.position.y, -1));
+
+                        }
+                        else
+                        {
+                            enemy.lifestealing = false;
+                        }
                     }
                     else
                     {
                         enemy.lifestealing = false;
+                        //line.SetPosition(0, Vector3.zero);
+                        //line.SetPosition(1, Vector3.zero);
                     }
-                }
-                else
-                {
-                    enemy.lifestealing = false;
-                    //line.SetPosition(0, Vector3.zero);
-                    //line.SetPosition(1, Vector3.zero);
+
                 }
             }
-        }
         if (lifestealTimer.IsOnCooldown())
         {
             lifestealFmod.stop(0);
@@ -327,7 +330,10 @@ public class Attack : MonoBehaviour
             foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
             {
                 EnemyAI enemy = obj.GetComponent<EnemyAI>();
-                enemy.lifestealing = false;
+                if (enemy != null)
+                {
+                    enemy.lifestealing = false;
+                }
             }
             lifestealCooldownBar.SetBar(lifestealTimer.timer);
         }
@@ -348,25 +354,50 @@ public class Attack : MonoBehaviour
     public void ControlAllies()
     {
         //Find closest enemy target in range
-        EnemyAI target = null;
+        //EnemyAI target = null;
+        GameObject target = null;
         float minDist = float.MaxValue;
 
         //Iterate through all enemies
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
         {
             EnemyAI enemy = obj.GetComponent<EnemyAI>();
+
+            if (enemy != null) { 
             //Ignore any enemies that are not part of the enemy team
-            if (enemy == null || enemy.team != Team.oddle)
-            {
-                continue;
+                if (enemy == null || enemy.team != Team.oddle)
+                {
+                    continue;
+                }
+
+                float dist = enemy.PathLength(true);
+                if (dist <= targetDistance && dist < minDist)
+                {
+                    target = obj;
+                    minDist = dist;
+                }
             }
 
-            float dist = enemy.PathLength(true);
-            if (dist <= targetDistance && dist < minDist)
+            else
             {
-                target = enemy;
-                minDist = dist;
+                HealthCrystal crystal = obj.GetComponent<HealthCrystal>();
+                if (crystal != null)
+                {
+                    float dist = Vector3.Distance(obj.transform.position, player.transform.position);
+                    if (dist <= targetDistance && dist < minDist)
+                    {
+                        target = obj;
+                        minDist = dist;
+                    }
+                }
+
+                else
+                {
+                    continue;
+                }
             }
+
+
         }
 
         //Set Allies target & remove dead allies
@@ -413,28 +444,33 @@ public class Attack : MonoBehaviour
                 {
                     //Get a reference to the enemy
                     EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
-                    if (attackTimer.IsActive() && enemy != null && enemy.team == Team.oddle && enemy.invincibilityTimer.IsUseable() &&enemy.PathLength(true) <= 15f)
-                    {
-                        //Calculate knockback
-                        Vector2 direction = ((Vector2)enemy.transform.position - (Vector2)transform.position).normalized;
-                        //Damage enemy
-                        enemy.Damage(damage, true, true, direction, knockback);
-                     }
-                    break;
-                }
 
-            case "HealthPillar":
-                {
-                    PillarHealh pillar = collision.gameObject.GetComponent<PillarHealh>();
-                    Debug.Log(pillar.name);
-                    if (attackTimer.IsActive() && pillar != null && pillar.invincibilityTimer.IsUseable())
+                    if (enemy != null)
                     {
-                        //Damage enemy
-                        pillar.PillarDamage(damage, true);
+                        if (attackTimer.IsActive() && enemy != null && enemy.team == Team.oddle && enemy.invincibilityTimer.IsUseable() && enemy.PathLength(true) <= 15f)
+                        {
+                            //Calculate knockback
+                            Vector2 direction = ((Vector2)enemy.transform.position - (Vector2)transform.position).normalized;
+                            //Damage enemy
+                            enemy.Damage(damage, true, true, direction, knockback);
+                        }
                     }
-                    break;
-                }
+                    else
+                    {
+                        HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
+                        if (crystal != null)
+                        {
+                            if (attackTimer.IsActive() && crystal != null && crystal.invincibilityTimer.IsUseable())
+                            {
+                                //Damage enemy
+                                crystal.CrystalDamage(damage, true);
+                            }
+                        }
+                    }
 
+                    break;
+                    
+                }
             default:
                 {
                     break;

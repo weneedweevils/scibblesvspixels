@@ -502,14 +502,17 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         Debug.Log(enemies.Length);
         foreach( GameObject enemy in enemies) {
             EnemyAI enemyai = enemy.GetComponent<EnemyAI>();
-            if (enemyai.team == Team.player)
+            if (enemyai != null)
             {
-                enemy.transform.position = transform.position;
-                enemyai.Heal(enemyai.maxHealth * allyHealPercentage);
-                enemyai.buffed = true;
-                enemyai.speed *= 2;
-                enemyai.damage *= 2;
-                enemyai.attackTimer.SetCooldown(enemyai.attackCooldown / 2);
+                if (enemyai.team == Team.player)
+                {
+                    enemy.transform.position = transform.position;
+                    enemyai.Heal(enemyai.maxHealth * allyHealPercentage);
+                    enemyai.buffed = true;
+                    enemyai.speed *= 2;
+                    enemyai.damage *= 2;
+                    enemyai.attackTimer.SetCooldown(enemyai.attackCooldown / 2);
+                }
             }
         }
     }

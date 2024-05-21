@@ -100,42 +100,8 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
 
 
         StateMachine.currentOodlerState.FrameUpdate();
-
-        if(HealthCrystal1 == null && !countedOne)
-        {
-            CrystalsRemaining -= 1 ;
-            countedOne = true;
-        }
-
-        if (HealthCrystal2 == null && !countedTwo)
-        {
-            CrystalsRemaining -= 1;
-            countedTwo = true;
-        }
-
-        if (HealthCrystal3 == null && !countedThree)
-        {
-            CrystalsRemaining -= 1;
-            countedThree = true;
-        }
-
-        if (HealthCrystal4 == null && !countedFour)
-        {
-            CrystalsRemaining -= 1;
-            countedFour = true;
-        }
-
-
-        if (CrystalsRemaining==0)
-        {
-            if (nextScene != Scene.End)
-            {
-                GameData data = DataPersistenceManager.instance.GetGameData();
-                data.skipCutscene = false;
-                DataPersistenceManager.instance.UpdateGame();
-            }
-            MenuManager.GotoScene(nextScene);
-        }
+        CheckCrystals();
+       
 
 
 
@@ -209,4 +175,43 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
       
     }
 
+
+    public void CheckCrystals()
+    {
+        if (HealthCrystal1 == null && !countedOne)
+        {
+            CrystalsRemaining -= 1;
+            countedOne = true;
+        }
+
+        if (HealthCrystal2 == null && !countedTwo)
+        {
+            CrystalsRemaining -= 1;
+            countedTwo = true;
+        }
+
+        if (HealthCrystal3 == null && !countedThree)
+        {
+            CrystalsRemaining -= 1;
+            countedThree = true;
+        }
+
+        if (HealthCrystal4 == null && !countedFour)
+        {
+            CrystalsRemaining -= 1;
+            countedFour = true;
+        }
+
+
+        if (CrystalsRemaining == 0)
+        {
+            if (nextScene != Scene.End)
+            {
+                GameData data = DataPersistenceManager.instance.GetGameData();
+                data.skipCutscene = false;
+                DataPersistenceManager.instance.UpdateGame();
+            }
+            MenuManager.GotoScene(nextScene);
+        }
+    }
 }

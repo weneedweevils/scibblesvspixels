@@ -130,38 +130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 049f0103e2bcc944f8e54913e97d2a09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team: 2
-  state: 1
-  isolated: 0
-  health: 50
-  maxHealth: 50
-  speed: 200
-  damage: 0
-  attackCooldown: 0
-  attackDistance: 0
-  slowdownFactor: 3
-  targetSeeker: {fileID: 0}
-  playerSeeker: {fileID: 0}
-  seekDistance: 100
-  nextWaypointDistance: 0
-  blockers: []
-  deathSfx: 
-  attackSfx: 
-  slowed: 0
-  lifestealing: 0
-  slowDuration: 0
-  buffDuration: 0
-  buffed: 0
-  movementCollider: {fileID: 0}
-  healthBar: {fileID: 1438910299221223785}
-  enemygraphics: {fileID: 0}
-  hurtCol: {r: 1, g: 0, b: 0, a: 1}
-  reviveCol: {r: 0, g: 1, b: 0, a: 1}
-  allyCol: {r: 0, g: 1, b: 0, a: 1}
-  selfImage: {fileID: 0}
-  panel: {fileID: 0}
-  health: 50
-  maxHealth: 50
+  health: 200
+  maxHealth: 200
   healthBar: {fileID: 1438910299221223785}
 --- !u!50 &6527833785316111112
 Rigidbody2D:

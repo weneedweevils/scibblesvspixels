@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PillarHealh : EnemyAI
+public class HealthCrystal : MonoBehaviour
 {
 
     public CooldownTimer invincibilityTimer;
@@ -23,26 +23,23 @@ public class PillarHealh : EnemyAI
         invincibilityTimer.Update();
     }
 
-    //public void PillarDamage(float damageTaken, bool makeInvincible = true)
-    //{
-    //    health -= damageTaken;
-    //    healthBar.SetHealth(health, maxHealth);
-
-    //    if (makeInvincible)
-    //    {
-    //        invincibilityTimer.StartTimer();
-    
-    //    }
-
-    //    if (health <= 0)
-    //    {
-    //        Destroy(gameObject);
-    //    }
-
-    //}
-
-    protected override void Attack()
+    public void CrystalDamage(float damageTaken, bool makeInvincible = true)
     {
-        return;
+        health -= damageTaken;
+        healthBar.SetHealth(health, maxHealth);
+
+        if (makeInvincible)
+        {
+            invincibilityTimer.StartTimer();
+    
+        }
+
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
+
     }
+
+
 }
