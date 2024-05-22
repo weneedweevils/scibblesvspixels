@@ -619,4 +619,5 @@ public abstract class EnemyAI : MonoBehaviour
         // Quick getter function that's used in CrabWalkSFX
         return (state == State.dead || state == State.dying);
     }
+
 }
