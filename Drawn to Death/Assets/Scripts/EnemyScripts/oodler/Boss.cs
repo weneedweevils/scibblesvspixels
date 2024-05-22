@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build;
 using UnityEngine;
 
 public class Boss : MonoBehaviour, IDamagable, Imovable
 {
+    // references
     [field: SerializeField] public float MaxHealth { get; set; } = 100f;
     [field: SerializeField] public float CurrentHealth { get; set; }
     public float MovementSpeed { get; set; } = 100f;
@@ -13,6 +15,8 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
     [field: SerializeField] public GameObject Glich;
 
     [field: SerializeField] public SpriteRenderer AttackSprite;
+
+    [field: SerializeField] public SpriteRenderer TestAttackSprite;
 
 
     // States
@@ -25,9 +29,9 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
 
 
     //Movment
-    Vector3 offSet;
+    private Vector3 offSet;
     private Vector3 glichLastPosition = Vector3.zero;
-
+    private Vector3 offScreen = new Vector3(220,130,0);
 
     public GameObject HealthCrystal1;
     bool countedOne = false;
@@ -39,6 +43,10 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
     bool countedFour = false;
     public Scene nextScene = Scene.End;
     int CrystalsRemaining = 4;
+
+    // Attacking
+
+    public PlayerMovement PlayerScript;
 
     // Start is called before the first frame update
 
@@ -57,6 +65,7 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
         CurrentHealth = MaxHealth;
         StateMachine.Initialize(oodlerIdle);
         BossSprite = GetComponent<SpriteRenderer>();
+        PlayerScript = Glich.GetComponent<PlayerMovement>();
     }
 
 
@@ -97,37 +106,38 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
 
     private void Update()
     {
-
-
         StateMachine.currentOodlerState.FrameUpdate();
         CheckCrystals();
-       
-
-
-
-        
     }
 
 
+    // BOSS METHODS //
+
 
     // This function will follow the players position with an offset of 10 units above them
-    public void Stalk()
+    public void Stalk(float speed = 100)
     {
-        var step = MovementSpeed * Time.deltaTime;
+        var step = speed * Time.deltaTime;
         offSet = Glich.transform.position;
         offSet.y = offSet.y + 10f;
         transform.position = Vector3.MoveTowards(transform.position, offSet, step);
     }
 
-    // This function will make the oodler come down and strike the player with their hand
-    public void Slam()
+    // This function will make the oodler come down and strike the players last known location
+    public void Slam(float speed = 100)
     {
-        var step = MovementSpeed * Time.deltaTime;
+        var step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, glichLastPosition, step);
     }
 
+    public void MoveOffScreen(float speed = 100)
+    {
+        var step = speed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, offScreen, step);
+    }
 
-    // this function will return a bool if the oodler has reached the glich
+
+    // this function will return a bool if the oodler has reached the glichs offset position
     public bool ReachedPlayer()
     {
         if (transform.position == offSet)
@@ -153,6 +163,22 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
         }
     }
 
+    // this function will return a bool if the oodler has reached offscreen
+    public bool ReachedOffScreen()
+    {
+        if (transform.position == offScreen)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+
+    // this function will get the last position of glich
     public void SetLastPosition()
     {
         glichLastPosition = Glich.transform.position;
@@ -166,6 +192,10 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
             var temp = AttackSprite.color;
             temp.a += 0.01f;
             AttackSprite.color = temp;
+
+            //TestAttackSprite.transform.position = transform.position;
+
+
             return false;
         }
         else
@@ -175,7 +205,7 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
       
     }
 
-
+    // this function will check to see if all the crystals are still active, it will play the cutscene if all are destroyed
     public void CheckCrystals()
     {
         if (HealthCrystal1 == null && !countedOne)

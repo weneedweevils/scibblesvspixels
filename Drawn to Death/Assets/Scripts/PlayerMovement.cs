@@ -104,6 +104,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private bool hit = false;
     private SpriteRenderer eraser;
 
+    // Oodler Invincibility 
+    public bool oodlerCooldown = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -534,11 +537,26 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                     dialogue.GetComponent<DialogueController>().ActivateDialogue();
                     break;
                 }
+
+            case "Oodler":
+                {
+                    Debug.Log("Oodler hit me!");
+                    if (oodlerCooldown == false && !dashTimer.IsActive())
+                    {
+                        Damage(12f);
+                    }
+                    oodlerCooldown = true;
+                    
+                    
+                }
+                break;
+
             default:
                 {
                     break;
                 }
         }
+      
     }
 
     // Dialogue exit

@@ -285,7 +285,7 @@ public class Attack : MonoBehaviour
             {
                 EnemyAI enemy = obj.GetComponent<EnemyAI>();
                 //LineRenderer line = enemy.GetComponent<LineRenderer>();
-                if(enemy!= null)
+                if (enemy != null)
                 {
                     if (CustomDist(lifestealImage.transform.position, enemy.transform.position + 2.5f * Vector3.down) <= lifestealRadius)
                     {
@@ -320,9 +320,9 @@ public class Attack : MonoBehaviour
                         //line.SetPosition(0, Vector3.zero);
                         //line.SetPosition(1, Vector3.zero);
                     }
-
                 }
             }
+        }
         if (lifestealTimer.IsOnCooldown())
         {
             lifestealFmod.stop(0);

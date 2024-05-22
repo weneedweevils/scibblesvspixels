@@ -31,7 +31,6 @@ public class HealthCrystal : MonoBehaviour
         if (makeInvincible)
         {
             invincibilityTimer.StartTimer();
-    
         }
 
         if (health <= 0)
