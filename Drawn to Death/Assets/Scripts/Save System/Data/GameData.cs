@@ -6,12 +6,14 @@ using UnityEngine;
 public class GameData
 {
     public bool skipCutscene;
+    public bool skipTutorial;
     public Scene scene;
     public Vector3 playerPosition;
     
-    public GameData()
+    public GameData(bool tutorial)
     {
         skipCutscene = false;
+        skipTutorial = tutorial;
         scene = Scene.Level_1;
         playerPosition = Vector3.zero;
     }
