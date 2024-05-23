@@ -203,6 +203,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         //Calculate velocity
         velocity.x = VelocityCalc(acceleration.x, velocity.x, speedModifier);
         velocity.y = VelocityCalc(acceleration.y, velocity.y, speedModifier);
+
+        
         
         //Dash ability
 
@@ -573,5 +575,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public void SaveData(ref GameData data)
     {
         data.playerPosition = transform.position;
+    }
+
+    public Vector2 GetVelocity()
+    {
+        return velocity;
     }
 }

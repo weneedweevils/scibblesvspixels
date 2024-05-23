@@ -41,7 +41,7 @@ public class OodlerIdle : OodlerBase
         }
         else
         {
-            boss.MoveOffScreen(1000f);
+            boss.MoveOffScreen(150f);
         }
 
 

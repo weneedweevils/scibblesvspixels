@@ -1,24 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using UnityEditor.Build;
-using UnityEditorInternal;
+﻿using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
-public class Boss : MonoBehaviour, IDamagable, Imovable
+
+public class Boss : MonoBehaviour, Imovable//, IDamagable,
 {
     // references
-    [field: SerializeField] public float MaxHealth { get; set; } = 1000f;
-    [field: SerializeField] public float CurrentHealth { get; set; }
+    private float MaxHealth = 3000f;
+    private float CurrentHealth = 3000f;
     public float MovementSpeed { get; set; } = 100f;
     public Rigidbody2D Rigidbody { get; set; }
     public SpriteRenderer BossSprite { get; set; }
-  
+
     [field: SerializeField] public GameObject Glich;
 
     [field: SerializeField] public SpriteRenderer AttackSprite;
 
     [field: SerializeField] public SpriteRenderer TestAttackSprite;
+
+
 
 
     // States
@@ -33,9 +34,9 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
     private Vector3 playerOffSet = Vector3.zero;
     private Vector3 glichLastPosition = Vector3.zero;
     private Vector3 oodlerAirPosition = Vector3.zero;
-    private Vector3 offScreen = new Vector3(220,130,0);
+    private Vector3 offScreen = new Vector3(220, 130, 0);
 
-    // Health Crystals
+    // Health Crystals and health
     public GameObject HealthCrystal1;
     bool countedOne = false;
     public GameObject HealthCrystal2;
@@ -47,8 +48,15 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
     public Scene nextScene = Scene.End;
     int CrystalsRemaining = 4;
 
+    // UI
+    public GameObject healthBar;
+    public TextMeshProUGUI currentHealthUI;
+    public TextMeshProUGUI maxHealthUI;
+    private UnityEngine.UI.Image healthBarImage;
+
+
     // Attacking
-    public PlayerMovement PlayerScript;
+    private PlayerMovement PlayerScript;
     BoxCollider2D DamageCollider;
     CircleCollider2D hitboxCollider;
     public bool oodlerSlamCooldown = false;
@@ -56,6 +64,7 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
     private float invincibilityDuration = 60f / 60f;
     public CooldownTimer invincibilityTimer;
     public float oodlerAttackDamage = 50f;
+    Rigidbody2D oodlerRB;
 
 
     private void Awake()
@@ -72,22 +81,33 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
     void Start()
     {
         CurrentHealth = MaxHealth;
+        currentHealthUI.text = CurrentHealth.ToString();
+        maxHealthUI.text = MaxHealth.ToString();
+
         StateMachine.Initialize(oodlerIdle);
         BossSprite = GetComponent<SpriteRenderer>();
         PlayerScript = Glich.GetComponent<PlayerMovement>();
         DamageCollider = GetComponent<BoxCollider2D>(); // trigger hitbox for detecting attack collisions
         hitboxCollider = GetComponent<CircleCollider2D>(); // collider hitbox for detecting physical collisions with object
         invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
+        healthBarImage = healthBar.GetComponent<UnityEngine.UI.Image>();
+        oodlerRB = GetComponent<Rigidbody2D>();
+
+
     }
 
 
     public void Damage(float damageTaken)
     {
         CurrentHealth = CurrentHealth - damageTaken;
-
-        Debug.Log("Oodler current health is "+ CurrentHealth.ToString());
-
+        currentHealthUI.text = CurrentHealth.ToString();
+        maxHealthUI.text = MaxHealth.ToString();
+        Debug.Log(CurrentHealth);
         invincibilityTimer.StartTimer();
+
+        healthBarImage.fillAmount = CurrentHealth / MaxHealth;
+
+
 
         if (CurrentHealth <= 0f)
         {
@@ -120,11 +140,16 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
         BossDamage
     }
 
-    private void Update()
+
+    private void Update(){
+        CheckWinCondition();
+    }
+
+    private void FixedUpdate()
     {
         
         StateMachine.currentOodlerState.FrameUpdate();
-        CheckWinCondition();
+       
         invincibilityTimer.Update();
     }
 
@@ -185,13 +210,55 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
 
 
     // This function will follow the players position with an offset of 10 units above them
-    public void Stalk(float speed = 100)
+    public void Stalk(float speed = 20)
     {
         var step = speed * Time.deltaTime;
         playerOffSet = Glich.transform.position;
         playerOffSet.y = playerOffSet.y + 10f;
         transform.position = Vector3.MoveTowards(transform.position, playerOffSet, step);
+        oodlerRB.MovePosition(transform.position);
+
+        //transform.position = Vector3.Lerp(transform.position, playerOffSet, step);
+        //CheckDirection();
         MoveSprite();
+
+        //Vector2 playervel = PlayerScript.GetVelocity();
+        //Vector3 backSet = new Vector3(0, 0, 0);
+        //float xsign = 1f;
+        //float ysign = 1f;
+        //if (playervel == Vector2.zero)
+        //{
+        //    transform.position = Vector3.MoveTowards(transform.position, playerOffSet, step);
+        //    MoveSprite();
+        //}
+
+        //else if (playervel.x >= 0)
+        //{
+        //    xsign = 0;
+        //    ysign = Mathf.Sign(playervel.y) * -1f;
+        //    backSet = new Vector3(5, 5, 0); // to be added to the vector
+        //}
+
+        //else if (playervel.y >= 0)
+        //{
+        //    xsign = Mathf.Sign(playervel.x) * -1f;
+        //    ysign = 0;
+        //    backSet = new Vector3(5, 5, 0); // to be added to the vector
+        //}
+
+
+        //else
+        //{
+
+        //    xsign = Mathf.Sign(playervel.x) * -1f;
+        //    ysign = Mathf.Sign(playervel.y) * -1f;
+        //    backSet = new Vector3(5, 5, 0); // to be added to the vector
+        //}
+
+        //Vector3 directionVector = new Vector3(xsign, ysign, 0f);
+        //backSet = Vector2.Scale(directionVector, backSet);
+        //transform.position = Vector3.MoveTowards(transform.position, playerOffSet + backSet, step);
+        //MoveSprite();
 
     }
 
@@ -236,6 +303,8 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
         Vector3 spriteOffset = transform.position;
         spriteOffset.y = transform.position.y - 12f;
         TestAttackSprite.transform.position = spriteOffset;
+      
+
 
     }
 
@@ -298,6 +367,11 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
         glichLastPosition = Glich.transform.position;
     }
 
+    public Vector3 GetLastPosition()
+    {
+        return glichLastPosition;
+    }
+
 
     // This function will get the last position in the air before slamming down 
     public void SetAirPosition()
@@ -354,6 +428,7 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
 
         if (CrystalsRemaining == 0 || CurrentHealth<0)
         {
+            Debug.Log("we go to end scene");
             if (nextScene != Scene.End)
             {
                 GameData data = DataPersistenceManager.instance.GetGameData();
@@ -369,6 +444,45 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
         return vulnerable;
     }
 
+    
+    public bool activateDamage()
+    {
+        float distance = Vector3.Distance(transform.position, GetLastPosition());
+
+        if (distance < 5f)
+        {
+            return true;
+
+        }
+        else
+        {
+            return false;
+
+        }
+    }
+
+    public void CheckDirection()
+    {
+        if (transform.position.x >= Glich.transform.position.x)
+        {
+            if (BossSprite.flipX == false)
+            {
+                BossSprite.flipX = true;
+                TestAttackSprite.flipX = true;
+            }
+        }
+        else
+        {
+            if (BossSprite.flipX == true)
+            {
+                BossSprite.flipX = false;
+                TestAttackSprite.flipX = false;
+            }
+        }
+    }
+
+
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -381,7 +495,7 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
                 {
 
                     //if (oodlerSlamCooldown == false && !PlayerScript.dashTimer.IsActive())
-                    if (!PlayerScript.dashTimer.IsActive() && oodlerSlamCooldown==false && !PlayerScript.invincibilityTimer.IsActive())
+                    if (!PlayerScript.dashTimer.IsActive() && oodlerSlamCooldown==false && !PlayerScript.invincibilityTimer.IsActive() && activateDamage())
                     {
                         PlayerScript.Damage(oodlerAttackDamage);
                     }
@@ -396,7 +510,7 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
                     EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
 
 
-                    if (enemy != null && !enemy.invincibilityTimer.IsActive() && oodlerSlamCooldown == false)
+                    if (enemy != null && !enemy.invincibilityTimer.IsActive() && oodlerSlamCooldown == false && activateDamage())
                     {
                         enemy.Damage(oodlerAttackDamage);
                     }
@@ -406,7 +520,7 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
                         HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
                         if (crystal != null)
                         {
-                            if (crystal != null && crystal.invincibilityTimer.IsUseable() && oodlerSlamCooldown == false)
+                            if (crystal != null && crystal.invincibilityTimer.IsUseable() && oodlerSlamCooldown == false && activateDamage())
                             {
                                 //Damage enemy
                                 crystal.CrystalDamage(oodlerAttackDamage, true);

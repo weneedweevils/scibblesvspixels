@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore;
 
 public class OodlerChase : OodlerBase
 {
@@ -54,14 +55,23 @@ public class OodlerChase : OodlerBase
         }
 
         //switch states once we have been following for more than 5 seconds
-        if (timer > 2f)
+        if (timer > 1.5f)
         {
             oodlerStateMachine.ChangeState(boss.oodlerAttack);
         }
 
 
         // gradually follow glich's position
-        boss.Stalk();
+        if (Vector3.Distance(boss.Glich.transform.position, boss.transform.position) < 20f)
+        {
+            var speed = 50f;
+            boss.Stalk(speed);
+        }
+        else
+        {
+            boss.Stalk();
+        }
+        
 
 
 
