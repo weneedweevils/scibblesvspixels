@@ -32375,7 +32375,7 @@ GameObject:
   - component: {fileID: 390785082}
   m_Layer: 0
   m_Name: Oodler
-  m_TagString: Oodler
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32403,6 +32403,9 @@ MonoBehaviour:
   HealthCrystal4: {fileID: 1165734890}
   nextScene: 7
   PlayerScript: {fileID: 0}
+  oodlerSlamCooldown: 0
+  vulnerable: 0
+  oodlerAttackDamage: 50
 --- !u!212 &390785078
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -32520,7 +32523,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 390785076}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -33063,7 +33066,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &495114446
 Transform:
   m_ObjectHideFlags: 0
@@ -35886,7 +35889,7 @@ GameObject:
   - component: {fileID: 843381484}
   - component: {fileID: 843381483}
   m_Layer: 0
-  m_Name: TestSprite
+  m_Name: OodlerShadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35931,8 +35934,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: 37e2f27ac913ec248ac1c92a3d5f4d76, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: ff6a8b2b63d5360439bc4c03d788948a, type: 3}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.09803922}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
@@ -35950,8 +35953,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 843381482}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -26.7, y: -47.1, z: -262.5972}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -71.4, y: -34.9, z: -262.5972}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 11
@@ -38269,7 +38272,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1226999998
 Transform:
   m_ObjectHideFlags: 0
@@ -42536,6 +42539,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7096973642769452535, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6020304625581923037, guid: fd54e1c3cb8ef9846bab82e3adc73fc9, type: 3}

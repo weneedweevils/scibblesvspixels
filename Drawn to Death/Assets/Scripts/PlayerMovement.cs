@@ -538,19 +538,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                     break;
                 }
 
-            case "Oodler":
-                {
-                    Debug.Log("Oodler hit me!");
-                    if (oodlerCooldown == false && !dashTimer.IsActive())
-                    {
-                        Damage(12f);
-                    }
-                    oodlerCooldown = true;
-                    
-                    
-                }
-                break;
-
             default:
                 {
                     break;

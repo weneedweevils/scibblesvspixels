@@ -19,6 +19,9 @@ public class OodlerAttack : OodlerBase
     {
         base.EnterState();
         Debug.Log("Entering Attack State");
+        // change colour to red
+        //boss.ShowAttack();
+
     }
 
     public override void ExitState()
@@ -31,6 +34,7 @@ public class OodlerAttack : OodlerBase
     {
         base.FrameUpdate();
         boss.Stalk();
+
         attackCharged = boss.RevealAttack();
         if(attackCharged)
         {

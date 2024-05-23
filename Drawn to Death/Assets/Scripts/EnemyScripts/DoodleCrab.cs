@@ -82,6 +82,10 @@ public class DoodleCrab : EnemyAI
                     {
                         //Get a reference to the enemy
                         EnemyAI otherAI = collision.gameObject.GetComponent<EnemyAI>();
+                        HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
+                        Boss oodler = collision.gameObject.GetComponent<Boss>();
+
+
                         if (otherAI != null) {
                             if (attackTimer.IsActive() && otherAI != null && team != otherAI.team && otherAI.team != Team.neutral && otherAI.invincibilityTimer2.IsUseable())
                             {
@@ -94,13 +98,9 @@ public class DoodleCrab : EnemyAI
                             }
                         }
 
-                        else
-                        {
-                            HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
-                            if (crystal != null)
+                        else if (crystal != null)
                             {
-                                Debug.Log(attackTimer.IsActive());
-                                Debug.Log(crystal.invincibilityTimer.IsUseable());
+                          
                                 //Debug.Log(otherAI.invincibilityTimer2.IsUseable());
 
                                 if (attackTimer.IsActive() && crystal != null && crystal.invincibilityTimer.IsUseable())
@@ -109,9 +109,21 @@ public class DoodleCrab : EnemyAI
                                     crystal.CrystalDamage(damage, true);
                                 }
                             }
+
+
+                        else if (oodler != null)
+                        {
+                            if (attackTimer.IsActive() && oodler != null && oodler.BossIsDamageable() && !oodler.invincibilityTimer.IsActive())
+                            {
+                                //Damage enemy
+                                oodler.Damage(damage);
+
+                            }
+
                         }
 
                         break;
+
 
                     }
                 default:

@@ -362,6 +362,8 @@ public class Attack : MonoBehaviour
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
         {
             EnemyAI enemy = obj.GetComponent<EnemyAI>();
+            HealthCrystal crystal = obj.GetComponent<HealthCrystal>();
+            Boss oodler = obj.GetComponent<Boss>();
 
             if (enemy != null) { 
             //Ignore any enemies that are not part of the enemy team
@@ -378,24 +380,33 @@ public class Attack : MonoBehaviour
                 }
             }
 
-            else
+            
+            else if (crystal != null)
             {
-                HealthCrystal crystal = obj.GetComponent<HealthCrystal>();
-                if (crystal != null)
+                float dist = Vector3.Distance(obj.transform.position, player.transform.position);
+                if (dist <= targetDistance && dist < minDist)
                 {
-                    float dist = Vector3.Distance(obj.transform.position, player.transform.position);
-                    if (dist <= targetDistance && dist < minDist)
-                    {
-                        target = obj;
-                        minDist = dist;
-                    }
-                }
-
-                else
-                {
-                    continue;
+                    target = obj;
+                    minDist = dist;
                 }
             }
+
+            else if (oodler != null && oodler.BossIsDamageable())
+            {
+                float dist = Vector3.Distance(obj.transform.position, player.transform.position);
+                if(dist<=targetDistance && dist < minDist)
+                {
+                    target = obj;
+                    minDist = dist;
+                }
+            }
+
+
+            else
+            {
+                continue;
+            }
+            
 
 
         }
@@ -444,6 +455,8 @@ public class Attack : MonoBehaviour
                 {
                     //Get a reference to the enemy
                     EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
+                    HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
+                    Boss oodler = collision.gameObject.GetComponent<Boss>();
 
                     if (enemy != null)
                     {
@@ -455,17 +468,28 @@ public class Attack : MonoBehaviour
                             enemy.Damage(damage, true, true, direction, knockback);
                         }
                     }
-                    else
+                  
+                        
+                    else if (crystal != null)
                     {
-                        HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
-                        if (crystal != null)
+                        if (attackTimer.IsActive() && crystal != null && crystal.invincibilityTimer.IsUseable())
                         {
-                            if (attackTimer.IsActive() && crystal != null && crystal.invincibilityTimer.IsUseable())
-                            {
-                                //Damage enemy
-                                crystal.CrystalDamage(damage, true);
-                            }
+                            //Damage enemy
+                            crystal.CrystalDamage(damage, true);
                         }
+                    }
+                    
+
+                    else if(oodler != null)
+                    {
+                        if (attackTimer.IsActive() && oodler != null && oodler.BossIsDamageable() && !oodler.invincibilityTimer.IsActive())
+                        {
+                            //Damage enemy
+                            oodler.Damage(damage);
+
+                        }
+
+
                     }
 
                     break;

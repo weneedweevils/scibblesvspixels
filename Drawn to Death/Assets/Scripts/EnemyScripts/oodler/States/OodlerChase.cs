@@ -28,6 +28,7 @@ public class OodlerChase : OodlerBase
         timer = 0f;
         reachedTarget = false;
         Debug.Log("Entering Idle State");
+        boss.ShowShadow();
     }
 
     public override void ExitState()

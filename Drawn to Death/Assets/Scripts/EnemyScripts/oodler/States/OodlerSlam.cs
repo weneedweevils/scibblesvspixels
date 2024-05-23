@@ -9,8 +9,7 @@ public class OodlerSlam : OodlerBase
     bool delay = true;
     private float timer = 0f;
     private float delayTimer = 0f;
-    BoxCollider2D DamageCollider;
-    CircleCollider2D hitboxCollider;
+
    
 
 
@@ -18,6 +17,7 @@ public class OodlerSlam : OodlerBase
     {
 
     }
+
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
     {
         base.AnimationTriggerEvent(triggerType);
@@ -30,20 +30,16 @@ public class OodlerSlam : OodlerBase
         delayTimer = 0f;    
         reachedTarget = false;
         boss.SetLastPosition();
+        boss.SetAirPosition();
         delay = true;
-        boss.AttackSprite.color = new Color(243, 255, 104, 1);
-        DamageCollider = boss.GetComponent<BoxCollider2D>();
-        hitboxCollider = boss.GetComponent <CircleCollider2D>();
-        hitboxCollider.enabled = true;
-
-
-
+        boss.ShowAttack();
     }
+
 
     public override void ExitState()
     {
         delayTimer = 0f;
-        boss.PlayerScript.oodlerCooldown = false;
+        boss.oodlerSlamCooldown = false; // set the cooldown back
         base.ExitState();
     }
 
@@ -58,15 +54,15 @@ public class OodlerSlam : OodlerBase
             if (!reachedTarget && boss.ReachedPlayerReal())
             {
                 reachedTarget = true;
-                DamageCollider.enabled = false;
-                boss.PlayerScript.oodlerCooldown = true;
+                boss.EnableAttackHitbox(false);
+                boss.oodlerSlamCooldown = true; // set to true so that the oodler does not hurt anyone on the ground
+                boss.HideShadow();
+                boss.vulnerable = true;
             }
 
             // This will continue to move the hand down on glich
             if (!reachedTarget)
             {
-                
-                DamageCollider.enabled = true;
                 boss.Slam();
             }
 
@@ -77,9 +73,8 @@ public class OodlerSlam : OodlerBase
                 // if the oodler has been on the ground for more than 5 seconds get up
                 if (timer > 5f)
                 {
-
-                    hitboxCollider.enabled = true;
-                    oodlerStateMachine.ChangeState(boss.oodlerIdle);
+                    
+                    oodlerStateMachine.ChangeState(boss.oodlerRecover);
                 }
             }
 
@@ -90,11 +85,14 @@ public class OodlerSlam : OodlerBase
         {
 
             delayTimer += Time.deltaTime;
-            if (delayTimer > 1f)
+            if (delayTimer > 0.25f)
             {
+                
                 Debug.Log("about to strike my hand down");
-                boss.AttackSprite.color = new Color(243, 0, 104, 1);
                 delay = false;
+                boss.EnableAttackHitbox(true);
+                boss.EnableAreaHitbox(true);
+
             }
         }
 

@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OodlerIdle : OodlerBase
+public class OodlerRecover : OodlerBase
 {
-
     private float timer = 0f;
-
-    public OodlerIdle(Boss boss, OodlerStateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+    public OodlerRecover(Boss boss, OodlerStateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
+        
     }
-   
+
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
     {
         base.AnimationTriggerEvent(triggerType);
@@ -18,10 +17,10 @@ public class OodlerIdle : OodlerBase
 
     public override void EnterState()
     {
-        base.EnterState();
-        timer = 0f;
         boss.ShowShadow();
-
+        boss.vulnerable = false;
+        timer = 0f;
+        boss.EnableAreaHitbox(false);
 
     }
 
@@ -32,19 +31,18 @@ public class OodlerIdle : OodlerBase
 
     public override void FrameUpdate()
     {
-        if (boss.ReachedOffScreen())
+        
+        base.FrameUpdate();
+        boss.MoveUp();
+        if(boss.ReachedAirPosition())
         {
             timer = timer + Time.deltaTime;
-            if (timer > 1f) {
-                oodlerStateMachine.ChangeState(boss.oodlerChase);
+            if (timer > 3f)
+            {
+                oodlerStateMachine.ChangeState(boss.oodlerIdle);
             }
         }
-        else
-        {
-            boss.MoveOffScreen(1000f);
-        }
-
-
     }
+
 
 }

@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEditor.Build;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class Boss : MonoBehaviour, IDamagable, Imovable
 {
     // references
-    [field: SerializeField] public float MaxHealth { get; set; } = 100f;
+    [field: SerializeField] public float MaxHealth { get; set; } = 1000f;
     [field: SerializeField] public float CurrentHealth { get; set; }
     public float MovementSpeed { get; set; } = 100f;
     public Rigidbody2D Rigidbody { get; set; }
@@ -25,14 +27,15 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
     public OodlerIdle oodlerIdle { get; set; }
     public OodlerAttack oodlerAttack { get; set; }
     public OodlerSlam oodlerSlam { get; set; }
-
-
+    public OodlerRecover oodlerRecover { get; set; }
 
     //Movment
-    private Vector3 offSet;
+    private Vector3 playerOffSet = Vector3.zero;
     private Vector3 glichLastPosition = Vector3.zero;
+    private Vector3 oodlerAirPosition = Vector3.zero;
     private Vector3 offScreen = new Vector3(220,130,0);
 
+    // Health Crystals
     public GameObject HealthCrystal1;
     bool countedOne = false;
     public GameObject HealthCrystal2;
@@ -45,10 +48,15 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
     int CrystalsRemaining = 4;
 
     // Attacking
-
     public PlayerMovement PlayerScript;
+    BoxCollider2D DamageCollider;
+    CircleCollider2D hitboxCollider;
+    public bool oodlerSlamCooldown = false;
+    public bool vulnerable = false;
+    private float invincibilityDuration = 60f / 60f;
+    public CooldownTimer invincibilityTimer;
+    public float oodlerAttackDamage = 50f;
 
-    // Start is called before the first frame update
 
     private void Awake()
     {
@@ -57,6 +65,7 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
         oodlerChase = new OodlerChase(this, StateMachine);
         oodlerAttack = new OodlerAttack(this, StateMachine);
         oodlerSlam = new OodlerSlam(this, StateMachine);
+        oodlerRecover = new OodlerRecover(this, StateMachine);
     }
 
 
@@ -66,12 +75,19 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
         StateMachine.Initialize(oodlerIdle);
         BossSprite = GetComponent<SpriteRenderer>();
         PlayerScript = Glich.GetComponent<PlayerMovement>();
+        DamageCollider = GetComponent<BoxCollider2D>(); // trigger hitbox for detecting attack collisions
+        hitboxCollider = GetComponent<CircleCollider2D>(); // collider hitbox for detecting physical collisions with object
+        invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
     }
 
 
     public void Damage(float damageTaken)
     {
-        CurrentHealth = damageTaken;
+        CurrentHealth = CurrentHealth - damageTaken;
+
+        Debug.Log("Oodler current health is "+ CurrentHealth.ToString());
+
+        invincibilityTimer.StartTimer();
 
         if (CurrentHealth <= 0f)
         {
@@ -81,7 +97,7 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
 
     public void Die()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("oodler is dead :/");
     }
 
 
@@ -106,41 +122,128 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
 
     private void Update()
     {
+        
         StateMachine.currentOodlerState.FrameUpdate();
-        CheckCrystals();
+        CheckWinCondition();
+        invincibilityTimer.Update();
     }
 
 
+
+    // Enabling/Disabling Hitboxes
+    public void EnableAttackHitbox(bool enable)
+    {
+        if(enable)
+        {
+            DamageCollider.enabled = true;  
+        }
+        else
+        {
+            DamageCollider.enabled = false;
+        }
+    }
+
+
+
+    // Enabling/Disabling Areabox
+    public void EnableAreaHitbox(bool enable)
+    {
+        if (enable)
+        {
+            hitboxCollider.enabled = true;
+        }
+        else
+        {
+            hitboxCollider.enabled = false;
+        }
+    }
+
+
+
+
+
+
+
     // BOSS METHODS //
+
+
+
+    public void ShowShadow()
+    {
+        TestAttackSprite.color = new Color(0, 0, 0, 0.25f);
+    }
+
+    public void ShowAttack()
+    {
+        TestAttackSprite.color = new Color(255, 0, 0, 1f);
+    }
+
+    public void HideShadow()
+    {
+        TestAttackSprite.color = new Color(0, 0, 0, 0f);
+    }
 
 
     // This function will follow the players position with an offset of 10 units above them
     public void Stalk(float speed = 100)
     {
         var step = speed * Time.deltaTime;
-        offSet = Glich.transform.position;
-        offSet.y = offSet.y + 10f;
-        transform.position = Vector3.MoveTowards(transform.position, offSet, step);
+        playerOffSet = Glich.transform.position;
+        playerOffSet.y = playerOffSet.y + 10f;
+        transform.position = Vector3.MoveTowards(transform.position, playerOffSet, step);
+        MoveSprite();
+
     }
 
     // This function will make the oodler come down and strike the players last known location
     public void Slam(float speed = 100)
     {
+       
         var step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, glichLastPosition, step);
+
+        // Experimental code for adjusting shadowSize
+        //float distanceDen = Vector3.Distance(oodlerAirPosition, glichLastPosition);
+        //float distanceNum = Vector3.Distance(transform.position, glichLastPosition);
+        //float scalingfactor = (1f-distanceNum/distanceDen);
+        //var newSize = new Vector3(TestAttackSprite.transform.localScale.x * 2f * scalingfactor, TestAttackSprite.transform.localScale.y * 2f * scalingfactor, TestAttackSprite.transform.localScale.z);
+        //TestAttackSprite.transform.root.localScale = newSize;
     }
 
+    // This function will move the oodler to a location offscreen
     public void MoveOffScreen(float speed = 100)
     {
         var step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, offScreen, step);
+
+        MoveSprite();
+    }
+
+
+    // This function will move the oodler off the ground
+    public void MoveUp(float speed = 20)
+    {
+        var step = speed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, oodlerAirPosition, step);
+
+    }
+
+
+
+    // this function will move the sprite
+    public void MoveSprite()
+    {
+        Vector3 spriteOffset = transform.position;
+        spriteOffset.y = transform.position.y - 12f;
+        TestAttackSprite.transform.position = spriteOffset;
+
     }
 
 
     // this function will return a bool if the oodler has reached the glichs offset position
     public bool ReachedPlayer()
     {
-        if (transform.position == offSet)
+        if (transform.position == playerOffSet)
         {
             return true;
         }
@@ -176,6 +279,17 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
         }
     }
 
+    public bool ReachedAirPosition()
+    {
+        if (transform.position == oodlerAirPosition)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 
     // this function will get the last position of glich
@@ -184,18 +298,23 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
         glichLastPosition = Glich.transform.position;
     }
 
+
+    // This function will get the last position in the air before slamming down 
+    public void SetAirPosition()
+    {
+        oodlerAirPosition = transform.position;
+    }
+
+
+
     // this function will increase the alpha value slowly and reveal the outline of where the hand will slam
     public bool RevealAttack()
     {
-        if (AttackSprite.color.a < 1)
+        if (TestAttackSprite.color.a < 1)
         {
-            var temp = AttackSprite.color;
+            var temp = TestAttackSprite.color;
             temp.a += 0.01f;
-            AttackSprite.color = temp;
-
-            //TestAttackSprite.transform.position = transform.position;
-
-
+            TestAttackSprite.color = temp;
             return false;
         }
         else
@@ -205,8 +324,8 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
       
     }
 
-    // this function will check to see if all the crystals are still active, it will play the cutscene if all are destroyed
-    public void CheckCrystals()
+    // this function will check to see if all the crystals are still active or if the oodler dies, cutscene plays if any one of these conditions are met
+    public void CheckWinCondition()
     {
         if (HealthCrystal1 == null && !countedOne)
         {
@@ -233,7 +352,7 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
         }
 
 
-        if (CrystalsRemaining == 0)
+        if (CrystalsRemaining == 0 || CurrentHealth<0)
         {
             if (nextScene != Scene.End)
             {
@@ -244,4 +363,69 @@ public class Boss : MonoBehaviour, IDamagable, Imovable
             MenuManager.GotoScene(nextScene);
         }
     }
+
+    public bool BossIsDamageable()
+    {
+        return vulnerable;
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("Collided with " + collision.name);
+
+        switch (collision.gameObject.tag)
+        {
+
+            case "Player":
+                {
+
+                    //if (oodlerSlamCooldown == false && !PlayerScript.dashTimer.IsActive())
+                    if (!PlayerScript.dashTimer.IsActive() && oodlerSlamCooldown==false && !PlayerScript.invincibilityTimer.IsActive())
+                    {
+                        PlayerScript.Damage(oodlerAttackDamage);
+                    }
+                    
+
+
+                }
+                break;
+
+            case "Enemy":
+                {
+                    EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
+
+
+                    if (enemy != null && !enemy.invincibilityTimer.IsActive() && oodlerSlamCooldown == false)
+                    {
+                        enemy.Damage(oodlerAttackDamage);
+                    }
+
+                    else
+                    {
+                        HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
+                        if (crystal != null)
+                        {
+                            if (crystal != null && crystal.invincibilityTimer.IsUseable() && oodlerSlamCooldown == false)
+                            {
+                                //Damage enemy
+                                crystal.CrystalDamage(oodlerAttackDamage, true);
+                            }
+                        }
+                    }
+                }
+                break;
+
+
+            default:
+                {
+                    break;
+                }
+        }
+        
+    }
+
+
+
+
 }
