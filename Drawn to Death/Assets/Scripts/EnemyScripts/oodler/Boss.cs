@@ -100,12 +100,11 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     public void Damage(float damageTaken)
     {
         CurrentHealth = CurrentHealth - damageTaken;
-        currentHealthUI.text = CurrentHealth.ToString();
-        maxHealthUI.text = MaxHealth.ToString();
+        
         Debug.Log(CurrentHealth);
         invincibilityTimer.StartTimer();
 
-        healthBarImage.fillAmount = CurrentHealth / MaxHealth;
+      
 
 
 
@@ -143,6 +142,9 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
     private void Update(){
         CheckWinCondition();
+        currentHealthUI.text = Mathf.Ceil(CurrentHealth).ToString();
+        healthBarImage.fillAmount = CurrentHealth / MaxHealth;
+        //maxHealthUI.text = MaxHealth.ToString();
     }
 
     private void FixedUpdate()
@@ -477,6 +479,21 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
             {
                 BossSprite.flipX = false;
                 TestAttackSprite.flipX = false;
+            }
+        }
+    }
+
+    public void heal(float heal_amount)
+    {
+        if (CurrentHealth < MaxHealth)
+        {
+            if (CurrentHealth + heal_amount > MaxHealth)
+            {
+                CurrentHealth = MaxHealth;
+            }
+            else
+            {
+                CurrentHealth += heal_amount;
             }
         }
     }
