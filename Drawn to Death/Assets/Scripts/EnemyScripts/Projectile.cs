@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Projectile : MonoBehaviour
 {
@@ -86,9 +87,31 @@ public class Projectile : MonoBehaviour
                     }
                     break;
                 }
+
             case "Obstacle":
                 {
                     Destroy(gameObject);
+                    break;
+                }
+
+
+            case "Column":
+                {
+                    float newangle = ProjectileAngle(velocity);
+
+                    if (collision.gameObject.name == "ProjectileDetector")
+                    {
+                        Debug.Log("we have entered here");
+                        if ((0f <= newangle && newangle <= 25f) || (155f <= newangle && newangle <= 180) || (180f <= newangle && newangle <= -155) || (-25 <= newangle && newangle <= 0))
+                        {
+                            Destroy(gameObject);
+                        }
+                    }
+                    else
+                    {
+                        Destroy(gameObject);
+                    }
+
                     break;
                 }
             default:
@@ -96,5 +119,13 @@ public class Projectile : MonoBehaviour
                     break;
                 }
         }
+    }
+
+    private float ProjectileAngle(Vector2 velocity)
+    {
+        Vector2 dir = velocity.normalized;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        Debug.Log("This projectile is moving at an angle of " + angle);
+        return angle;
     }
 }

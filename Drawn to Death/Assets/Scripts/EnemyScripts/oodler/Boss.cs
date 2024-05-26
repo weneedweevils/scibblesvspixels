@@ -1,5 +1,7 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
@@ -7,17 +9,17 @@ using UnityEngine.UIElements;
 public class Boss : MonoBehaviour, Imovable//, IDamagable,
 {
     // references
-    private float MaxHealth = 3000f;
-    private float CurrentHealth = 3000f;
+    private float MaxHealth = 1000f;
+    private float CurrentHealth = 1000f;
     public float MovementSpeed { get; set; } = 100f;
     public Rigidbody2D Rigidbody { get; set; }
     public SpriteRenderer BossSprite { get; set; }
 
     [field: SerializeField] public GameObject Glich;
 
-    [field: SerializeField] public SpriteRenderer AttackSprite;
-
     [field: SerializeField] public SpriteRenderer TestAttackSprite;
+   
+   
 
 
 
@@ -57,11 +59,12 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
     // Attacking
     private PlayerMovement PlayerScript;
-    BoxCollider2D DamageCollider;
+    //BoxCollider2D DamageCollider;
+    PolygonCollider2D DamageCollider;
     CircleCollider2D hitboxCollider;
     public bool oodlerSlamCooldown = false;
     public bool vulnerable = false;
-    private float invincibilityDuration = 60f / 60f;
+    private float invincibilityDuration = 40f / 60f;
     public CooldownTimer invincibilityTimer;
     public float oodlerAttackDamage = 50f;
     Rigidbody2D oodlerRB;
@@ -85,9 +88,11 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         maxHealthUI.text = MaxHealth.ToString();
 
         StateMachine.Initialize(oodlerIdle);
+
         BossSprite = GetComponent<SpriteRenderer>();
         PlayerScript = Glich.GetComponent<PlayerMovement>();
-        DamageCollider = GetComponent<BoxCollider2D>(); // trigger hitbox for detecting attack collisions
+        DamageCollider = GetComponentInChildren<PolygonCollider2D>();
+        //DamageCollider = GetComponent<BoxCollider2D>(); // trigger hitbox for detecting attack collisions
         hitboxCollider = GetComponent<CircleCollider2D>(); // collider hitbox for detecting physical collisions with object
         invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
         healthBarImage = healthBar.GetComponent<UnityEngine.UI.Image>();
@@ -151,7 +156,6 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     {
         
         StateMachine.currentOodlerState.FrameUpdate();
-       
         invincibilityTimer.Update();
     }
 
@@ -501,60 +505,66 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log("Collided with " + collision.name);
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    Debug.Log("Collided with " + collision.name);
 
-        switch (collision.gameObject.tag)
-        {
+    //    switch (collision.gameObject.tag)
+    //    {
 
-            case "Player":
-                {
+    //        case "Player":
+    //            {
 
-                    //if (oodlerSlamCooldown == false && !PlayerScript.dashTimer.IsActive())
-                    if (!PlayerScript.dashTimer.IsActive() && oodlerSlamCooldown==false && !PlayerScript.invincibilityTimer.IsActive() && activateDamage())
-                    {
-                        PlayerScript.Damage(oodlerAttackDamage);
-                    }
+    //                //if (oodlerSlamCooldown == false && !PlayerScript.dashTimer.IsActive())
+    //                if (!PlayerScript.dashTimer.IsActive() && oodlerSlamCooldown==false && !PlayerScript.invincibilityTimer.IsActive() && activateDamage())
+    //                {
+    //                    PlayerScript.Damage(oodlerAttackDamage);
+    //                }
                     
 
 
-                }
-                break;
+    //            }
+    //            break;
 
-            case "Enemy":
-                {
-                    EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
-
-
-                    if (enemy != null && !enemy.invincibilityTimer.IsActive() && oodlerSlamCooldown == false && activateDamage())
-                    {
-                        enemy.Damage(oodlerAttackDamage);
-                    }
-
-                    else
-                    {
-                        HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
-                        if (crystal != null)
-                        {
-                            if (crystal != null && crystal.invincibilityTimer.IsUseable() && oodlerSlamCooldown == false && activateDamage())
-                            {
-                                //Damage enemy
-                                crystal.CrystalDamage(oodlerAttackDamage, true);
-                            }
-                        }
-                    }
-                }
-                break;
+    //        case "Enemy":
+    //            {
+    //                EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
 
 
-            default:
-                {
-                    break;
-                }
-        }
+    //                if (enemy != null && !enemy.invincibilityTimer.IsActive() && oodlerSlamCooldown == false && activateDamage())
+    //                {
+    //                    enemy.Damage(oodlerAttackDamage);
+    //                }
+
+    //                else
+    //                {
+    //                    HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
+    //                    if (crystal != null)
+    //                    {
+    //                        if (crystal != null && crystal.invincibilityTimer.IsUseable() && oodlerSlamCooldown == false && activateDamage())
+    //                        {
+    //                            //Damage enemy
+    //                            crystal.CrystalDamage(oodlerAttackDamage, true);
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //            break;
+
+    //        case "Column":
+    //            {
+    //                Destroy(collision.gameObject);
+
+    //            }
+    //            break;
+
+    //    default:
+    //            {
+    //                break;
+    //            }
+    //    }
         
-    }
+    //}
 
 
 

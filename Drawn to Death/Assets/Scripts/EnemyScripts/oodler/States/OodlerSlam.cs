@@ -64,6 +64,13 @@ public class OodlerSlam : OodlerBase
             if (!reachedTarget)
             {
                 boss.Slam();
+
+                // activates the attack hitbox a few units above gliches position
+                if (boss.transform.position.y < boss.GetLastPosition().y + 0.01f)
+                {
+                    Debug.Log("hit box active");
+                    boss.EnableAttackHitbox(true);
+                }
             }
 
             // Logic for once we hit the ground
@@ -73,8 +80,8 @@ public class OodlerSlam : OodlerBase
                 // if the oodler has been on the ground for more than 5 seconds get up
                 if (timer > 5f)
                 {
-                    
                     oodlerStateMachine.ChangeState(boss.oodlerRecover);
+                    boss.BossSprite.sortingOrder = 8;
                 }
             }
 
@@ -87,10 +94,11 @@ public class OodlerSlam : OodlerBase
             delayTimer += Time.deltaTime;
             if (delayTimer > 0.25f)
             {
-                
+
+                boss.BossSprite.sortingOrder = 5;
                 Debug.Log("about to strike my hand down");
                 delay = false;
-                boss.EnableAttackHitbox(true);
+                
                 boss.EnableAreaHitbox(true);
 
             }

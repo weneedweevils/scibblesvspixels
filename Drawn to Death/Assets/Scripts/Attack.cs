@@ -456,7 +456,7 @@ public class Attack : MonoBehaviour
                     //Get a reference to the enemy
                     EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
                     HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
-                    Boss oodler = collision.gameObject.GetComponent<Boss>();
+                    Boss oodler = collision.gameObject.GetComponentInParent<Boss>();
 
                     if (enemy != null)
                     {

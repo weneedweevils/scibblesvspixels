@@ -39,6 +39,7 @@ public class OodlerRecover : OodlerBase
             timer = timer + Time.deltaTime;
             if (timer > 3f)
             {
+                boss.BossSprite.sortingOrder = 8;
                 oodlerStateMachine.ChangeState(boss.oodlerIdle);
             }
         }
