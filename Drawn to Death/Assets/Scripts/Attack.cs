@@ -101,8 +101,8 @@ public class Attack : MonoBehaviour
         lifestealStartTimer = new CooldownTimer(0.65f, 0.35f);
         reviveCooldownBar = new CooldownBarBehaviour(reviveBar, reviveCooldown, Color.gray, Color.magenta);
         lifestealCooldownBar = new CooldownBarBehaviour(lifestealBar, lifestealCooldown, Color.gray, Color.magenta);
-        lifeStealNotifier = lifestealBar.transform.parent.GetChild(1).GetComponent<UnityEngine.UI.Image>();
-        reviveNotifier = reviveBar.transform.parent.GetChild(1).GetComponent<UnityEngine.UI.Image>();
+        lifeStealNotifier = lifestealBar.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();
+        reviveNotifier = reviveBar.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();
 
         // Get a reference to the script that controls the lifestealFMOD event
         lifestealFmod = FMODUnity.RuntimeManager.CreateInstance(lifestealSfx);

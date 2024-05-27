@@ -131,8 +131,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         lifestealEndTimer = new CooldownTimer(0.2f, 0.532f);
         dashCooldownBar = new CooldownBarBehaviour(dashBar, dashCooldown, Color.gray, Color.magenta);
         recallCooldownBar = new CooldownBarBehaviour(recallBar, weapon.reviveCooldown, Color.gray, Color.magenta);
-        dashNotifier = dashBar.transform.parent.GetChild(1).GetComponent<UnityEngine.UI.Image>();
-        recallNotifier = recallBar.transform.parent.GetChild(1).GetComponent<UnityEngine.UI.Image>();
+        dashNotifier = dashBar.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();
+        recallNotifier = recallBar.transform.GetChild(3).GetComponent<UnityEngine.UI.Image>();
 
         panel = GameObject.FindGameObjectWithTag("DamageFlash");
         damageScreen = panel.GetComponent<UnityEngine.UI.Image>();
