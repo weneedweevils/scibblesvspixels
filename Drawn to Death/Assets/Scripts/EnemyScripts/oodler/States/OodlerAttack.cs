@@ -38,7 +38,7 @@ public class OodlerAttack : OodlerBase
         attackCharged = boss.RevealAttack();
         if(attackCharged)
         {
-            oodlerStateMachine.ChangeState(boss.oodlerSlam);
+            oodlerStateMachine.ChangeState(boss.oodlerCrab);
         }
     }
 

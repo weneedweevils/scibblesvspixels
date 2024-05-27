@@ -113,10 +113,8 @@ GameObject:
   - component: {fileID: 3608185996306943932}
   - component: {fileID: 3608185996306943935}
   - component: {fileID: 3608185996306943922}
-  - component: {fileID: 3608185996306943923}
   - component: {fileID: 3608185996306943920}
   - component: {fileID: 3608185996306943921}
-  - component: {fileID: 5642288188426784437}
   m_Layer: 0
   m_Name: Oodler
   m_TagString: Enemy
@@ -203,7 +201,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Glich: {fileID: 0}
-  AttackSprite: {fileID: 0}
   TestAttackSprite: {fileID: 0}
   HealthCrystal1: {fileID: 0}
   HealthCrystal2: {fileID: 0}
@@ -216,6 +213,7 @@ MonoBehaviour:
   oodlerSlamCooldown: 0
   vulnerable: 0
   oodlerAttackDamage: 50
+  pillar: {fileID: 0}
 --- !u!95 &3608185996306943922
 Animator:
   serializedVersion: 3
@@ -235,32 +233,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!61 &3608185996306943923
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3608185996306943934}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.27287483, y: -0.5977733}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 15, y: 15}
-    newSize: {x: 5.12, y: 5.12}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 5.9951515, y: 3.2534156}
-  m_EdgeRadius: 0
 --- !u!58 &3608185996306943920
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -268,15 +240,15 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3608185996306943934}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.17467856, y: 0.23510027}
+  m_Offset: {x: -0.17467856, y: -0.27228117}
   serializedVersion: 2
-  m_Radius: 2.2160199
+  m_Radius: 1.7086387
 --- !u!50 &3608185996306943921
 Rigidbody2D:
   serializedVersion: 4
@@ -298,43 +270,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &5642288188426784437
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3608185996306943934}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 15, y: 15}
-    newSize: {x: 5.12, y: 5.12}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.44492912, y: 1.8021641}
-      - {x: -1.0915523, y: 1.1092958}
-      - {x: -2.1603267, y: 0.11358333}
-      - {x: -2.600285, y: -1.1407068}
-      - {x: -2.124781, y: -1.8381987}
-      - {x: -1.340522, y: -2.068862}
-      - {x: -0.16875005, y: -2.161128}
-      - {x: 0.24644542, y: -1.9858236}
-      - {x: 0.6600361, y: -1.5997677}
-      - {x: 2.9535675, y: 1.1845036}
-      - {x: 3.224121, y: 2.2736492}
-      - {x: 2.6647243, y: 2.7484703}
 --- !u!1 &5200244118346217369
 GameObject:
   m_ObjectHideFlags: 0

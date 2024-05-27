@@ -22,9 +22,19 @@ public class oodlertotarget:MonoBehaviour
                 {
 
                     //if (oodlerSlamCooldown == false && !PlayerScript.dashTimer.IsActive())
-                    if (!PlayerScript.dashTimer.IsActive() && oodlerScript.oodlerSlamCooldown == false && !PlayerScript.invincibilityTimer.IsActive() && oodlerScript.activateDamage())
+
+                    if (oodlerScript.grabbing == false)
                     {
-                        PlayerScript.Damage(oodlerScript.oodlerAttackDamage);
+
+                        if (!PlayerScript.dashTimer.IsActive() && oodlerScript.oodlerSlamCooldown == false && !PlayerScript.invincibilityTimer.IsActive() && oodlerScript.activateDamage())
+                        {
+                            PlayerScript.Damage(oodlerScript.oodlerAttackDamage);
+                        }
+                    }
+
+                    else
+                    {
+                        oodlerScript.caught = true;
                     }
 
 

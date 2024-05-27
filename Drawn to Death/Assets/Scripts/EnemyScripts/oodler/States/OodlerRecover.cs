@@ -21,7 +21,13 @@ public class OodlerRecover : OodlerBase
         boss.vulnerable = false;
         timer = 0f;
         boss.EnableAreaHitbox(false);
+        boss.BossSprite.sortingOrder = 8;
 
+        if (boss.caught == true)
+        {
+            //boss.ControlAllies(boss.pillar);
+            boss.EnableGlichColliders(false);
+        }
     }
 
     public override void ExitState()
@@ -34,13 +40,21 @@ public class OodlerRecover : OodlerBase
         
         base.FrameUpdate();
         boss.MoveUp();
+
+        boss.MoveGlichWithOodler();
+
         if(boss.ReachedAirPosition())
         {
             timer = timer + Time.deltaTime;
             if (timer > 3f)
             {
-                boss.BossSprite.sortingOrder = 8;
-                oodlerStateMachine.ChangeState(boss.oodlerIdle);
+                if (boss.caught == true) {
+                    oodlerStateMachine.ChangeState(boss.oodlerDrop);
+                }
+                else
+                {
+                    oodlerStateMachine.ChangeState(boss.oodlerIdle);
+                }
             }
         }
     }

@@ -25,6 +25,7 @@ public class OodlerSlam : OodlerBase
 
     public override void EnterState()
     {
+        boss.grabbing = false;
         base.EnterState();
         timer = 0f;
         delayTimer = 0f;    

@@ -31,6 +31,8 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     public OodlerAttack oodlerAttack { get; set; }
     public OodlerSlam oodlerSlam { get; set; }
     public OodlerRecover oodlerRecover { get; set; }
+    public OodlerCrab oodlerCrab { get; set; }
+    public OodlerDrop oodlerDrop { get; set; }
 
     //Movment
     private Vector3 playerOffSet = Vector3.zero;
@@ -59,6 +61,8 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
     // Attacking
     private PlayerMovement PlayerScript;
+
+
     //BoxCollider2D DamageCollider;
     PolygonCollider2D DamageCollider;
     CircleCollider2D hitboxCollider;
@@ -70,6 +74,13 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     Rigidbody2D oodlerRB;
 
 
+    // for controlling enemies for pirhana attack
+    public GameObject pillar;
+    public bool grabbing = false;
+    public bool caught = false;
+    private Vector3 DropZoneCorrected;
+
+
     private void Awake()
     {
         StateMachine = new OodlerStateMachine();
@@ -78,6 +89,8 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         oodlerAttack = new OodlerAttack(this, StateMachine);
         oodlerSlam = new OodlerSlam(this, StateMachine);
         oodlerRecover = new OodlerRecover(this, StateMachine);
+        oodlerCrab = new OodlerCrab(this, StateMachine);
+        oodlerDrop = new OodlerDrop(this, StateMachine);
     }
 
 
@@ -98,6 +111,8 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         healthBarImage = healthBar.GetComponent<UnityEngine.UI.Image>();
         oodlerRB = GetComponent<Rigidbody2D>();
 
+        DropZoneCorrected = new Vector3(pillar.transform.position.x, pillar.transform.position.y, 0);
+      
 
     }
 
@@ -190,7 +205,19 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     }
 
 
-
+    public void EnableGlichColliders(bool enable)
+    {
+        if (enable)
+        {
+            Glich.GetComponent<CapsuleCollider2D>().enabled = true;
+            Glich.GetComponent<BoxCollider2D>().enabled = true;
+        }
+        else
+        {
+            Glich.GetComponent<CapsuleCollider2D>().enabled = false;
+            Glich.GetComponent<BoxCollider2D>().enabled = false;
+        }
+    }
 
 
 
@@ -213,6 +240,21 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     {
         TestAttackSprite.color = new Color(0, 0, 0, 0f);
     }
+
+
+    public void MoveToDropZone(float speed = 20)
+    {
+        var step = speed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, DropZoneCorrected, step);
+        MoveSprite();
+    }
+
+    public void DropGlich(float speed = 10)
+    {
+        var step = speed * Time.deltaTime;
+        Glich.transform.position = Vector3.MoveTowards(Glich.transform.position, pillar.transform.position, step);
+    }
+
 
 
     // This function will follow the players position with an offset of 10 units above them
@@ -309,8 +351,6 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         Vector3 spriteOffset = transform.position;
         spriteOffset.y = transform.position.y - 12f;
         TestAttackSprite.transform.position = spriteOffset;
-      
-
 
     }
 
@@ -363,6 +403,38 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         else
         {
             return false;
+        }
+    }
+
+    public bool ReachedDropZone()
+    {
+        if (transform.position == DropZoneCorrected)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool GlichReachedDropZone()
+    {
+        if (Glich.transform.position == pillar.transform.position)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void MoveGlichWithOodler()
+    {
+        if (caught == true)
+        {
+            Glich.transform.position = transform.position;
         }
     }
 
@@ -502,7 +574,19 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         }
     }
 
+    public void ControlAllies(GameObject target)
+    {
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            EnemyAI enemy = obj.GetComponent<EnemyAI>();
 
+            if (enemy != null && enemy.team == Team.oddle && (enemy.state != State.dead || enemy.state != State.dying))
+            {
+                Debug.Log("set new target");
+                enemy.SetTarget(target);
+            }
+        }
+    }
 
 
     //private void OnTriggerEnter2D(Collider2D collision)
@@ -520,7 +604,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     //                {
     //                    PlayerScript.Damage(oodlerAttackDamage);
     //                }
-                    
+
 
 
     //            }
@@ -563,7 +647,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     //                break;
     //            }
     //    }
-        
+
     //}
 
 
