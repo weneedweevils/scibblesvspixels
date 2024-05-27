@@ -137,8 +137,11 @@ public class OodleKnight : EnemyAI
                             PlayerMovement player = collision.gameObject.GetComponent<PlayerMovement>();
                             if (team == Team.oddle && player.invincibilityTimer.IsUseable())
                             {
+                                //Calculate knockback
+                                Vector2 direction = ((Vector2)player.transform.position - (Vector2)transform.position).normalized;
+
                                 //Damage player
-                                player.Damage(damage);
+                                player.Damage(damage, direction, knockback);
                             }
                             break;
                         }
