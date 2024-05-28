@@ -355,8 +355,8 @@ public class Attack : MonoBehaviour
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
         {
             EnemyAI enemy = obj.GetComponent<EnemyAI>();
-            //Ignore any enemies that are not part of the enemy team
-            if (enemy == null || enemy.team != Team.oddle)
+            //Ignore doodleBars and any enemies that are not part of the enemy team
+            if (enemy == null || enemy.team != Team.oddle || enemy is DoodleBars)
             {
                 continue;
             }
@@ -378,6 +378,7 @@ public class Attack : MonoBehaviour
             {
                 continue;
             }
+
             //Remove Dead Allies
             if (ally.state == State.dead || ally.state == State.dying)
             {

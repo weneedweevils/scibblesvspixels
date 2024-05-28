@@ -105,9 +105,7 @@ public class Cubie : EnemyAI
 
     override public void Stun()
     {
-        attackTimer.StartCooldown();
         windupTimer.ResetTimer();
-        animator.SetBool("attacking", false);
-        animator.SetBool("chasing", true);
+        base.Stun();
     }
 }

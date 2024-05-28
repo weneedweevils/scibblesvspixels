@@ -410,7 +410,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     }
 
     // Function to run when player takes damage
-    public void Damage(float damageTaken)
+    public void Damage(float damageTaken, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f)
     {
         if (dashTimer.IsActive() || inFreezeDialogue() || timelinePlaying)
         {
@@ -429,7 +429,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         healthBar.SetHealth(health, maxHealth);
         hit = true;
 
-      
+        //Apply Knockback
+        if (knockbackPower > 0f)
+        {
+            velocity = knockbackDir.normalized * knockbackPower * 3;
+        }
 
         if (health <= 0)
         {
@@ -437,11 +441,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             MenuManager.GotoScene(Scene.Ded);
         }
     }
-
- 
-       
-        
-    
 
     // function to handle changing the color of the screen when damaged
     public void ChangeScreenColor(bool damaged)
@@ -464,9 +463,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             }
         }
     }
-
- 
-
 
     // Function to run when player heals
     public void Heal(float healthRestored)
