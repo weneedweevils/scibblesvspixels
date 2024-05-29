@@ -99,8 +99,13 @@ public class Attack : MonoBehaviour
         attackTimer = new CooldownTimer(attackDuration*0.35f, attackDuration*0.65f);
         lifestealTimer = new CooldownTimer(lifestealCooldown, lifestealDuration);
         lifestealStartTimer = new CooldownTimer(0.65f, 0.35f);
-        reviveCooldownBar = new CooldownBarBehaviour(reviveBar, reviveCooldown, Color.gray, Color.magenta);
-        lifestealCooldownBar = new CooldownBarBehaviour(lifestealBar, lifestealCooldown, Color.gray, Color.magenta);
+
+        reviveCooldownBar = new CooldownBarBehaviour(reviveBar, reviveCooldown);
+        lifestealCooldownBar = new CooldownBarBehaviour(lifestealBar, lifestealCooldown);
+
+        reviveTimer.Connect(reviveCooldownBar);
+        lifestealTimer.Connect(lifestealCooldownBar);
+
         lifeStealNotifier = lifestealBar.transform.parent.GetChild(1).GetComponent<UnityEngine.UI.Image>();
         reviveNotifier = reviveBar.transform.parent.GetChild(1).GetComponent<UnityEngine.UI.Image>();
 
@@ -221,9 +226,9 @@ public class Attack : MonoBehaviour
                 }
             }
         }
+
         if (reviveTimer.IsOnCooldown())
         {
-            reviveCooldownBar.SetBar(reviveTimer.timer);
             if (playerMovement.animator.GetBool("reviving"))
             {
                 sprite.enabled = true;
@@ -329,7 +334,6 @@ public class Attack : MonoBehaviour
                 EnemyAI enemy = obj.GetComponent<EnemyAI>();
                 enemy.lifestealing = false;
             }
-            lifestealCooldownBar.SetBar(lifestealTimer.timer);
         }
     }
 
