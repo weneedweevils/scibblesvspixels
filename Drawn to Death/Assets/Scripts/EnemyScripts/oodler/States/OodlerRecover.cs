@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class OodlerRecover : OodlerBase
 {
@@ -23,9 +24,10 @@ public class OodlerRecover : OodlerBase
         boss.EnableAreaHitbox(false);
         boss.BossSprite.sortingOrder = 8;
 
+    
         if (boss.caught == true)
         {
-            //boss.ControlAllies(boss.pillar);
+            boss.PlayerScript.PausePlayerInput(true);
             boss.EnableGlichColliders(false);
         }
     }
@@ -41,8 +43,14 @@ public class OodlerRecover : OodlerBase
         base.FrameUpdate();
         boss.MoveUp();
 
-        boss.MoveGlichWithOodler();
-
+        // if we caught glich move with boss
+        if (boss.caught == true)
+        {
+            
+            boss.MoveGlichWithOodler();
+        }
+        
+        // Once we reached the max air height wait 3 seconds before going to drop state or idle state
         if(boss.ReachedAirPosition())
         {
             timer = timer + Time.deltaTime;

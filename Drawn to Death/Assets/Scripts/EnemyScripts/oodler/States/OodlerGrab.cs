@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class OodlerCrab : OodlerBase
+public class OodlerGrab : OodlerBase
 {
-    public OodlerCrab(Boss boss, OodlerStateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+    public OodlerGrab(Boss boss, OodlerStateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
 
     }
@@ -33,6 +34,7 @@ public class OodlerCrab : OodlerBase
         delay = true;
         boss.ShowAttack();
         boss.caught = false;
+ 
 
     }
 
@@ -65,7 +67,6 @@ public class OodlerCrab : OodlerBase
             if (!reachedTarget)
             {
                 boss.Slam();
-
                 // activates the attack hitbox a few units above gliches position
                 if (boss.transform.position.y < boss.GetLastPosition().y + 0.01f)
                 {
@@ -76,16 +77,21 @@ public class OodlerCrab : OodlerBase
             // Logic for once we hit the ground and if we caught them 
             else
             {
-                boss.MoveGlichWithOodler(); // this function tps the player to oodler position
-
-                timer += Time.deltaTime;
-                // if the oodler has been on the ground for more than 5 seconds get up
-                if (timer > 5f)
+                if (boss.caught == true)
                 {
-                    
+                    boss.ControlAllies(boss.dropZoneObject, true); // change this to only occur when caught
                     oodlerStateMachine.ChangeState(boss.oodlerRecover);
                     boss.BossSprite.sortingOrder = 8;
                 }
+
+          
+                // if the oodler has been on the ground for more than 5 seconds get up
+                else if (timer > 5f)
+                {
+                    oodlerStateMachine.ChangeState(boss.oodlerRecover);
+                }
+
+                timer += Time.deltaTime;
             }
 
         }
@@ -93,15 +99,11 @@ public class OodlerCrab : OodlerBase
         // a few seconds of delay and a color shift of shadow to give player time to react
         else
         {
-
             delayTimer += Time.deltaTime;
             if (delayTimer > 2f)
             {
-
-                boss.BossSprite.sortingOrder = 5;
                 Debug.Log("about to strike my hand down");
                 delay = false;
-
                 boss.EnableAreaHitbox(true);
 
             }

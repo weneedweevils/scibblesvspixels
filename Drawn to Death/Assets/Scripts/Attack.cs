@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class Attack : MonoBehaviour
 {
@@ -141,7 +142,7 @@ public class Attack : MonoBehaviour
             }
 
             //Attack
-            if (attackTimer.IsUseable() && playerMovement.CanUseAbility() && Input.GetKey(attackButton))
+            if (attackTimer.IsUseable() && playerMovement.CanUseAbility() && Input.GetKey(attackButton) && !playerMovement.pauseInput)
             {
 
                 // FMODUnity.RuntimeManager.PlayOneShot(eraserSfx, isHit);
@@ -193,7 +194,7 @@ public class Attack : MonoBehaviour
         //Revive
         if (playerMovement.CanUseAbility())
         {
-            if (Input.GetKey(reviveButton) && reviveTimer.IsUseable())
+            if (Input.GetKey(reviveButton) && reviveTimer.IsUseable() && !playerMovement.pauseInput)
             {
                 Debug.Log("Attempting to revive enemies");
                
@@ -257,7 +258,7 @@ public class Attack : MonoBehaviour
         }
 
         //if we use life steal ability set the notifier to false
-        if (playerMovement.CanUseAbility() && lifestealTimer.IsUseable() && Input.GetKeyDown(lifestealButton))
+        if (playerMovement.CanUseAbility() && lifestealTimer.IsUseable() && Input.GetKeyDown(lifestealButton) && !playerMovement.pauseInput)
         {
             activatedLsNotifier = false;
             lifestealTimer.StartTimer();

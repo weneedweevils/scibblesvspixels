@@ -18,11 +18,14 @@ public class OodlerDrop : OodlerBase
     {
         base.EnterState();
         delay = 0f;
+
     }
 
     public override void ExitState()
     {
         base.ExitState();
+        boss.caught = false;
+
     }
 
     public override void FrameUpdate()
@@ -30,28 +33,31 @@ public class OodlerDrop : OodlerBase
 
         base.FrameUpdate();
 
+        // move boss to drop zone 
         if (!boss.ReachedDropZone())
         {
             boss.MoveToDropZone(10f);
             boss.MoveGlichWithOodler();
         }
+
+        // Once we get to drop zone wait 5 seconds to drop glich
         else
         {
-
             Debug.Log("here");
-            if (delay > 5f)
+            if (delay > 2f)
             {
                 if (!boss.GlichReachedDropZone())
                 {
                     Debug.Log("have not reached drop zone");
                     //boss.MoveOffScreen();
-                    boss.DropGlich(30);
+                    boss.DropGlich(20);
                 }
                 else
                 {
                     Debug.Log("have eached drop zone");
-                    //boss.ControlAllies(boss.Glich);
                     boss.EnableGlichColliders(true);
+                    boss.ControlAllies(boss.Glich, false);
+                    boss.PlayerScript.PausePlayerInput(false);
                     oodlerStateMachine.ChangeState(boss.oodlerIdle);
                 }
             }

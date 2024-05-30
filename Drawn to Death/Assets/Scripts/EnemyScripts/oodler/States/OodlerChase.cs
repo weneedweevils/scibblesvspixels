@@ -64,12 +64,12 @@ public class OodlerChase : OodlerBase
         // gradually follow glich's position
         if (Vector3.Distance(boss.Glich.transform.position, boss.transform.position) < 20f)
         {
-            var speed = 50f;
+            var speed = 200f; // set this back to 50
             boss.Stalk(speed);
         }
         else
         {
-            boss.Stalk();
+            boss.Stalk(200f);// Set this back to empty
         }
         
 

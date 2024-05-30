@@ -107,6 +107,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Oodler Invincibility 
     public bool oodlerCooldown = false;
 
+    // Pause all input besides escape
+    public bool pauseInput = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -181,8 +184,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
             hud.SetActive(true);
             //Determine acceleration
-            acceleration.x = ((Input.GetKey(left) ? -1 : 0) + (Input.GetKey(right) ? 1 : 0)) * accelerationCoefficient;
-            acceleration.y = ((Input.GetKey(down) ? -1 : 0) + (Input.GetKey(up) ? 1 : 0)) * accelerationCoefficient;
+
+
+            if (!pauseInput) // checks pause input without disabling hud
+            {
+                acceleration.x = ((Input.GetKey(left) ? -1 : 0) + (Input.GetKey(right) ? 1 : 0)) * accelerationCoefficient;
+                acceleration.y = ((Input.GetKey(down) ? -1 : 0) + (Input.GetKey(up) ? 1 : 0)) * accelerationCoefficient;
+            }
         }
         else
         {
@@ -226,7 +234,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
 
 
-        if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && Input.GetKey(dash) && Mathf.Abs(velocity.magnitude) > 0f)
+        if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && Input.GetKey(dash) && Mathf.Abs(velocity.magnitude) > 0f && !pauseInput)
         {
             activatedDashNotifier = false;
             velocity += velocity.normalized * dashBoost;
@@ -275,7 +283,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
 
         // reset notifier if we have allies or have pressed revive or recall
-        if ((Input.GetKey(recall)||Input.GetKey(weapon.reviveButton)) && weapon.GetAllies().Count>0){
+        if ((Input.GetKey(recall)||Input.GetKey(weapon.reviveButton)) && weapon.GetAllies().Count>0)
+        {
             weapon.activatedReviveNotifier = false;
             activatedRecallNotifier = false;
         }
@@ -290,7 +299,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
 
         // If player pressed recall and they are not on cooldown and they have allies, do recall
-        if (weapon.reviveTimer.IsUseable() && CanUseAbility() && Input.GetKey(recall) && weapon.GetAllies().Count>0){
+        if (weapon.reviveTimer.IsUseable() && CanUseAbility() && Input.GetKey(recall) && weapon.GetAllies().Count>0 ){
             weapon.reviveTimer.StartTimer();
             pencil.enabled = false;
             StopMovement();
@@ -581,4 +590,18 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     {
         return velocity;
     }
+
+    // function that pauses player input
+    public void PausePlayerInput(bool pause)
+    {
+        if (pause)
+        {
+            pauseInput = true;
+        }
+        else
+        {
+            pauseInput = false;
+        }
+    }
+
 }

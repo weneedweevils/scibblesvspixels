@@ -31,7 +31,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     public OodlerAttack oodlerAttack { get; set; }
     public OodlerSlam oodlerSlam { get; set; }
     public OodlerRecover oodlerRecover { get; set; }
-    public OodlerCrab oodlerCrab { get; set; }
+    public OodlerGrab oodlerGrab { get; set; }
     public OodlerDrop oodlerDrop { get; set; }
 
     //Movment
@@ -60,7 +60,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
 
     // Attacking
-    private PlayerMovement PlayerScript;
+    public PlayerMovement PlayerScript;
 
 
     //BoxCollider2D DamageCollider;
@@ -74,11 +74,13 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     Rigidbody2D oodlerRB;
 
 
-    // for controlling enemies for pirhana attack
-    public GameObject pillar;
+    // for controlling enemies for Drop attack
+    public GameObject dropZoneObject;
     public bool grabbing = false;
     public bool caught = false;
-    private Vector3 DropZoneCorrected;
+    private Vector3 dropZone;
+    private Vector3 dropZoneCorrected;
+   
 
 
     private void Awake()
@@ -89,7 +91,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         oodlerAttack = new OodlerAttack(this, StateMachine);
         oodlerSlam = new OodlerSlam(this, StateMachine);
         oodlerRecover = new OodlerRecover(this, StateMachine);
-        oodlerCrab = new OodlerCrab(this, StateMachine);
+        oodlerGrab = new OodlerGrab(this, StateMachine);
         oodlerDrop = new OodlerDrop(this, StateMachine);
     }
 
@@ -111,8 +113,11 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         healthBarImage = healthBar.GetComponent<UnityEngine.UI.Image>();
         oodlerRB = GetComponent<Rigidbody2D>();
 
-        DropZoneCorrected = new Vector3(pillar.transform.position.x, pillar.transform.position.y, 0);
-      
+        
+
+        dropZoneCorrected = new Vector3(dropZoneObject.transform.position.x, dropZoneObject.transform.position.y + 10f, 0);
+        dropZone = new Vector3(dropZoneObject.transform.position.x, dropZoneObject.transform.position.y, 0);
+
 
     }
 
@@ -176,6 +181,14 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
 
 
+
+    // BOSS METHODS //
+
+
+    // ENABLERS AND DISABLERS //
+
+
+
     // Enabling/Disabling Hitboxes
     public void EnableAttackHitbox(bool enable)
     {
@@ -204,7 +217,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         }
     }
 
-
+    // This function enables/disables gliches hitboxes
     public void EnableGlichColliders(bool enable)
     {
         if (enable)
@@ -219,42 +232,48 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         }
     }
 
-
-
-
-    // BOSS METHODS //
-
-
-
+    // This function shows the oodlers shadows
     public void ShowShadow()
     {
         TestAttackSprite.color = new Color(0, 0, 0, 0.25f);
     }
-
+     
+    // This function shows the attack
     public void ShowAttack()
     {
         TestAttackSprite.color = new Color(255, 0, 0, 1f);
     }
 
+    // This function hides the oodlers shadow
     public void HideShadow()
     {
         TestAttackSprite.color = new Color(0, 0, 0, 0f);
     }
 
 
+
+
+
+    // MOVING METHODS //
+
+
+    // This function moves the oodler to the drop zone where they drop glich
     public void MoveToDropZone(float speed = 20)
     {
         var step = speed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, DropZoneCorrected, step);
-        MoveSprite();
+        transform.position = Vector3.MoveTowards(transform.position, dropZoneCorrected, step);
+        MoveShadowSprite();
     }
 
+
+    // This function drops glich to the drop zone 
     public void DropGlich(float speed = 10)
     {
         var step = speed * Time.deltaTime;
-        Glich.transform.position = Vector3.MoveTowards(Glich.transform.position, pillar.transform.position, step);
-    }
+        Glich.transform.position = Vector3.MoveTowards(Glich.transform.position, dropZone, step);
 
+        
+    }
 
 
     // This function will follow the players position with an offset of 10 units above them
@@ -268,7 +287,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
         //transform.position = Vector3.Lerp(transform.position, playerOffSet, step);
         //CheckDirection();
-        MoveSprite();
+        MoveShadowSprite();
 
         //Vector2 playervel = PlayerScript.GetVelocity();
         //Vector3 backSet = new Vector3(0, 0, 0);
@@ -331,7 +350,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         var step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, offScreen, step);
 
-        MoveSprite();
+        MoveShadowSprite();
     }
 
 
@@ -345,8 +364,8 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
 
 
-    // this function will move the sprite
-    public void MoveSprite()
+    // this function will move the Shadow Sprite
+    public void MoveShadowSprite()
     {
         Vector3 spriteOffset = transform.position;
         spriteOffset.y = transform.position.y - 12f;
@@ -354,6 +373,81 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
     }
 
+
+    // This function will move the glich with the oodler if they are caught
+    public void MoveGlichWithOodler()
+    {
+        if (caught == true)
+        {
+            Glich.transform.position = transform.position;
+        }
+
+        PlayerScript.StopMovement();
+    }
+
+
+
+
+    // CHECKS //
+
+    // this function will return a bool if the oodler has reached offscreen
+    public bool ReachedOffScreen()
+    {
+        if (transform.position == offScreen)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool ReachedAirPosition()
+    {
+        if (transform.position == oodlerAirPosition)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    // This function returns a bool if the oodler reached the correct drop zone which is a few positions up from the actual dropzone
+    public bool ReachedDropZone()
+    {
+        if (transform.position == dropZoneCorrected)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    // This fucntion returns a bool if glich has reached their drop zone location 
+    public bool GlichReachedDropZone()
+    {
+
+        var glichCurrentRoundedPosition = new Vector3(Mathf.Round(Glich.transform.position.x),Mathf.Round(Glich.transform.position.y),Mathf.Round(Glich.transform.position.z));
+
+        if (Glich.transform.position == dropZone ||Vector3.Distance(Glich.transform.position,dropZone)<0.3)
+        {
+            return true;
+        }
+        else
+        {
+            PlayerScript.StopMovement();
+            Debug.Log("Rounded Glich Position is "+ glichCurrentRoundedPosition);
+            Debug.Log("Actual Glich Position is " + Glich.transform.position);
+            Debug.Log("Drop Zone Position is" + dropZone);
+
+            return false;
+        }
+    }
 
     // this function will return a bool if the oodler has reached the glichs offset position
     public bool ReachedPlayer()
@@ -381,102 +475,6 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         }
     }
 
-    // this function will return a bool if the oodler has reached offscreen
-    public bool ReachedOffScreen()
-    {
-        if (transform.position == offScreen)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public bool ReachedAirPosition()
-    {
-        if (transform.position == oodlerAirPosition)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public bool ReachedDropZone()
-    {
-        if (transform.position == DropZoneCorrected)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public bool GlichReachedDropZone()
-    {
-        if (Glich.transform.position == pillar.transform.position)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public void MoveGlichWithOodler()
-    {
-        if (caught == true)
-        {
-            Glich.transform.position = transform.position;
-        }
-    }
-
-
-    // this function will get the last position of glich
-    public void SetLastPosition()
-    {
-        glichLastPosition = Glich.transform.position;
-    }
-
-    public Vector3 GetLastPosition()
-    {
-        return glichLastPosition;
-    }
-
-
-    // This function will get the last position in the air before slamming down 
-    public void SetAirPosition()
-    {
-        oodlerAirPosition = transform.position;
-    }
-
-
-
-    // this function will increase the alpha value slowly and reveal the outline of where the hand will slam
-    public bool RevealAttack()
-    {
-        if (TestAttackSprite.color.a < 1)
-        {
-            var temp = TestAttackSprite.color;
-            temp.a += 0.01f;
-            TestAttackSprite.color = temp;
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-      
-    }
-
-    // this function will check to see if all the crystals are still active or if the oodler dies, cutscene plays if any one of these conditions are met
     public void CheckWinCondition()
     {
         if (HealthCrystal1 == null && !countedOne)
@@ -504,7 +502,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         }
 
 
-        if (CrystalsRemaining == 0 || CurrentHealth<0)
+        if (CrystalsRemaining == 0 || CurrentHealth < 0)
         {
             Debug.Log("we go to end scene");
             if (nextScene != Scene.End)
@@ -517,12 +515,15 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         }
     }
 
+
+    // This function will check if the boss is vulnerable
     public bool BossIsDamageable()
     {
         return vulnerable;
     }
 
-    
+
+    // This function will return a bool whether 
     public bool activateDamage()
     {
         float distance = Vector3.Distance(transform.position, GetLastPosition());
@@ -538,6 +539,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
         }
     }
+
 
     public void CheckDirection()
     {
@@ -559,6 +561,55 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         }
     }
 
+
+
+
+    // SETTERS AND GETTERS //
+
+    // this function will save a position glich was at
+    public void SetLastPosition()
+    {
+        glichLastPosition = Glich.transform.position;
+    }
+
+    // this function will get the saved position glich was at
+    public Vector3 GetLastPosition()
+    {
+        return glichLastPosition;
+    }
+
+
+    // This function will get the last position of the oodler before they slam their hand down
+    public void SetAirPosition()
+    {
+        oodlerAirPosition = transform.position;
+    }
+
+
+
+
+    // OTHER //
+
+    // this function will increase the alpha value slowly and reveal the outline of where the hand will slam
+    public bool RevealAttack()
+    {
+        if (TestAttackSprite.color.a < 1)
+        {
+            var temp = TestAttackSprite.color;
+            temp.a += 0.01f;
+            TestAttackSprite.color = temp;
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+      
+    }
+
+    // this function will check to see if all the crystals are still active or if the oodler dies, cutscene plays if any one of these conditions are met
+   
+
     public void heal(float heal_amount)
     {
         if (CurrentHealth < MaxHealth)
@@ -574,7 +625,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         }
     }
 
-    public void ControlAllies(GameObject target)
+    public void ControlAllies(GameObject target, bool toDropZone = false)
     {
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
         {
@@ -583,7 +634,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
             if (enemy != null && enemy.team == Team.oddle && (enemy.state != State.dead || enemy.state != State.dying))
             {
                 Debug.Log("set new target");
-                enemy.SetTarget(target);
+                enemy.SetTarget(target, false, toDropZone);
             }
         }
     }

@@ -83,6 +83,7 @@ public abstract class EnemyAI : MonoBehaviour
     protected int currentWaypoint = 0;
     protected Rigidbody2D rb;
     protected Vector2 pathOffset = new Vector2(0, 1.5f);
+    protected bool targetIsDropZone = false;
 
     //Misc
     protected GameObject player;
@@ -397,20 +398,24 @@ public abstract class EnemyAI : MonoBehaviour
     virtual protected void FindTarget()
     {
         //Set the minimum target to the player
-        float dist = Vector2.Distance(rb.position, player.transform.position);
-        target = player.transform;
-        targetIsPlayer = true;
 
-        //Compare against player allies
-        foreach (EnemyAI enemy in playerAttack.GetAllies())
+        if (!targetIsDropZone)
         {
-            //Check if the ally is a better target
-            float newDist = Vector2.Distance(rb.position, enemy.transform.position);
-            if (newDist <= dist)
+            float dist = Vector2.Distance(rb.position, player.transform.position);
+            target = player.transform;
+            targetIsPlayer = true;
+
+            //Compare against player allies
+            foreach (EnemyAI enemy in playerAttack.GetAllies())
             {
-                dist = newDist;
-                target = enemy.transform;
-                targetIsPlayer = false;
+                //Check if the ally is a better target
+                float newDist = Vector2.Distance(rb.position, enemy.transform.position);
+                if (newDist <= dist)
+                {
+                    dist = newDist;
+                    target = enemy.transform;
+                    targetIsPlayer = false;
+                }
             }
         }
     }
@@ -583,17 +588,33 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     //Set a new target using a GameObject
-    virtual public void SetTarget(GameObject obj, bool isPlayer = false)
+    virtual public void SetTarget(GameObject obj, bool isPlayer = false, bool isDropZone = false)
     {
         target = obj.transform;
         targetIsPlayer = isPlayer;
+        if(isDropZone)
+        {
+            targetIsDropZone = true;
+        }
+        else
+        {
+            targetIsDropZone = false;
+        }
     }
 
     //Set a new target using a Transform
-    virtual public void SetTarget(Transform transform, bool isPlayer = false)
+    virtual public void SetTarget(Transform transform, bool isPlayer = false, bool isDropZone = false)
     {
         target = transform;
         targetIsPlayer = isPlayer;
+        if (isDropZone)
+        {
+            targetIsDropZone = true;
+        }
+        else
+        {
+            targetIsDropZone = false;
+        }
     }
 
     //Get current target
