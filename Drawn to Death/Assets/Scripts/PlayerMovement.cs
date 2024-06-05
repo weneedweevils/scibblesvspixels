@@ -128,7 +128,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         dashTimer = new CooldownTimer(dashCooldown, dashBoost / friction);
         invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
         recallTimer = new CooldownTimer(0, 0);
-        lifestealEndTimer = new CooldownTimer(0.2f, 0.532f);
+        lifestealEndTimer = new CooldownTimer(0.1f, 0.532f);
 
         dashCooldownBar = new CooldownBarBehaviour(dashBar, dashCooldown);
         recallCooldownBar = new CooldownBarBehaviour(recallBar, weapon.reviveCooldown);

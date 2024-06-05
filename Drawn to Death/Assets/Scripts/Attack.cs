@@ -27,6 +27,7 @@ public class Attack : MonoBehaviour
     public float attackCooldown = 0f;
     public CooldownTimer attackTimer;
     private float attackDuration = 30f/60f;
+    private bool attacking;
     
     //Hitbox
     private PolygonCollider2D hitbox;
@@ -61,6 +62,7 @@ public class Attack : MonoBehaviour
     private CooldownBarBehaviour lifestealCooldownBar;
     private UnityEngine.UI.Image lifeStealNotifier;
     private bool activatedLsNotifier = false;
+    private float lifestealRatio;
 
     //Misc
     private List<EnemyAI> allies = new List<EnemyAI>();
@@ -100,6 +102,10 @@ public class Attack : MonoBehaviour
         lifestealTimer = new CooldownTimer(lifestealCooldown, lifestealDuration);
         lifestealStartTimer = new CooldownTimer(0.65f, 0.35f);
 
+        lifestealRatio = lifestealCooldown / lifestealDuration;
+        lifestealStart = false;
+        attacking = false;
+
         reviveCooldownBar = new CooldownBarBehaviour(reviveBar, reviveCooldown);
         lifestealCooldownBar = new CooldownBarBehaviour(lifestealBar, lifestealCooldown);
 
@@ -129,9 +135,8 @@ public class Attack : MonoBehaviour
         {
             CheckAttack();
             CheckRevive();
-            CheckLifesteal();
         }
-        
+        CheckLifesteal();
     }
 
     public void CheckAttack()
@@ -143,6 +148,7 @@ public class Attack : MonoBehaviour
             if (attackTimer.IsUseable())
             {
                 animator.SetBool("attacking", false);
+                attacking = false;
             }
 
             //Attack
@@ -157,6 +163,7 @@ public class Attack : MonoBehaviour
                 isHit = 0;
 
                 animator.SetBool("attacking", true);
+                attacking = true;
                 attackTimer.StartTimer();
             }
         }
@@ -240,12 +247,16 @@ public class Attack : MonoBehaviour
 
     public void CheckLifesteal()
     {
-        //Lifesteal Timer
-        lifestealTimer.Update();
+        if (!player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying && Time.timeScale != 0f)
+        {
+            //Lifesteal Timer
+            lifestealTimer.Update();
+        }
         lifestealStartTimer.Update();
 
         // check if if cooldown is at max
-        if(lifestealTimer.IsUseable() && !activatedLsNotifier){
+        if (lifestealTimer.IsUseable() && !activatedLsNotifier)
+        {
             var temp1 = lifeStealNotifier.color;
             temp1.a = 1f;
             lifeStealNotifier.color = temp1;
@@ -253,38 +264,46 @@ public class Attack : MonoBehaviour
         }
 
         // bring life steal notifier alpha back to zero after it flashes
-        if (lifeStealNotifier.color.a > 0 )
+        if (lifeStealNotifier.color.a > 0)
         {
             var temp = lifeStealNotifier.color;
             temp.a -= 0.01f;
             lifeStealNotifier.color = temp;
-
         }
 
-        //if we use life steal ability set the notifier to false
-        if (playerMovement.CanUseAbility() && lifestealTimer.IsUseable() && Input.GetKeyDown(lifestealButton))
+        if (playerMovement.CanUseAbility() && lifestealTimer.IsUseable() && Input.GetKeyDown(lifestealButton) && !lifestealStart && !attacking)
         {
-            activatedLsNotifier = false;
-            lifestealTimer.StartTimer();
             lifestealStartTimer.StartTimer();
             animator.SetBool("lifestealstart", true);
             lifestealFmod.start();
             lifestealStart = true;
         }
-        if (lifestealStartTimer.IsUseable())
+        if (lifestealStartTimer.IsUseable() && lifestealStart)
         {
             lifestealStart = false;
             animator.SetBool("lifestealstart", false);
         }
-        if (lifestealTimer.IsActive() && lifestealStartTimer.IsOnCooldown())
+        //if we use life steal ability set the notifier to false
+        if (lifestealTimer.IsUseable() && lifestealStartTimer.IsOnCooldown())
         {
             lifestealImage.enabled = true;
             lifestealTimer.StartTimer();
-             
+            activatedLsNotifier = false;
+
+            // Bar moves down
+            lifestealCooldownBar.SetBar((lifestealDuration * lifestealRatio) - (lifestealTimer.timer * lifestealRatio));
         }
-        if (lifestealTimer.IsActive() && lifestealImage.enabled) {
+        if (lifestealTimer.IsActive() && lifestealImage.enabled && !player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying && Time.timeScale != 0f) {
+
+            if (Input.GetKeyDown(lifestealButton) && lifestealStartTimer.IsUseable())
+            {
+                lifestealTimer.StartCooldown(lifestealCooldown - (lifestealTimer.timer * lifestealRatio));
+            }
 
             float dmg = lifestealDamage / lifestealDuration * Time.deltaTime;
+
+            // Bar moves down
+            lifestealCooldownBar.SetBar((lifestealDuration * lifestealRatio) - (lifestealTimer.timer * lifestealRatio));
 
             foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
             {
@@ -300,17 +319,14 @@ public class Attack : MonoBehaviour
                         enemy.lifestealing = true;
                         //line.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, -1));
                         //line.SetPosition(1, new Vector3(enemy.transform.position.x, enemy.transform.position.y, -1));
-                        
                     }
                     else if (enemy.team == Team.player && playerMovement.health < playerMovement.maxHealth) // Won't lifesteal from allies if full health
                     {
-
                         enemy.Damage(dmg, false, lifeSteal: true);
                         player.GetComponent<PlayerMovement>().Heal(dmg); // HEALS
                         enemy.lifestealing = true;
                         //line.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, -1));
                         //line.SetPosition(1, new Vector3(enemy.transform.position.x, enemy.transform.position.y, -1));
-                        
                     }
                     else
                     {

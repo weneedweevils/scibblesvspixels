@@ -23,5 +23,9 @@ public class VolumeController : MonoBehaviour {
 
     public void SetSFXVolume(float volume){
         sfxVca.setVolume(volume);
+
+    }
+    public void PlaySFXSample(){
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UIAccept");
     }
 }
