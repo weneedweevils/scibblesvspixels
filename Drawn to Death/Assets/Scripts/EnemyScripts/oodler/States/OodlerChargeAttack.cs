@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OodlerAttack : OodlerBase
+public class OodlerChargeAttack : OodlerBase
 {
 
-    bool attackCharged;
-    public OodlerAttack(Boss boss, OodlerStateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+    
+    public OodlerChargeAttack(Boss boss, OodlerStateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
 
@@ -34,11 +34,25 @@ public class OodlerAttack : OodlerBase
     {
         base.FrameUpdate();
         boss.Stalk();
+        bool attackCharged = boss.RevealAttack();
 
-        attackCharged = boss.RevealAttack();
+
         if(attackCharged)
         {
-            oodlerStateMachine.ChangeState(boss.oodlerGrab);
+            boss.attackType =(Boss.AttackType)Random.Range(0, 2);
+            Debug.Log("ATTACK TYPE IS " + boss.attackType);
+
+
+            if (boss.attackType == Boss.AttackType.Slam)
+            {
+                oodlerStateMachine.ChangeState(boss.oodlerSlam);
+            }
+
+            else if (boss.attackType == Boss.AttackType.Grab)
+            {
+                oodlerStateMachine.ChangeState(boss.oodlerGrab);
+            }
+            
         }
     }
 

@@ -34,7 +34,9 @@ public class oodlertotarget:MonoBehaviour
 
                     else
                     {
+                        
                         oodlerScript.caught = true;
+                        Debug.Log(oodlerScript.caught);
                     }
 
 

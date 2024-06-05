@@ -21,8 +21,6 @@ public class OodlerIdle : OodlerBase
         base.EnterState();
         timer = 0f;
         boss.ShowShadow();
-
-
     }
 
     public override void ExitState()
@@ -43,8 +41,6 @@ public class OodlerIdle : OodlerBase
         {
             boss.MoveOffScreen(150f);
         }
-
-
     }
 
 }

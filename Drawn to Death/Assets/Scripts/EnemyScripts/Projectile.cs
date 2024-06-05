@@ -70,11 +70,41 @@ public class Projectile : MonoBehaviour
             case "Enemy":
                 {
                     EnemyAI enemyai = collision.gameObject.GetComponent<EnemyAI>();
-                    if (team != Team.neutral && enemyai.team != team && !(enemyai.state == State.dead || enemyai.state == State.dying))
+                    HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
+                    Boss oodler = collision.gameObject.GetComponent<Boss>();
+
+                    if (enemyai != null && team != Team.neutral && enemyai.team != team && !(enemyai.state == State.dead || enemyai.state == State.dying))
                     {
                         enemyai.Damage(damage, true, true, velocity.normalized, 7f);
                         Destroy(gameObject);
                     }
+
+                    else if (crystal != null)
+                    {
+
+                        //Debug.Log(otherAI.invincibilityTimer2.IsUseable());
+
+                        if (crystal != null && crystal.invincibilityTimer.IsUseable())
+                        {
+                            //Damage crystal
+                            crystal.CrystalDamage(damage, true);
+                            Destroy(gameObject);
+                        }
+                    }
+
+                    else if (oodler != null)
+                    {
+                        if (oodler != null && oodler.BossIsDamageable()) //&& !oodler.invincibilityTimer.IsActive())
+                        {
+                            //Damage enemy
+                            oodler.Damage(damage);
+                            //invincibilityTimerOodler.StartTimer();
+                            Destroy(gameObject);
+
+                        }
+
+                    }
+
                     break;
                 }
             case "Player":
@@ -114,6 +144,9 @@ public class Projectile : MonoBehaviour
 
                     break;
                 }
+
+
+
             default:
                 {
                     break;
@@ -125,7 +158,6 @@ public class Projectile : MonoBehaviour
     {
         Vector2 dir = velocity.normalized;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        Debug.Log("This projectile is moving at an angle of " + angle);
         return angle;
     }
 }

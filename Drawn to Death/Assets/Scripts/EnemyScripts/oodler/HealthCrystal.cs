@@ -40,8 +40,7 @@ public class HealthCrystal : MonoBehaviour
             timer = timer + Time.deltaTime;
             if (timer>2f)
             {
-                Debug.Log("just healed the oodler");
-                bossScript.heal(10f);
+                bossScript.heal(5f);
                 timer = 0f;
             }
 

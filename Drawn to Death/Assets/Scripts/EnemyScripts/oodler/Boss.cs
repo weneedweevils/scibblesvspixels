@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Xml.Schema;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -9,8 +10,8 @@ using UnityEngine.UIElements;
 public class Boss : MonoBehaviour, Imovable//, IDamagable,
 {
     // references
-    private float MaxHealth = 1000f;
-    private float CurrentHealth = 1000f;
+    private float MaxHealth = 500f;
+    private float CurrentHealth = 500f;
     public float MovementSpeed { get; set; } = 100f;
     public Rigidbody2D Rigidbody { get; set; }
     public SpriteRenderer BossSprite { get; set; }
@@ -28,11 +29,12 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     public OodlerStateMachine StateMachine { get; set; }
     public OodlerChase oodlerChase { get; set; }
     public OodlerIdle oodlerIdle { get; set; }
-    public OodlerAttack oodlerAttack { get; set; }
+    public OodlerChargeAttack oodlerChargeAttack { get; set; }
     public OodlerSlam oodlerSlam { get; set; }
     public OodlerRecover oodlerRecover { get; set; }
     public OodlerGrab oodlerGrab { get; set; }
     public OodlerDrop oodlerDrop { get; set; }
+    public OodlerInitial oodlerInitial{ get; set; }
 
     //Movment
     private Vector3 playerOffSet = Vector3.zero;
@@ -52,7 +54,9 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     public Scene nextScene = Scene.End;
     int CrystalsRemaining = 4;
 
+
     // UI
+    public GameObject healthBarParent;
     public GameObject healthBar;
     public TextMeshProUGUI currentHealthUI;
     public TextMeshProUGUI maxHealthUI;
@@ -80,7 +84,33 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     public bool caught = false;
     private Vector3 dropZone;
     private Vector3 dropZoneCorrected;
+
+
+    // timings and speeds for boss battle
+    public float bossVulnerabilityTime; // Time the oodler is vulnerable
+    public float slamWarningTime; // Time the oodler stops before Slamming player
+    public float grabWarningTime; // Time the oodler stops before grabbing player
+    public float airTime;
    
+
+
+    // ENUMS
+    public enum AttackType {Grab,Slam}
+    public enum Phase {P1,P2,P3}
+    public Phase phase = Phase.P1;
+    public AttackType attackType = AttackType.Slam;
+
+
+    // Phases
+    private bool enteredPhase2=false;
+    private bool enteredPhase3=false;
+
+    public int allowedSlams = 1;
+    public int SlamNum = 0;
+
+    //blockers
+
+    public EnemyAI[] blockers;
 
 
     private void Awake()
@@ -88,21 +118,24 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         StateMachine = new OodlerStateMachine();
         oodlerIdle = new OodlerIdle(this, StateMachine);
         oodlerChase = new OodlerChase(this, StateMachine);
-        oodlerAttack = new OodlerAttack(this, StateMachine);
+        oodlerChargeAttack = new OodlerChargeAttack(this, StateMachine);
         oodlerSlam = new OodlerSlam(this, StateMachine);
         oodlerRecover = new OodlerRecover(this, StateMachine);
         oodlerGrab = new OodlerGrab(this, StateMachine);
         oodlerDrop = new OodlerDrop(this, StateMachine);
+        oodlerInitial = new OodlerInitial(this, StateMachine);
+        
     }
 
 
     void Start()
     {
+
         CurrentHealth = MaxHealth;
         currentHealthUI.text = CurrentHealth.ToString();
         maxHealthUI.text = MaxHealth.ToString();
 
-        StateMachine.Initialize(oodlerIdle);
+        StateMachine.Initialize(oodlerInitial);
 
         BossSprite = GetComponent<SpriteRenderer>();
         PlayerScript = Glich.GetComponent<PlayerMovement>();
@@ -128,11 +161,6 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         
         Debug.Log(CurrentHealth);
         invincibilityTimer.StartTimer();
-
-      
-
-
-
         if (CurrentHealth <= 0f)
         {
             Die();
@@ -169,6 +197,8 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         CheckWinCondition();
         currentHealthUI.text = Mathf.Ceil(CurrentHealth).ToString();
         healthBarImage.fillAmount = CurrentHealth / MaxHealth;
+        CheckPhase();
+        
         //maxHealthUI.text = MaxHealth.ToString();
     }
 
@@ -176,6 +206,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     {
         
         StateMachine.currentOodlerState.FrameUpdate();
+        
         invincibilityTimer.Update();
     }
 
@@ -275,73 +306,34 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         
     }
 
+    //void OnDrawGizmos()
+    //{
+
+    //    Gizmos.color = new Color(1, 0, 0, 0.5f);
+    //    Gizmos.DrawCube(playerOffSet, new Vector3(1, 1, 1));
+    //    Gizmos.DrawCube(transform.position, new Vector3(1, 1, 1));
+    //}
+
 
     // This function will follow the players position with an offset of 10 units above them
-    public void Stalk(float speed = 20)
+    public void Stalk(float speed = 20f)
     {
         var step = speed * Time.deltaTime;
-        playerOffSet = Glich.transform.position;
+        playerOffSet = Glich.transform.localPosition;
         playerOffSet.y = playerOffSet.y + 10f;
-        transform.position = Vector3.MoveTowards(transform.position, playerOffSet, step);
+        transform.position = Vector3.MoveTowards(transform.localPosition, playerOffSet, step);
         oodlerRB.MovePosition(transform.position);
-
-        //transform.position = Vector3.Lerp(transform.position, playerOffSet, step);
-        //CheckDirection();
         MoveShadowSprite();
 
-        //Vector2 playervel = PlayerScript.GetVelocity();
-        //Vector3 backSet = new Vector3(0, 0, 0);
-        //float xsign = 1f;
-        //float ysign = 1f;
-        //if (playervel == Vector2.zero)
-        //{
-        //    transform.position = Vector3.MoveTowards(transform.position, playerOffSet, step);
-        //    MoveSprite();
-        //}
-
-        //else if (playervel.x >= 0)
-        //{
-        //    xsign = 0;
-        //    ysign = Mathf.Sign(playervel.y) * -1f;
-        //    backSet = new Vector3(5, 5, 0); // to be added to the vector
-        //}
-
-        //else if (playervel.y >= 0)
-        //{
-        //    xsign = Mathf.Sign(playervel.x) * -1f;
-        //    ysign = 0;
-        //    backSet = new Vector3(5, 5, 0); // to be added to the vector
-        //}
-
-
-        //else
-        //{
-
-        //    xsign = Mathf.Sign(playervel.x) * -1f;
-        //    ysign = Mathf.Sign(playervel.y) * -1f;
-        //    backSet = new Vector3(5, 5, 0); // to be added to the vector
-        //}
-
-        //Vector3 directionVector = new Vector3(xsign, ysign, 0f);
-        //backSet = Vector2.Scale(directionVector, backSet);
-        //transform.position = Vector3.MoveTowards(transform.position, playerOffSet + backSet, step);
-        //MoveSprite();
+       
 
     }
 
     // This function will make the oodler come down and strike the players last known location
     public void Slam(float speed = 100)
     {
-       
         var step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, glichLastPosition, step);
-
-        // Experimental code for adjusting shadowSize
-        //float distanceDen = Vector3.Distance(oodlerAirPosition, glichLastPosition);
-        //float distanceNum = Vector3.Distance(transform.position, glichLastPosition);
-        //float scalingfactor = (1f-distanceNum/distanceDen);
-        //var newSize = new Vector3(TestAttackSprite.transform.localScale.x * 2f * scalingfactor, TestAttackSprite.transform.localScale.y * 2f * scalingfactor, TestAttackSprite.transform.localScale.z);
-        //TestAttackSprite.transform.root.localScale = newSize;
     }
 
     // This function will move the oodler to a location offscreen
@@ -357,6 +349,8 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     // This function will move the oodler off the ground
     public void MoveUp(float speed = 20)
     {
+        playerOffSet = Glich.transform.localPosition;
+        playerOffSet.y = playerOffSet.y + 10f;
         var step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, oodlerAirPosition, step);
 
@@ -467,6 +461,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     {
         if (transform.position == glichLastPosition)
         {
+           
             return true;
         }
         else
@@ -477,32 +472,32 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
     public void CheckWinCondition()
     {
-        if (HealthCrystal1 == null && !countedOne)
-        {
-            CrystalsRemaining -= 1;
-            countedOne = true;
-        }
+        //if (HealthCrystal1 == null && !countedOne)
+        //{
+        //    CrystalsRemaining -= 1;
+        //    countedOne = true;
+        //}
 
-        if (HealthCrystal2 == null && !countedTwo)
-        {
-            CrystalsRemaining -= 1;
-            countedTwo = true;
-        }
+        //if (HealthCrystal2 == null && !countedTwo)
+        //{
+        //    CrystalsRemaining -= 1;
+        //    countedTwo = true;
+        //}
 
-        if (HealthCrystal3 == null && !countedThree)
-        {
-            CrystalsRemaining -= 1;
-            countedThree = true;
-        }
+        //if (HealthCrystal3 == null && !countedThree)
+        //{
+        //    CrystalsRemaining -= 1;
+        //    countedThree = true;
+        //}
 
-        if (HealthCrystal4 == null && !countedFour)
-        {
-            CrystalsRemaining -= 1;
-            countedFour = true;
-        }
+        //if (HealthCrystal4 == null && !countedFour)
+        //{
+        //    CrystalsRemaining -= 1;
+        //    countedFour = true;
+        //}
 
 
-        if (CrystalsRemaining == 0 || CurrentHealth < 0)
+        if (CurrentHealth < 0)
         {
             Debug.Log("we go to end scene");
             if (nextScene != Scene.End)
@@ -612,7 +607,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
     public void heal(float heal_amount)
     {
-        if (CurrentHealth < MaxHealth)
+        if (CurrentHealth <= MaxHealth)
         {
             if (CurrentHealth + heal_amount > MaxHealth)
             {
@@ -638,70 +633,34 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
             }
         }
     }
+    
+    public void CheckPhase()
+    {
+        if (!enteredPhase2 && MaxHealth / 2f > CurrentHealth)
+        {
+            enteredPhase2 = true;
+            phase = Phase.P2;
+            allowedSlams = 2;
+            bossVulnerabilityTime = 6f;
+            slamWarningTime = 0.75f;
+            grabWarningTime = 1.00f;
+            airTime = 2f;
+            SlamNum = 0;
+
+        }
+
+        if (!enteredPhase3 && MaxHealth / 4f > CurrentHealth)
+        {
+            enteredPhase3 = true;
+            phase = Phase.P3;
+            allowedSlams = 3;
+            bossVulnerabilityTime = 4f;
+            slamWarningTime = 0.5f;
+            grabWarningTime = 0.75f;
+            airTime = 0.5f;
+            SlamNum = 0;
 
 
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    Debug.Log("Collided with " + collision.name);
-
-    //    switch (collision.gameObject.tag)
-    //    {
-
-    //        case "Player":
-    //            {
-
-    //                //if (oodlerSlamCooldown == false && !PlayerScript.dashTimer.IsActive())
-    //                if (!PlayerScript.dashTimer.IsActive() && oodlerSlamCooldown==false && !PlayerScript.invincibilityTimer.IsActive() && activateDamage())
-    //                {
-    //                    PlayerScript.Damage(oodlerAttackDamage);
-    //                }
-
-
-
-    //            }
-    //            break;
-
-    //        case "Enemy":
-    //            {
-    //                EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
-
-
-    //                if (enemy != null && !enemy.invincibilityTimer.IsActive() && oodlerSlamCooldown == false && activateDamage())
-    //                {
-    //                    enemy.Damage(oodlerAttackDamage);
-    //                }
-
-    //                else
-    //                {
-    //                    HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
-    //                    if (crystal != null)
-    //                    {
-    //                        if (crystal != null && crystal.invincibilityTimer.IsUseable() && oodlerSlamCooldown == false && activateDamage())
-    //                        {
-    //                            //Damage enemy
-    //                            crystal.CrystalDamage(oodlerAttackDamage, true);
-    //                        }
-    //                    }
-    //                }
-    //            }
-    //            break;
-
-    //        case "Column":
-    //            {
-    //                Destroy(collision.gameObject);
-
-    //            }
-    //            break;
-
-    //    default:
-    //            {
-    //                break;
-    //            }
-    //    }
-
-    //}
-
-
-
-
+        }
+    }
 }

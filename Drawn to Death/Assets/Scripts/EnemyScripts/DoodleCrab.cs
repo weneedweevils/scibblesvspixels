@@ -113,10 +113,12 @@ public class DoodleCrab : EnemyAI
 
                         else if (oodler != null)
                         {
-                            if (attackTimer.IsActive() && oodler != null && oodler.BossIsDamageable() && !oodler.invincibilityTimer.IsActive())
+                            if (attackTimer.IsActive() && oodler != null && oodler.BossIsDamageable() && !invincibilityTimerOodler.IsActive())//!oodler.invincibilityTimer.IsActive())
                             {
+
                                 //Damage enemy
                                 oodler.Damage(damage);
+                                invincibilityTimerOodler.StartTimer();
 
                             }
 

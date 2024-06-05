@@ -64,8 +64,10 @@ public abstract class EnemyAI : MonoBehaviour
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
     public CooldownTimer invincibilityTimer2;
+    public CooldownTimer invincibilityTimerOodler;
     public CooldownTimer attackTimer;
     protected float invincibilityDuration = 20f / 60f;
+    private float oodlerInvincibilityDuration = 40f / 60f;
 
     //Animation and sprites
     protected SpriteRenderer gem;
@@ -118,7 +120,7 @@ public abstract class EnemyAI : MonoBehaviour
         attackTimer = new CooldownTimer(attackCooldown, attackDuration);
         slowedTimer = new CooldownTimer(0.1f, slowDuration);
         buffTimer = new CooldownTimer(0.1f, buffDuration);
-
+        invincibilityTimerOodler = new CooldownTimer(oodlerInvincibilityDuration * 0.5f, oodlerInvincibilityDuration * 0.5f);
 
 
         //Start a repeating functon
@@ -227,6 +229,7 @@ public abstract class EnemyAI : MonoBehaviour
         attackTimer.Update();
         slowedTimer.Update();
         buffTimer.Update();
+        invincibilityTimerOodler.Update();
 
         //Fix color after hurt
         if ( (invincibilityTimer.IsOnCooldown() && !invincibilityTimer2.IsActive()) || 

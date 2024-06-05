@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class OodlerGrab : OodlerBase
-{
+{   
     public OodlerGrab(Boss boss, OodlerStateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
 
     }
+
+
 
     bool reachedTarget = false;
     bool delay = true;
@@ -81,12 +83,12 @@ public class OodlerGrab : OodlerBase
                 {
                     boss.ControlAllies(boss.dropZoneObject, true); // change this to only occur when caught
                     oodlerStateMachine.ChangeState(boss.oodlerRecover);
-                    boss.BossSprite.sortingOrder = 8;
+                    
                 }
 
           
                 // if the oodler has been on the ground for more than 5 seconds get up
-                else if (timer > 5f)
+                else if (timer > boss.bossVulnerabilityTime)
                 {
                     oodlerStateMachine.ChangeState(boss.oodlerRecover);
                 }
@@ -100,11 +102,11 @@ public class OodlerGrab : OodlerBase
         else
         {
             delayTimer += Time.deltaTime;
-            if (delayTimer > 2f)
+            if (delayTimer > boss.grabWarningTime)
             {
-                Debug.Log("about to strike my hand down");
                 delay = false;
                 boss.EnableAreaHitbox(true);
+                boss.BossSprite.sortingOrder = 5;
 
             }
         }

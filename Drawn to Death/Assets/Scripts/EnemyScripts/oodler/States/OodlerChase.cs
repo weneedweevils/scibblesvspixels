@@ -28,14 +28,15 @@ public class OodlerChase : OodlerBase
         base.EnterState();
         timer = 0f;
         reachedTarget = false;
-        Debug.Log("Entering Idle State");
+        Debug.Log("Entering Chase State");
         boss.ShowShadow();
     }
 
     public override void ExitState()
     {
+        reachedTarget = false;
         base.ExitState();
-        Debug.Log("Exiting Idle State");
+        Debug.Log("Exiting Chase State");
     }
 
     public override void FrameUpdate()
@@ -45,7 +46,8 @@ public class OodlerChase : OodlerBase
         // if we reached target say that we have reached it
         if (!reachedTarget && boss.ReachedPlayer())
         {
-                reachedTarget = true;
+            reachedTarget = true;
+            Debug.Log("WE have reached the target!@");
         }
 
         // start counting once we reached our target
@@ -57,19 +59,19 @@ public class OodlerChase : OodlerBase
         //switch states once we have been following for more than 5 seconds
         if (timer > 1.5f)
         {
-            oodlerStateMachine.ChangeState(boss.oodlerAttack);
+            oodlerStateMachine.ChangeState(boss.oodlerChargeAttack);
         }
 
 
         // gradually follow glich's position
         if (Vector3.Distance(boss.Glich.transform.position, boss.transform.position) < 20f)
         {
-            var speed = 200f; // set this back to 50
+            var speed = 50f;
             boss.Stalk(speed);
         }
         else
         {
-            boss.Stalk(200f);// Set this back to empty
+            boss.Stalk();// Set this back to empty
         }
         
 

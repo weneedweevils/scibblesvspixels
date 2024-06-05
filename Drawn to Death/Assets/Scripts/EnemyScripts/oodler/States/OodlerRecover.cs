@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
+
 
 public class OodlerRecover : OodlerBase
 {
@@ -54,15 +52,32 @@ public class OodlerRecover : OodlerBase
         if(boss.ReachedAirPosition())
         {
             timer = timer + Time.deltaTime;
-            if (timer > 3f)
+            if (timer > boss.airTime)
             {
-                if (boss.caught == true) {
+
+                Debug.Log("caught is set to" + boss.caught);
+
+                if (boss.caught) {
+                    Debug.Log("CHanging states to drop");
                     oodlerStateMachine.ChangeState(boss.oodlerDrop);
+                    
                 }
-                else
+                else if(boss.grabbing)
                 {
                     oodlerStateMachine.ChangeState(boss.oodlerIdle);
                 }
+
+                else if(boss.SlamNum < boss.allowedSlams)
+                {
+                        oodlerStateMachine.ChangeState(boss.oodlerChase);
+                }
+                else
+                {
+                        boss.SlamNum = 0;
+                        oodlerStateMachine.ChangeState(boss.oodlerIdle);
+                }
+
+                
             }
         }
     }

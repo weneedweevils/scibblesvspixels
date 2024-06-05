@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class OodlerSlam : OodlerBase
 {
-
     bool reachedTarget = false;
     bool delay = true;
     private float timer = 0f;
     private float delayTimer = 0f;
-
-   
-
 
     public OodlerSlam(Boss boss, OodlerStateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
@@ -42,6 +38,7 @@ public class OodlerSlam : OodlerBase
         delayTimer = 0f;
         boss.oodlerSlamCooldown = false; // set the cooldown back
         base.ExitState();
+        boss.SlamNum++;
     }
 
     public override void FrameUpdate()
@@ -69,7 +66,6 @@ public class OodlerSlam : OodlerBase
                 // activates the attack hitbox a few units above gliches position
                 if (boss.transform.position.y < boss.GetLastPosition().y + 0.01f)
                 {
-                    Debug.Log("hit box active");
                     boss.EnableAttackHitbox(true);
                 }
             }
@@ -79,8 +75,9 @@ public class OodlerSlam : OodlerBase
             {
                 timer += Time.deltaTime;
                 // if the oodler has been on the ground for more than 5 seconds get up
-                if (timer > 5f)
+                if (timer > boss.bossVulnerabilityTime)
                 {
+                    
                     oodlerStateMachine.ChangeState(boss.oodlerRecover);
                     boss.BossSprite.sortingOrder = 8;
                 }
@@ -88,14 +85,14 @@ public class OodlerSlam : OodlerBase
 
         }
 
-        // a few seconds of delay and a color shift of shadow to give player time to react
+        // a few seconds of delay to give player time to react
         else
         {
 
             delayTimer += Time.deltaTime;
-            if (delayTimer > 0.25f)
+            if (delayTimer > boss.slamWarningTime)
             {
-
+               
                 boss.BossSprite.sortingOrder = 5;
                 Debug.Log("about to strike my hand down");
                 delay = false;
