@@ -133,6 +133,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3572655234519199139, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4562456546076731575, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
         type: 3}
       propertyPath: m_RootOrder
@@ -344,7 +349,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -296, y: -0.32788}
+  m_AnchoredPosition: {x: -287, y: 26}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &85343585
@@ -438,8 +443,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: Well. This is not the exit.
-  textColor: {r: 0.9811321, g: 0.9765041, b: 0.9765041, a: 1}
-  textFont: {fileID: 12800000, guid: 834547bee24f70142a5127a34f2ed9c1, type: 3}
+  textColor: {r: 0, g: 0, b: 0, a: 1}
+  textFont: {fileID: 12800000, guid: 90f8fc271757d004a984c707a0f33d94, type: 3}
   delay: 0.02
   characterSprite: {fileID: 21300000, guid: ea18291a40f418141a216859ee9a4f00, type: 3}
   imageHolder: {fileID: 85343585}
@@ -465,10 +470,10 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: 4dc6972a41250c34c9d8acd64117ebee, type: 3}
     m_FontSize: 20
-    m_FontStyle: 2
+    m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 1
-    m_MaxSize: 25
+    m_MaxSize: 35
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -558,8 +563,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -296.50003, y: 75.20004}
-  m_SizeDelta: {x: 100, y: 22.16977}
+  m_AnchoredPosition: {x: -282, y: -35}
+  m_SizeDelta: {x: 68, y: 19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &153624779
 MonoBehaviour:
@@ -573,9 +578,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ac48b6bf76a4b4eb07cc13a13dbae0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: G'lich
-  textColor: {r: 1, g: 1, b: 1, a: 1}
-  textFont: {fileID: 12800000, guid: 834547bee24f70142a5127a34f2ed9c1, type: 3}
+  input: G'LICH
+  textColor: {r: 0, g: 0, b: 0, a: 1}
+  textFont: {fileID: 12800000, guid: 90f8fc271757d004a984c707a0f33d94, type: 3}
 --- !u!114 &153624780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -588,8 +593,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
-  m_EffectDistance: {x: 3, y: 3}
+  m_EffectColor: {r: 0.34117648, g: 0.83137256, b: 0.2784314, a: 1}
+  m_EffectDistance: {x: 2, y: 2}
   m_UseGraphicAlpha: 0
 --- !u!114 &153624781
 MonoBehaviour:
@@ -604,7 +609,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -770,6 +775,11 @@ PrefabInstance:
     m_TransformParent: {fileID: 1180774344}
     m_Modifications:
     - target: {fileID: 896092916370896416, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3572655234519199139, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -27103,8 +27113,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -296.50003, y: 75.20004}
-  m_SizeDelta: {x: 100, y: 22.16977}
+  m_AnchoredPosition: {x: -282, y: -35}
+  m_SizeDelta: {x: 68, y: 19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &305307442
 MonoBehaviour:
@@ -27118,9 +27128,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ac48b6bf76a4b4eb07cc13a13dbae0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: G'lich
-  textColor: {r: 1, g: 1, b: 1, a: 1}
-  textFont: {fileID: 12800000, guid: 834547bee24f70142a5127a34f2ed9c1, type: 3}
+  input: G'LICH
+  textColor: {r: 0, g: 0, b: 0, a: 1}
+  textFont: {fileID: 12800000, guid: 90f8fc271757d004a984c707a0f33d94, type: 3}
 --- !u!114 &305307443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27133,8 +27143,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
-  m_EffectDistance: {x: 3, y: 3}
+  m_EffectColor: {r: 0.34117648, g: 0.83137256, b: 0.2784314, a: 1}
+  m_EffectDistance: {x: 2, y: 2}
   m_UseGraphicAlpha: 0
 --- !u!114 &305307444
 MonoBehaviour:
@@ -27149,7 +27159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -31833,6 +31843,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1983695049}
     m_Modifications:
+    - target: {fileID: 4624658886127088037, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6527833785316111111, guid: 6744da465353f014cb4c4555f102bf5c,
         type: 3}
       propertyPath: m_RootOrder
@@ -32050,6 +32065,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1983695049}
     m_Modifications:
+    - target: {fileID: 4624658886127088037, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6527833785316111111, guid: 6744da465353f014cb4c4555f102bf5c,
         type: 3}
       propertyPath: m_RootOrder
@@ -32307,7 +32327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
-  m_EffectDistance: {x: 5, y: 5}
+  m_EffectDistance: {x: 0, y: 0}
   m_UseGraphicAlpha: 0
 --- !u!114 &435974016
 MonoBehaviour:
@@ -32322,13 +32342,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 6c76e5114676ac3459a964712a6b0ba5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -32364,7 +32384,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0, y: -159.9}
-  m_SizeDelta: {x: 600, y: 118.645386}
+  m_SizeDelta: {x: 650, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &449801085
 PrefabInstance:
@@ -32534,7 +32554,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -296, y: -0.32788}
+  m_AnchoredPosition: {x: -287, y: 26}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &462788985
@@ -32615,7 +32635,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.0000036955, y: -159.9}
-  m_SizeDelta: {x: 600, y: 118.645386}
+  m_SizeDelta: {x: 650, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &479964478
 MonoBehaviour:
@@ -32644,7 +32664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
-  m_EffectDistance: {x: 5, y: 5}
+  m_EffectDistance: {x: 0, y: 0}
   m_UseGraphicAlpha: 0
 --- !u!114 &479964480
 MonoBehaviour:
@@ -32659,13 +32679,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 6c76e5114676ac3459a964712a6b0ba5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -32780,6 +32800,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1983695049}
     m_Modifications:
+    - target: {fileID: 4624658886127088037, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6527833785316111111, guid: 6744da465353f014cb4c4555f102bf5c,
         type: 3}
       propertyPath: m_RootOrder
@@ -33404,7 +33429,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -296, y: -0.32788}
+  m_AnchoredPosition: {x: -287, y: 26}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &586789427
@@ -33714,8 +33739,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -296.50003, y: 75.20004}
-  m_SizeDelta: {x: 100, y: 22.16977}
+  m_AnchoredPosition: {x: -282, y: -35}
+  m_SizeDelta: {x: 68, y: 19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &644637113
 MonoBehaviour:
@@ -33729,9 +33754,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ac48b6bf76a4b4eb07cc13a13dbae0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: G'lich
-  textColor: {r: 1, g: 1, b: 1, a: 1}
-  textFont: {fileID: 12800000, guid: 834547bee24f70142a5127a34f2ed9c1, type: 3}
+  input: G'LICH
+  textColor: {r: 0, g: 0, b: 0, a: 1}
+  textFont: {fileID: 12800000, guid: 90f8fc271757d004a984c707a0f33d94, type: 3}
 --- !u!114 &644637114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33744,8 +33769,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
-  m_EffectDistance: {x: 3, y: 3}
+  m_EffectColor: {r: 0.34117648, g: 0.83137256, b: 0.2784314, a: 1}
+  m_EffectDistance: {x: 2, y: 2}
   m_UseGraphicAlpha: 0
 --- !u!114 &644637115
 MonoBehaviour:
@@ -33760,7 +33785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -34157,6 +34182,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1983695049}
     m_Modifications:
+    - target: {fileID: 4624658886127088037, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6527833785316111111, guid: 6744da465353f014cb4c4555f102bf5c,
         type: 3}
       propertyPath: m_RootOrder
@@ -34375,6 +34405,11 @@ PrefabInstance:
     m_TransformParent: {fileID: 1180774344}
     m_Modifications:
     - target: {fileID: 896092916370896416, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3572655234519199139, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -34670,7 +34705,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -296, y: -0.32788}
+  m_AnchoredPosition: {x: -287, y: 26}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &755615951
@@ -34718,6 +34753,11 @@ PrefabInstance:
     m_TransformParent: {fileID: 1180774344}
     m_Modifications:
     - target: {fileID: 896092916370896416, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3572655234519199139, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -34882,8 +34922,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -296.50006, y: 75.20004}
-  m_SizeDelta: {x: 100, y: 22.16977}
+  m_AnchoredPosition: {x: -282, y: -35}
+  m_SizeDelta: {x: 68, y: 19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &796269594
 MonoBehaviour:
@@ -34897,9 +34937,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ac48b6bf76a4b4eb07cc13a13dbae0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: G'lich
-  textColor: {r: 1, g: 1, b: 1, a: 1}
-  textFont: {fileID: 12800000, guid: 834547bee24f70142a5127a34f2ed9c1, type: 3}
+  input: G'LICH
+  textColor: {r: 0, g: 0, b: 0, a: 1}
+  textFont: {fileID: 12800000, guid: 90f8fc271757d004a984c707a0f33d94, type: 3}
 --- !u!114 &796269595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34912,8 +34952,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
-  m_EffectDistance: {x: 3, y: 3}
+  m_EffectColor: {r: 0.34117648, g: 0.83137256, b: 0.2784314, a: 1}
+  m_EffectDistance: {x: 2, y: 2}
   m_UseGraphicAlpha: 0
 --- !u!114 &796269596
 MonoBehaviour:
@@ -34928,7 +34968,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -35061,6 +35101,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1983695049}
     m_Modifications:
+    - target: {fileID: 4624658886127088037, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6527833785316111111, guid: 6744da465353f014cb4c4555f102bf5c,
         type: 3}
       propertyPath: m_RootOrder
@@ -35308,8 +35353,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -296.5001, y: 75.200035}
-  m_SizeDelta: {x: 100, y: 22.16977}
+  m_AnchoredPosition: {x: -282, y: -35}
+  m_SizeDelta: {x: 68, y: 19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &826689663
 MonoBehaviour:
@@ -35323,9 +35368,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ac48b6bf76a4b4eb07cc13a13dbae0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: G'lich
-  textColor: {r: 1, g: 1, b: 1, a: 1}
-  textFont: {fileID: 12800000, guid: 834547bee24f70142a5127a34f2ed9c1, type: 3}
+  input: G'LICH
+  textColor: {r: 0, g: 0, b: 0, a: 1}
+  textFont: {fileID: 12800000, guid: 90f8fc271757d004a984c707a0f33d94, type: 3}
 --- !u!114 &826689664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35338,8 +35383,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
-  m_EffectDistance: {x: 3, y: 3}
+  m_EffectColor: {r: 0.34117648, g: 0.83137256, b: 0.2784314, a: 1}
+  m_EffectDistance: {x: 2, y: 2}
   m_UseGraphicAlpha: 0
 --- !u!114 &826689665
 MonoBehaviour:
@@ -35354,7 +35399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -35732,6 +35777,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1983695049}
     m_Modifications:
+    - target: {fileID: 4624658886127088037, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6527833785316111111, guid: 6744da465353f014cb4c4555f102bf5c,
         type: 3}
       propertyPath: m_RootOrder
@@ -36053,6 +36103,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3572655234519199139, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4562456546076731575, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
         type: 3}
       propertyPath: m_RootOrder
@@ -36242,8 +36297,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: . . .
-  textColor: {r: 0.9811321, g: 0.9765041, b: 0.9765041, a: 1}
-  textFont: {fileID: 12800000, guid: 834547bee24f70142a5127a34f2ed9c1, type: 3}
+  textColor: {r: 0, g: 0, b: 0, a: 1}
+  textFont: {fileID: 12800000, guid: 90f8fc271757d004a984c707a0f33d94, type: 3}
   delay: 0.07
   characterSprite: {fileID: 21300000, guid: ea18291a40f418141a216859ee9a4f00, type: 3}
   imageHolder: {fileID: 462788985}
@@ -36269,16 +36324,16 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: 4dc6972a41250c34c9d8acd64117ebee, type: 3}
     m_FontSize: 20
-    m_FontStyle: 2
+    m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 1
-    m_MaxSize: 25
+    m_MaxSize: 35
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
-    m_LineSpacing: 2
+    m_LineSpacing: 1
   m_Text: 
 --- !u!222 &1036676395
 CanvasRenderer:
@@ -36507,8 +36562,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: We must be vigilant.
-  textColor: {r: 0.9811321, g: 0.9765041, b: 0.9765041, a: 1}
-  textFont: {fileID: 12800000, guid: 834547bee24f70142a5127a34f2ed9c1, type: 3}
+  textColor: {r: 0, g: 0, b: 0, a: 1}
+  textFont: {fileID: 12800000, guid: 90f8fc271757d004a984c707a0f33d94, type: 3}
   delay: 0.02
   characterSprite: {fileID: 21300000, guid: ea18291a40f418141a216859ee9a4f00, type: 3}
   imageHolder: {fileID: 755615951}
@@ -36534,16 +36589,16 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: 4dc6972a41250c34c9d8acd64117ebee, type: 3}
     m_FontSize: 20
-    m_FontStyle: 2
+    m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 1
-    m_MaxSize: 25
+    m_MaxSize: 35
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
-    m_LineSpacing: 2
+    m_LineSpacing: 1
   m_Text: 
 --- !u!222 &1084945074
 CanvasRenderer:
@@ -36730,6 +36785,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3572655234519199139, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4562456546076731575, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
         type: 3}
       propertyPath: m_RootOrder
@@ -36861,6 +36921,11 @@ PrefabInstance:
     m_TransformParent: {fileID: 1180774344}
     m_Modifications:
     - target: {fileID: 896092916370896416, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3572655234519199139, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -38477,6 +38542,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1983695049}
     m_Modifications:
+    - target: {fileID: 4624658886127088037, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6527833785316111111, guid: 6744da465353f014cb4c4555f102bf5c,
         type: 3}
       propertyPath: m_RootOrder
@@ -38741,8 +38811,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: Is this...
-  textColor: {r: 0.9811321, g: 0.9765041, b: 0.9765041, a: 1}
-  textFont: {fileID: 12800000, guid: 834547bee24f70142a5127a34f2ed9c1, type: 3}
+  textColor: {r: 0, g: 0, b: 0, a: 1}
+  textFont: {fileID: 12800000, guid: 90f8fc271757d004a984c707a0f33d94, type: 3}
   delay: 0.02
   characterSprite: {fileID: 21300000, guid: ea18291a40f418141a216859ee9a4f00, type: 3}
   imageHolder: {fileID: 1779024735}
@@ -38768,10 +38838,10 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: 4dc6972a41250c34c9d8acd64117ebee, type: 3}
     m_FontSize: 20
-    m_FontStyle: 2
+    m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 1
-    m_MaxSize: 25
+    m_MaxSize: 35
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -39146,8 +39216,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: Is this... the Oodler's home?!
-  textColor: {r: 0.9811321, g: 0.9765041, b: 0.9765041, a: 1}
-  textFont: {fileID: 12800000, guid: 834547bee24f70142a5127a34f2ed9c1, type: 3}
+  textColor: {r: 0, g: 0, b: 0, a: 1}
+  textFont: {fileID: 12800000, guid: 90f8fc271757d004a984c707a0f33d94, type: 3}
   delay: 0.02
   characterSprite: {fileID: 21300000, guid: ea18291a40f418141a216859ee9a4f00, type: 3}
   imageHolder: {fileID: 586789427}
@@ -39173,16 +39243,16 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: 4dc6972a41250c34c9d8acd64117ebee, type: 3}
     m_FontSize: 20
-    m_FontStyle: 2
+    m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 1
-    m_MaxSize: 25
+    m_MaxSize: 35
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
-    m_LineSpacing: 2
+    m_LineSpacing: 1
   m_Text: 
 --- !u!222 &1409409601
 CanvasRenderer:
@@ -39231,6 +39301,11 @@ PrefabInstance:
     m_TransformParent: {fileID: 1180774344}
     m_Modifications:
     - target: {fileID: 896092916370896416, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3572655234519199139, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -40135,10 +40210,14 @@ MonoBehaviour:
   scene: 5
   cutsceneObject: {fileID: 546651206}
   hud: {fileID: 2112186969}
+  tutorialObject: {fileID: 0}
+  tutorialObjectOnEnemy: {fileID: 0}
+  tutorialToggle: {fileID: 0}
   newGame: 0
   loadGame: 1
   saveGame: 1
   skipCutsceneOnLoad: 1
+  skipTutorialOnLoad: 1
 --- !u!1001 &1578714753
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41163,7 +41242,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -296, y: -0.32788}
+  m_AnchoredPosition: {x: -287, y: 26}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1779024735
@@ -41210,6 +41289,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1983695049}
     m_Modifications:
+    - target: {fileID: 4624658886127088037, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6527833785316111111, guid: 6744da465353f014cb4c4555f102bf5c,
         type: 3}
       propertyPath: m_RootOrder
@@ -41551,6 +41635,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3572655234519199139, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4562456546076731575, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
         type: 3}
       propertyPath: m_RootOrder
@@ -41682,6 +41771,11 @@ PrefabInstance:
     m_TransformParent: {fileID: 1180774344}
     m_Modifications:
     - target: {fileID: 896092916370896416, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3572655234519199139, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -42499,6 +42593,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3572655234519199139, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4562456546076731575, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
         type: 3}
       propertyPath: m_RootOrder
@@ -42629,6 +42728,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1983695049}
     m_Modifications:
+    - target: {fileID: 4624658886127088037, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6527833785316111111, guid: 6744da465353f014cb4c4555f102bf5c,
         type: 3}
       propertyPath: m_RootOrder
@@ -42846,6 +42950,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1983695049}
     m_Modifications:
+    - target: {fileID: 4624658886127088037, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6527833785316111111, guid: 6744da465353f014cb4c4555f102bf5c,
         type: 3}
       propertyPath: m_RootOrder
