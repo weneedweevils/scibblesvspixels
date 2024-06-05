@@ -128,7 +128,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         dashTimer = new CooldownTimer(dashCooldown, dashBoost / friction);
         invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
         recallTimer = weapon.reviveTimer; // Recall and Revive share duration and cooldown timer lengths
-        lifestealEndTimer = new CooldownTimer(0.2f, 0.532f);
+        lifestealEndTimer = new CooldownTimer(0.1f, 0.532f);
         dashCooldownBar = new CooldownBarBehaviour(dashBar, dashCooldown, Color.gray, Color.magenta);
         recallCooldownBar = new CooldownBarBehaviour(recallBar, weapon.reviveCooldown, Color.gray, Color.magenta);
         dashNotifier = dashBar.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();

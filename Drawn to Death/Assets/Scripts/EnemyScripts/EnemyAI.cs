@@ -199,98 +199,100 @@ public abstract class EnemyAI : MonoBehaviour
     // Update is called once per frame
     protected virtual void FixedUpdate()
     {
-        //Check Blockers
-        if (isolated && blockers.Length > 0)
+        if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
         {
-            foreach (EnemyAI blocker in blockers)
+            //Check Blockers
+            if (isolated && blockers.Length > 0)
             {
-                if (blocker.isDead())
+                foreach (EnemyAI blocker in blockers)
                 {
-                    isolated = false;
-                    break;
+                    if (blocker.isDead())
+                    {
+                        isolated = false;
+                        break;
+                    }
                 }
             }
-        }
-        
-        //Update Timers
-        invincibilityTimer.Update();
-        invincibilityTimer2.Update();
-        attackTimer.Update();
-        slowedTimer.Update();
-        buffTimer.Update();
 
-        //Fix color after hurt
-        if ( (invincibilityTimer.IsOnCooldown() && !invincibilityTimer2.IsActive()) || 
-             (invincibilityTimer2.IsUseable() && !invincibilityTimer.IsActive()) ||
-             (!lifestealing && team == Team.player) )
-        {
-            selfImage.color = (team == Team.player ? allyCol : Color.white);
-        }
-        
-        //Check death conditions
-        if (health <= 0 && state != State.dead && state != State.dying)
-        {
-            Kill(); // Ded
-        }
+            //Update Timers
+            invincibilityTimer.Update();
+            invincibilityTimer2.Update();
+            attackTimer.Update();
+            slowedTimer.Update();
+            buffTimer.Update();
 
-        // Check if buffed
-        if (buffed)
-        {
-            if (buffTimer.IsOnCooldown())
+            //Fix color after hurt
+            if ((invincibilityTimer.IsOnCooldown() && !invincibilityTimer2.IsActive()) ||
+                 (invincibilityTimer2.IsUseable() && !invincibilityTimer.IsActive()) ||
+                 (!lifestealing && team == Team.player))
             {
-                buffed = false;
-                speed /= 2;
-                damage /= 2;
+                selfImage.color = (team == Team.player ? allyCol : Color.white);
+            }
+
+            //Check death conditions
+            if (health <= 0 && state != State.dead && state != State.dying)
+            {
+                Kill(); // Ded
+            }
+
+            // Check if buffed
+            if (buffed)
+            {
+                if (buffTimer.IsOnCooldown())
+                {
+                    buffed = false;
+                    speed /= 2;
+                    damage /= 2;
+                    attackTimer.SetCooldown(attackCooldown);
+                    selfImage.color = Color.white;
+                }
+                if (buffTimer.IsUseable())
+                {
+                    buffTimer.StartTimer();
+                }
+                selfImage.color = Color.magenta;
+            }
+
+            // Check if being lifestolen
+            if (lifestealing)
+            {
+                if (!slowed && team == Team.oddle) // Only slow enemy Oodles
+                {
+                    speed /= slowdownFactor;
+                    attackTimer.SetCooldown(attackCooldown * 1.5f);
+                    slowed = true;
+                }
+                selfImage.color = Color.red;
+            }
+
+            // Start timer to end slow if not in lifesteal zone anymore but still slowed
+            if (!lifestealing && slowed && slowedTimer.IsUseable())
+            {
+                slowedTimer.StartTimer();
+            }
+
+            // Change color if slowed but not being lifestolen
+            if (slowedTimer.IsActive() && !lifestealing)
+            {
+                selfImage.color = Color.yellow;
+            }
+
+            // End slow if timer is done
+            if (slowedTimer.IsOnCooldown() && !lifestealing && slowed)
+            {
+                slowed = false;
+                speed *= slowdownFactor;
                 attackTimer.SetCooldown(attackCooldown);
-                selfImage.color = Color.white;
+                selfImage.color = team == Team.player ? allyCol : Color.white;
             }
-            if (buffTimer.IsUseable())
-            {
-                buffTimer.StartTimer();
-            }
-            selfImage.color = Color.magenta;
         }
-
-        // Check if being lifestolen
-        if (lifestealing)
-        {
-            if (!slowed && team == Team.oddle) // Only slow enemy Oodles
-            {
-                speed /= slowdownFactor;
-                attackTimer.SetCooldown(attackCooldown * 1.5f);
-                slowed = true;
-            }
-            selfImage.color = Color.red;
-        }
-
-        // Start timer to end slow if not in lifesteal zone anymore but still slowed
-        if (!lifestealing && slowed && slowedTimer.IsUseable())
-        {
-            slowedTimer.StartTimer();
-        }
-
-        // Change color if slowed but not being lifestolen
-        if (slowedTimer.IsActive() && !lifestealing)
-        {
-            selfImage.color = Color.yellow;
-        }
-
-        // End slow if timer is done
-        if (slowedTimer.IsOnCooldown() && !lifestealing && slowed)
-        {
-            slowed = false;
-            speed *= slowdownFactor;
-            attackTimer.SetCooldown(attackCooldown);
-            selfImage.color = team == Team.player ? allyCol : Color.white;
-        }
-
         //State Manager
         switch (state)
         {
             case State.idle:
                 {
                     //idle Behaviour
-                    if (PathLength() < seekDistance)
+                    if (PathLength() < seekDistance && !playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
                     {
                         state = State.chase;
                     }
@@ -298,34 +300,40 @@ public abstract class EnemyAI : MonoBehaviour
                 }
             case State.chase:
                 {
-                    animator.SetBool("attacking", false);
-                    animator.SetBool("chasing", true);
-                    //chase Behaviour
-                    if (PathLength() > seekDistance && team == Team.oddle)
+                    if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
                     {
-                        state = State.idle;
-                    }
-                    else if (PathLength() <= attackDistance)
-                    {
-                        state = State.attack;
-                    }
-                    else
-                    {
-                        MoveEnemy();
+                        animator.SetBool("attacking", false);
+                        animator.SetBool("chasing", true);
+                        //chase Behaviour
+                        if (PathLength() > seekDistance && team == Team.oddle)
+                        {
+                            state = State.idle;
+                        }
+                        else if (PathLength() <= attackDistance)
+                        {
+                            state = State.attack;
+                        }
+                        else
+                        {
+                            MoveEnemy();
+                        }
                     }
                     break;
                 }
             case State.attack:
                 {
-                    //Activate Attack behaviour
-                    Attack();
-
-                    if (PathLength() > attackDistance)
+                    if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
                     {
-                        animator.SetBool("attacking", false);
-                        animator.SetBool("chasing", true);
-                        state = State.chase;
-                        return;
+                        //Activate Attack behaviour
+                        Attack();
+
+                        if (PathLength() > attackDistance)
+                        {
+                            animator.SetBool("attacking", false);
+                            animator.SetBool("chasing", true);
+                            state = State.chase;
+                            return;
+                        }
                     }
                     break;
                 }
@@ -376,10 +384,14 @@ public abstract class EnemyAI : MonoBehaviour
                 }
             case State.follow:
                 {
-                    //follow Behaviour
-                    animator.SetBool("attacking", false);
-                    animator.SetBool("chasing", true);
-                    MoveEnemy();
+                    if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
+                    {
+
+                        //follow Behaviour
+                        animator.SetBool("attacking", false);
+                        animator.SetBool("chasing", true);
+                        MoveEnemy();
+                    }
                     break;
                 }
         }
