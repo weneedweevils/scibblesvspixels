@@ -105,9 +105,28 @@ public class PauseMenu : MonoBehaviour
         MenuUI.SetActive(false);
     }
 
+    public void OnHovered()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UIHover");
+    }
+
     // quit the game
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void PlayAcceptSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UIAccept");
+    }
+
+    public void PlayLoadSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UILoad");
+    }
+    public void PlayBackSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UIBack");
     }
 }

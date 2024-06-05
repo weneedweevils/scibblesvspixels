@@ -39,13 +39,12 @@ public class Cubie : EnemyAI
 
     override protected void FixedUpdate()
     {
+        //Continue with the base class implementation of FixedUpdate
+        base.FixedUpdate();
         if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
         {
             //Update the windup timer
             windupTimer.Update();
-
-            //Continue with the base class implementation of FixedUpdate
-            base.FixedUpdate();
 
             if (cutscene)
             {
@@ -105,9 +104,7 @@ public class Cubie : EnemyAI
 
     override public void Stun()
     {
-        attackTimer.StartCooldown();
         windupTimer.ResetTimer();
-        animator.SetBool("attacking", false);
-        animator.SetBool("chasing", true);
+        base.Stun();
     }
 }

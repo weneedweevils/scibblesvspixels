@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 public class DataPersistenceManager : MonoBehaviour
 {
@@ -14,12 +15,16 @@ public class DataPersistenceManager : MonoBehaviour
     [SerializeField] private Scene scene;
     [SerializeField] private GameObject cutsceneObject;
     [SerializeField] private GameObject hud;
+    [SerializeField] private GameObject tutorialObject;
+    [SerializeField] private GameObject tutorialObjectOnEnemy;
+    [SerializeField] private GameObject tutorialToggle;
 
     [Header("On Start Options")]
     [SerializeField] private bool newGame;
     [SerializeField] private bool loadGame;
     [SerializeField] private bool saveGame;
     public bool skipCutsceneOnLoad = true;
+    public bool skipTutorialOnLoad = true;
 
     private GameData gameData;
     private List<IDataPersistence> dataPersistenceObjects;
@@ -56,7 +61,7 @@ public class DataPersistenceManager : MonoBehaviour
     [ContextMenu("New Game")]
     public void NewGame()
     {
-        this.gameData = new GameData();
+        this.gameData = new GameData(tutorialToggle.GetComponent<Toggle>().isOn);
         dataHandler.Save(gameData);
     }
 
@@ -79,6 +84,13 @@ public class DataPersistenceManager : MonoBehaviour
             {
                 if (cutsceneObject != null) { cutsceneObject.SetActive(false); }
                 if (cutsceneObject != null) { hud.SetActive(true); }
+            }
+
+            // Disable tutorial
+            if (gameData.skipTutorial && skipTutorialOnLoad)
+            {
+                if (tutorialObject != null) { tutorialObject.SetActive(false); }
+                if (tutorialObjectOnEnemy != null) { tutorialObjectOnEnemy.SetActive(false); }
             }
 
             //pass data to other scripts so they can update it

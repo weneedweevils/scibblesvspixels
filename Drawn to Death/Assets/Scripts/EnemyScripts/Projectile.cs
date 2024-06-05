@@ -76,6 +76,7 @@ public class Projectile : MonoBehaviour
                     if (enemyai != null && team != Team.neutral && enemyai.team != team && !(enemyai.state == State.dead || enemyai.state == State.dying))
                     {
                         enemyai.Damage(damage, true, true, velocity.normalized, 7f);
+                        enemyai.Stun();
                         Destroy(gameObject);
                     }
 

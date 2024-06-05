@@ -19,10 +19,10 @@ public class DoodleCrab : EnemyAI
 
     override protected void FixedUpdate()
     {
+        //Continue with the base class implementation of FixedUpdate
+        base.FixedUpdate();
         if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
         {
-            //Continue with the base class implementation of FixedUpdate
-            base.FixedUpdate();
             if (cutscene)
             {
                 cutscene = false;
@@ -95,6 +95,7 @@ public class DoodleCrab : EnemyAI
 
                                 //Start enemies secondary invincibility timer
                                 otherAI.invincibilityTimer2.StartTimer();
+                                otherAI.Stun();
                             }
                         }
 

@@ -57,18 +57,18 @@ public class CooldownTimer
         }
     }
 
-    public void StartTimer()
+    public void StartTimer(float startTime = 0f)
     {
         active = true;
         onCooldown = false;
-        timer = 0f;
+        timer = startTime;
     }
 
-    public void StartCooldown()
+    public void StartCooldown(float startTime = 0f)
     {
         active = false;
         onCooldown = true;
-        timer = 0f;
+        timer = startTime;
     }
 
     public void ResetTimer()
