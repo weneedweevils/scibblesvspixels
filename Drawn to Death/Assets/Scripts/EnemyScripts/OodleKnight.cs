@@ -37,13 +37,13 @@ public class OodleKnight : EnemyAI
         //Flip attack object
         attackObject.gameObject.transform.localRotation = enemygraphics.localRotation;
 
+        //Continue with the base class implementation of FixedUpdate
+        base.FixedUpdate();
+
         if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
         {
             //Update the windup timer
             windupTimer.Update();
-
-            //Continue with the base class implementation of FixedUpdate
-            base.FixedUpdate();
 
             if (cutscene)
             {
