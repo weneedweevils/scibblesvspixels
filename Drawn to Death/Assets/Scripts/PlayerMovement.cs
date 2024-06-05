@@ -115,7 +115,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Start is called before the first frame update
     void Start()
     {
-
         cam = Camera.main;
         noZoom = cam.orthographicSize;
         targetZoom = cam.orthographicSize;

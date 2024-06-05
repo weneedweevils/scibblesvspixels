@@ -87,7 +87,7 @@ public class Attack : MonoBehaviour
     public int isHit;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         //Collect components
         playerMovement = player.GetComponent<PlayerMovement>();
