@@ -115,7 +115,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Start is called before the first frame update
     void Start()
     {
-
         cam = Camera.main;
         noZoom = cam.orthographicSize;
         targetZoom = cam.orthographicSize;
@@ -131,12 +130,18 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         health = maxHealth;
         dashTimer = new CooldownTimer(dashCooldown, dashBoost / friction);
         invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
-        recallTimer = weapon.reviveTimer; // Recall and Revive share duration and cooldown timer lengths
+        recallTimer = new CooldownTimer(0, 0);
         lifestealEndTimer = new CooldownTimer(0.1f, 0.532f);
-        dashCooldownBar = new CooldownBarBehaviour(dashBar, dashCooldown, Color.gray, Color.magenta);
-        recallCooldownBar = new CooldownBarBehaviour(recallBar, weapon.reviveCooldown, Color.gray, Color.magenta);
-        dashNotifier = dashBar.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();
-        recallNotifier = recallBar.transform.GetChild(3).GetComponent<UnityEngine.UI.Image>();
+
+        dashCooldownBar = new CooldownBarBehaviour(dashBar, dashCooldown);
+        recallCooldownBar = new CooldownBarBehaviour(recallBar, weapon.reviveCooldown);
+
+        dashTimer.Connect(dashCooldownBar);
+        recallTimer.Connect(recallCooldownBar);
+        weapon.reviveTimer.Couple(recallTimer);
+
+        dashNotifier = dashBar.transform.parent.GetChild(1).GetComponent<UnityEngine.UI.Image>();
+        recallNotifier = recallBar.transform.parent.GetChild(1).GetComponent<UnityEngine.UI.Image>();
 
         panel = GameObject.FindGameObjectWithTag("DamageFlash");
         damageScreen = panel.GetComponent<UnityEngine.UI.Image>();
@@ -256,7 +261,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                 animator.SetBool("dashing", false);
                 sprite.color = new Color(255, 255, 255, 1f);
             }
-            dashCooldownBar.SetBar(dashTimer.timer);
         }
 
         // Recall Ability
@@ -312,19 +316,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             animator.SetBool("New Bool", true);
         }
 
-
-        else if (weapon.reviveTimer.IsOnCooldown())
-        {
-            recallCooldownBar.SetBar(weapon.reviveTimer.timer);
-        }
-
-
         if (cam.orthographicSize != noZoom && animationDone == true)
         {
             cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, noZoom, Time.deltaTime * 5f);
             targetZoom = noZoom;
         }
-
 
         //Predict new position
         Vector2 currentPos = rbody.position;
@@ -339,7 +335,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         //change screen flash back to normal 
         ChangeScreenColor(false);
-       
     }
 
     private float VelocityCalc(float a, float v, float modifier = 1f)

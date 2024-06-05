@@ -10,8 +10,12 @@ public class CooldownTimer
     public float timer = 0f;
 
     //Cooldown
-    private bool active = false;
-    private bool onCooldown = false;
+    public bool active = false;
+    public bool onCooldown = false;
+
+    //Misc
+    private CooldownBarBehaviour cooldownBar = null;
+    private CooldownTimer other = null;
 
     public CooldownTimer(float _cooldown, float _duration)
     {
@@ -55,6 +59,16 @@ public class CooldownTimer
                 timer = 0f;
             }
         }
+
+        UpdateCooldownBar();
+
+        if (other != null)
+        {
+            other.timer = timer;
+            other.active = active;
+            other.onCooldown = onCooldown;
+            other.UpdateCooldownBar();
+        }
     }
 
     public void StartTimer(float startTime = 0f)
@@ -81,5 +95,34 @@ public class CooldownTimer
     public void SetCooldown(float cooldownValue)
     {
         cooldownDuration = cooldownValue;
+    }
+
+    public void Connect(CooldownBarBehaviour bar)
+    {
+        cooldownBar = bar;
+    }
+
+    public void Couple(CooldownTimer timer)
+    {
+        other = timer;
+    }
+
+    public void UpdateCooldownBar()
+    {
+        if (cooldownBar != null)
+        {
+            if (active)
+            {
+                cooldownBar.SetBar(0f);
+            }
+            else if (onCooldown)
+            {
+                cooldownBar.SetBar(timer);
+            } 
+            else
+            {
+                cooldownBar.SetBar(cooldownBar.maxValue);
+            }
+        }
     }
 }

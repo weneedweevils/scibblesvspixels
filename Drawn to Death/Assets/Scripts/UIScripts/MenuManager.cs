@@ -8,13 +8,16 @@ using UnityEngine.UI;
 public enum Scene {Splash_Screen, Menu, Intructions, Level_1, Level_2, Level_3, Ded, End, Credits}
 public class MenuManager : MonoBehaviour, IDataPersistence
 {
-    public TextMeshProUGUI text;
-    public GameObject Button;
+    [Header("Next Scene")]
     public Scene nextScene;
     public bool newGame = false;
     public bool loadGame = false;
-  
-    public void QuitGame(){
+
+    [Header("References")]
+    public TextMeshProUGUI text;
+
+    public void QuitGame()
+    {
         Application.Quit();
     }
 
@@ -52,7 +55,6 @@ public class MenuManager : MonoBehaviour, IDataPersistence
         nextScene = Scene.Credits;
         GotoScene(nextScene);
     }
-
 
     public void OnHovered()
     {

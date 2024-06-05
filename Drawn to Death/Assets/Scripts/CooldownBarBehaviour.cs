@@ -6,25 +6,27 @@ using UnityEngine.UI;
 public class CooldownBarBehaviour
 {
     private Slider cooldownBar;
+    public float maxValue = 1f;
     private Color low;
     private Color high;
     private bool filled = false;
     private float frames = 0f;
 
-    public CooldownBarBehaviour(Slider slider, float max, Color lowColor, Color highColor)
+    public CooldownBarBehaviour(Slider slider, float max)
     {
+        SliderColors sliderColors = slider.GetComponent<SliderColors>();
         cooldownBar = slider;
-        cooldownBar.maxValue = max;
+        maxValue = max;
         cooldownBar.value = max;
-        low = lowColor;
-        high = highColor;
+        low = sliderColors.low;
+        high = sliderColors.high;
         cooldownBar.fillRect.GetComponentInChildren<Image>().color = Color.Lerp(low, high, cooldownBar.normalizedValue);
     }
 
     // Set Cooldown bar value
     public void SetBar(float current)
     {
-        cooldownBar.value = current;
+        cooldownBar.value = current / maxValue;
 
         // Dynamically changes the color of the healthbar based on remaining health
         cooldownBar.fillRect.GetComponentInChildren<Image>().color = Color.Lerp(low, high, cooldownBar.normalizedValue);
