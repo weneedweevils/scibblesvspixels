@@ -19,10 +19,10 @@ public class DoodleCrab : EnemyAI
 
     override protected void FixedUpdate()
     {
+        //Continue with the base class implementation of FixedUpdate
+        base.FixedUpdate();
         if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
         {
-            //Continue with the base class implementation of FixedUpdate
-            base.FixedUpdate();
             if (cutscene)
             {
                 cutscene = false;
@@ -82,16 +82,52 @@ public class DoodleCrab : EnemyAI
                     {
                         //Get a reference to the enemy
                         EnemyAI otherAI = collision.gameObject.GetComponent<EnemyAI>();
-                        if (attackTimer.IsActive() && otherAI != null && team != otherAI.team && otherAI.team != Team.neutral && otherAI.invincibilityTimer2.IsUseable())
-                        {
-                            //Damage enemy
-                            otherAI.Damage(damage, false, true);
+                        HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
+                        Boss oodler = collision.gameObject.GetComponent<Boss>();
 
-                            //Start enemies secondary invincibility timer
-                            otherAI.invincibilityTimer2.StartTimer();
-                            otherAI.Stun();
+
+                        if (otherAI != null) {
+                            if (attackTimer.IsActive() && otherAI != null && team != otherAI.team && otherAI.team != Team.neutral && otherAI.invincibilityTimer2.IsUseable())
+                            {
+                                Debug.Log(string.Format("{0} Hut {1} for {2} damage", name, otherAI.name, damage));
+                                //Damage enemy
+                                otherAI.Damage(damage, false, true);
+
+                                //Start enemies secondary invincibility timer
+                                otherAI.invincibilityTimer2.StartTimer();
+                                otherAI.Stun();
+                            }
                         }
+
+                        else if (crystal != null)
+                            {
+                          
+                                //Debug.Log(otherAI.invincibilityTimer2.IsUseable());
+
+                                if (attackTimer.IsActive() && crystal != null && crystal.invincibilityTimer.IsUseable())
+                                {
+                                    //Damage crystal
+                                    crystal.CrystalDamage(damage, true);
+                                }
+                            }
+
+
+                        else if (oodler != null)
+                        {
+                            if (attackTimer.IsActive() && oodler != null && oodler.BossIsDamageable() && !invincibilityTimerOodler.IsActive())//!oodler.invincibilityTimer.IsActive())
+                            {
+
+                                //Damage enemy
+                                oodler.Damage(damage);
+                                invincibilityTimerOodler.StartTimer();
+
+                            }
+
+                        }
+
                         break;
+
+
                     }
                 default:
                     {

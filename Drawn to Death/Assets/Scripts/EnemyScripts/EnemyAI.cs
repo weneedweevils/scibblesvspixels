@@ -28,6 +28,7 @@ public abstract class EnemyAI : MonoBehaviour
     public float slowdownFactor = 3f;
 
     [Header("Pathfinding")]
+    public bool moving = true;
     public Seeker targetSeeker;
     public Seeker playerSeeker;
     public float seekDistance = 100f;
@@ -57,13 +58,16 @@ public abstract class EnemyAI : MonoBehaviour
     public SpriteRenderer selfImage;
     public GameObject panel;
 
-        /* ----- Hidden Variables ----- */
+
+    /* ----- Hidden Variables ----- */
 
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
     public CooldownTimer invincibilityTimer2;
+    public CooldownTimer invincibilityTimerOodler;
     public CooldownTimer attackTimer;
     protected float invincibilityDuration = 20f / 60f;
+    private float oodlerInvincibilityDuration = 40f / 60f;
 
     //Animation and sprites
     protected SpriteRenderer gem;
@@ -81,7 +85,7 @@ public abstract class EnemyAI : MonoBehaviour
     protected int currentWaypoint = 0;
     protected Rigidbody2D rb;
     protected Vector2 pathOffset = new Vector2(0, 1.5f);
-
+    protected bool targetIsDropZone = false;
 
     //Misc
     protected GameObject player;
@@ -108,6 +112,7 @@ public abstract class EnemyAI : MonoBehaviour
         target = player.transform;
         health = maxHealth;
         healthBar.SetHealth(health, maxHealth);
+      
 
         //Create Timers
         invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
@@ -115,10 +120,16 @@ public abstract class EnemyAI : MonoBehaviour
         attackTimer = new CooldownTimer(attackCooldown, attackDuration);
         slowedTimer = new CooldownTimer(0.1f, slowDuration);
         buffTimer = new CooldownTimer(0.1f, buffDuration);
+        invincibilityTimerOodler = new CooldownTimer(oodlerInvincibilityDuration * 0.5f, oodlerInvincibilityDuration * 0.5f);
+
 
         //Start a repeating functon
-        InvokeRepeating("CheckState", 0f, 0.5f); //Update the path every half second
 
+        if (moving)
+        { 
+            InvokeRepeating("CheckState", 0f, 0.5f); //Update the path every half second if not a movable object
+
+        }
         if (blockers.Length != 0)
         {
             isolated = true;
@@ -199,98 +210,101 @@ public abstract class EnemyAI : MonoBehaviour
     // Update is called once per frame
     protected virtual void FixedUpdate()
     {
-        //Check Blockers
-        if (isolated && blockers.Length > 0)
+        if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
         {
-            foreach (EnemyAI blocker in blockers)
+            //Check Blockers
+            if (isolated && blockers.Length > 0)
             {
-                if (blocker.isDead())
+                foreach (EnemyAI blocker in blockers)
                 {
-                    isolated = false;
-                    break;
+                    if (blocker.isDead())
+                    {
+                        isolated = false;
+                        break;
+                    }
                 }
             }
-        }
-        
-        //Update Timers
-        invincibilityTimer.Update();
-        invincibilityTimer2.Update();
-        attackTimer.Update();
-        slowedTimer.Update();
-        buffTimer.Update();
 
-        //Fix color after hurt
-        if ( (invincibilityTimer.IsOnCooldown() && !invincibilityTimer2.IsActive()) || 
-             (invincibilityTimer2.IsUseable() && !invincibilityTimer.IsActive()) ||
-             (!lifestealing && team == Team.player) )
-        {
-            selfImage.color = (team == Team.player ? allyCol : Color.white);
-        }
-        
-        //Check death conditions
-        if (health <= 0 && state != State.dead && state != State.dying)
-        {
-            Kill(); // Ded
-        }
+            //Update Timers
+            invincibilityTimer.Update();
+            invincibilityTimer2.Update();
+            attackTimer.Update();
+            slowedTimer.Update();
+            buffTimer.Update();
+            invincibilityTimerOodler.Update();
 
-        // Check if buffed
-        if (buffed)
-        {
-            if (buffTimer.IsOnCooldown())
+            //Fix color after hurt
+            if ((invincibilityTimer.IsOnCooldown() && !invincibilityTimer2.IsActive()) ||
+                 (invincibilityTimer2.IsUseable() && !invincibilityTimer.IsActive()) ||
+                 (!lifestealing && team == Team.player))
             {
-                buffed = false;
-                speed /= 2;
-                damage /= 2;
+                selfImage.color = (team == Team.player ? allyCol : Color.white);
+            }
+
+            //Check death conditions
+            if (health <= 0 && state != State.dead && state != State.dying)
+            {
+                Kill(); // Ded
+            }
+
+            // Check if buffed
+            if (buffed)
+            {
+                if (buffTimer.IsOnCooldown())
+                {
+                    buffed = false;
+                    speed /= 2;
+                    damage /= 2;
+                    attackTimer.SetCooldown(attackCooldown);
+                    selfImage.color = Color.white;
+                }
+                if (buffTimer.IsUseable())
+                {
+                    buffTimer.StartTimer();
+                }
+                selfImage.color = Color.magenta;
+            }
+
+            // Check if being lifestolen
+            if (lifestealing)
+            {
+                if (!slowed && team == Team.oddle) // Only slow enemy Oodles
+                {
+                    speed /= slowdownFactor;
+                    attackTimer.SetCooldown(attackCooldown * 1.5f);
+                    slowed = true;
+                }
+                selfImage.color = Color.red;
+            }
+
+            // Start timer to end slow if not in lifesteal zone anymore but still slowed
+            if (!lifestealing && slowed && slowedTimer.IsUseable())
+            {
+                slowedTimer.StartTimer();
+            }
+
+            // Change color if slowed but not being lifestolen
+            if (slowedTimer.IsActive() && !lifestealing)
+            {
+                selfImage.color = Color.yellow;
+            }
+
+            // End slow if timer is done
+            if (slowedTimer.IsOnCooldown() && !lifestealing && slowed)
+            {
+                slowed = false;
+                speed *= slowdownFactor;
                 attackTimer.SetCooldown(attackCooldown);
-                selfImage.color = Color.white;
+                selfImage.color = team == Team.player ? allyCol : Color.white;
             }
-            if (buffTimer.IsUseable())
-            {
-                buffTimer.StartTimer();
-            }
-            selfImage.color = Color.magenta;
         }
-
-        // Check if being lifestolen
-        if (lifestealing)
-        {
-            if (!slowed && team == Team.oddle) // Only slow enemy Oodles
-            {
-                speed /= slowdownFactor;
-                attackTimer.SetCooldown(attackCooldown * 1.5f);
-                slowed = true;
-            }
-            selfImage.color = Color.red;
-        }
-
-        // Start timer to end slow if not in lifesteal zone anymore but still slowed
-        if (!lifestealing && slowed && slowedTimer.IsUseable())
-        {
-            slowedTimer.StartTimer();
-        }
-
-        // Change color if slowed but not being lifestolen
-        if (slowedTimer.IsActive() && !lifestealing)
-        {
-            selfImage.color = Color.yellow;
-        }
-
-        // End slow if timer is done
-        if (slowedTimer.IsOnCooldown() && !lifestealing && slowed)
-        {
-            slowed = false;
-            speed *= slowdownFactor;
-            attackTimer.SetCooldown(attackCooldown);
-            selfImage.color = team == Team.player ? allyCol : Color.white;
-        }
-
         //State Manager
         switch (state)
         {
             case State.idle:
                 {
                     //idle Behaviour
-                    if (PathLength() < seekDistance)
+                    if (PathLength() < seekDistance && !playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
                     {
                         state = State.chase;
                     }
@@ -298,34 +312,40 @@ public abstract class EnemyAI : MonoBehaviour
                 }
             case State.chase:
                 {
-                    animator.SetBool("attacking", false);
-                    animator.SetBool("chasing", true);
-                    //chase Behaviour
-                    if (PathLength() > seekDistance && team == Team.oddle)
+                    if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
                     {
-                        state = State.idle;
-                    }
-                    else if (PathLength() <= attackDistance)
-                    {
-                        state = State.attack;
-                    }
-                    else
-                    {
-                        MoveEnemy();
+                        animator.SetBool("attacking", false);
+                        animator.SetBool("chasing", true);
+                        //chase Behaviour
+                        if (PathLength() > seekDistance && team == Team.oddle)
+                        {
+                            state = State.idle;
+                        }
+                        else if (PathLength() <= attackDistance)
+                        {
+                            state = State.attack;
+                        }
+                        else
+                        {
+                            MoveEnemy();
+                        }
                     }
                     break;
                 }
             case State.attack:
                 {
-                    //Activate Attack behaviour
-                    Attack();
-
-                    if (PathLength() > attackDistance)
+                    if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
                     {
-                        animator.SetBool("attacking", false);
-                        animator.SetBool("chasing", true);
-                        state = State.chase;
-                        return;
+                        //Activate Attack behaviour
+                        Attack();
+
+                        if (PathLength() > attackDistance)
+                        {
+                            animator.SetBool("attacking", false);
+                            animator.SetBool("chasing", true);
+                            state = State.chase;
+                            return;
+                        }
                     }
                     break;
                 }
@@ -376,10 +396,14 @@ public abstract class EnemyAI : MonoBehaviour
                 }
             case State.follow:
                 {
-                    //follow Behaviour
-                    animator.SetBool("attacking", false);
-                    animator.SetBool("chasing", true);
-                    MoveEnemy();
+                    if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
+                    {
+
+                        //follow Behaviour
+                        animator.SetBool("attacking", false);
+                        animator.SetBool("chasing", true);
+                        MoveEnemy();
+                    }
                     break;
                 }
         }
@@ -389,20 +413,24 @@ public abstract class EnemyAI : MonoBehaviour
     virtual protected void FindTarget()
     {
         //Set the minimum target to the player
-        float dist = Vector2.Distance(rb.position, player.transform.position);
-        target = player.transform;
-        targetIsPlayer = true;
 
-        //Compare against player allies
-        foreach (EnemyAI enemy in playerAttack.GetAllies())
+        if (!targetIsDropZone)
         {
-            //Check if the ally is a better target
-            float newDist = Vector2.Distance(rb.position, enemy.transform.position);
-            if (newDist <= dist)
+            float dist = Vector2.Distance(rb.position, player.transform.position);
+            target = player.transform;
+            targetIsPlayer = true;
+
+            //Compare against player allies
+            foreach (EnemyAI enemy in playerAttack.GetAllies())
             {
-                dist = newDist;
-                target = enemy.transform;
-                targetIsPlayer = false;
+                //Check if the ally is a better target
+                float newDist = Vector2.Distance(rb.position, enemy.transform.position);
+                if (newDist <= dist)
+                {
+                    dist = newDist;
+                    target = enemy.transform;
+                    targetIsPlayer = false;
+                }
             }
         }
     }
@@ -544,6 +572,8 @@ public abstract class EnemyAI : MonoBehaviour
         if (makeInvincible)
         {
             invincibilityTimer.StartTimer();
+
+         
             Stun();
         }
 
@@ -579,17 +609,33 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     //Set a new target using a GameObject
-    virtual public void SetTarget(GameObject obj, bool isPlayer = false)
+    virtual public void SetTarget(GameObject obj, bool isPlayer = false, bool isDropZone = false)
     {
         target = obj.transform;
         targetIsPlayer = isPlayer;
+        if(isDropZone)
+        {
+            targetIsDropZone = true;
+        }
+        else
+        {
+            targetIsDropZone = false;
+        }
     }
 
     //Set a new target using a Transform
-    virtual public void SetTarget(Transform transform, bool isPlayer = false)
+    virtual public void SetTarget(Transform transform, bool isPlayer = false, bool isDropZone = false)
     {
         target = transform;
         targetIsPlayer = isPlayer;
+        if (isDropZone)
+        {
+            targetIsDropZone = true;
+        }
+        else
+        {
+            targetIsDropZone = false;
+        }
     }
 
     //Get current target
@@ -631,5 +677,10 @@ public abstract class EnemyAI : MonoBehaviour
     private void ContextPathLength()
     {
         Debug.LogFormat("{0}\n{1}", PathLength(true), PathLength());
+    }
+
+    public CooldownTimer GetCooldownTimer()
+    {
+        return invincibilityTimer;
     }
 }

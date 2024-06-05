@@ -41,6 +41,7 @@ public class DoodleBars : EnemyAI
 
     public override void Kill()
     {
+        Debug.Log(invincibilityTimer);
         base.Kill();
         foreach (DoodleBars friend in friends)
         {
