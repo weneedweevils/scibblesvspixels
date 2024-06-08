@@ -410,10 +410,13 @@ MonoBehaviour:
   maxHealth: 100
   invincibilityDuration: 1
   healthBar: {fileID: 0}
+  abilityDamageReduction: 0.4
   hud: {fileID: 0}
   pauseUi: {fileID: 0}
   myShakePreset: {fileID: 11400000, guid: e5d41b595dad9f8459dc7b99c17d346f, type: 2}
   shakeCam: {fileID: 3462483169460010922}
+  oodlerCooldown: 0
+  pauseInput: 0
 --- !u!95 &2454788199460616605
 Animator:
   serializedVersion: 3
@@ -529,7 +532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632ae7eb1d4ce49d38a1e38ee7efe7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guid: 9133d89fc459b30f-664752ece4274b19
+  guid: 7915cdbae75b9473-ab9df0816f01b9a7
 --- !u!61 &3786005922980315812
 BoxCollider2D:
   m_ObjectHideFlags: 0
