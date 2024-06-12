@@ -347,6 +347,11 @@ public abstract class EnemyAI : MonoBehaviour
                             return;
                         }
                     }
+                    else
+                    {
+                        // Prevent sudden attacks after cutscenes
+                        Stun();
+                    }
                     break;
                 }
             case State.dying:
