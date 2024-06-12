@@ -85,8 +85,8 @@ public class Cubie : EnemyAI
             createdProjectile = true;
         }
 
-            //End of windup -> Fire Projectile
-            if (!createdProjectile && !windupTimer.IsActive())
+        //End of windup -> Fire Projectile
+        if (!createdProjectile && !windupTimer.IsActive())
         {
             createdProjectile = true;
 
