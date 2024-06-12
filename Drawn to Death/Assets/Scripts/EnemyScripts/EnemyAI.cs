@@ -152,7 +152,7 @@ public abstract class EnemyAI : MonoBehaviour
         }
 
         //Make an attempt at finding a new target
-        if (target == null || (PathLength() > seekDistance * 0.5 && team == Team.oddle))
+        if (target == null || (PathLength() > seekDistance * 0.1 && team == Team.oddle))
         {
             FindTarget();
         }

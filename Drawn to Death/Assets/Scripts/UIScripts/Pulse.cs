@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class Pulse : MonoBehaviour
 {
     public AnimationCurve effect;
+    public SpriteRenderer playerIndicator;
+    public Color indicatorColor;
     private bool waiting = false;
     private bool active = false;
     private float t = 0;
@@ -38,7 +40,14 @@ public class Pulse : MonoBehaviour
         if (active)
         {
             t += Time.deltaTime;
+
             transform.localScale = standard * effect.Evaluate(t);
+
+            if (playerIndicator != null)
+            {
+                float alpha = Mathf.Clamp((effect.Evaluate(t)-1) * 5f * indicatorColor.a, 0, 1);
+                playerIndicator.color = new Color(indicatorColor.r, indicatorColor.g, indicatorColor.b, alpha);
+            }
 
             if (t > duration)
             {

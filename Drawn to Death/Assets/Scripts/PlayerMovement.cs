@@ -88,6 +88,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public float maxHealth;
     public float invincibilityDuration;
     public HealthBarBehaviour healthBar;
+    [Range(0, 1)]
+    public float abilityDamageReduction = 0.1f;
 
     [Header("Other")]
     [SerializeField] private GameObject hud;
@@ -431,7 +433,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         ChangeScreenColor(true);
 
-        health -= damageTaken;
+        if (UsingAbility())
+        {
+            health -= (damageTaken * (1 - abilityDamageReduction));
+        }
+        else
+        {
+            health -= damageTaken;
+        }
         invincibilityTimer.StartTimer();
         healthBar.SetHealth(health, maxHealth);
         hit = true;
@@ -490,6 +499,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     {
         return !(weapon.reviveTimer.IsActive() || dashTimer.IsActive()) &&
                !(inFreezeDialogue() || timelinePlaying);
+    }
+
+    public bool UsingAbility()
+    {
+        return weapon.reviveTimer.IsActive() || weapon.lifestealTimer.IsActive() || dashTimer.IsActive() || weapon.lifestealStartTimer.IsActive();
     }
 
     //Animate the camera zoom
