@@ -145,10 +145,10 @@ public abstract class EnemyAI : MonoBehaviour
         }
 
         //Update path to Player
-        float inrange = Vector2.Distance(rb.position, player.transform.position - (Vector3)pathOffset);
+        float inrange = Vector2.Distance(rb.position - pathOffset, player.transform.position - (Vector3)pathOffset);
         if (playerSeeker.IsDone() && inrange < seekDistance)
         {
-            playerSeeker.StartPath(rb.position, player.transform.position - (Vector3)pathOffset, OnPlayerPathComplete);
+            playerSeeker.StartPath(rb.position - pathOffset, player.transform.position - (Vector3)pathOffset, OnPlayerPathComplete);
         }
 
         //Make an attempt at finding a new target
@@ -161,10 +161,10 @@ public abstract class EnemyAI : MonoBehaviour
         if (!targetIsPlayer)
         {
             //Update path to target
-            inrange = Vector2.Distance(rb.position, target.position - (Vector3)pathOffset);
+            inrange = Vector2.Distance(rb.position - pathOffset, target.position - (Vector3)pathOffset);
             if (targetSeeker.IsDone() && inrange < seekDistance)
             {
-                targetSeeker.StartPath(rb.position, target.position - (Vector3)pathOffset, OnTargetPathComplete);
+                targetSeeker.StartPath(rb.position - pathOffset, target.position - (Vector3)pathOffset, OnTargetPathComplete);
             }
         }
     }
