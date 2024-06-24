@@ -20,9 +20,17 @@ namespace DialogueSystem
         {
             textHolder.color = textColor;
             textHolder.font = textFont;
+
+            char[] displayedText = new char[input.Length];
             for (int i = 0; i < input.Length; i++)
             {
-                textHolder.text += input[i];
+                displayedText[i] = input[i] == '\n' ? '\n' : ' ';
+            }
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                displayedText[i] = input[i];
+                textHolder.text = new string(displayedText);
                 yield return new WaitForSeconds(delay);
             }
             yield return new WaitUntil(() => Input.GetMouseButton(0));
