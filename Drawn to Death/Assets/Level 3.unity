@@ -34940,6 +34940,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 729491792}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &746433662 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7897831209167699892, guid: 34d9b55fa170a444bb86050513388636,
+    type: 3}
+  m_PrefabInstance: {fileID: 1174132365}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &751326354
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36181,6 +36187,11 @@ PrefabInstance:
       propertyPath: recallBar
       value: 
       objectReference: {fileID: 20753511}
+    - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: HealthBarReference
+      value: 
+      objectReference: {fileID: 746433662}
     - target: {fileID: 2454788199460616583, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
       propertyPath: m_Name
@@ -36216,7 +36227,18 @@ PrefabInstance:
       propertyPath: lifestealBar
       value: 
       objectReference: {fileID: 1033700596}
-    m_RemovedComponents: []
+    - target: {fileID: 6294523286497286637, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294523286497286637, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3462483169460010922, guid: f5e11bc1681c3b844b34bab6fe8ab682, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f5e11bc1681c3b844b34bab6fe8ab682, type: 3}
 --- !u!212 &862424960 stripped
 SpriteRenderer:
@@ -39288,6 +39310,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7298473912298103450, guid: 34d9b55fa170a444bb86050513388636,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7298473912298103450, guid: 34d9b55fa170a444bb86050513388636,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7298473912298103450, guid: 34d9b55fa170a444bb86050513388636,
+        type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -39316,6 +39348,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7897831209167699892, guid: 34d9b55fa170a444bb86050513388636,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 85d4ed6b384c04040a5b4fa637995d88, type: 2}
     - target: {fileID: 8243616453827863977, guid: 34d9b55fa170a444bb86050513388636,
         type: 3}
       propertyPath: m_AnchorMax.x
