@@ -34940,12 +34940,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 729491792}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &746433662 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 7897831209167699892, guid: 34d9b55fa170a444bb86050513388636,
-    type: 3}
-  m_PrefabInstance: {fileID: 1174132365}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &751326354
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36191,7 +36185,7 @@ PrefabInstance:
         type: 3}
       propertyPath: HealthBarReference
       value: 
-      objectReference: {fileID: 746433662}
+      objectReference: {fileID: 889228435}
     - target: {fileID: 2454788199460616583, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
       propertyPath: m_Name
@@ -36398,6 +36392,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &889228435 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1706352526891124967, guid: 34d9b55fa170a444bb86050513388636,
+    type: 3}
+  m_PrefabInstance: {fileID: 1174132365}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &907889782
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38370,7 +38370,7 @@ GameObject:
   - component: {fileID: 1142606730}
   - component: {fileID: 1142606729}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: PlayerCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
