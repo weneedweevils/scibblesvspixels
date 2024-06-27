@@ -57,6 +57,22 @@ public class Pulse : MonoBehaviour
         }
     }
 
+    public void OnDisable()
+    {
+        if (playerIndicator != null && playerIndicator.enabled)
+        {
+            playerIndicator.enabled = false;
+        }
+    }
+
+    public void OnEnable()
+    {
+        if (playerIndicator != null && !playerIndicator.enabled)
+        {
+            playerIndicator.enabled = true;
+        }
+    }
+
     public void Activate()
     {
         waiting = false;
