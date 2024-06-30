@@ -9,13 +9,13 @@ public class DialogueManager : MonoBehaviour
     public static DialogueManager Instance { get; private set; }
 
     public Transform dialogueParentContainer;
-    public DialogueSequence dialogue;
     public int dialogueID = 0;
     public bool dialogueActive = false;
+    public GameObject[] timelines;
 
+    private DialogueSequence dialogue;
     private DialogueBox currentDialogue = null;
     private DialogueEntry currentEntry;
-    private List<GameObject> objectsToActivate;
 
     private void Awake()
     {
@@ -31,9 +31,6 @@ public class DialogueManager : MonoBehaviour
 
         if (dialogueParentContainer == null)
             Debug.LogError("Error in DialogueManager - dialogueParentContainer is null");
-
-        objectsToActivate = new List<GameObject>();
-        StartDialogue(dialogue);
     }
 
     public void StartDialogue(DialogueSequence dialogueSequence)
@@ -42,11 +39,6 @@ public class DialogueManager : MonoBehaviour
         dialogueActive = true;
         dialogueID = 0;
         NextDialogue();
-    }
-
-    public void AddObjectToActivate(GameObject objectToActivate)
-    {
-        objectsToActivate.Add(objectToActivate);
     }
 
     public void NextDialogue()
@@ -71,16 +63,15 @@ public class DialogueManager : MonoBehaviour
         //There is no next Dialogue Box -> End of Dialogue Sequence
         else
         {
-            //Activate objects
-            foreach (GameObject obj in objectsToActivate)
+            //Activate Timeline
+            if (0 <= dialogue.activateTimeline && dialogue.activateTimeline < timelines.Length)
             {
-                obj.SetActive(true);
+                timelines[dialogue.activateTimeline].SetActive(true);
             }
 
             //Clear Variables
             currentDialogue = null;
             dialogueActive = false;
-            objectsToActivate.Clear();
         }
     }
 }
