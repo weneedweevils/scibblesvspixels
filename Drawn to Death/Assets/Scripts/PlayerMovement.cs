@@ -77,9 +77,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     BoxCollider2D boxCollider;
     private bool boxColliding = false;
 
-    // Used to determine if dialogue is happening
+    // Used to determine if timeline is active
     [Header("Cutscene")]
-    private GameObject dialogue;
     public bool timelinePlaying = false;
 
     // Health
@@ -400,22 +399,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Ensures movement is disabled if dialogue wants it to be
     public bool inFreezeDialogue()
     {
-        
-        if (dialogue != null)
+        if (DialogueManager.Instance == null)
         {
-            
-            if (!dialogue.GetComponent<DialogueController>().DialogueActive()) // Ensures dialogue object is destroyed if movement freeze is on
-            {
-                dialogue.SetActive(false); // Deactivates dialogue after end, can be changed if we ever want repeatable dialogue
-                dialogue = null;
-                return false;
-            }
-            return dialogue.GetComponent<DialogueController>().DialogueActive() && dialogue.GetComponent<DialogueController>().stopMovement;
+            return false; 
         }
         else
         {
-            return false;
-        }
+            return DialogueManager.Instance.dialogueActive;
+        } 
     }
 
     // Function to run when player takes damage
@@ -586,38 +577,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private void OnTriggerStay2D(Collider2D collision)
     {   
         return;
-    }
-
-    // Dialogue enter
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-     
-
-        switch (collision.gameObject.tag)
-        {
-            //Dialogue trigger
-            case "Dialogue":
-                {
-                    dialogue = collision.gameObject;
-                    dialogue.GetComponent<DialogueController>().ActivateDialogue();
-                    break;
-                }
-
-            default:
-                {
-                    break;
-                }
-        }
-      
-    }
-
-    // Dialogue exit
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        //if (dialogue != null) {
-            //dialogue.SetActive(false); // Deactivates dialogue after trigger, can be changed if we ever want repeatable dialogue
-            //dialogue = null;
-        //}
     }
 
     public void SetTimelineActive(bool isActive)

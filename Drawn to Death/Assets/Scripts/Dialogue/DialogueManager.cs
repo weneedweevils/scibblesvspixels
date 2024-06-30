@@ -51,26 +51,35 @@ public class DialogueManager : MonoBehaviour
 
     public void NextDialogue()
     {
+        //Destroy the previous Dialogue Box
         if (currentDialogue != null)
         {
             Destroy(currentDialogue.gameObject);
         }
 
+        //Instanciate the next Dialogue Box if it exists
         if (dialogueID < dialogue.dialogueEntries.Length)
         {
+            //Next Dialogue Entry
             currentEntry = dialogue.dialogueEntries[dialogueID];
+            ++dialogueID;
+            
+            //Create the Dialogue Box
             currentDialogue = Instantiate(currentEntry.dialogueStyle.dialogueBlueprint, dialogueParentContainer);
             currentDialogue.SetDialogueEntry(currentEntry);
-            ++dialogueID;
         }
+        //There is no next Dialogue Box -> End of Dialogue Sequence
         else
         {
-            currentDialogue = null;
-            dialogueActive = false;
+            //Activate objects
             foreach (GameObject obj in objectsToActivate)
             {
                 obj.SetActive(true);
             }
+
+            //Clear Variables
+            currentDialogue = null;
+            dialogueActive = false;
             objectsToActivate.Clear();
         }
     }

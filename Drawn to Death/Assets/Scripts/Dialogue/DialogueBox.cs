@@ -54,29 +54,42 @@ public class DialogueBox : MonoBehaviour
         dialogueText.font = style.textFont;
         delay = style.writeDelay;
 
+        //Set Dialogue Text
         if (delay > 0) StartCoroutine("WriteText");
         else dialogueText.text = dialogueEntry.dialogueText;
     }
 
     protected IEnumerator WriteText()
     {
+        //Initialize starting conditions
         dialogueText.text = "";
         string input = dialogueEntry.dialogueText;
         bool writingTag = false;
         string subString = "";
 
+        //Iterate through input text
         for (int i = 0; i < input.Length; i++)
         {
+            //Add the next character from input to a substring
             subString += input[i];
+
+            //Check if this character indicates the start or end of a Rich Text Tag
             if (input[i].Equals('<') || input[i].Equals('>'))
             {
                 writingTag = !writingTag;
                 continue;
             }
+
+            //Check if we are currently writing a Rich Text tag
             if (writingTag) continue;
 
+            //We are not writing a tag or finished writing a tag so add the substring to the dialogue text
             dialogueText.text += subString;
+
+            //Clear the substring
             subString = "";
+
+            //Wait for delay seconds
             yield return new WaitForSeconds(delay);
         }
 
