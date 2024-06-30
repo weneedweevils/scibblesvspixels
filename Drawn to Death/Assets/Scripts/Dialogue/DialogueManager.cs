@@ -2,6 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using FMODUnity;
+using FMOD.Studio;
+
+public enum DialogueSFX
+{
+    None,
+    OodleGeneral,
+    OodleQuestion,
+    GlichGeneral,
+    GlichConfused,
+    GlichMad
+}
 
 public class DialogueManager : MonoBehaviour
 {
@@ -16,6 +28,20 @@ public class DialogueManager : MonoBehaviour
     private DialogueSequence dialogue;
     private DialogueBox currentDialogue = null;
     private DialogueEntry currentEntry;
+
+    private Dictionary<DialogueSFX, string> sfx = new Dictionary<DialogueSFX, string>()
+    {
+        { DialogueSFX.None, null},
+
+        //Oodler
+        { DialogueSFX.OodleGeneral, "event:/OodleDialogueGeneral"},
+        { DialogueSFX.OodleQuestion, "event:/OodlerDialogueQuestion"},
+
+        //Glich
+        { DialogueSFX.GlichGeneral, "event:/GlichDialogueGeneral"},
+        { DialogueSFX.GlichConfused, "event:/GlichDialogueConfused"},
+        { DialogueSFX.GlichMad, "event:/GlichDialogueMad"}
+    };
 
     private void Awake()
     {
@@ -73,5 +99,10 @@ public class DialogueManager : MonoBehaviour
             currentDialogue = null;
             dialogueActive = false;
         }
+    }
+
+    public string DialogueSFXEventPath(DialogueSFX dialogueSFX)
+    {
+        return sfx[dialogueSFX];
     }
 }

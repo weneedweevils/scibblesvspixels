@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 [CreateAssetMenu(fileName = "NewDialogueSequence", menuName = "Dialogue/Dialogue Sequence")]
 public class DialogueSequence : ScriptableObject
@@ -10,10 +11,16 @@ public class DialogueSequence : ScriptableObject
 }
 
 [System.Serializable]
-public struct DialogueEntry
+public class DialogueEntry
 {
     public string Identifier;
     [Space(5)] [TextArea] public string dialogueText;
     [Space(10)] public Sprite speakerImage;
     public DialogueStyle dialogueStyle;
+    public DialogueSFX dialogueSFX;
+
+    public string SFXEventPath()
+    {
+        return DialogueManager.Instance.DialogueSFXEventPath(dialogueSFX);
+    }
 }

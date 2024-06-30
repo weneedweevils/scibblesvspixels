@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using FMODUnity;
 
 public class DialogueBox : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class DialogueBox : MonoBehaviour
     [Header("Text References")]
     public TMPro.TextMeshProUGUI speakerName;
     public TMPro.TextMeshProUGUI dialogueText;
+
+    public FMODUnity.StudioEventEmitter fmodEmitter;
 
     private DialogueEntry dialogueEntry;
     private bool finished = false;
@@ -57,6 +60,14 @@ public class DialogueBox : MonoBehaviour
         //Set Dialogue Text
         if (delay > 0) StartCoroutine("WriteText");
         else dialogueText.text = dialogueEntry.dialogueText;
+
+        //Play the correct SFX
+        string path = dialogueEntry.SFXEventPath();
+        if (path != null)
+        {
+            fmodEmitter.EventReference = RuntimeManager.PathToEventReference(path);
+            fmodEmitter.Play();
+        }
     }
 
     protected IEnumerator WriteText()
