@@ -23,33 +23,33 @@ public class PauseMenu : MonoBehaviour
     void Update()
     {
         // If the player is not in a dialogue or timeline, then the pause menu can be accessed via escape
-        if(!player.inFreezeDialogue() && !player.timelinePlaying){
-            if (Input.GetKeyDown(KeyCode.Escape)) {
+        //if(!player.inFreezeDialogue() && !player.timelinePlaying){
+        //    if (Input.GetKeyDown(KeyCode.Escape)) {
 
-                if (!ControlsUI.activeSelf && !SettingsUI.activeSelf)
-                {
+        //        if (!ControlsUI.activeSelf && !SettingsUI.activeSelf)
+        //        {
 
-                    if (gameIsPaused == true)
-                    {
-                        Resume();
-                    }
-                    else
-                    {
+        //            if (gameIsPaused == true)
+        //            {
+        //                Resume();
+        //            }
+        //            else
+        //            {
 
-                        Pause();
-                    }
-                }
-                if(ControlsUI.activeSelf)
-                {
-                    ControlsBack();
-                }
+        //                Pause();
+        //            }
+        //        }
+        //        if(ControlsUI.activeSelf)
+        //        {
+        //            ControlsBack();
+        //        }
 
-                if (SettingsUI.activeSelf)
-                {
-                    SettingsBack();
-                }
-            }
-        }
+        //        if (SettingsUI.activeSelf)
+        //        {
+        //            SettingsBack();
+        //        }
+        //    }
+        //}
       
         
     }
