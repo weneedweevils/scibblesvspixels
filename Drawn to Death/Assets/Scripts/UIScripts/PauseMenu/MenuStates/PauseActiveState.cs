@@ -29,9 +29,4 @@ public class PauseActiveState : MenuBaseState
         base.FrameUpdate();
     }
 
-
-    public void EnterControlScreen()
-    {
-
-    }
 }

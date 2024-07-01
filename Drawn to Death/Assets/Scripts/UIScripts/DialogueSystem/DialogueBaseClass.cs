@@ -6,6 +6,7 @@
  */
 
 using System.Collections;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,15 @@ namespace DialogueSystem
 {
     public class DialogueBaseClass : MonoBehaviour
     {
+        public PlayerControlMap controls;
+        private PlayerMovement player;
+
+        public void Start()
+        {
+            player = GameObject.Find("Player").GetComponent<PlayerMovement>();
+            controls = player.getControls();
+        }
+
         public bool finished { get; protected set; }
 
         // Writes the text in a scroll style with controllable input, speed, font, and text colour
@@ -33,7 +43,7 @@ namespace DialogueSystem
                 textHolder.text = new string(displayedText);
                 yield return new WaitForSeconds(delay);
             }
-            yield return new WaitUntil(() => Input.GetMouseButton(0));
+            yield return new WaitUntil(() => controls.Player.SkipText.WasPerformedThisFrame());
             finished = true;
         }
 

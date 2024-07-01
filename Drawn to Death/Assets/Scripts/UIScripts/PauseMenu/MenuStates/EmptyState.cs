@@ -22,7 +22,7 @@ public class EmptyState : MenuBaseState
             if (pauseMenuManager.controls.Player.Escape.WasPerformedThisFrame())
             {
                 Debug.Log("we got here");
-                menuStateMachine.ChangeState(pauseMenuManager.pauseActive);
+                menuStateMachine.ChangeState(pauseMenuManager.pauseState);
               
             }
         }
@@ -36,7 +36,7 @@ public class EmptyState : MenuBaseState
     {
         base.EnterState();
         Resume();
-        Debug.Log("Exited Pause Menu");
+        Debug.Log("Entered Empty State");
     }
 
     public override void ExitState()
@@ -57,8 +57,6 @@ public class EmptyState : MenuBaseState
     {
         Time.timeScale = 0f;
         pauseMenuManager.paused = true;
-
-
     }
 
 

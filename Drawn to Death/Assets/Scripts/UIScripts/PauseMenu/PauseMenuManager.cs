@@ -12,19 +12,26 @@ public class PauseMenuManager : MonoBehaviour
     public PlayerControlMap controls;
     
     // MENU STATES //
-    public EmptyState empty;
-    public PauseActiveState pauseActive;
-    public ControlScreenState controlScreenState;
+    public EmptyState emptyState;
+    public PauseActiveState pauseState;
+    public ControlScreenState controlsState;
+    public SettingsState settingsState;
+    public QuitState quitState;
+    public MenuState menuState;
 
     // PlAYER MOVEMENT //
     public PlayerMovement player;
 
 
     // UI OBJECTS //
+    [Header("UI OBJECTS")]
     public GameObject GameMenuObject;
     public GameObject ControlScreen;
     public GameObject PauseMenu;
-    public GameObject SoundSettings;
+    public GameObject Settings;
+
+
+    public int Menu = 0;
     public bool paused = false;
 
 
@@ -32,16 +39,19 @@ public class PauseMenuManager : MonoBehaviour
     private void Awake()
     {
         menuStateMachine = new MenuStateMachine();
-        empty = new EmptyState(this, menuStateMachine);
-        pauseActive = new PauseActiveState(this, menuStateMachine);
-        controlScreenState = new ControlScreenState(this, menuStateMachine);
+        emptyState = new EmptyState(this, menuStateMachine);
+        pauseState = new PauseActiveState(this, menuStateMachine);
+        controlsState = new ControlScreenState(this, menuStateMachine);
+        settingsState = new SettingsState(this, menuStateMachine);
+        quitState = new QuitState(this, menuStateMachine);
+        menuState = new MenuState(this, menuStateMachine);
     }
 
 
     private void Start()
     {
         Debug.Log("Hello");
-        menuStateMachine.Initialize(empty);
+        menuStateMachine.Initialize(emptyState);
         player = GameObject.Find("Player").GetComponent<PlayerMovement>();
         controls = player.getControls();
     }
@@ -52,10 +62,33 @@ public class PauseMenuManager : MonoBehaviour
     }
 
 
-
-    public void EnterControls()
+    // function to go to the control screen state//
+    public void GoToControls()
     {
-        menuStateMachine.ChangeState(controlScreenState);
+        menuStateMachine.ChangeState(controlsState);
+    }
+
+
+    // function to go back to last state in the stack //
+    public void Escape()
+    {
+        menuStateMachine.GoBackState();
+    }
+
+    // goes to the settings screen
+    public void GoToSettings()
+    {
+        menuStateMachine.ChangeState(settingsState);
+    }
+
+    public void GoToQuit()
+    {
+        menuStateMachine.ChangeState(quitState);
+    }
+
+    public void GoToMenu()
+    {
+        menuStateMachine.ChangeState(menuState);
     }
 }
 

@@ -65,12 +65,12 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Attack"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""5c15b091-1879-44c7-88ec-7e16cf0678d5"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Aim"",
@@ -94,6 +94,15 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
                     ""name"": ""Escape"",
                     ""type"": ""Button"",
                     ""id"": ""091d92e6-35fc-40c2-a76b-f438a7c085dd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SkipText"",
+                    ""type"": ""Button"",
+                    ""id"": ""4455e10b-e11c-439c-83f4-5dcb982fa9d4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -397,6 +406,17 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
                     ""action"": ""Escape"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""237767b6-ccfd-434b-8282-74859e7cccd2"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""SkipText"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -463,6 +483,7 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_LifeSteal = m_Player.FindAction("LifeSteal", throwIfNotFound: true);
         m_Player_Escape = m_Player.FindAction("Escape", throwIfNotFound: true);
+        m_Player_SkipText = m_Player.FindAction("SkipText", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -530,6 +551,7 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_LifeSteal;
     private readonly InputAction m_Player_Escape;
+    private readonly InputAction m_Player_SkipText;
     public struct PlayerActions
     {
         private @PlayerControlMap m_Wrapper;
@@ -542,6 +564,7 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @LifeSteal => m_Wrapper.m_Player_LifeSteal;
         public InputAction @Escape => m_Wrapper.m_Player_Escape;
+        public InputAction @SkipText => m_Wrapper.m_Player_SkipText;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -575,6 +598,9 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
                 @Escape.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
                 @Escape.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
                 @Escape.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
+                @SkipText.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSkipText;
+                @SkipText.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSkipText;
+                @SkipText.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSkipText;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -603,6 +629,9 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
                 @Escape.started += instance.OnEscape;
                 @Escape.performed += instance.OnEscape;
                 @Escape.canceled += instance.OnEscape;
+                @SkipText.started += instance.OnSkipText;
+                @SkipText.performed += instance.OnSkipText;
+                @SkipText.canceled += instance.OnSkipText;
             }
         }
     }
@@ -653,5 +682,6 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
         void OnAim(InputAction.CallbackContext context);
         void OnLifeSteal(InputAction.CallbackContext context);
         void OnEscape(InputAction.CallbackContext context);
+        void OnSkipText(InputAction.CallbackContext context);
     }
 }

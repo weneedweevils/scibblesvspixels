@@ -43,12 +43,12 @@
                 },
                 {
                     "name": "Attack",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "5c15b091-1879-44c7-88ec-7e16cf0678d5",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Aim",
@@ -72,6 +72,15 @@
                     "name": "Escape",
                     "type": "Button",
                     "id": "091d92e6-35fc-40c2-a76b-f438a7c085dd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SkipText",
+                    "type": "Button",
+                    "id": "4455e10b-e11c-439c-83f4-5dcb982fa9d4",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -373,6 +382,17 @@
                     "processors": "",
                     "groups": "Playstation",
                     "action": "Escape",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "237767b6-ccfd-434b-8282-74859e7cccd2",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KBM",
+                    "action": "SkipText",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
