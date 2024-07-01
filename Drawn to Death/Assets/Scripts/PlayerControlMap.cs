@@ -160,6 +160,17 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""ad1ffe1e-c04f-444a-aa87-7cfbd50cddaa"",
+                    ""path"": ""<DualShockGamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""f306751b-ee4a-4146-b940-b64cee89cbe0"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
@@ -176,6 +187,17 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8f176c30-3af5-4b55-9d67-4c30f9e2c010"",
+                    ""path"": ""<DualShockGamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation"",
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -204,6 +226,17 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""93514da3-2250-4e08-be2b-3c311482c743"",
+                    ""path"": ""<DualShockGamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation"",
+                    ""action"": ""Rally"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""11ea0db0-1f7b-415d-8c1f-5ca2185f9843"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
@@ -226,11 +259,33 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""ed7ca579-9e60-4c81-add0-280bf6a391fa"",
+                    ""path"": ""<DualShockGamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""eb376edb-6c1a-4065-a663-fece45f65130"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f9c804d4-c799-4c95-990c-177d611a9fd0"",
+                    ""path"": ""<DualShockGamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation"",
                     ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -259,6 +314,17 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""9daa97b8-d82b-42d8-8548-64a1ab7a72c6"",
+                    ""path"": ""<DualShockGamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation"",
+                    ""action"": ""LifeSteal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""e64a50b7-cb70-492c-a344-3e620f4c3245"",
                     ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
@@ -275,6 +341,17 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
+                    ""action"": ""Revive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e1d21ce1-f45f-4a80-ae8e-2222083deea7"",
+                    ""path"": ""<DualShockGamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation"",
                     ""action"": ""Revive"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -305,6 +382,28 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
             ""devices"": [
                 {
                     ""devicePath"": ""<Gamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""ProController"",
+            ""bindingGroup"": ""ProController"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<SwitchProControllerHID>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Playstation"",
+            ""bindingGroup"": ""Playstation"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<DualSenseGamepadHID>"",
                     ""isOptional"": false,
                     ""isOR"": false
                 }
@@ -473,6 +572,24 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
         {
             if (m_GamepadSchemeIndex == -1) m_GamepadSchemeIndex = asset.FindControlSchemeIndex("Gamepad");
             return asset.controlSchemes[m_GamepadSchemeIndex];
+        }
+    }
+    private int m_ProControllerSchemeIndex = -1;
+    public InputControlScheme ProControllerScheme
+    {
+        get
+        {
+            if (m_ProControllerSchemeIndex == -1) m_ProControllerSchemeIndex = asset.FindControlSchemeIndex("ProController");
+            return asset.controlSchemes[m_ProControllerSchemeIndex];
+        }
+    }
+    private int m_PlaystationSchemeIndex = -1;
+    public InputControlScheme PlaystationScheme
+    {
+        get
+        {
+            if (m_PlaystationSchemeIndex == -1) m_PlaystationSchemeIndex = asset.FindControlSchemeIndex("Playstation");
+            return asset.controlSchemes[m_PlaystationSchemeIndex];
         }
     }
     public interface IPlayerActions

@@ -165,7 +165,15 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public void OnDeviceChanged(PlayerInput pi)
     {
         Debug.Log(pi.currentControlScheme.ToString());
-        isGamepad = pi.currentControlScheme.Equals("Gamepad") ? true : false;
+        if(pi.currentControlScheme.Equals("Gamepad") || pi.currentControlScheme.Equals("Playstation"))
+        {
+            isGamepad = true;
+        }
+        else
+        {
+            isGamepad = false;
+        }
+
     }
 
     // enable the player controller
