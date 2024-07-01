@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.U2D.Path.GUIFramework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,45 +14,49 @@ public class PauseMenu : MonoBehaviour
     public GameObject SettingsUI;
     public int Menu = 0;
     private PlayerMovement player;
+    private PlayerControlMap controls;
 
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        controls = player.getControls();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // If the player is not in a dialogue or timeline, then the pause menu can be accessed via escape
-        //if(!player.inFreezeDialogue() && !player.timelinePlaying){
-        //    if (Input.GetKeyDown(KeyCode.Escape)) {
+        //If the player is not in a dialogue or timeline, then the pause menu can be accessed via escape
+        if (!player.inFreezeDialogue() && !player.timelinePlaying)
+        {
+            if (controls.Player.Escape.WasPerformedThisFrame())
+            {
 
-        //        if (!ControlsUI.activeSelf && !SettingsUI.activeSelf)
-        //        {
+                if (!ControlsUI.activeSelf && !SettingsUI.activeSelf)
+                {
 
-        //            if (gameIsPaused == true)
-        //            {
-        //                Resume();
-        //            }
-        //            else
-        //            {
+                    if (gameIsPaused == true)
+                    {
+                        Resume();
+                    }
+                    else
+                    {
 
-        //                Pause();
-        //            }
-        //        }
-        //        if(ControlsUI.activeSelf)
-        //        {
-        //            ControlsBack();
-        //        }
+                        Pause();
+                    }
+                }
+                if (ControlsUI.activeSelf)
+                {
+                    ControlsBack();
+                }
 
-        //        if (SettingsUI.activeSelf)
-        //        {
-        //            SettingsBack();
-        //        }
-        //    }
-        //}
-      
-        
+                if (SettingsUI.activeSelf)
+                {
+                    SettingsBack();
+                }
+            }
+        }
+
+
     }
 
     // resumes the game

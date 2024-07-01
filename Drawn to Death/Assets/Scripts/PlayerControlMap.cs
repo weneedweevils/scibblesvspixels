@@ -89,6 +89,15 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""091d92e6-35fc-40c2-a76b-f438a7c085dd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -355,6 +364,39 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
                     ""action"": ""Revive"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ebc92bc9-e357-4b2b-9f34-3688c201985f"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8282d32e-aa3e-4608-8975-c3bccf5c1385"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f885d613-046f-4975-a87a-5504464cfe4f"",
+                    ""path"": ""<DualShockGamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation"",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -420,6 +462,7 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_LifeSteal = m_Player.FindAction("LifeSteal", throwIfNotFound: true);
+        m_Player_Escape = m_Player.FindAction("Escape", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -486,6 +529,7 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_LifeSteal;
+    private readonly InputAction m_Player_Escape;
     public struct PlayerActions
     {
         private @PlayerControlMap m_Wrapper;
@@ -497,6 +541,7 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @LifeSteal => m_Wrapper.m_Player_LifeSteal;
+        public InputAction @Escape => m_Wrapper.m_Player_Escape;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -527,6 +572,9 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
                 @LifeSteal.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLifeSteal;
                 @LifeSteal.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLifeSteal;
                 @LifeSteal.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLifeSteal;
+                @Escape.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
+                @Escape.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
+                @Escape.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -552,6 +600,9 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
                 @LifeSteal.started += instance.OnLifeSteal;
                 @LifeSteal.performed += instance.OnLifeSteal;
                 @LifeSteal.canceled += instance.OnLifeSteal;
+                @Escape.started += instance.OnEscape;
+                @Escape.performed += instance.OnEscape;
+                @Escape.canceled += instance.OnEscape;
             }
         }
     }
@@ -601,5 +652,6 @@ public partial class @PlayerControlMap : IInputActionCollection2, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnLifeSteal(InputAction.CallbackContext context);
+        void OnEscape(InputAction.CallbackContext context);
     }
 }

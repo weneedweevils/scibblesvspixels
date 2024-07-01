@@ -162,6 +162,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     }
 
+ 
+
     public void OnDeviceChanged(PlayerInput pi)
     {
         Debug.Log(pi.currentControlScheme.ToString());
