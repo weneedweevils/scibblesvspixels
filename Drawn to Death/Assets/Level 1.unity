@@ -3171,6 +3171,24 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1053850400}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &197789956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 197789950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e06236c8504da843b39262b71c18c01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 17060506650434018}
+  GameMenuObject: {fileID: 197789950}
+  ControlScreen: {fileID: 744262023}
+  PauseMenu: {fileID: 569695808}
+  SoundSettings: {fileID: 1177272402}
+  paused: 0
 --- !u!1 &199827666
 GameObject:
   m_ObjectHideFlags: 0
@@ -32012,6 +32030,40 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 662192166}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &672558792 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2129809086199670099, guid: cf97480c00ce98e49b9f271a666560b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1053850400}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &672558797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672558792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 197789956}
+          m_MethodName: EnterControls
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &680458952
 GameObject:
   m_ObjectHideFlags: 0
@@ -33001,6 +33053,34 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1053850400}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &744262028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 744262023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 197789950}
+          m_MethodName: 
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: 
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &750857216
 GameObject:
   m_ObjectHideFlags: 0
@@ -37490,7 +37570,7 @@ PrefabInstance:
     - target: {fileID: 1287945786770114790, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1738665596016450775, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
@@ -37615,7 +37695,7 @@ PrefabInstance:
     - target: {fileID: 7488337942956559547, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7701299363077394828, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
@@ -42683,7 +42763,6 @@ GameObject:
   - component: {fileID: 1468501009}
   - component: {fileID: 1468501008}
   - component: {fileID: 1468501007}
-  - component: {fileID: 1468501006}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -42691,23 +42770,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1468501006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1468501005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8d74b9e0bb1d49309693feb882b61c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PauseMenuUI: {fileID: 197789950}
-  ControlsUI: {fileID: 744262023}
-  MenuUI: {fileID: 569695808}
-  SettingsUI: {fileID: 1177272402}
-  Menu: 1
 --- !u!114 &1468501007
 MonoBehaviour:
   m_ObjectHideFlags: 0

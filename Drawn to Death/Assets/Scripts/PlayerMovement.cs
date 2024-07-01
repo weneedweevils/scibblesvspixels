@@ -241,7 +241,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
         
         // Disable movement if in dialogue/cutscene where we don't want movement
-        if (!inFreezeDialogue() && !timelinePlaying && pauseUi.active == false)
+        if (!inFreezeDialogue() && !timelinePlaying) //&& pauseUi.active == false)
         {
             hud.SetActive(true);
  
