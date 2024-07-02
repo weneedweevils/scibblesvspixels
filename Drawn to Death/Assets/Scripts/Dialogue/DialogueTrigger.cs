@@ -47,7 +47,7 @@ public class DialogueTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (activationMethod == TriggerMode.OnTriggerEnter && activeTrigger)
+        if (collision.gameObject.tag == "Player" && activationMethod == TriggerMode.OnTriggerEnter && activeTrigger)
         {
             DialogueManager.Instance.StartDialogue(dialogueSequence);
             activeTrigger = false;
@@ -56,7 +56,7 @@ public class DialogueTrigger : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (activationMethod == TriggerMode.OnTriggerExit && activeTrigger)
+        if (collision.gameObject.tag == "Player" && activationMethod == TriggerMode.OnTriggerExit && activeTrigger)
         {
             DialogueManager.Instance.StartDialogue(dialogueSequence);
             activeTrigger = false;

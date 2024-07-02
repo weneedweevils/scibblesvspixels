@@ -36,6 +36,16 @@ public class DialogueBox : MonoBehaviour
                 dialogueText.text = dialogueEntry.dialogueText;
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            DialogueManager.Instance.ResetDialogue();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            DialogueManager.Instance.PrevDialogue();
+        }
     }
 
     public void SetDialogueEntry(DialogueEntry _dialogueEntry)

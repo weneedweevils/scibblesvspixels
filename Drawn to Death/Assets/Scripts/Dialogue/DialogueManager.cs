@@ -10,7 +10,10 @@ public enum DialogueSFX
     None,
     OodleGeneral,
     OodleQuestion,
+    OodleConfused,
+    OodleMad_NOTIMPLEMENTED,
     GlichGeneral,
+    GlichQuestion_NOTIMPLEMENTED,
     GlichConfused,
     GlichMad
 }
@@ -36,9 +39,12 @@ public class DialogueManager : MonoBehaviour
         //Oodler
         { DialogueSFX.OodleGeneral, "event:/OodleDialogueGeneral"},
         { DialogueSFX.OodleQuestion, "event:/OodlerDialogueQuestion"},
+        { DialogueSFX.OodleConfused, "event:/OodlerDialogueConfused"},
+        { DialogueSFX.OodleMad_NOTIMPLEMENTED, null},
 
         //Glich
         { DialogueSFX.GlichGeneral, "event:/GlichDialogueGeneral"},
+        { DialogueSFX.GlichQuestion_NOTIMPLEMENTED, null},
         { DialogueSFX.GlichConfused, "event:/GlichDialogueConfused"},
         { DialogueSFX.GlichMad, "event:/GlichDialogueMad"}
     };
@@ -65,6 +71,24 @@ public class DialogueManager : MonoBehaviour
         dialogueActive = true;
         dialogueID = 0;
         NextDialogue();
+    }
+
+    public void PrevDialogue()
+    {
+        if (dialogueActive)
+        {
+            dialogueID = Mathf.Max(0, dialogueID - 2);
+            NextDialogue();
+        }
+    }
+
+    public void ResetDialogue()
+    {
+        if (dialogueActive)
+        {
+            dialogueID -= 1;
+            NextDialogue();
+        }
     }
 
     public void NextDialogue()
