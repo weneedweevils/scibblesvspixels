@@ -261,6 +261,7 @@ GameObject:
   - component: {fileID: 2462823222744332872}
   - component: {fileID: 17060506650434024}
   - component: {fileID: 3786005922980315812}
+  - component: {fileID: 4922532097642661199}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -414,6 +415,8 @@ MonoBehaviour:
   pauseUi: {fileID: 0}
   myShakePreset: {fileID: 11400000, guid: e5d41b595dad9f8459dc7b99c17d346f, type: 2}
   shakeCam: {fileID: 3462483169460010922}
+  oodlerCooldown: 0
+  pauseInput: 0
 --- !u!95 &2454788199460616605
 Animator:
   serializedVersion: 3
@@ -529,7 +532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632ae7eb1d4ce49d38a1e38ee7efe7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guid: 9133d89fc459b30f-664752ece4274b19
+  guid: e1a87255129cf77c-908dec5c1b8066ae
 --- !u!61 &3786005922980315812
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -556,6 +559,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 3.7}
   m_EdgeRadius: 0
+--- !u!114 &4922532097642661199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2454788199460616583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08b2a887a25f04cf6b365136066acd2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cutsceneReduction: 0.4
+  inCutscene: 0
 --- !u!1 &3966632181802528408
 GameObject:
   m_ObjectHideFlags: 0
