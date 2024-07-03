@@ -9,7 +9,7 @@ namespace DialogueSystem
         private Text textHolder;
 
         [Header ("Text Customizers")]
-        [SerializeField] private string input;
+        [SerializeField] [TextArea] private string input;
         [SerializeField] private Color textColor;
         [SerializeField] private Font textFont;
 

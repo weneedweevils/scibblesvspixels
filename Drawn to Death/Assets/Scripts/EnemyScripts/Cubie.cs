@@ -57,6 +57,11 @@ public class Cubie : EnemyAI
             cutscene = true;
             base.healthBar.Disable();
         }
+        else
+        {
+            // Prevent projectiles from being fired if cutscene interupted attack
+            createdProjectile = true;
+        }
     }
 
     override protected void Attack()
@@ -72,6 +77,12 @@ public class Cubie : EnemyAI
             animator.SetBool("chasing", false);
             direction = new Vector2(Random.value - 0.5f, Random.value - 0.5f).normalized;
             rb.velocity = Vector2.zero;
+        }
+
+        if (PathLength() > attackDistance)
+        {
+            // Prevent projectiles from being fired if player goes out of range
+            createdProjectile = true;
         }
 
         //End of windup -> Fire Projectile

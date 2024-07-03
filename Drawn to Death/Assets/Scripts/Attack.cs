@@ -272,8 +272,15 @@ public class Attack : MonoBehaviour
             lifeStealNotifier.color = temp;
         }
 
-        if (playerMovement.CanUseAbility() && lifestealTimer.IsUseable() && Input.GetKeyDown(lifestealButton) && !playerMovement.pauseInput && !lifestealStart && !attacking)
+        if (playerMovement.CanUseAbility() && lifestealTimer.IsUseable() && Input.GetKeyDown(lifestealButton) && !playerMovement.pauseInput && !lifestealStart)
         {
+            // End melee attack if active (lifesteal takes priority)
+            if (attacking)
+            {
+                animator.SetBool("attacking", false);
+                attackTimer.ResetTimer();
+                attacking = false;
+            }
             lifestealStartTimer.StartTimer();
             animator.SetBool("lifestealstart", true);
             lifestealFmod.start();
