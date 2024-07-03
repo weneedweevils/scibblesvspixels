@@ -14,8 +14,6 @@ public class OodleKnight : EnemyAI
     private CooldownTimer windupTimer;
     private KnightAttack attackObject;
 
-    private FMOD.Studio.EventInstance fmodInstance;
-
     override protected void Start()
     {
         //Override variables
@@ -29,10 +27,6 @@ public class OodleKnight : EnemyAI
         //Coolect Object references
         attackObject = GetComponentInChildren<KnightAttack>();
         if (attackObject == null) Debug.LogError("Error - " + gameObject.name + " is missing reference to an Attack Object");
-
-        // Create FMOD instance for attack SFX
-        fmodInstance = FMODUnity.RuntimeManager.CreateInstance("event:/OodleKnightAttack");  
-        FMODUnity.RuntimeManager.AttachInstanceToGameObject(fmodInstance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
 
         //Continue with the base class implementation of Start
         base.Start();
@@ -80,7 +74,6 @@ public class OodleKnight : EnemyAI
         //Try to get into position to attack the target
         if (!attackTimer.IsActive())
         {
-            fmodInstance.stop(0);
             animator.SetBool("attacking", false);
             animator.SetBool("chasing", true);
 
@@ -125,7 +118,8 @@ public class OodleKnight : EnemyAI
             //Start the attack
             if (target != null && state == State.attack && attackTimer.IsUseable() && collision.gameObject.transform == target)
             {
-                fmodInstance.start();
+                // start the attack sfx
+                attackSFXInstance.start();
 
                 windupTimer.StartTimer();
                 attackTimer.StartTimer();
