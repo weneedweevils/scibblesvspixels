@@ -55,7 +55,10 @@ public class DialogueBox : MonoBehaviour
         DialogueStyle style = _dialogueEntry.dialogueStyle;
 
         //Set the speaker Image
-        speakerImage.sprite = dialogueEntry.speakerImage;
+        if (style.speakerImage != null)
+        {
+            speakerImage.sprite = style.speakerImage;
+        }
 
         //Set the speaker name & style
         speakerName.text = style.speakerName;
@@ -65,7 +68,7 @@ public class DialogueBox : MonoBehaviour
         //Set the dialogue text & style
         dialogueText.color = style.textColor;
         dialogueText.font = style.textFont;
-        delay = style.writeDelay;
+        delay = dialogueEntry.writeDelay;
 
         //Set Dialogue Text
         if (delay > 0) StartCoroutine("WriteText");

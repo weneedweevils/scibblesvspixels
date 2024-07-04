@@ -7,6 +7,7 @@ public class DialogueStyle : ScriptableObject
 {
     [Header("Style")]
     public DialogueBox dialogueBlueprint;
+    public Sprite speakerImage;
 
     [Header("Name")]
     public string speakerName;
@@ -16,5 +17,4 @@ public class DialogueStyle : ScriptableObject
     [Header("Content")]
     public TMPro.TMP_FontAsset textFont;
     public Color textColor;
-    public float writeDelay;
 }

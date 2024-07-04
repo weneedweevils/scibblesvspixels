@@ -15,7 +15,7 @@ public class DialogueEntry
 {
     public string Identifier;
     [Space(5)] [TextArea] public string dialogueText;
-    [Space(10)] public Sprite speakerImage;
+    [Space(10)] public float writeDelay = 0.05f;
     public DialogueStyle dialogueStyle;
     public DialogueSFX dialogueSFX;
 
