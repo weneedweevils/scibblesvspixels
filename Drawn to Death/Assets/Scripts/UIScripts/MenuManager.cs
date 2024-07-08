@@ -1,4 +1,4 @@
-﻿ using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -12,9 +12,11 @@ public class MenuManager : MonoBehaviour, IDataPersistence
     public Scene nextScene;
     public bool newGame = false;
     public bool loadGame = false;
+    public float transitionTime;
 
     [Header("References")]
     public TextMeshProUGUI text;
+    public Animator transition;
 
     public void QuitGame()
     {
@@ -28,11 +30,16 @@ public class MenuManager : MonoBehaviour, IDataPersistence
             DataPersistenceManager.instance.NewGame();
             nextScene = Scene.Level_1;
         }
-        GotoScene(nextScene);
+        StartCoroutine(LoadScene(nextScene, transition, 1f));
     }
 
-    public static void GotoScene(Scene scene)
+    public static IEnumerator LoadScene(Scene scene, Animator transition = null, float transitionTime = 0f)
     {
+        if (transition != null)
+        {
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+        }
         SceneManager.LoadScene((int)scene);
     }
 
@@ -53,7 +60,7 @@ public class MenuManager : MonoBehaviour, IDataPersistence
     public void ShowCredits()
     {
         nextScene = Scene.Credits;
-        GotoScene(nextScene);
+        StartCoroutine(LoadScene(nextScene));
     }
 
     public void OnHovered()

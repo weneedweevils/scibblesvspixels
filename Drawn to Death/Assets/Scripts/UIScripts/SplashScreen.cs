@@ -26,7 +26,7 @@ public class SplashScreen : MonoBehaviour
         }
         else if (videoStarted && !videoPlayer.isPlaying)
         {
-            MenuManager.GotoScene(Scene.Menu);
+            StartCoroutine(MenuManager.LoadScene(Scene.Menu));
         }
     }
 }
