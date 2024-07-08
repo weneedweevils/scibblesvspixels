@@ -118,7 +118,8 @@ public class OodleKnight : EnemyAI
             //Start the attack
             if (target != null && state == State.attack && attackTimer.IsUseable() && collision.gameObject.transform == target)
             {
-                FMODUnity.RuntimeManager.PlayOneShot("event:/OodleKnightAttack", this.transform.position);
+                // start the attack sfx
+                attackSFXInstance.start();
 
                 windupTimer.StartTimer();
                 attackTimer.StartTimer();

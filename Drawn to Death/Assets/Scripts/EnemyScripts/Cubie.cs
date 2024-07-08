@@ -69,7 +69,9 @@ public class Cubie : EnemyAI
         //Start the attack
         if (target != null && attackTimer.IsUseable())
         {
-            FMODUnity.RuntimeManager.PlayOneShot("event:/CubieAttack");
+            // play the attack sfx
+            attackSFXInstance.start();
+            
             createdProjectile = false;
             windupTimer.StartTimer();
             attackTimer.StartTimer();
