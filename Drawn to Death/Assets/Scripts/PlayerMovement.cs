@@ -101,6 +101,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private GameObject lifestealOrb;
     private bool orb = false;
     private CooldownTimer lifestealEndTimer;
+    public GameObject volumeControllerObject;
+    private VolumeController volumeController;
 
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
@@ -113,8 +115,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     // Pause all input besides escape
     public bool pauseInput = false;
-
-    private VolumeController volumeController;
 
     // Start is called before the first frame update
     void Start()
@@ -130,7 +130,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         weapon = GetComponentInChildren<Attack>();
         eraser = transform.GetChild(0).GetChild(0).gameObject.GetComponent<SpriteRenderer>();
         lifestealOrb = transform.GetChild(4).gameObject;
-        volumeController = GetComponent<VolumeController>();
+        volumeController = volumeControllerObject.GetComponent<VolumeController>();
 
         health = maxHealth;
         dashTimer = new CooldownTimer(dashCooldown, dashBoost / friction);

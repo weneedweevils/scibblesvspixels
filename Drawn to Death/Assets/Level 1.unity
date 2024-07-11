@@ -32360,6 +32360,7 @@ Transform:
   m_Children:
   - {fileID: 1621257183}
   - {fileID: 1474668760}
+  - {fileID: 1607061688}
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -37620,6 +37621,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8624749738620193988, guid: cf97480c00ce98e49b9f271a666560b7,
+        type: 3}
+      propertyPath: volumeControllerObject
+      value: 
+      objectReference: {fileID: 1607061687}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf97480c00ce98e49b9f271a666560b7, type: 3}
 --- !u!1 &1054788391
@@ -44314,6 +44320,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogue: {fileID: 1298862361}
+--- !u!1 &1607061687
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1607061688}
+  - component: {fileID: 1607061689}
+  m_Layer: 0
+  m_Name: VolumeController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1607061688
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1607061687}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 692153846}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1607061689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1607061687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08b2a887a25f04cf6b365136066acd2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVol: 1
+  musicVol: 1
+  sfxVol: 1
+  dialogueVol: 1
+  cutsceneReduction: 0.5
+  inCutscene: 0
 --- !u!1 &1613556225
 GameObject:
   m_ObjectHideFlags: 0
@@ -44454,6 +44509,7 @@ MonoBehaviour:
   tutorialObject: {fileID: 56218361}
   tutorialObjectOnEnemy: {fileID: 1090907928}
   tutorialToggle: {fileID: 0}
+  volumeControllerObject: {fileID: 1607061687}
   newGame: 0
   loadGame: 1
   saveGame: 1
@@ -76284,6 +76340,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: edc6163c20495554691490f3c444283e,
         type: 2}
+    - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: volumeControllerObject
+      value: 
+      objectReference: {fileID: 1607061687}
     - target: {fileID: 2454788199460616583, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
       propertyPath: m_Name

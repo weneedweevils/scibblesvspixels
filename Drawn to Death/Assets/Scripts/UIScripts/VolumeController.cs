@@ -5,7 +5,7 @@ using UnityEngine;
 // Made using this tutorial for help: https://www.youtube.com/watch?v=_D-OZaCH8os&ab_channel=ScottGameSounds
 public class VolumeController : MonoBehaviour {
     private FMOD.Studio.VCA masterVca, musicVca, sfxVca, dialogueVca;
-    float masterVol, musicVol, sfxVol, dialogueVol;
+    public float masterVol, musicVol, sfxVol, dialogueVol;
     public float cutsceneReduction;
     private float volumeReduction;
 
@@ -25,6 +25,7 @@ public class VolumeController : MonoBehaviour {
 
         inCutscene = false;
         volumeReduction = 1;
+        Debug.Log(volumeReduction);
     } 
 
     void Update()
@@ -34,9 +35,7 @@ public class VolumeController : MonoBehaviour {
 
         musicVca.setVolume(musicVol * volumeReduction);
         sfxVca.setVolume(sfxVol * volumeReduction);
-    }
 
-    void FixedUpdate() {
         if (inCutscene){
             if (volumeReduction > cutsceneReduction){
                 volumeReduction -= (float)0.1;
@@ -52,6 +51,7 @@ public class VolumeController : MonoBehaviour {
                 volumeReduction = 1;
             }
         }
+        
     }
 
     public void SetMasterVolume(float volume){

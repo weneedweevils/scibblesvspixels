@@ -18,6 +18,7 @@ public class DataPersistenceManager : MonoBehaviour
     [SerializeField] private GameObject tutorialObject;
     [SerializeField] private GameObject tutorialObjectOnEnemy;
     [SerializeField] private GameObject tutorialToggle;
+    [SerializeField] private GameObject volumeControllerObject;
 
     [Header("On Start Options")]
     [SerializeField] private bool newGame;
@@ -29,6 +30,7 @@ public class DataPersistenceManager : MonoBehaviour
     private GameData gameData;
     private List<IDataPersistence> dataPersistenceObjects;
     private FileDataHandler dataHandler;
+    private VolumeController volumeController;
 
     private void Awake()
     {
@@ -53,6 +55,7 @@ public class DataPersistenceManager : MonoBehaviour
         */
         this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
         this.dataPersistenceObjects = FindAllDataPersistenceObjects();
+        volumeController = volumeControllerObject.GetComponent<VolumeController>();
         if (newGame) { NewGame(); }
         if (loadGame) { LoadGame(); }
         if (saveGame) { SaveGame(); }
@@ -93,6 +96,12 @@ public class DataPersistenceManager : MonoBehaviour
                 if (tutorialObjectOnEnemy != null) { tutorialObjectOnEnemy.SetActive(false); }
             }
 
+            // Load player volume prefs
+            volumeController.masterVol = gameData.masterVol;
+            volumeController.musicVol = gameData.musicVol;  
+            volumeController.sfxVol = gameData.sfxVol;
+            volumeController.dialogueVol = gameData.dialogueVol;
+
             //pass data to other scripts so they can update it
             foreach (IDataPersistence obj in dataPersistenceObjects)
             {
@@ -107,6 +116,13 @@ public class DataPersistenceManager : MonoBehaviour
         //pass data to other scripts so they can update it
         gameData.skipCutscene = true;
         gameData.scene = scene;
+
+        // Player volume prefs
+        gameData.masterVol = volumeController.masterVol;
+        gameData.musicVol = volumeController.musicVol;
+        gameData.sfxVol = volumeController.sfxVol;
+        gameData.dialogueVol = volumeController.dialogueVol;
+
         foreach (IDataPersistence obj in dataPersistenceObjects)
         {
             obj.SaveData(ref gameData);
