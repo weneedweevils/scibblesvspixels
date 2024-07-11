@@ -107,7 +107,6 @@ public class DataPersistenceManager : MonoBehaviour
         //pass data to other scripts so they can update it
         gameData.skipCutscene = true;
         gameData.scene = scene;
-
         foreach (IDataPersistence obj in dataPersistenceObjects)
         {
             obj.SaveData(ref gameData);

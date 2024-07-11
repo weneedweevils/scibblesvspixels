@@ -9,11 +9,6 @@ public class GameData
     public bool skipTutorial;
     public Scene scene;
     public Vector3 playerPosition;
-    // Player prefs
-    public float masterVol;
-    public float musicVol;
-    public float sfxVol;
-    public float dialogueVol;
     
     public GameData(bool tutorial)
     {
