@@ -8,7 +8,6 @@ public class VolumeController : MonoBehaviour {
     public float masterVol, musicVol, sfxVol, dialogueVol;
     public float cutsceneReduction;
     private float volumeReduction;
-
     public bool inCutscene;
 
     void Start()
@@ -17,11 +16,11 @@ public class VolumeController : MonoBehaviour {
         musicVca = FMODUnity.RuntimeManager.GetVCA("vca:/Music");
         sfxVca = FMODUnity.RuntimeManager.GetVCA("vca:/SFX");
         dialogueVca = FMODUnity.RuntimeManager.GetVCA("vca:/Dialogue");
-
-        masterVca.getVolume(out masterVol);
-        musicVca.getVolume(out musicVol);
-        sfxVca.getVolume(out sfxVol);
-        dialogueVca.getVolume(out dialogueVol);
+        
+        masterVol = PlayerPrefs.GetFloat("MasterVolume", 1);
+        musicVol = PlayerPrefs.GetFloat("MusicVolume", 1);
+        sfxVol = PlayerPrefs.GetFloat("SFXVolume", 1);
+        dialogueVol = PlayerPrefs.GetFloat("SFXVolume", 1);
 
         inCutscene = false;
         volumeReduction = 1;
@@ -56,15 +55,18 @@ public class VolumeController : MonoBehaviour {
 
     public void SetMasterVolume(float volume){
         masterVol = volume;
+        PlayerPrefs.SetFloat("MasterVolume", volume);
     }
     
     public void SetMusicVolume(float volume){
         musicVol = volume;
+        PlayerPrefs.SetFloat("MusicVolume", volume);
     }
 
     public void SetSFXVolume(float volume){
         sfxVol = volume;
         dialogueVol = volume;
+        PlayerPrefs.SetFloat("SFXVolume", volume);
         PlaySFXSample();
     }
 

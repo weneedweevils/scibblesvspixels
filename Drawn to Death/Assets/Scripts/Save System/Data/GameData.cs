@@ -21,9 +21,5 @@ public class GameData
         skipTutorial = tutorial;
         scene = Scene.Level_1;
         playerPosition = Vector3.zero;
-        masterVol = 1;
-        musicVol = 1;
-        sfxVol = 1;
-        dialogueVol = 1;
     }
 }

@@ -36181,6 +36181,11 @@ PrefabInstance:
       propertyPath: recallBar
       value: 
       objectReference: {fileID: 20753511}
+    - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: volumeControllerObject
+      value: 
+      objectReference: {fileID: 1318175769}
     - target: {fileID: 2454788199460616583, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
       propertyPath: m_Name
@@ -40639,6 +40644,11 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.18867922
       objectReference: {fileID: 0}
+    - target: {fileID: 8624749738620193988, guid: cf97480c00ce98e49b9f271a666560b7,
+        type: 3}
+      propertyPath: volumeControllerObject
+      value: 
+      objectReference: {fileID: 1318175769}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf97480c00ce98e49b9f271a666560b7, type: 3}
 --- !u!224 &1298534641 stripped
@@ -40665,6 +40675,55 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 973592026}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1318175769
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1318175770}
+  - component: {fileID: 1318175771}
+  m_Layer: 0
+  m_Name: VolumeController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1318175770
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318175769}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1421421120}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1318175771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318175769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08b2a887a25f04cf6b365136066acd2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVol: 1
+  musicVol: 1
+  sfxVol: 1
+  dialogueVol: 1
+  cutsceneReduction: 0.5
+  inCutscene: 0
 --- !u!1001 &1324097282
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41680,6 +41739,7 @@ Transform:
   m_Children:
   - {fileID: 1526410889}
   - {fileID: 907889783}
+  - {fileID: 1318175770}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
