@@ -20,6 +20,7 @@ public class MenuManager : MonoBehaviour, IDataPersistence
 
     public void QuitGame()
     {
+        StartCoroutine(LoadScene(nextScene, transition, transitionTime));
         Application.Quit();
     }
 
@@ -30,13 +31,14 @@ public class MenuManager : MonoBehaviour, IDataPersistence
             DataPersistenceManager.instance.NewGame();
             nextScene = Scene.Level_1;
         }
-        StartCoroutine(LoadScene(nextScene, transition, 1f));
+        StartCoroutine(LoadScene(nextScene, transition, transitionTime));
     }
 
     public static IEnumerator LoadScene(Scene scene, Animator transition = null, float transitionTime = 0f)
     {
         if (transition != null)
         {
+            transition.gameObject.SetActive(true);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
         }
@@ -60,7 +62,7 @@ public class MenuManager : MonoBehaviour, IDataPersistence
     public void ShowCredits()
     {
         nextScene = Scene.Credits;
-        StartCoroutine(LoadScene(nextScene));
+        StartCoroutine(LoadScene(nextScene, transition, transitionTime));
     }
 
     public void OnHovered()

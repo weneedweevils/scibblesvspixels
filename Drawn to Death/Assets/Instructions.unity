@@ -1268,8 +1268,29 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelLoader
       objectReference: {fileID: 0}
+    - target: {fileID: 4154601530425171577, guid: d3ee85df5629f4b4f97248bc05833e7f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6672356004357447390, guid: d3ee85df5629f4b4f97248bc05833e7f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8952354006568085463, guid: d3ee85df5629f4b4f97248bc05833e7f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3ee85df5629f4b4f97248bc05833e7f, type: 3}
+--- !u!95 &1612966285 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1513891687068356343, guid: d3ee85df5629f4b4f97248bc05833e7f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1612966284}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1747942570
 GameObject:
   m_ObjectHideFlags: 0
@@ -1326,9 +1347,9 @@ MonoBehaviour:
   nextScene: 3
   newGame: 1
   loadGame: 0
-  transitionTime: 0
+  transitionTime: 1
   text: {fileID: 1429580789}
-  transition: {fileID: 0}
+  transition: {fileID: 1612966285}
 --- !u!114 &1747942573
 MonoBehaviour:
   m_ObjectHideFlags: 0
