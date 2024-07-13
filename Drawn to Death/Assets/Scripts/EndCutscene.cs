@@ -71,10 +71,15 @@ public class EndCutscene : MonoBehaviour
 
         if (videoPlayer.time > creditStartTime)
         {
+            if (credits.gameObject.transform.GetChild(0).transform.position.y >= 270)
+            {
+                scrollSpeed = 0;
+                return;
+            }
             credits.transform.position += scrollSpeed * Vector3.up * Time.deltaTime;
             if (Input.GetMouseButton(0))
             {
-                credits.transform.position += scrollSpeed*3 * Vector3.up * Time.deltaTime;
+                credits.transform.position += scrollSpeed * 3 * Vector3.up * Time.deltaTime;
             }
         }
     }
