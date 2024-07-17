@@ -21,6 +21,9 @@ public class PauseMenuManager : MonoBehaviour
 
     // PlAYER MOVEMENT //
     public PlayerMovement player;
+    public Attack attack;
+    public GameObject Attack;
+    public GameObject Player;
 
 
     // UI OBJECTS //
@@ -52,7 +55,12 @@ public class PauseMenuManager : MonoBehaviour
     {
         Debug.Log("Hello");
         menuStateMachine.Initialize(emptyState);
+
+        Player = GameObject.Find("Player");
         player = GameObject.Find("Player").GetComponent<PlayerMovement>();
+
+        Attack = GameObject.Find("Eraser");
+        attack = player.GetComponentInChildren<Attack>();
         controls = player.getControls();
     }
 

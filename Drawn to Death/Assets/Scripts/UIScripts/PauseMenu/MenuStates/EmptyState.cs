@@ -48,15 +48,22 @@ public class EmptyState : MenuBaseState
 
     public void Resume()
     {
+   
+ 
+    
         pauseMenuManager.PauseMenu.SetActive(false);
         Time.timeScale = 1f;
         pauseMenuManager.paused = false;
+
     }
     
     void Pause()
     {
         Time.timeScale = 0f;
         pauseMenuManager.paused = true;
+  
+    
+ 
     }
 
 

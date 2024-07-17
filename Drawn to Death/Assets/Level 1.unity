@@ -3184,6 +3184,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 17060506650434018}
+  attack: {fileID: 0}
+  Attack: {fileID: 0}
+  Player: {fileID: 0}
   GameMenuObject: {fileID: 197789950}
   ControlScreen: {fileID: 744262023}
   PauseMenu: {fileID: 569695808}
@@ -32099,6 +32102,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 15
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 197789956}
+          m_MethodName: GoToControls
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &680458952
 GameObject:
   m_ObjectHideFlags: 0
@@ -37492,6 +37510,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1468501010}
     m_Modifications:
+    - target: {fileID: 1287945786770114776, guid: cf97480c00ce98e49b9f271a666560b7,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287945786770114776, guid: cf97480c00ce98e49b9f271a666560b7,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1287945786770114777, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_Pivot.x
@@ -37702,6 +37730,17 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 46.759995
       objectReference: {fileID: 0}
+    - target: {fileID: 6447633763314488813, guid: cf97480c00ce98e49b9f271a666560b7,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6a33dbb2fa7db3a4686b3b056602e3af,
+        type: 3}
+    - target: {fileID: 6447633763314488813, guid: cf97480c00ce98e49b9f271a666560b7,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7109232612418458142, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -37734,13 +37773,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7701299363077394828, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7701299363077394828, guid: cf97480c00ce98e49b9f271a666560b7,
+        type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -8.069214
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7701299363077394828, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 43.80002
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8286521686039659000, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
@@ -76384,6 +76428,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e90fb38d324df34d9637cecb7199e74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2138267498 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3632343926960654264, guid: cf97480c00ce98e49b9f271a666560b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1053850400}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2138267503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2138267498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 197789956}
+          m_MethodName: Escape
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &17060506650434017 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2454788199460616583, guid: f5e11bc1681c3b844b34bab6fe8ab682,
