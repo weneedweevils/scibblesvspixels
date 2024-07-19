@@ -18,6 +18,8 @@ public class PauseMenuManager : MonoBehaviour
     public SettingsState settingsState;
     public QuitState quitState;
     public MenuState menuState;
+    public ControllerRebindState controllerRebindState;
+    public KeyboardRebindState keyboardRebindState;
 
     // PlAYER MOVEMENT //
     public PlayerMovement player;
@@ -32,6 +34,8 @@ public class PauseMenuManager : MonoBehaviour
     public GameObject ControlScreen;
     public GameObject PauseMenu;
     public GameObject Settings;
+    public GameObject KeyboardRebindUI;
+    public GameObject ControllerRebindUI;
 
 
     public int Menu = 0;
@@ -48,6 +52,8 @@ public class PauseMenuManager : MonoBehaviour
         settingsState = new SettingsState(this, menuStateMachine);
         quitState = new QuitState(this, menuStateMachine);
         menuState = new MenuState(this, menuStateMachine);
+        keyboardRebindState = new KeyboardRebindState(this, menuStateMachine);
+        controllerRebindState = new ControllerRebindState(this, menuStateMachine);
     }
 
 
@@ -97,6 +103,16 @@ public class PauseMenuManager : MonoBehaviour
     public void GoToMenu()
     {
         menuStateMachine.ChangeState(menuState);
+    }
+
+    public void GoToRebindController()
+    {
+        menuStateMachine.ChangeState(controllerRebindState);
+    }
+
+    public void GoToRebindKeyboard()
+    {
+        menuStateMachine.ChangeState(keyboardRebindState);
     }
 }
 
