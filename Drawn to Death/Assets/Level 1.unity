@@ -1761,11 +1761,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: -2001524018
-      Data2: 1300591871
-      Data3: -912540482
-      Data4: -37138128
-    Path: event:/OodleDialogueGeneral
+      Data1: 1578118677
+      Data2: 1275607896
+      Data3: -1828671599
+      Data4: 274770619
+    Path: event:/GlichDialogueGeneral
   Event: 
   PlayEvent: 11
   StopEvent: 0
@@ -4822,11 +4822,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: -2001524018
-      Data2: 1300591871
-      Data3: -912540482
-      Data4: -37138128
-    Path: event:/OodleDialogueGeneral
+      Data1: 88451555
+      Data2: 1334396074
+      Data3: 1993160596
+      Data4: 1870340626
+    Path: event:/GlichDialogueMad
   Event: 
   PlayEvent: 11
   StopEvent: 0
@@ -28559,11 +28559,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 1818707455
-      Data2: 1125815505
-      Data3: 1872392617
-      Data4: 950402479
-    Path: event:/GlichDialogueConfused
+      Data1: 1578118677
+      Data2: 1275607896
+      Data3: -1828671599
+      Data4: 274770619
+    Path: event:/GlichDialogueGeneral
   Event: 
   PlayEvent: 11
   StopEvent: 0
@@ -29292,6 +29292,85 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 511277582}
   m_CullTransparentMesh: 0
+--- !u!1001 &512491250
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4154601528671525248, guid: d3ee85df5629f4b4f97248bc05833e7f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525248, guid: d3ee85df5629f4b4f97248bc05833e7f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525248, guid: d3ee85df5629f4b4f97248bc05833e7f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525248, guid: d3ee85df5629f4b4f97248bc05833e7f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525248, guid: d3ee85df5629f4b4f97248bc05833e7f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525248, guid: d3ee85df5629f4b4f97248bc05833e7f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525248, guid: d3ee85df5629f4b4f97248bc05833e7f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525248, guid: d3ee85df5629f4b4f97248bc05833e7f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525248, guid: d3ee85df5629f4b4f97248bc05833e7f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525248, guid: d3ee85df5629f4b4f97248bc05833e7f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525248, guid: d3ee85df5629f4b4f97248bc05833e7f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525251, guid: d3ee85df5629f4b4f97248bc05833e7f,
+        type: 3}
+      propertyPath: m_Name
+      value: LevelLoader
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601530425171577, guid: d3ee85df5629f4b4f97248bc05833e7f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6672356004357447390, guid: d3ee85df5629f4b4f97248bc05833e7f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d3ee85df5629f4b4f97248bc05833e7f, type: 3}
 --- !u!1001 &521487661
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30346,6 +30425,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextScene: 4
+  transition: {fileID: 2016690204}
+  transitionTime: 1
 --- !u!61 &580820273
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -30924,11 +31005,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: -2001524018
-      Data2: 1300591871
-      Data3: -912540482
-      Data4: -37138128
-    Path: event:/OodleDialogueGeneral
+      Data1: 88451555
+      Data2: 1334396074
+      Data3: 1993160596
+      Data4: 1870340626
+    Path: event:/GlichDialogueMad
   Event: 
   PlayEvent: 11
   StopEvent: 0
@@ -31344,11 +31425,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: -2001524018
-      Data2: 1300591871
-      Data3: -912540482
-      Data4: -37138128
-    Path: event:/OodleDialogueGeneral
+      Data1: 1578118677
+      Data2: 1275607896
+      Data3: -1828671599
+      Data4: 274770619
+    Path: event:/GlichDialogueGeneral
   Event: 
   PlayEvent: 11
   StopEvent: 0
@@ -31812,11 +31893,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 1818707455
-      Data2: 1125815505
-      Data3: 1872392617
-      Data4: 950402479
-    Path: event:/GlichDialogueConfused
+      Data1: 1578118677
+      Data2: 1275607896
+      Data3: -1828671599
+      Data4: 274770619
+    Path: event:/GlichDialogueGeneral
   Event: 
   PlayEvent: 11
   StopEvent: 0
@@ -32130,11 +32211,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 1818707455
-      Data2: 1125815505
-      Data3: 1872392617
-      Data4: 950402479
-    Path: event:/GlichDialogueConfused
+      Data1: 1578118677
+      Data2: 1275607896
+      Data3: -1828671599
+      Data4: 274770619
+    Path: event:/GlichDialogueGeneral
   Event: 
   PlayEvent: 11
   StopEvent: 0
@@ -33882,11 +33963,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 1818707455
-      Data2: 1125815505
-      Data3: 1872392617
-      Data4: 950402479
-    Path: event:/GlichDialogueConfused
+      Data1: 1578118677
+      Data2: 1275607896
+      Data3: -1828671599
+      Data4: 274770619
+    Path: event:/GlichDialogueGeneral
   Event: 
   PlayEvent: 11
   StopEvent: 0
@@ -34895,11 +34976,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 1818707455
-      Data2: 1125815505
-      Data3: 1872392617
-      Data4: 950402479
-    Path: event:/GlichDialogueConfused
+      Data1: 1578118677
+      Data2: 1275607896
+      Data3: -1828671599
+      Data4: 274770619
+    Path: event:/GlichDialogueGeneral
   Event: 
   PlayEvent: 11
   StopEvent: 0
@@ -35455,11 +35536,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 1818707455
-      Data2: 1125815505
-      Data3: 1872392617
-      Data4: 950402479
-    Path: event:/GlichDialogueConfused
+      Data1: 88451555
+      Data2: 1334396074
+      Data3: 1993160596
+      Data4: 1870340626
+    Path: event:/GlichDialogueMad
   Event: 
   PlayEvent: 11
   StopEvent: 0
@@ -38862,11 +38943,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: -2001524018
-      Data2: 1300591871
-      Data3: -912540482
-      Data4: -37138128
-    Path: event:/OodleDialogueGeneral
+      Data1: 1818707455
+      Data2: 1125815505
+      Data3: 1872392617
+      Data4: 950402479
+    Path: event:/GlichDialogueConfused
   Event: 
   PlayEvent: 11
   StopEvent: 0
@@ -44215,11 +44296,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 1818707455
-      Data2: 1125815505
-      Data3: 1872392617
-      Data4: 950402479
-    Path: event:/GlichDialogueConfused
+      Data1: 1578118677
+      Data2: 1275607896
+      Data3: -1828671599
+      Data4: 274770619
+    Path: event:/GlichDialogueGeneral
   Event: 
   PlayEvent: 11
   StopEvent: 0
@@ -44595,11 +44676,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 1818707455
-      Data2: 1125815505
-      Data3: 1872392617
-      Data4: 950402479
-    Path: event:/GlichDialogueConfused
+      Data1: 1578118677
+      Data2: 1275607896
+      Data3: -1828671599
+      Data4: 274770619
+    Path: event:/GlichDialogueGeneral
   Event: 
   PlayEvent: 11
   StopEvent: 0
@@ -45869,11 +45950,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: -2001524018
-      Data2: 1300591871
-      Data3: -912540482
-      Data4: -37138128
-    Path: event:/OodleDialogueGeneral
+      Data1: 1578118677
+      Data2: 1275607896
+      Data3: -1828671599
+      Data4: 274770619
+    Path: event:/GlichDialogueGeneral
   Event: 
   PlayEvent: 11
   StopEvent: 0
@@ -74689,6 +74770,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1999719618}
   m_CullTransparentMesh: 0
+--- !u!95 &2016690204 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1513891687068356343, guid: d3ee85df5629f4b4f97248bc05833e7f,
+    type: 3}
+  m_PrefabInstance: {fileID: 512491250}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2023663099
 GameObject:
   m_ObjectHideFlags: 0
@@ -74745,11 +74832,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 1818707455
-      Data2: 1125815505
-      Data3: 1872392617
-      Data4: 950402479
-    Path: event:/GlichDialogueConfused
+      Data1: 1578118677
+      Data2: 1275607896
+      Data3: -1828671599
+      Data4: 274770619
+    Path: event:/GlichDialogueGeneral
   Event: 
   PlayEvent: 11
   StopEvent: 0
