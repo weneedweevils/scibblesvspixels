@@ -14,7 +14,6 @@ using UnityEngine.Timeline;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using static System.Net.Mime.MediaTypeNames;
-using MilkShake;
 using System.Threading;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
@@ -96,11 +95,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public GameObject pauseUi;
     private GameObject panel; // This is the panel that contains in image whose color can be changed to simulate a damage effect
     private UnityEngine.UI.Image restricted;
-    public ShakePreset myShakePreset;
-    public Shaker shakeCam;
     private GameObject lifestealOrb;
     private bool orb = false;
     private CooldownTimer lifestealEndTimer;
+
+
+    public Animator CameraReference;
+    public Animator HealthBarReference;
 
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
@@ -426,12 +427,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             return;
         }
 
-        if (shakeCam != null)
-        {
-            shakeCam.Shake(myShakePreset);
-        }
-
-        ChangeScreenColor(true);
+        HealthBarReference.SetTrigger("HealthBarShake");
+        CameraReference.SetTrigger("Shake");
 
         if (UsingAbility())
         {
@@ -450,6 +447,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
             velocity = knockbackDir.normalized * knockbackPower * 3;
         }
+
+        // flashes damage indicator around health bar
+        ChangeScreenColor(true);
 
         if (health <= 0)
         {

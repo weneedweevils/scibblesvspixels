@@ -4254,6 +4254,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7298473912298103450, guid: 34d9b55fa170a444bb86050513388636,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7298473912298103450, guid: 34d9b55fa170a444bb86050513388636,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7298473912298103450, guid: 34d9b55fa170a444bb86050513388636,
+        type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -4282,6 +4292,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7897831209167699892, guid: 34d9b55fa170a444bb86050513388636,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 85d4ed6b384c04040a5b4fa637995d88, type: 2}
     - target: {fileID: 8243616453827863977, guid: 34d9b55fa170a444bb86050513388636,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -4337,7 +4352,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7897831209167699892, guid: 34d9b55fa170a444bb86050513388636, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 34d9b55fa170a444bb86050513388636, type: 3}
 --- !u!114 &306079424 stripped
 MonoBehaviour:
@@ -35056,18 +35072,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 901986738}
   m_CullTransparentMesh: 0
---- !u!114 &908995220 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3462483169460010922, guid: f5e11bc1681c3b844b34bab6fe8ab682,
-    type: 3}
-  m_PrefabInstance: {fileID: 2462823223096369254}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1697a0132719bae458729c9e99c0c716, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &911569405
 GameObject:
   m_ObjectHideFlags: 0
@@ -41430,7 +41434,7 @@ GameObject:
   - component: {fileID: 1370336364}
   - component: {fileID: 1370336363}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: PlayerCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44619,6 +44623,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2484373823062185863, guid: 15ab63cf82d98af4e8c9847085fba9eb,
     type: 3}
   m_PrefabInstance: {fileID: 1843912385}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1643918136 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1706352526891124967, guid: 34d9b55fa170a444bb86050513388636,
+    type: 3}
+  m_PrefabInstance: {fileID: 306079423}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1645378985
 GameObject:
@@ -76354,7 +76364,7 @@ PrefabInstance:
         type: 3}
       propertyPath: shakeCam
       value: 
-      objectReference: {fileID: 908995220}
+      objectReference: {fileID: 0}
     - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
       propertyPath: healthBar
@@ -76371,6 +76381,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: edc6163c20495554691490f3c444283e,
         type: 2}
+    - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: HealthBarReference
+      value: 
+      objectReference: {fileID: 1643918136}
     - target: {fileID: 2454788199460616583, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
       propertyPath: m_Name
