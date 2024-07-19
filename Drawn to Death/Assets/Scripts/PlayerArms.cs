@@ -9,19 +9,19 @@ public class PlayerArms
     private GameObject weapon;
     private GameObject player;
     private GameObject arms;
+    private PlayerInput playerInput;
     protected PlayerMovement playerMovement;
     
 
     private SpriteRenderer sprite = null;
-    private PlayerControlMap controls;
     Vector3 mousePosition = Vector3.zero;
 
 
-    public PlayerArms(GameObject weapon, GameObject player, GameObject arms, PlayerControlMap controls, PlayerMovement playerMovement)
+    public PlayerArms(GameObject weapon, GameObject player, GameObject arms, PlayerInput playerInput, PlayerMovement playerMovement)
     {
         this.weapon = weapon;
         this.player = player;
-        this.controls = controls;
+        this.playerInput = playerInput;
         this.arms = arms;
         this.playerMovement = playerMovement;
 

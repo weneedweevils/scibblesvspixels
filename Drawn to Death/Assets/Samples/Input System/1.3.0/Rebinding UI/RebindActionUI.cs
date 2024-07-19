@@ -192,13 +192,17 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             var deviceLayoutName = default(string);
             var controlPath = default(string);
 
+           
+
             // Get display string from action.
             var action = m_Action?.action;
+        
             if (action != null)
             {
                 var bindingIndex = action.bindings.IndexOf(x => x.id.ToString() == m_BindingId);
                 if (bindingIndex != -1)
                     displayString = action.GetBindingDisplayString(bindingIndex, out deviceLayoutName, out controlPath, displayStringOptions);
+                Debug.Log(displayString);
             }
 
             // Set on label (if any).
@@ -262,11 +266,16 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 m_RebindOperation = null;
             }
 
+            //disable action
+            action.Disable();
+
+            Debug.Log(action);
             // Configure the rebind.
             m_RebindOperation = action.PerformInteractiveRebinding(bindingIndex)
                 .OnCancel(
                     operation =>
                     {
+                        action.Enable();
                         m_RebindStopEvent?.Invoke(this, operation);
                         m_RebindOverlay?.SetActive(false);
                         UpdateBindingDisplay();
@@ -275,6 +284,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 .OnComplete(
                     operation =>
                     {
+                        action.Enable();
                         m_RebindOverlay?.SetActive(false);
                         m_RebindStopEvent?.Invoke(this, operation);
                         UpdateBindingDisplay();

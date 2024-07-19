@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class Attack : MonoBehaviour
 {
@@ -89,7 +90,7 @@ public class Attack : MonoBehaviour
 
     // herearaer
 
-    public PlayerControlMap controls;
+    private PlayerInput playerInput;
 
 
 
@@ -128,8 +129,8 @@ public class Attack : MonoBehaviour
         isHit = 0;
 
 
-        controls = new PlayerControlMap();
-        controls.Enable();
+        playerInput = playerMovement.GetComponent<PlayerInput>();
+        
 
 
     }
@@ -166,7 +167,7 @@ public class Attack : MonoBehaviour
             }
 
             //Attack
-            if (attackTimer.IsUseable() && playerMovement.CanUseAbility() && controls.Player.Attack.IsPressed() && !playerMovement.pauseInput)
+            if (attackTimer.IsUseable() && playerMovement.CanUseAbility() && playerInput.actions["Attack"].triggered && !playerMovement.pauseInput)
             {
 
                 // FMODUnity.RuntimeManager.PlayOneShot(eraserSfx, isHit);
@@ -219,7 +220,7 @@ public class Attack : MonoBehaviour
         //Revive
         if (playerMovement.CanUseAbility())
         {
-            if (controls.Player.Revive.WasPerformedThisFrame() && reviveTimer.IsUseable() && !playerMovement.pauseInput)
+            if (playerInput.actions["Revive"].triggered && reviveTimer.IsUseable() && !playerMovement.pauseInput)
             {
                 Debug.Log("Attempting to revive enemies");
 
@@ -285,7 +286,7 @@ public class Attack : MonoBehaviour
             lifeStealNotifier.color = temp;
         }
 
-        if (playerMovement.CanUseAbility() && lifestealTimer.IsUseable() && controls.Player.LifeSteal.WasPerformedThisFrame() && !playerMovement.pauseInput && !lifestealStart)
+        if (playerMovement.CanUseAbility() && lifestealTimer.IsUseable() && playerInput.actions["LifeSteal"].triggered && !playerMovement.pauseInput && !lifestealStart)
         {
             // End melee attack if active (lifesteal takes priority)
             if (attacking)
@@ -317,7 +318,7 @@ public class Attack : MonoBehaviour
         if (lifestealTimer.IsActive() && lifestealImage.enabled && !player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying && Time.timeScale != 0f)
         {
 
-            if (controls.Player.LifeSteal.WasPerformedThisFrame() && lifestealStartTimer.IsUseable())
+            if (playerInput.actions["LifeSteal"].triggered && lifestealStartTimer.IsUseable())
             {
                 lifestealTimer.StartCooldown(lifestealCooldown - (lifestealTimer.timer * lifestealRatio));
             }

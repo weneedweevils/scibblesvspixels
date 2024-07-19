@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Numerics;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR.Haptics;
 
 public class PauseMenuManager : MonoBehaviour
 {
     // STATE MACHINE AND CONTROL MAP //
     public MenuStateMachine menuStateMachine;
-    public PlayerControlMap controls;
+    //public PlayerControlMap controls;
     
     // MENU STATES //
     public EmptyState emptyState;
@@ -26,6 +27,7 @@ public class PauseMenuManager : MonoBehaviour
     public Attack attack;
     public GameObject Attack;
     public GameObject Player;
+    public PlayerInput playerInput;
 
 
     // UI OBJECTS //
@@ -67,7 +69,8 @@ public class PauseMenuManager : MonoBehaviour
 
         Attack = GameObject.Find("Eraser");
         attack = player.GetComponentInChildren<Attack>();
-        controls = player.getControls();
+
+        playerInput = player.GetComponent<PlayerInput>();
     }
 
     private void Update()

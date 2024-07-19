@@ -8,19 +8,20 @@
 using System.Collections;
 using System.Numerics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace DialogueSystem
 {
     public class DialogueBaseClass : MonoBehaviour
     {
-        public PlayerControlMap controls;
+        public PlayerInput playerInput;
         private PlayerMovement player;
 
         public void Start()
         {
             player = GameObject.Find("Player").GetComponent<PlayerMovement>();
-            controls = player.getControls();
+            playerInput = player.GetComponent<PlayerInput>();
         }
 
         public bool finished { get; protected set; }
@@ -43,7 +44,7 @@ namespace DialogueSystem
                 textHolder.text = new string(displayedText);
                 yield return new WaitForSeconds(delay);
             }
-            yield return new WaitUntil(() => controls.Player.SkipText.WasPerformedThisFrame());
+            yield return new WaitUntil(() => playerInput.actions["SkipText"].triggered);
             finished = true;
         }
 

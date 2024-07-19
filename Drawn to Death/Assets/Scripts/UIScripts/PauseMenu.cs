@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor.U2D.Path.GUIFramework;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 // Used this tutorial https://www.youtube.com/watch?v=JivuXdrIHK0
@@ -14,12 +15,12 @@ public class PauseMenu : MonoBehaviour
     public GameObject SettingsUI;
     public int Menu = 0;
     private PlayerMovement player;
-    private PlayerControlMap controls;
+    private PlayerInput playerInput;
 
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<PlayerMovement>();
-        controls = player.getControls();
+        playerInput = player.getInputSystem();
     }
 
     // Update is called once per frame
@@ -28,7 +29,7 @@ public class PauseMenu : MonoBehaviour
         //If the player is not in a dialogue or timeline, then the pause menu can be accessed via escape
         if (!player.inFreezeDialogue() && !player.timelinePlaying)
         {
-            if (controls.Player.Escape.WasPerformedThisFrame())
+            if (playerInput.actions["Escape"].triggered)
             {
 
                 if (!ControlsUI.activeSelf && !SettingsUI.activeSelf)

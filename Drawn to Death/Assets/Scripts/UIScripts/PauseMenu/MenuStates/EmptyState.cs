@@ -19,7 +19,7 @@ public class EmptyState : MenuBaseState
     {
         if (!pauseMenuManager.player.inFreezeDialogue() && !pauseMenuManager.player.timelinePlaying)
         {
-            if (pauseMenuManager.controls.Player.Escape.WasPerformedThisFrame())
+            if (pauseMenuManager.playerInput.actions["Escape"].triggered)
             {
                 Debug.Log("we got here");
                 menuStateMachine.ChangeState(pauseMenuManager.pauseState);

@@ -114,12 +114,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     //additional scripts
     [Header("New input system")]
-    public PlayerControlMap controls;
+    public InputActionMap controls;
     private PlayerArms playerarms;
     public GameObject eraserObject;
     public GameObject armsObject;
     public bool isGamepad = false;
     private Vector2 aimDirection;
+    private PlayerInput playerInput; 
 
     // Start is called before the first frame update
     void Start()
@@ -157,8 +158,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         restricted = GameObject.Find("RestrictRally").GetComponent<UnityEngine.UI.Image>();
 
-        playerarms = new PlayerArms(eraserObject, gameObject, armsObject, controls, this);
+        playerInput = GetComponent<PlayerInput>();
+
+        playerarms = new PlayerArms(eraserObject, gameObject, armsObject, playerInput, this);
         
+       
 
     }
 
@@ -181,20 +185,21 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // enable the player controller
     void Awake()
     {
-        controls = new PlayerControlMap();
-        controls.Enable();
-        controls.Player.Move.performed += value =>
-        {
+       
+        //controls = new PlayerControlMap();
+        //controls.Enable();
+        //controls.Player.Move.performed += value =>
+        //{
 
-            // there is a current bug with this method resulting in the controller being slightly slower than mouse and keyboard when moving
-            acceleration= value.ReadValue<Vector2>()*accelerationCoefficient;
-        };
+        //    // there is a current bug with this method resulting in the controller being slightly slower than mouse and keyboard when moving
+        //    acceleration= value.ReadValue<Vector2>()*accelerationCoefficient;
+        //};
 
-        controls.Player.Aim.performed += value2 =>
-        {
-            aimDirection = value2.ReadValue<Vector2>();
+        //controls.Player.Aim.performed += value2 =>
+        //{
+        //    aimDirection = value2.ReadValue<Vector2>();
           
-        };
+        //};
     }
     
 
@@ -203,8 +208,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     void Update()
     {
 
-        playerarms.FrameUpdate(aimDirection);
+        acceleration = playerInput.actions["Move"].ReadValue<Vector2>()*accelerationCoefficient;
+        aimDirection = playerInput.actions["Aim"].ReadValue<Vector2>();
 
+        playerarms.FrameUpdate(aimDirection);
         dashTimer.Update();
         //recallTimer.Update();
         invincibilityTimer.Update();
@@ -288,7 +295,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
 
 
-        if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && controls.Player.Dash.WasPerformedThisFrame() && Mathf.Abs(velocity.magnitude) > 0f && !pauseInput)
+        if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && playerInput.actions["Dash"].triggered && Mathf.Abs(velocity.magnitude) > 0f && !pauseInput)
         {
             activatedDashNotifier = false;
             velocity += velocity.normalized * dashBoost;
@@ -336,7 +343,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
 
         //reset notifier if we have allies or have pressed revive or recall
-        if ((controls.Player.Rally.WasPerformedThisFrame() || controls.Player.Revive.WasPerformedThisFrame()) && weapon.GetAllies().Count > 0)
+        if ((playerInput.actions["Rally"].triggered || playerInput.actions["Revive"].triggered) && weapon.GetAllies().Count > 0)
         {
             weapon.activatedReviveNotifier = false;
             activatedRecallNotifier = false;
@@ -352,7 +359,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
 
         //If player pressed recall and they are not on cooldown and they have allies, do recall
-        if (weapon.reviveTimer.IsUseable() && CanUseAbility() && controls.Player.Rally.WasPerformedThisFrame() && weapon.GetAllies().Count > 0)
+        if (weapon.reviveTimer.IsUseable() && CanUseAbility() && playerInput.actions["Rally"].triggered && weapon.GetAllies().Count > 0)
         {
             weapon.reviveTimer.StartTimer();
             pencil.enabled = false;
@@ -719,9 +726,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
     }
 
-    public PlayerControlMap getControls()
+    public PlayerInput getInputSystem()
     {
-        return controls;
+        return playerInput;
     }
 
 }

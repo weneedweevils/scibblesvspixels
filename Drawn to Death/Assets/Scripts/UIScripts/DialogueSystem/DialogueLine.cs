@@ -40,7 +40,7 @@ namespace DialogueSystem
         // Used to let the player skip the dialogue scrolling
         private void Update()
         {
-            if (controls.Player.SkipText.WasPerformedThisFrame())
+            if (playerInput.actions["SkipText"].triggered)
             {
                 if (textHolder.text != input)
                 {

@@ -25,7 +25,7 @@ public class MenuBaseState
         // This will functionally make the escape button a back button 
         if (!pauseMenuManager.player.inFreezeDialogue() && !pauseMenuManager.player.timelinePlaying)
         {
-            if (pauseMenuManager.controls.Player.Escape.WasPerformedThisFrame() && !menuStateMachine.EndOfStack())
+            if (pauseMenuManager.playerInput.actions["Escape"].triggered && !menuStateMachine.EndOfStack())
             {
                 menuStateMachine.GoBackState();
 
