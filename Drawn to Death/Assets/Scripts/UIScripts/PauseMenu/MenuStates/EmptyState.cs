@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using UnityEditor.U2D.Path.GUIFramework;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class EmptyState : MenuBaseState
 {
@@ -19,24 +20,26 @@ public class EmptyState : MenuBaseState
     {
         if (!pauseMenuManager.player.inFreezeDialogue() && !pauseMenuManager.player.timelinePlaying)
         {
+
             if (pauseMenuManager.playerInput.actions["Escape"].triggered)
             {
                 Debug.Log("we got here");
-                menuStateMachine.ChangeState(pauseMenuManager.pauseState);
-              
+                pauseMenuManager.GoToPauseMenu();
+
             }
         }
     }
 
    
-
-   
-
     public override void EnterState()
     {
         base.EnterState();
         Resume();
-        Debug.Log("Entered Empty State");
+        
+        pauseMenuManager.playerInput.SwitchCurrentActionMap("Player");
+       
+
+       
     }
 
     public override void ExitState()

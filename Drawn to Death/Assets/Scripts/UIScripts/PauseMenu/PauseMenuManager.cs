@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR.Haptics;
 
@@ -40,6 +41,10 @@ public class PauseMenuManager : MonoBehaviour
     public GameObject ControllerRebindUI;
 
 
+    public GameObject SettingsFirstButton;
+    public GameObject PauseFirstButton;
+
+
     public int Menu = 0;
     public bool paused = false;
 
@@ -56,6 +61,8 @@ public class PauseMenuManager : MonoBehaviour
         menuState = new MenuState(this, menuStateMachine);
         keyboardRebindState = new KeyboardRebindState(this, menuStateMachine);
         controllerRebindState = new ControllerRebindState(this, menuStateMachine);
+
+        playerInput = player.GetComponent<PlayerInput>();
     }
 
 
@@ -70,7 +77,7 @@ public class PauseMenuManager : MonoBehaviour
         Attack = GameObject.Find("Eraser");
         attack = player.GetComponentInChildren<Attack>();
 
-        playerInput = player.GetComponent<PlayerInput>();
+        
     }
 
     private void Update()
@@ -95,6 +102,7 @@ public class PauseMenuManager : MonoBehaviour
     // goes to the settings screen
     public void GoToSettings()
     {
+        EventSystem.current.SetSelectedGameObject(SettingsFirstButton);
         menuStateMachine.ChangeState(settingsState);
     }
 
@@ -116,6 +124,12 @@ public class PauseMenuManager : MonoBehaviour
     public void GoToRebindKeyboard()
     {
         menuStateMachine.ChangeState(keyboardRebindState);
+    }
+
+    public void GoToPauseMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(PauseFirstButton);
+        menuStateMachine.ChangeState(pauseState);
     }
 }
 

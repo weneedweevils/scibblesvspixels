@@ -3198,6 +3198,8 @@ MonoBehaviour:
   Settings: {fileID: 1177272402}
   KeyboardRebindUI: {fileID: 317736995}
   ControllerRebindUI: {fileID: 1201581241}
+  SettingsFirstButton: {fileID: 1053850401}
+  PauseFirstButton: {fileID: 2138267498}
   Menu: 0
   paused: 0
 --- !u!1 &199827666
@@ -31847,6 +31849,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 15
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 197789956}
+          m_MethodName: GoToMenu
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &660604278
 GameObject:
   m_ObjectHideFlags: 0
@@ -37805,6 +37822,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1691146247881283653, guid: cf97480c00ce98e49b9f271a666560b7,
+        type: 3}
+      propertyPath: m_Text
+      value: LifeSteal
+      objectReference: {fileID: 0}
     - target: {fileID: 1738665596016450775, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_IsActive
@@ -37848,37 +37870,37 @@ PrefabInstance:
     - target: {fileID: 3761483841048361931, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3761483841048361931, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3761483841048361931, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4207139829909121832, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4207139829909121832, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4343071167387930150, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4343071167387930150, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4375029549245500282, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
@@ -37894,6 +37916,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4780868691475357588, guid: cf97480c00ce98e49b9f271a666560b7,
+        type: 3}
+      propertyPath: m_Text
+      value: Right Button [Mouse]
       objectReference: {fileID: 0}
     - target: {fileID: 5008849600544698387, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
@@ -37913,27 +37940,27 @@ PrefabInstance:
     - target: {fileID: 5728606374186206366, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5728606374186206366, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5728606374186206366, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5821937305437163994, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5821937305437163994, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5847102961336990574, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
@@ -37949,67 +37976,67 @@ PrefabInstance:
         type: 3}
       propertyPath: m_MoveAction
       value: 
-      objectReference: {fileID: -1680190386980627800, guid: ca9f5fa95ffab41fb9a615ab714db018,
+      objectReference: {fileID: 2664984827174830077, guid: 78651e875b218c042ac5c43d33c0097a,
         type: 3}
     - target: {fileID: 5895215143908899939, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_PointAction
       value: 
-      objectReference: {fileID: -1654692200621890270, guid: ca9f5fa95ffab41fb9a615ab714db018,
+      objectReference: {fileID: 2444027641304096619, guid: 78651e875b218c042ac5c43d33c0097a,
         type: 3}
     - target: {fileID: 5895215143908899939, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_ActionsAsset
       value: 
-      objectReference: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018,
+      objectReference: {fileID: -944628639613478452, guid: 78651e875b218c042ac5c43d33c0097a,
         type: 3}
     - target: {fileID: 5895215143908899939, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_CancelAction
       value: 
-      objectReference: {fileID: 7727032971491509709, guid: ca9f5fa95ffab41fb9a615ab714db018,
+      objectReference: {fileID: 1557343498058583734, guid: 78651e875b218c042ac5c43d33c0097a,
         type: 3}
     - target: {fileID: 5895215143908899939, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_SubmitAction
       value: 
-      objectReference: {fileID: 392368643174621059, guid: ca9f5fa95ffab41fb9a615ab714db018,
+      objectReference: {fileID: 5369557449819423619, guid: 78651e875b218c042ac5c43d33c0097a,
         type: 3}
     - target: {fileID: 5895215143908899939, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_LeftClickAction
       value: 
-      objectReference: {fileID: 3001919216989983466, guid: ca9f5fa95ffab41fb9a615ab714db018,
+      objectReference: {fileID: 3394335612890256016, guid: 78651e875b218c042ac5c43d33c0097a,
         type: 3}
     - target: {fileID: 5895215143908899939, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_RightClickAction
       value: 
-      objectReference: {fileID: -4090225696740746782, guid: ca9f5fa95ffab41fb9a615ab714db018,
+      objectReference: {fileID: 7975837510934837481, guid: 78651e875b218c042ac5c43d33c0097a,
         type: 3}
     - target: {fileID: 5895215143908899939, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_MiddleClickAction
       value: 
-      objectReference: {fileID: -2185481485913320682, guid: ca9f5fa95ffab41fb9a615ab714db018,
+      objectReference: {fileID: 3556174475143650585, guid: 78651e875b218c042ac5c43d33c0097a,
         type: 3}
     - target: {fileID: 5895215143908899939, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_ScrollWheelAction
       value: 
-      objectReference: {fileID: 6240969308177333660, guid: ca9f5fa95ffab41fb9a615ab714db018,
+      objectReference: {fileID: 6172841622289426867, guid: 78651e875b218c042ac5c43d33c0097a,
         type: 3}
     - target: {fileID: 5895215143908899939, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_TrackedDevicePositionAction
       value: 
-      objectReference: {fileID: 6564999863303420839, guid: ca9f5fa95ffab41fb9a615ab714db018,
+      objectReference: {fileID: 1842373103483352520, guid: 78651e875b218c042ac5c43d33c0097a,
         type: 3}
     - target: {fileID: 5895215143908899939, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_TrackedDeviceOrientationAction
       value: 
-      objectReference: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018,
+      objectReference: {fileID: 1713718447787193072, guid: 78651e875b218c042ac5c43d33c0097a,
         type: 3}
     - target: {fileID: 6447633763314488813, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
@@ -38035,22 +38062,27 @@ PrefabInstance:
     - target: {fileID: 7226765946068097069, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7226765946068097069, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7226765946068097069, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7488337942956559547, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7488412279944450277, guid: cf97480c00ce98e49b9f271a666560b7,
+        type: 3}
+      propertyPath: m_Colors.m_SelectedColor.a
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7531250105189423448, guid: cf97480c00ce98e49b9f271a666560b7,
         type: 3}
@@ -38211,6 +38243,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates:
   - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 197789956}
+          m_MethodName: GoToSettings
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 15
     callback:
       m_PersistentCalls:
         m_Calls:
@@ -43119,6 +43166,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 15
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 197789956}
+          m_MethodName: GoToRebindKeyboard
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1447139173
 GameObject:
   m_ObjectHideFlags: 0
@@ -47069,6 +47131,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates:
   - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 197789956}
+          m_MethodName: GoToRebindController
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 15
     callback:
       m_PersistentCalls:
         m_Calls:
@@ -76904,6 +76981,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 15
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 197789956}
+          m_MethodName: GoToQuit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1001 &2108300892
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -77047,6 +77139,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates:
   - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 197789956}
+          m_MethodName: Escape
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 15
     callback:
       m_PersistentCalls:
         m_Calls:
@@ -77236,10 +77343,20 @@ PrefabInstance:
       objectReference: {fileID: 449801820}
     - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
+      propertyPath: controls.m_Id
+      value: 0ecbd062-edf4-40cd-8635-3aff3ee76553
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
       propertyPath: myShakePreset
       value: 
       objectReference: {fileID: 11400000, guid: edc6163c20495554691490f3c444283e,
         type: 2}
+    - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: controls.m_Name
+      value: Controls
+      objectReference: {fileID: 0}
     - target: {fileID: 2454788199460616583, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
       propertyPath: m_Name
@@ -77360,6 +77477,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3549213141545925226, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
+      propertyPath: m_DefaultActionMap
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3549213141545925226, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
       propertyPath: m_DefaultControlScheme
       value: 
       objectReference: {fileID: 0}
@@ -77371,7 +77493,7 @@ PrefabInstance:
     - target: {fileID: 3549213141545925226, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
       propertyPath: m_ActionEvents.Array.size
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3549213141545925226, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
@@ -77415,6 +77537,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3549213141545925226, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_ActionId
+      value: 091d92e6-35fc-40c2-a76b-f438a7c085dd
+      objectReference: {fileID: 0}
+    - target: {fileID: 3549213141545925226, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[8].m_ActionId
+      value: 4455e10b-e11c-439c-83f4-5dcb982fa9d4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3549213141545925226, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_ActionName
       value: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
       objectReference: {fileID: 0}
@@ -77447,6 +77579,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ActionEvents.Array.data[6].m_ActionName
       value: Player/LifeSteal[/Mouse/rightButton]
+      objectReference: {fileID: 0}
+    - target: {fileID: 3549213141545925226, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_ActionName
+      value: Player/Escape[/Keyboard/escape,/DualSenseGamepadHID/start]
+      objectReference: {fileID: 0}
+    - target: {fileID: 3549213141545925226, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[8].m_ActionName
+      value: Player/SkipText[/Mouse/leftButton,/DualSenseGamepadHID/buttonSouth]
       objectReference: {fileID: 0}
     - target: {fileID: 3549213141545925226, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}

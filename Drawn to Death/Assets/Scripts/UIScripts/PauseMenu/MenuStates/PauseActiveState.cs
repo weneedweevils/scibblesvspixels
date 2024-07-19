@@ -14,6 +14,7 @@ public class PauseActiveState : MenuBaseState
         Debug.Log("Entered Pause Menu");
         base.EnterState();
         pauseMenuManager.PauseMenu.SetActive(true);
+        pauseMenuManager.playerInput.SwitchCurrentActionMap("UI");
         
     }
 
@@ -21,6 +22,7 @@ public class PauseActiveState : MenuBaseState
     {
         base.ExitState();
         pauseMenuManager.PauseMenu.SetActive(false);
+        
 
     }
 
