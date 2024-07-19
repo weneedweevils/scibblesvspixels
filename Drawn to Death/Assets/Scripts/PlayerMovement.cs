@@ -97,6 +97,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private GameObject lifestealOrb;
     private bool orb = false;
     private CooldownTimer lifestealEndTimer;
+    public GameObject volumeControllerObject;
+    private VolumeController volumeController;
 
 
     public Animator CameraReference;
@@ -128,6 +130,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         weapon = GetComponentInChildren<Attack>();
         eraser = transform.GetChild(0).GetChild(0).gameObject.GetComponent<SpriteRenderer>();
         lifestealOrb = transform.GetChild(4).gameObject;
+        volumeController = volumeControllerObject.GetComponent<VolumeController>();
 
         health = maxHealth;
         dashTimer = new CooldownTimer(dashCooldown, dashBoost / friction);
@@ -196,19 +199,24 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             hud.SetActive(true);
             //Determine acceleration
 
-
             if (!pauseInput) // checks pause input without disabling hud
             {
                 acceleration.x = ((Input.GetKey(left) ? -1 : 0) + (Input.GetKey(right) ? 1 : 0)) * accelerationCoefficient;
                 acceleration.y = ((Input.GetKey(down) ? -1 : 0) + (Input.GetKey(up) ? 1 : 0)) * accelerationCoefficient;
             }
+
+            // Decrease SFX volume
+            volumeController.inCutscene = false;
         }
-        else
+        else 
         {
             hud.SetActive(false);
             weapon.animator.SetBool("attacking", false);
             acceleration.x = 0;
             acceleration.y = 0;
+
+            // Return SFX volume to original setting
+            volumeController.inCutscene = true;
         }
 
         // disable movement if player is recalling
@@ -383,6 +391,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                 sprite.flipX = mousePosition.x < transform.position.x;
 
             }
+
+            
 
         }
 
