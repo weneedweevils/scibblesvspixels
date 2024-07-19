@@ -429,7 +429,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         HealthBarReference.SetTrigger("HealthBarShake");
         CameraReference.SetTrigger("Shake");
-        Debug.Log("everything should shake");
 
         if (UsingAbility())
         {
@@ -448,18 +447,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
             velocity = knockbackDir.normalized * knockbackPower * 3;
         }
-
-       
-
-        //// shakes healthbar with varying intensity based on player health
-        //if (maxHealth / 2f < health)
-        //{
-        //    HealthBarReference.SetTrigger("Shake");
-        //}
-        //else
-        //{
-        //    HealthBarReference.SetTrigger("ShakeHarder");
-        //}
 
         // flashes damage indicator around health bar
         ChangeScreenColor(true);
