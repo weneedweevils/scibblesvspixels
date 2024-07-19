@@ -71,7 +71,7 @@ public class PauseMenu : MonoBehaviour
 
     // load menu
     public void LoadMenu(){
-        MenuManager.GotoScene(Scene.Menu);
+        StartCoroutine(MenuManager.LoadScene(Scene.Menu));
         Time.timeScale = 1f;
         gameIsPaused = false;
     }

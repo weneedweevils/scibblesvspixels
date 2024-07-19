@@ -466,8 +466,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         if (health <= 0)
         {
-          
-            MenuManager.GotoScene(Scene.Ded);
+            StartCoroutine(MenuManager.LoadScene(Scene.Ded));
         }
     }
 

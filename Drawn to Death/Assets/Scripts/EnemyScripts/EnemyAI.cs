@@ -38,6 +38,8 @@ public abstract class EnemyAI : MonoBehaviour
     [Header("Music and sound")]
     public string deathSfx;
     public string attackSfx;
+
+    protected FMOD.Studio.EventInstance attackSFXInstance;
     
     [Header("Effects")]
     public bool slowed = false;
@@ -112,6 +114,8 @@ public abstract class EnemyAI : MonoBehaviour
         target = player.transform;
         health = maxHealth;
         healthBar.SetHealth(health, maxHealth);
+        attackSFXInstance = FMODUnity.RuntimeManager.CreateInstance(attackSfx);
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(attackSFXInstance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
       
 
         //Create Timers
@@ -344,6 +348,7 @@ public abstract class EnemyAI : MonoBehaviour
                             animator.SetBool("attacking", false);
                             animator.SetBool("chasing", true);
                             state = State.chase;
+                            attackSFXInstance.stop(0);
                             return;
                         }
                     }
@@ -356,6 +361,9 @@ public abstract class EnemyAI : MonoBehaviour
                 }
             case State.dying:
                 {
+                    // If attack sfx is playing, stop it
+                    attackSFXInstance.stop(0);
+
                     //dying Behaviour
                     animationTimer += Time.deltaTime;
                     selfImage.color = Color.white;
@@ -481,7 +489,7 @@ public abstract class EnemyAI : MonoBehaviour
     //Kill this entity
     virtual public void Kill()
     {
-        // Play the FMOD event correlating to the death
+        // Play the death sfx
         FMODUnity.RuntimeManager.PlayOneShot(deathSfx, this.transform.position);
         
         //Set State
@@ -580,6 +588,8 @@ public abstract class EnemyAI : MonoBehaviour
 
          
             Stun();
+
+            attackSFXInstance.stop(0);
         }
 
         return;
@@ -588,6 +598,9 @@ public abstract class EnemyAI : MonoBehaviour
 
     virtual public void Stun()
     {
+        // Stop Attack sfx if playing
+        attackSFXInstance.stop(0);
+
         if (!attackTimer.IsOnCooldown())
         {
             attackTimer.StartCooldown(attackCooldown * 0.7f);

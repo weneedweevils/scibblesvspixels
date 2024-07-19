@@ -40,8 +40,8 @@ public class DoodleCrab : EnemyAI
     {
         if (target != null && attackTimer.IsUseable())
         {
-            //Play the FMOD event correlating to the attack
-            FMODUnity.RuntimeManager.PlayOneShot(attackSfx);
+            // play the attack sfx
+            attackSFXInstance.start();
             
             //Lunge at the target
             Vector2 direction = ((Vector2)target.position - rb.position).normalized;
