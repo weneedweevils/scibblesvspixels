@@ -14,7 +14,6 @@ using UnityEngine.Timeline;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using static System.Net.Mime.MediaTypeNames;
-using MilkShake;
 using System.Threading;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
@@ -77,9 +76,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     BoxCollider2D boxCollider;
     private bool boxColliding = false;
 
-    // Used to determine if dialogue is happening
+    // Used to determine if timeline is active
     [Header("Cutscene")]
-    private GameObject dialogue;
     public bool timelinePlaying = false;
 
     // Health
@@ -96,13 +94,15 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public GameObject pauseUi;
     private GameObject panel; // This is the panel that contains in image whose color can be changed to simulate a damage effect
     private UnityEngine.UI.Image restricted;
-    public ShakePreset myShakePreset;
-    public Shaker shakeCam;
     private GameObject lifestealOrb;
     private bool orb = false;
     private CooldownTimer lifestealEndTimer;
     public GameObject volumeControllerObject;
     private VolumeController volumeController;
+
+
+    public Animator CameraReference;
+    public Animator HealthBarReference;
 
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
@@ -410,22 +410,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Ensures movement is disabled if dialogue wants it to be
     public bool inFreezeDialogue()
     {
-        
-        if (dialogue != null)
+        if (DialogueManager.Instance == null)
         {
-            
-            if (!dialogue.GetComponent<DialogueController>().DialogueActive()) // Ensures dialogue object is destroyed if movement freeze is on
-            {
-                dialogue.SetActive(false); // Deactivates dialogue after end, can be changed if we ever want repeatable dialogue
-                dialogue = null;
-                return false;
-            }
-            return dialogue.GetComponent<DialogueController>().DialogueActive() && dialogue.GetComponent<DialogueController>().stopMovement;
+            return false; 
         }
         else
         {
-            return false;
-        }
+            return DialogueManager.Instance.dialogueActive;
+        } 
     }
 
     // Function to run when player takes damage
@@ -436,12 +428,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             return;
         }
 
-        if (shakeCam != null)
-        {
-            shakeCam.Shake(myShakePreset);
-        }
-
-        ChangeScreenColor(true);
+        HealthBarReference.SetTrigger("HealthBarShake");
+        CameraReference.SetTrigger("Shake");
 
         if (UsingAbility())
         {
@@ -461,10 +449,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             velocity = knockbackDir.normalized * knockbackPower * 3;
         }
 
+        // flashes damage indicator around health bar
+        ChangeScreenColor(true);
+
         if (health <= 0)
         {
-          
-            MenuManager.GotoScene(Scene.Ded);
+            StartCoroutine(MenuManager.LoadScene(Scene.Ded));
         }
     }
 
@@ -596,38 +586,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private void OnTriggerStay2D(Collider2D collision)
     {   
         return;
-    }
-
-    // Dialogue enter
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-     
-
-        switch (collision.gameObject.tag)
-        {
-            //Dialogue trigger
-            case "Dialogue":
-                {
-                    dialogue = collision.gameObject;
-                    dialogue.GetComponent<DialogueController>().ActivateDialogue();
-                    break;
-                }
-
-            default:
-                {
-                    break;
-                }
-        }
-      
-    }
-
-    // Dialogue exit
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        //if (dialogue != null) {
-            //dialogue.SetActive(false); // Deactivates dialogue after trigger, can be changed if we ever want repeatable dialogue
-            //dialogue = null;
-        //}
     }
 
     public void SetTimelineActive(bool isActive)
