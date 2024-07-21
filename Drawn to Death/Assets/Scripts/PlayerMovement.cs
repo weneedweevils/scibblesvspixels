@@ -434,7 +434,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
                 if(isGamepad)
                 {
-                    sprite.flipX = aimDirection.x < 0;
+                    if (aimDirection.x != 0 && aimDirection.y != 0)
+                    {
+                        sprite.flipX = aimDirection.x < 0;
+                    }
                 }
                 else
                 {

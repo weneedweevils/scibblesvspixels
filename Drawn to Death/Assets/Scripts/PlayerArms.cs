@@ -15,6 +15,7 @@ public class PlayerArms
 
     private SpriteRenderer sprite = null;
     Vector3 mousePosition = Vector3.zero;
+    Vector2 LastPosition;
 
 
     public PlayerArms(GameObject weapon, GameObject player, GameObject arms, PlayerInput playerInput, PlayerMovement playerMovement)
@@ -42,12 +43,15 @@ public class PlayerArms
 
             if (playerMovement.isGamepad)
             {
-                float flip = aimDirection.x < 0f ? -1 : 1;
-                arms.transform.localScale = new Vector3(Mathf.Abs(arms.transform.localScale.x) * flip, arms.transform.localScale.y, arms.transform.localScale.x);
+                if (aimDirection.x != 0 && aimDirection.y != 0)
+                {
+                    float flip = aimDirection.x < 0f ? -1 : 1;
+                    arms.transform.localScale = new Vector3(Mathf.Abs(arms.transform.localScale.x) * flip, arms.transform.localScale.y, arms.transform.localScale.x);
 
-                Vector2 direction = (aimDirection).normalized;
-                float angle = Mathf.Atan2(direction.y * flip, direction.x * flip) * Mathf.Rad2Deg;
-                arms.transform.rotation = Quaternion.AngleAxis(angle, sprite.flipX ? Vector3.back : Vector3.forward);
+                    Vector2 direction = (aimDirection).normalized;
+                    float angle = Mathf.Atan2(direction.y * flip, direction.x * flip) * Mathf.Rad2Deg;
+                    arms.transform.rotation = Quaternion.AngleAxis(angle, sprite.flipX ? Vector3.back : Vector3.forward);
+                }
             }
             else
             {
@@ -66,6 +70,7 @@ public class PlayerArms
             }
             
         }
+
         if (weapon.GetComponent<Attack>().lifestealStart)
         {
             arms.transform.rotation = Quaternion.AngleAxis(0f, Vector3.zero);

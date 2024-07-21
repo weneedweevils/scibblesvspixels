@@ -511,6 +511,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ScrollFaster",
+                    "type": "Value",
+                    "id": "7a718920-74f9-4ee7-adc7-a9fbb778caaf",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -973,6 +982,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "TrackedDeviceOrientation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "55889cd7-88b6-4b00-8633-17580d019353",
+                    "path": "<Gamepad>/leftStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad;ProController;Playstation",
+                    "action": "ScrollFaster",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4870cd47-e9f1-47bb-8d9e-ad24b4052af3",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KBM",
+                    "action": "ScrollFaster",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "027ab0e9-00d4-429d-abd5-c93f7dbdbf71",
+                    "path": "<Gamepad>/rightStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad;ProController;Playstation",
+                    "action": "ScrollFaster",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

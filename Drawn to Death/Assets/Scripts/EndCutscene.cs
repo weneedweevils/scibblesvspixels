@@ -1,7 +1,10 @@
 ﻿using FMOD.Studio;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class EndCutscene : MonoBehaviour
@@ -19,6 +22,8 @@ public class EndCutscene : MonoBehaviour
     public float scrollSpeed;
     private bool skipped = false;
 
+    private PlayerInput playerInput;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,8 +31,9 @@ public class EndCutscene : MonoBehaviour
         menuButton.SetActive(false);
         instance = FMODUnity.RuntimeManager.CreateInstance(fmodEvent);
         instance.start();
-        skipButton.onClick.AddListener(() => { SkipVideo(); });
-    }
+        //skipButton.onClick.AddListener(() => { SkipVideo(); });
+        playerInput = GetComponent<PlayerInput>();
+}
 
     public void SkipVideo()
     {
@@ -36,6 +42,25 @@ public class EndCutscene : MonoBehaviour
         skipButton.gameObject.SetActive(false);
         skipped = true;
     }
+
+    private void Update()
+    {
+        if (videoPlayer.isPlaying && !skipped)
+        {
+            if (playerInput.actions["Escape"].triggered)
+            {
+                if (skipButton.IsActive())
+                {
+                    skipButton.gameObject.SetActive(false);
+                }
+                else
+                {
+                    skipButton.gameObject.SetActive(true);
+                }
+            }
+        }
+    }
+ 
 
     // Update is called once per frame
     void FixedUpdate()
@@ -47,21 +72,11 @@ public class EndCutscene : MonoBehaviour
         else if (videoStarted && !videoPlayer.isPlaying)
         {
             menuButton.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(menuButton);
             skipButton.gameObject.SetActive(false);
         }
 
-        if (videoPlayer.isPlaying && !skipped)
-        {
-            if(Input.GetMouseButtonDown(0))
-            {
-                skipButton.gameObject.SetActive(true);
-                
-            }
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                skipButton.gameObject.SetActive(false);
-            }
-        }
+      
 
         if (videoPlayer.time > videoPlayer.length - 20)
         {
@@ -72,7 +87,8 @@ public class EndCutscene : MonoBehaviour
         if (videoPlayer.time > creditStartTime)
         {
             credits.transform.position += scrollSpeed * Vector3.up * Time.deltaTime;
-            if (Input.GetMouseButton(0))
+
+            if (playerInput.actions["ScrollFaster"].IsPressed())
             {
                 credits.transform.position += scrollSpeed*3 * Vector3.up * Time.deltaTime;
             }
