@@ -25,6 +25,6 @@ public class QuitState : MenuBaseState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        menuStateMachine.ChangeState(pauseMenuManager.emptyState);
+        //menuStateMachine.ChangeState(pauseMenuManager.emptyState);
     }
 }

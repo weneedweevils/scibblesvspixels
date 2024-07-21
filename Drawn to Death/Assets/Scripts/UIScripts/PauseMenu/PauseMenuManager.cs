@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR.Haptics;
+using UnityEngine.UI;
 
 public class PauseMenuManager : MonoBehaviour
 {
@@ -43,6 +44,7 @@ public class PauseMenuManager : MonoBehaviour
 
     public GameObject SettingsFirstButton;
     public GameObject PauseFirstButton;
+    public GameObject ControlsFirstButton;
 
 
     public int Menu = 0;
@@ -63,6 +65,8 @@ public class PauseMenuManager : MonoBehaviour
         controllerRebindState = new ControllerRebindState(this, menuStateMachine);
 
         playerInput = player.GetComponent<PlayerInput>();
+        
+
     }
 
 
@@ -104,6 +108,7 @@ public class PauseMenuManager : MonoBehaviour
     {
         EventSystem.current.SetSelectedGameObject(SettingsFirstButton);
         menuStateMachine.ChangeState(settingsState);
+       
     }
 
     public void GoToQuit()
@@ -128,8 +133,9 @@ public class PauseMenuManager : MonoBehaviour
 
     public void GoToPauseMenu()
     {
-        EventSystem.current.SetSelectedGameObject(PauseFirstButton);
+       
         menuStateMachine.ChangeState(pauseState);
+       
     }
 }
 

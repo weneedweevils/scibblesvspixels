@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PauseActiveState : MenuBaseState
 {
@@ -15,7 +17,7 @@ public class PauseActiveState : MenuBaseState
         base.EnterState();
         pauseMenuManager.PauseMenu.SetActive(true);
         pauseMenuManager.playerInput.SwitchCurrentActionMap("UI");
-        
+        EventSystem.current.SetSelectedGameObject(pauseMenuManager.PauseFirstButton);
     }
 
     public override void ExitState()

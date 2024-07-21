@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ControlScreenState : MenuBaseState
 {
@@ -13,6 +14,7 @@ public class ControlScreenState : MenuBaseState
         Debug.Log("Entered Control Screen");
         base.EnterState();
         pauseMenuManager.ControlScreen.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(pauseMenuManager.ControlsFirstButton);
     }
 
     public override void ExitState()

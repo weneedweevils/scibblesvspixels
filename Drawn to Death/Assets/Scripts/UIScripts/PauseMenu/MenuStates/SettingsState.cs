@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 public class SettingsState : MenuBaseState
 {
     public SettingsState(PauseMenuManager pauseMenuManager, MenuStateMachine menuStateMachine) : base(pauseMenuManager, menuStateMachine)
@@ -10,7 +11,7 @@ public class SettingsState : MenuBaseState
 
     public override void EnterState()
     {
-        Debug.Log("Entered Settings Screen");
+        
         base.EnterState();
         pauseMenuManager.Settings.SetActive(true);
     }
