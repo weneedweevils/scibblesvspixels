@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public enum Scene {Splash_Screen, Menu, Intructions, Level_1, Level_2, Level_3, Ded, End, Credits}
+public enum Scene {Splash_Screen, Menu, Intructions, Level_1, Level_2, Level_3, Ded, End, Credits, Demo_End}
 public class MenuManager : MonoBehaviour, IDataPersistence
 {
     [Header("Next Scene")]
