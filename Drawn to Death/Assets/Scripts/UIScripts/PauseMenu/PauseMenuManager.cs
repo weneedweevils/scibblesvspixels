@@ -8,6 +8,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR.Haptics;
 using UnityEngine.UI;
 
+// This is the reworked PauseMenu //
+// You can create new parts to the menu by creating new states following the same structure as the MENU States listed below //
+
 public class PauseMenuManager : MonoBehaviour
 {
     // STATE MACHINE AND CONTROL MAP //
@@ -26,9 +29,6 @@ public class PauseMenuManager : MonoBehaviour
 
     // PlAYER MOVEMENT //
     public PlayerMovement player;
-    public Attack attack;
-    public GameObject Attack;
-    public GameObject Player;
     public PlayerInput playerInput;
 
 
@@ -40,8 +40,9 @@ public class PauseMenuManager : MonoBehaviour
     public GameObject Settings;
     public GameObject KeyboardRebindUI;
     public GameObject ControllerRebindUI;
+  
 
-
+    // UI First Selected Buttons //
     public GameObject SettingsFirstButton;
     public GameObject PauseFirstButton;
     public GameObject ControlsFirstButton;
@@ -69,19 +70,10 @@ public class PauseMenuManager : MonoBehaviour
 
     }
 
-
+    // Initialize to the Empty State //
     private void Start()
     {
-        Debug.Log("Hello");
         menuStateMachine.Initialize(emptyState);
-
-        Player = GameObject.Find("Player");
-        player = GameObject.Find("Player").GetComponent<PlayerMovement>();
-
-        Attack = GameObject.Find("Eraser");
-        attack = player.GetComponentInChildren<Attack>();
-
-        
     }
 
     private void Update()
@@ -103,7 +95,11 @@ public class PauseMenuManager : MonoBehaviour
         menuStateMachine.GoBackState();
     }
 
-    // goes to the settings screen
+
+    // Button Methods //
+    // These methods below should only be called via buttons on the UI //
+
+    // Goes to the settings screen where you can adjust volume
     public void GoToSettings()
     {
         EventSystem.current.SetSelectedGameObject(SettingsFirstButton);
@@ -111,26 +107,31 @@ public class PauseMenuManager : MonoBehaviour
        
     }
 
+    // Quits the game //
     public void GoToQuit()
     {
         menuStateMachine.ChangeState(quitState);
     }
 
+    // Goes to the Main Menu //
     public void GoToMenu()
     {
         menuStateMachine.ChangeState(menuState);
     }
 
+    // Goes to the Rebind Controller Screen //
     public void GoToRebindController()
     {
         menuStateMachine.ChangeState(controllerRebindState);
     }
 
+    // Goes to the Rebind Keyboard Screen //
     public void GoToRebindKeyboard()
     {
         menuStateMachine.ChangeState(keyboardRebindState);
     }
 
+    // Opens the Pause Menu //
     public void GoToPauseMenu()
     {
        

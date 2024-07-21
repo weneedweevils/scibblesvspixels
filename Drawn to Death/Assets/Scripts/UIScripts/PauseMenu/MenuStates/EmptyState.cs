@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Numerics;
-using UnityEditor.U2D.Path.GUIFramework;
-using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using UnityEngine;
+
 
 public class EmptyState : MenuBaseState
 {
@@ -35,7 +31,6 @@ public class EmptyState : MenuBaseState
     {
         base.EnterState();
         Resume();
-        
         pauseMenuManager.playerInput.SwitchCurrentActionMap("Player");
        
 
