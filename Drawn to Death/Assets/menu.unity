@@ -870,7 +870,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &796595596
 MonoBehaviour:
@@ -1322,6 +1322,26 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2332840559798622092, guid: c0933b6f0a5e5964a9411d11f885eb50,
         type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2332840559798622092, guid: c0933b6f0a5e5964a9411d11f885eb50,
+        type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2332840559798622092, guid: c0933b6f0a5e5964a9411d11f885eb50,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2332840559798622092, guid: c0933b6f0a5e5964a9411d11f885eb50,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2332840559798622092, guid: c0933b6f0a5e5964a9411d11f885eb50,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: PlayLoadSound
       objectReference: {fileID: 0}
@@ -1470,7 +1490,36 @@ PrefabInstance:
       propertyPath: m_text
       value: Load
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 2332840560778776433, guid: c0933b6f0a5e5964a9411d11f885eb50,
+        type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.4575472
+      objectReference: {fileID: 0}
+    - target: {fileID: 2332840560778776433, guid: c0933b6f0a5e5964a9411d11f885eb50,
+        type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.4575472
+      objectReference: {fileID: 0}
+    - target: {fileID: 2332840560778776433, guid: c0933b6f0a5e5964a9411d11f885eb50,
+        type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2332840560778776433, guid: c0933b6f0a5e5964a9411d11f885eb50,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4285887999
+      objectReference: {fileID: 0}
+    - target: {fileID: 8163085334722055638, guid: c0933b6f0a5e5964a9411d11f885eb50,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2332840559798622095, guid: c0933b6f0a5e5964a9411d11f885eb50, type: 3}
+    - {fileID: 2332840559798622092, guid: c0933b6f0a5e5964a9411d11f885eb50, type: 3}
+    - {fileID: 8163085334722055638, guid: c0933b6f0a5e5964a9411d11f885eb50, type: 3}
+    - {fileID: 2332840559798622088, guid: c0933b6f0a5e5964a9411d11f885eb50, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c0933b6f0a5e5964a9411d11f885eb50, type: 3}
 --- !u!1 &1889291981
 GameObject:
