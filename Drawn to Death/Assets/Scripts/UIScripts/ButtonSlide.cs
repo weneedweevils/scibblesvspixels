@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ButtonSlide : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ButtonSlide : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
 {
     [Header("Slide Animation")]
     public float slideDistance = 16f;
@@ -50,6 +50,16 @@ public class ButtonSlide : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     }
 
     public void OnPointerExit(PointerEventData eventData)
+    {
+        hover = false;
+    }
+
+    public void OnSelect(BaseEventData eventData)
+    {
+        hover = true;
+    }
+
+    public void OnDeselect(BaseEventData eventData)
     {
         hover = false;
     }

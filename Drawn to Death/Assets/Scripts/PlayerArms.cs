@@ -1,44 +1,77 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class PlayerArms : MonoBehaviour
+public class PlayerArms
 {
-    public GameObject weapon;
-    public GameObject player;
-    private SpriteRenderer sprite = null;
+    private GameObject weapon;
+    private GameObject player;
+    private GameObject arms;
+    private PlayerInput playerInput;
+    protected PlayerMovement playerMovement;
+    
 
-    // Start is called before the first frame update
-    void Start()
+    private SpriteRenderer sprite = null;
+    Vector3 mousePosition = Vector3.zero;
+    Vector2 LastPosition;
+
+
+    public PlayerArms(GameObject weapon, GameObject player, GameObject arms, PlayerInput playerInput, PlayerMovement playerMovement)
     {
+        this.weapon = weapon;
+        this.player = player;
+        this.playerInput = playerInput;
+        this.arms = arms;
+        this.playerMovement = playerMovement;
+
         if (weapon != null)
         {
             sprite = weapon.GetComponent<SpriteRenderer>();
         }
     }
 
+   
     // Update is called once per frame
-    void Update()
+    public void FrameUpdate(Vector2 aimDirection)
     {
+       
         if (sprite != null && !player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying && Time.timeScale != 0f)
         {
             //Get mouse position
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            //Flip the sprite according to mouse position relative to the players position
-            float flip = mousePosition.x < transform.position.x ? -1 : 1;
-            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * flip, transform.localScale.y, transform.localScale.x);
+            if (playerMovement.isGamepad)
+            {
+                if (aimDirection.x != 0 && aimDirection.y != 0)
+                {
+                    float flip = aimDirection.x < 0f ? -1 : 1;
+                    arms.transform.localScale = new Vector3(Mathf.Abs(arms.transform.localScale.x) * flip, arms.transform.localScale.y, arms.transform.localScale.x);
 
-            // Calculate the angle of the arms
-            Vector2 direction = (mousePosition - transform.position).normalized;
-            float angle = Mathf.Atan2(direction.y * flip, direction.x * flip) * Mathf.Rad2Deg;
+                    Vector2 direction = (aimDirection).normalized;
+                    float angle = Mathf.Atan2(direction.y * flip, direction.x * flip) * Mathf.Rad2Deg;
+                    arms.transform.rotation = Quaternion.AngleAxis(angle, sprite.flipX ? Vector3.back : Vector3.forward);
+                }
+            }
+            else
+            {
+                mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 
-            //Rotate towards mouse position
-            transform.rotation = Quaternion.AngleAxis(angle, sprite.flipX ? Vector3.back : Vector3.forward);
+                //Flip the sprite according to mouse position relative to the players position
+                float flip = mousePosition.x < arms.transform.position.x ? -1 : 1;
+                arms.transform.localScale = new Vector3(Mathf.Abs(arms.transform.localScale.x) * flip, arms.transform.localScale.y, arms.transform.localScale.x);
+
+                // Calculate the angle of the arms
+                Vector2 direction = (mousePosition - arms.transform.position).normalized;
+                float angle = Mathf.Atan2(direction.y * flip, direction.x * flip) * Mathf.Rad2Deg;
+
+                //Rotate towards mouse position
+                arms.transform.rotation = Quaternion.AngleAxis(angle, sprite.flipX ? Vector3.back : Vector3.forward);
+            }
+            
         }
+
         if (weapon.GetComponent<Attack>().lifestealStart)
         {
-            transform.rotation = Quaternion.AngleAxis(0f, Vector3.zero);
+            arms.transform.rotation = Quaternion.AngleAxis(0f, Vector3.zero);
         }
     }
 }
+

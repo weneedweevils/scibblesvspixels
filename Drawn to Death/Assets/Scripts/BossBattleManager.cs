@@ -48,7 +48,7 @@ public class BossBattleManager : MonoBehaviour
                 data.skipCutscene = false;
                 DataPersistenceManager.instance.UpdateGame();
             }
-            MenuManager.GotoScene(nextScene);
+            StartCoroutine(MenuManager.LoadScene(nextScene));
         }
 
         Debug.Log(Glich.transform.position);
