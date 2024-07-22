@@ -774,6 +774,96 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 436012683}
   m_CullTransparentMesh: 0
+--- !u!1001 &516133170
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4154601528671525248, guid: 402aaaedf2a9a3141928747a407a5eb7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525248, guid: 402aaaedf2a9a3141928747a407a5eb7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525248, guid: 402aaaedf2a9a3141928747a407a5eb7,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525248, guid: 402aaaedf2a9a3141928747a407a5eb7,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525248, guid: 402aaaedf2a9a3141928747a407a5eb7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525248, guid: 402aaaedf2a9a3141928747a407a5eb7,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525248, guid: 402aaaedf2a9a3141928747a407a5eb7,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525248, guid: 402aaaedf2a9a3141928747a407a5eb7,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525248, guid: 402aaaedf2a9a3141928747a407a5eb7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525248, guid: 402aaaedf2a9a3141928747a407a5eb7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525248, guid: 402aaaedf2a9a3141928747a407a5eb7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601528671525251, guid: 402aaaedf2a9a3141928747a407a5eb7,
+        type: 3}
+      propertyPath: m_Name
+      value: LevelLoader
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154601530425171577, guid: 402aaaedf2a9a3141928747a407a5eb7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6672356004357447390, guid: 402aaaedf2a9a3141928747a407a5eb7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8952354006568085463, guid: 402aaaedf2a9a3141928747a407a5eb7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 402aaaedf2a9a3141928747a407a5eb7, type: 3}
+--- !u!95 &516133171 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1513891687068356343, guid: 402aaaedf2a9a3141928747a407a5eb7,
+    type: 3}
+  m_PrefabInstance: {fileID: 516133170}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &640241008
 GameObject:
   m_ObjectHideFlags: 0
@@ -2121,6 +2211,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 7a718920-74f9-4ee7-adc7-a9fbb778caaf
     m_ActionName: UI/ScrollFaster[/DualSenseGamepadHID/leftStick/down,/Mouse/leftButton,/DualSenseGamepadHID/rightStick/down]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9c7a8b87-eeb6-4c55-8d81-7c872a1d68e4
+    m_ActionName: Player/ReloadDialogue[/Keyboard/leftBracket]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a0a15ac6-638a-4e31-bc32-868237b1f4b0
+    m_ActionName: Player/PreviousDialogue[/Keyboard/rightBracket]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: UI
@@ -2728,7 +2826,7 @@ MonoBehaviour:
   loadGame: 0
   transitionTime: 1
   text: {fileID: 1429580789}
-  transition: {fileID: 878080583}
+  transition: {fileID: 516133171}
 --- !u!114 &1747942573
 MonoBehaviour:
   m_ObjectHideFlags: 0
