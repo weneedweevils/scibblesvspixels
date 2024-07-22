@@ -23,7 +23,7 @@ public class DialogueBox : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (DialogueManager.Instance.playerInput.actions["SkipText"].triggered)
         {
             if (finished)
             {
@@ -37,12 +37,12 @@ public class DialogueBox : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (DialogueManager.Instance.playerInput.actions["ReloadDialogue"].triggered)
         {
             DialogueManager.Instance.ResetDialogue();
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (DialogueManager.Instance.playerInput.actions["PreviousDialogue"].triggered)
         {
             DialogueManager.Instance.PrevDialogue();
         }

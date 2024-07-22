@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using FMODUnity;
 using FMOD.Studio;
+using UnityEngine.InputSystem;
 
 public enum DialogueSFX
 {
@@ -31,6 +32,9 @@ public class DialogueManager : MonoBehaviour
     private DialogueSequence dialogue;
     private DialogueBox currentDialogue = null;
     private DialogueEntry currentEntry;
+
+    public GameObject player;
+    public PlayerInput playerInput;
 
     private Dictionary<DialogueSFX, string> sfx = new Dictionary<DialogueSFX, string>()
     {
@@ -63,6 +67,9 @@ public class DialogueManager : MonoBehaviour
 
         if (dialogueParentContainer == null)
             Debug.LogError("Error in DialogueManager - dialogueParentContainer is null");
+
+        playerInput = player.GetComponent<PlayerInput>();
+        
     }
 
     public void StartDialogue(DialogueSequence dialogueSequence)

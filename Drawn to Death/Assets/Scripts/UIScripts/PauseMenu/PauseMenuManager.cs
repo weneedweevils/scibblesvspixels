@@ -1,0 +1,169 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Numerics;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR.Haptics;
+using UnityEngine.UI;
+
+// This is the reworked PauseMenu //
+// You can create new parts to the menu by creating new states following the same structure as the MENU States listed below //
+
+public class PauseMenuManager : MonoBehaviour
+
+
+
+{
+
+    public enum Scene { Splash_Screen, Menu, Intructions, Level_1, Level_2, Level_3, Ded, End, Credits }
+
+
+    // STATE MACHINE AND CONTROL MAP //
+    public MenuStateMachine menuStateMachine;
+    //public PlayerControlMap controls;
+    
+    // MENU STATES //
+    public EmptyState emptyState;
+    public PauseActiveState pauseState;
+    public ControlScreenState controlsState;
+    public SettingsState settingsState;
+    public QuitState quitState;
+    public MenuState menuState;
+    public ControllerRebindState controllerRebindState;
+    public KeyboardRebindState keyboardRebindState;
+
+    // PlAYER MOVEMENT //
+    public PlayerMovement player;
+    public PlayerInput playerInput;
+
+
+    // UI OBJECTS //
+    [Header("UI OBJECTS")]
+    public GameObject GameMenuObject;
+    public GameObject ControlScreen;
+    public GameObject PauseMenu;
+    public GameObject Settings;
+    public GameObject KeyboardRebindUI;
+    public GameObject ControllerRebindUI;
+  
+
+    // UI First Selected Buttons //
+    public GameObject SettingsFirstButton;
+    public GameObject PauseFirstButton;
+    public GameObject ControlsFirstButton;
+
+
+    //public int Menu = 1;
+    public bool paused = false;
+
+
+
+    private void Awake()
+    {
+        menuStateMachine = new MenuStateMachine();
+        emptyState = new EmptyState(this, menuStateMachine);
+        pauseState = new PauseActiveState(this, menuStateMachine);
+        controlsState = new ControlScreenState(this, menuStateMachine);
+        settingsState = new SettingsState(this, menuStateMachine);
+        quitState = new QuitState(this, menuStateMachine);
+        menuState = new MenuState(this, menuStateMachine);
+        keyboardRebindState = new KeyboardRebindState(this, menuStateMachine);
+        controllerRebindState = new ControllerRebindState(this, menuStateMachine);
+
+        playerInput = player.GetComponent<PlayerInput>();
+        
+
+    }
+
+    // Initialize to the Empty State //
+    private void Start()
+    {
+        menuStateMachine.Initialize(emptyState);
+    }
+
+    private void Update()
+    {
+        menuStateMachine.currentMenu.FrameUpdate();
+    }
+
+
+    // function to go to the control screen state//
+    public void GoToControls()
+    {
+        menuStateMachine.ChangeState(controlsState);
+    }
+
+
+    // function to go back to last state in the stack //
+    public void Escape()
+    {
+        menuStateMachine.GoBackState();
+        PlayBackSound();
+    }
+
+
+    // Button Methods //
+    // These methods below should only be called via buttons on the UI //
+
+    // Goes to the settings screen where you can adjust volume
+    public void GoToSettings()
+    {
+        EventSystem.current.SetSelectedGameObject(SettingsFirstButton);
+        menuStateMachine.ChangeState(settingsState);
+       
+    }
+
+    // Quits the game //
+    public void GoToQuit()
+    {
+        menuStateMachine.ChangeState(quitState);
+    }
+
+    // Goes to the Main Menu //
+    public void GoToMenu()
+    {
+        menuStateMachine.ChangeState(menuState);
+    }
+
+    // Goes to the Rebind Controller Screen //
+    public void GoToRebindController()
+    {
+        menuStateMachine.ChangeState(controllerRebindState);
+    }
+
+    // Goes to the Rebind Keyboard Screen //
+    public void GoToRebindKeyboard()
+    {
+        menuStateMachine.ChangeState(keyboardRebindState);
+    }
+
+    // Opens the Pause Menu //
+    public void GoToPauseMenu()
+    {
+       
+        menuStateMachine.ChangeState(pauseState);
+       
+    }
+
+    public void PlayAcceptSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UIAccept");
+    }
+
+    public void PlayLoadSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UILoad");
+    }
+    public void PlayBackSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UIBack");
+    }
+
+    public void OnHovered()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UIHover");
+    }
+}
+

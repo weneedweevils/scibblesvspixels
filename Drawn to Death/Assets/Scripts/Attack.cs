@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class Attack : MonoBehaviour
 {
@@ -14,9 +15,9 @@ public class Attack : MonoBehaviour
 
     //Use key
     [Header("Controls")]
-    public KeyCode attackButton = KeyCode.Mouse0;
-    public KeyCode lifestealButton = KeyCode.Mouse1;
-    public KeyCode reviveButton = KeyCode.R;
+    //public KeyCode attackButton = KeyCode.Mouse0;
+    //public KeyCode lifestealButton = KeyCode.Mouse1;
+    //public KeyCode reviveButton = KeyCode.R;
     
 
         /* ----- Attacking ----- */
@@ -86,6 +87,13 @@ public class Attack : MonoBehaviour
     // Condition for playing hit version of eraserSfx
     public int isHit;
 
+
+    // herearaer
+
+    private PlayerInput playerInput;
+
+
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -119,6 +127,12 @@ public class Attack : MonoBehaviour
         // Get a reference to the script that controls the lifestealFMOD event
         lifestealFmod = FMODUnity.RuntimeManager.CreateInstance(lifestealSfx);
         isHit = 0;
+
+
+        playerInput = playerMovement.GetComponent<PlayerInput>();
+        
+
+
     }
 
     // Update is called once per frame
@@ -153,7 +167,7 @@ public class Attack : MonoBehaviour
             }
 
             //Attack
-            if (attackTimer.IsUseable() && playerMovement.CanUseAbility() && Input.GetKey(attackButton) && !playerMovement.pauseInput)
+            if (attackTimer.IsUseable() && playerMovement.CanUseAbility() && playerInput.actions["Attack"].IsPressed() && !playerMovement.pauseInput)
             {
 
                 // FMODUnity.RuntimeManager.PlayOneShot(eraserSfx, isHit);
@@ -206,10 +220,10 @@ public class Attack : MonoBehaviour
         //Revive
         if (playerMovement.CanUseAbility())
         {
-            if (Input.GetKey(reviveButton) && reviveTimer.IsUseable() && !playerMovement.pauseInput)
+            if (playerInput.actions["Revive"].triggered && reviveTimer.IsUseable() && !playerMovement.pauseInput)
             {
                 Debug.Log("Attempting to revive enemies");
-               
+
                 foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
                 {
                     EnemyAI enemy = obj.GetComponent<EnemyAI>();
@@ -272,7 +286,7 @@ public class Attack : MonoBehaviour
             lifeStealNotifier.color = temp;
         }
 
-        if (playerMovement.CanUseAbility() && lifestealTimer.IsUseable() && Input.GetKeyDown(lifestealButton) && !playerMovement.pauseInput && !lifestealStart)
+        if (playerMovement.CanUseAbility() && lifestealTimer.IsUseable() && playerInput.actions["LifeSteal"].triggered && !playerMovement.pauseInput && !lifestealStart)
         {
             // End melee attack if active (lifesteal takes priority)
             if (attacking)
@@ -301,9 +315,10 @@ public class Attack : MonoBehaviour
             // Bar moves down
             lifestealCooldownBar.SetBar((lifestealDuration * lifestealRatio) - (lifestealTimer.timer * lifestealRatio));
         }
-        if (lifestealTimer.IsActive() && lifestealImage.enabled && !player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying && Time.timeScale != 0f) {
+        if (lifestealTimer.IsActive() && lifestealImage.enabled && !player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying && Time.timeScale != 0f)
+        {
 
-            if (Input.GetKeyDown(lifestealButton) && lifestealStartTimer.IsUseable())
+            if (playerInput.actions["LifeSteal"].triggered && lifestealStartTimer.IsUseable())
             {
                 lifestealTimer.StartCooldown(lifestealCooldown - (lifestealTimer.timer * lifestealRatio));
             }
