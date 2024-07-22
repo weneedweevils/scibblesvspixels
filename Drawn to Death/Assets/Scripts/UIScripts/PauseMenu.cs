@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 // Used this tutorial https://www.youtube.com/watch?v=JivuXdrIHK0
@@ -13,18 +12,22 @@ public class PauseMenu : MonoBehaviour
     public GameObject SettingsUI;
     public int Menu = 0;
     private PlayerMovement player;
+    private PlayerInput playerInput;
 
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        playerInput = player.getInputSystem();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // If the player is not in a dialogue or timeline, then the pause menu can be accessed via escape
-        if(!player.inFreezeDialogue() && !player.timelinePlaying){
-            if (Input.GetKeyDown(KeyCode.Escape)) {
+        //If the player is not in a dialogue or timeline, then the pause menu can be accessed via escape
+        if (!player.inFreezeDialogue() && !player.timelinePlaying)
+        {
+            if (playerInput.actions["Escape"].triggered)
+            {
 
                 if (!ControlsUI.activeSelf && !SettingsUI.activeSelf)
                 {
@@ -39,7 +42,7 @@ public class PauseMenu : MonoBehaviour
                         Pause();
                     }
                 }
-                if(ControlsUI.activeSelf)
+                if (ControlsUI.activeSelf)
                 {
                     ControlsBack();
                 }
@@ -50,8 +53,8 @@ public class PauseMenu : MonoBehaviour
                 }
             }
         }
-      
-        
+
+
     }
 
     // resumes the game
