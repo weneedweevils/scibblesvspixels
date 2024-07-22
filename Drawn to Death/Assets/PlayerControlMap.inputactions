@@ -85,6 +85,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ReloadDialogue",
+                    "type": "Button",
+                    "id": "9c7a8b87-eeb6-4c55-8d81-7c872a1d68e4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PreviousDialogue",
+                    "type": "Button",
+                    "id": "a0a15ac6-638a-4e31-bc32-868237b1f4b0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -404,6 +422,28 @@
                     "processors": "",
                     "groups": "Playstation",
                     "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d04f2594-38f8-482b-9bd6-6c553175b9be",
+                    "path": "<Keyboard>/leftBracket",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KBM",
+                    "action": "ReloadDialogue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f01afbf3-ba7b-4e7e-ae1c-e33e2a68815b",
+                    "path": "<Keyboard>/rightBracket",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KBM",
+                    "action": "PreviousDialogue",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

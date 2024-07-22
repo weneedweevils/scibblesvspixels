@@ -506,7 +506,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
                 data.skipCutscene = false;
                 DataPersistenceManager.instance.UpdateGame();
             }
-            MenuManager.GotoScene(nextScene);
+            StartCoroutine(MenuManager.LoadScene(nextScene));
         }
     }
 

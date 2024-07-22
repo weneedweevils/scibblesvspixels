@@ -27,6 +27,7 @@ public class MenuBaseState
         {
             if (pauseMenuManager.playerInput.actions["Escape"].triggered && !menuStateMachine.EndOfStack())
             {
+                pauseMenuManager.PlayBackSound();
                 menuStateMachine.GoBackState();
 
             }

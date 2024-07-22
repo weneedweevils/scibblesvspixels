@@ -19,7 +19,7 @@ public class EmptyState : MenuBaseState
 
             if (pauseMenuManager.playerInput.actions["Escape"].triggered)
             {
-                Debug.Log("we got here");
+               
                 pauseMenuManager.GoToPauseMenu();
 
             }

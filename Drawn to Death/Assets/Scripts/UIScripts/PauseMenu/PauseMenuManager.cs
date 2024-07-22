@@ -12,7 +12,14 @@ using UnityEngine.UI;
 // You can create new parts to the menu by creating new states following the same structure as the MENU States listed below //
 
 public class PauseMenuManager : MonoBehaviour
+
+
+
 {
+
+    public enum Scene { Splash_Screen, Menu, Intructions, Level_1, Level_2, Level_3, Ded, End, Credits }
+
+
     // STATE MACHINE AND CONTROL MAP //
     public MenuStateMachine menuStateMachine;
     //public PlayerControlMap controls;
@@ -48,7 +55,7 @@ public class PauseMenuManager : MonoBehaviour
     public GameObject ControlsFirstButton;
 
 
-    public int Menu = 0;
+    //public int Menu = 1;
     public bool paused = false;
 
 
@@ -93,6 +100,7 @@ public class PauseMenuManager : MonoBehaviour
     public void Escape()
     {
         menuStateMachine.GoBackState();
+        PlayBackSound();
     }
 
 
@@ -137,6 +145,25 @@ public class PauseMenuManager : MonoBehaviour
        
         menuStateMachine.ChangeState(pauseState);
        
+    }
+
+    public void PlayAcceptSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UIAccept");
+    }
+
+    public void PlayLoadSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UILoad");
+    }
+    public void PlayBackSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UIBack");
+    }
+
+    public void OnHovered()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UIHover");
     }
 }
 

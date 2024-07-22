@@ -32,9 +32,9 @@ public class MenuState :MenuBaseState
 
     public void LoadMainMenu()
     {
-        MenuManager.GotoScene(Scene.Menu);
+        SceneManager.LoadScene((int)Scene.Menu);
         Time.timeScale = 1f;
-        pauseMenuManager.paused = false;
+        //pauseMenuManager.paused = false;
         
     }
 }

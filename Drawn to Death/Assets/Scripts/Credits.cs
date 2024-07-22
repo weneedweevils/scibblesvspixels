@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 public class Credits : MonoBehaviour
 {
     public GameObject credits;
-    private float scrollSpeed = 100;
+    private float scrollSpeed = 80;
     public UnityEngine.UI.Button menuButton;
     PlayerInput playerInput;
 
@@ -25,6 +25,11 @@ public class Credits : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (credits.gameObject.transform.GetChild(0).transform.position.y >= 270)
+        {
+            scrollSpeed = 0;
+            return;
+        }
         credits.transform.position += scrollSpeed * Vector3.up * Time.deltaTime;
         if (playerInput.actions["ScrollFaster"].IsPressed())
         {
