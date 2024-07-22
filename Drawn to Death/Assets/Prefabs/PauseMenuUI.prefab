@@ -2928,8 +2928,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1786315900042305730}
-        m_MethodName: SetMusicVolume
+      - m_Target: {fileID: 7063156678403327026}
+        m_MethodName: MusicSliderChange
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3680,8 +3680,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8574771875049451178}
   - component: {fileID: 8618045661085434623}
-  - component: {fileID: 1786315900042305730}
   - component: {fileID: 1465540095200036801}
+  - component: {fileID: 7063156678403327026}
   m_Layer: 9
   m_Name: SettingsUI
   m_TagString: Untagged
@@ -3720,24 +3720,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4679608246749087600}
   m_CullTransparentMesh: 0
---- !u!114 &1786315900042305730
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4679608246749087600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08b2a887a25f04cf6b365136066acd2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  masterVol: 1
-  musicVol: 1
-  sfxVol: 1
-  dialogueVol: 1
-  cutsceneReduction: 0
-  inCutscene: 0
 --- !u!114 &1465540095200036801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3767,6 +3749,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7063156678403327026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4679608246749087600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9973ea964ecee74c95ada499ddc77af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeControllerObject: {fileID: 0}
 --- !u!1 &4690551293956904706
 GameObject:
   m_ObjectHideFlags: 0
@@ -4658,8 +4653,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1786315900042305730}
-        m_MethodName: SetMasterVolume
+      - m_Target: {fileID: 7063156678403327026}
+        m_MethodName: MasterSliderChange
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5266,8 +5261,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1786315900042305730}
-        m_MethodName: SetSFXVolume
+      - m_Target: {fileID: 7063156678403327026}
+        m_MethodName: SFXSliderChange
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5294,7 +5289,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1786315900042305730}
+        - m_Target: {fileID: 0}
           m_MethodName: PlaySFXSample
           m_Mode: 1
           m_Arguments:
@@ -6339,7 +6334,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: f25dcd618d3acd64795bf8bb32edb6c9,
         type: 3}
       propertyPath: m_Text
-      value: Space [Keyboard]
+      value: '  [Keyboard]'
       objectReference: {fileID: 0}
     - target: {fileID: 4168522202458225171, guid: f25dcd618d3acd64795bf8bb32edb6c9,
         type: 3}
