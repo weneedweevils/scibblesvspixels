@@ -167,7 +167,7 @@ public class Attack : MonoBehaviour
             }
 
             //Attack
-            if (attackTimer.IsUseable() && playerMovement.CanUseAbility() && playerInput.actions["Attack"].triggered && !playerMovement.pauseInput)
+            if (attackTimer.IsUseable() && playerMovement.CanUseAbility() && playerInput.actions["Attack"].IsPressed() && !playerMovement.pauseInput)
             {
 
                 // FMODUnity.RuntimeManager.PlayOneShot(eraserSfx, isHit);
