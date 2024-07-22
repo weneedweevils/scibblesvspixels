@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 public class Credits : MonoBehaviour
 {
     public GameObject credits;
-    private float scrollSpeed = 80;
+    private float scrollSpeed = 1.5f; // Speed for credits from menu (Speed on credits from end cutscene = 80)
     public UnityEngine.UI.Button menuButton;
 
     private void MenuButton()
@@ -24,7 +24,7 @@ public class Credits : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (credits.gameObject.transform.GetChild(0).transform.position.y >= 270)
+        if (credits.gameObject.transform.GetChild(0).transform.position.y >= 0)
         {
             scrollSpeed = 0;
             return;
