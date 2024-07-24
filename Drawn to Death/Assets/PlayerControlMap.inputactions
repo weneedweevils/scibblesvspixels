@@ -1083,7 +1083,7 @@
             "bindingGroup": "Gamepad",
             "devices": [
                 {
-                    "devicePath": "<Gamepad>",
+                    "devicePath": "<XInputController>",
                     "isOptional": false,
                     "isOR": false
                 }
@@ -1106,6 +1106,11 @@
             "devices": [
                 {
                     "devicePath": "<DualSenseGamepadHID>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<DualShockGamepad>",
                     "isOptional": false,
                     "isOR": false
                 }

@@ -10,16 +10,14 @@ public class IconManager : MonoBehaviour
     public GameObject xboxIcons;
     public GameObject kbmIcons;
 
+    public PlayerInput playerInput;
 
 
 
-    void Start()
-    {
-        PlayerInput playerInput = GetComponent<PlayerInput>();
-        
 
+    void Awake(){
+        //kbmIcons.SetActive(true);
     }
-
     public void OnDeviceChanged(PlayerInput PI)
     {
         if (PI.currentControlScheme.Equals("Playstation")){
@@ -29,12 +27,16 @@ public class IconManager : MonoBehaviour
             kbmIcons.SetActive(false);
         }
 
-        if (PI.currentControlScheme.Equals("KBM")){
-            Debug.Log("keyboard");
+        else if (PI.currentControlScheme.Equals("KBM")){
             kbmIcons.SetActive(true);
             playstationIcons.SetActive(false);
             xboxIcons.SetActive(false);
-            
+        }
+
+         else if (PI.currentControlScheme.Equals("Gamepad")){
+            kbmIcons.SetActive(false);
+            playstationIcons.SetActive(false);
+            xboxIcons.SetActive(true);
         }
     }
 }
