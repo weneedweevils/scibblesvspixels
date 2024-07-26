@@ -49596,7 +49596,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1621257182}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 051b0b818ce14344c8b4bebe92073fb9, type: 3}
   m_Name: 
@@ -84603,9 +84603,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 287951638593990410, guid: 7a70a575ba077fc48bf02e00badb0e5c,
         type: 3}
+      propertyPath: hud
+      value: 
+      objectReference: {fileID: 338816385}
+    - target: {fileID: 287951638593990410, guid: 7a70a575ba077fc48bf02e00badb0e5c,
+        type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 17060506650434017}
+    - target: {fileID: 287951638593990410, guid: 7a70a575ba077fc48bf02e00badb0e5c,
+        type: 3}
+      propertyPath: UIInput
+      value: 
+      objectReference: {fileID: 1952806676}
+    - target: {fileID: 287951638593990410, guid: 7a70a575ba077fc48bf02e00badb0e5c,
+        type: 3}
+      propertyPath: cutsceneObjects
+      value: 
+      objectReference: {fileID: 994535790}
     - target: {fileID: 287951638593990410, guid: 7a70a575ba077fc48bf02e00badb0e5c,
         type: 3}
       propertyPath: timelines.Array.size
@@ -84768,6 +84783,135 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a70a575ba077fc48bf02e00badb0e5c, type: 3}
+--- !u!1 &1952806675 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5016467592371810576, guid: 7a70a575ba077fc48bf02e00badb0e5c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1952806674}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1952806676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952806675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 78651e875b218c042ac5c43d33c0097a,
+    type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: aff6e8d8-a98b-4e20-aca2-6b7035253008
+    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d320c666-d1ee-4a44-a31f-a218f03d1b29
+    m_ActionName: Player/Dash[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: dc1f1e5f-b5aa-468e-bb4b-10942531553a
+    m_ActionName: Player/Revive[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: af49fb54-1eb8-4f42-a19c-deddf9d94065
+    m_ActionName: Player/Rally[/Keyboard/f]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5c15b091-1879-44c7-88ec-7e16cf0678d5
+    m_ActionName: Player/Attack[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cfd87308-5b7a-4725-8f69-f7cd6f8d3698
+    m_ActionName: Player/Aim
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8e9b5724-f769-44ae-ad3f-56457a621108
+    m_ActionName: Player/LifeSteal[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 091d92e6-35fc-40c2-a76b-f438a7c085dd
+    m_ActionName: Player/Escape[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4455e10b-e11c-439c-83f4-5dcb982fa9d4
+    m_ActionName: Player/SkipText[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9c7a8b87-eeb6-4c55-8d81-7c872a1d68e4
+    m_ActionName: Player/ReloadDialogue[/Keyboard/leftBracket]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a0a15ac6-638a-4e31-bc32-868237b1f4b0
+    m_ActionName: Player/PreviousDialogue[/Keyboard/rightBracket]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0fb36e47-6e8b-47be-a354-b886271d7aed
+    m_ActionName: UI/Escape[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e633c107-6c72-4f32-b1b8-24d681061c6f
+    m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1061485e-4bd1-43a3-a683-86b7b0d10445
+    m_ActionName: UI/Submit[/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f956b7c1-63fa-4fd6-9149-b33fb65c38db
+    m_ActionName: UI/Cancel[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: febd2d75-1c17-49da-88c2-804d2c6fa99d
+    m_ActionName: UI/Point[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ce0020f1-c29b-4ffe-ad33-bf3a170e5f5b
+    m_ActionName: UI/Click[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e7ea4dd1-9905-4024-96aa-46c9c0e6c02a
+    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 836fc0cc-1e92-47bf-8bea-f4c86404b0e5
+    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 55f5db70-ad2b-43ca-ac0e-1e16c17b812a
+    m_ActionName: UI/RightClick[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 41e749f9-7458-4a4c-9c3d-e36e4c694525
+    m_ActionName: UI/TrackedDevicePosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 918f9f9d-8227-473b-8ba7-9a0a58e56dda
+    m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7a718920-74f9-4ee7-adc7-a9fbb778caaf
+    m_ActionName: UI/ScrollFaster[/Mouse/leftButton]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: UI
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &1953187060
 GameObject:
   m_ObjectHideFlags: 0

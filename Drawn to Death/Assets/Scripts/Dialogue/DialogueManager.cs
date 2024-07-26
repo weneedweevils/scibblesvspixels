@@ -35,6 +35,10 @@ public class DialogueManager : MonoBehaviour
 
     public GameObject player;
     public PlayerInput playerInput;
+    public PlayerInput UIInput;
+    public GameObject cutsceneObjects;
+    public GameObject hud;
+    private float count = 0f;
 
     private Dictionary<DialogueSFX, string> sfx = new Dictionary<DialogueSFX, string>()
     {
@@ -70,6 +74,21 @@ public class DialogueManager : MonoBehaviour
 
         playerInput = player.GetComponent<PlayerInput>();
         
+    }
+
+    public void Update()
+    {
+        if (dialogueActive && UIInput.actions["Escape"].IsPressed())
+        {
+            count += Time.deltaTime;
+            if (count > 1f)
+            {
+                SkipCutscene();
+            }
+        } else
+        {
+            count = 0f;
+        }
     }
 
     public void StartDialogue(DialogueSequence dialogueSequence)
@@ -130,6 +149,18 @@ public class DialogueManager : MonoBehaviour
             currentDialogue = null;
             dialogueActive = false;
         }
+    }
+
+    public void SkipCutscene()
+    {
+        Destroy(currentDialogue.gameObject);
+        currentDialogue = null;
+        dialogueActive = false;
+
+        player.GetComponent<PlayerMovement>().SetTimelineActive(false);
+        cutsceneObjects.SetActive(false);
+        hud.SetActive(true);
+        player.GetComponent<PlayerMovement>().pencil.enabled = true;
     }
 
     public string DialogueSFXEventPath(DialogueSFX dialogueSFX)

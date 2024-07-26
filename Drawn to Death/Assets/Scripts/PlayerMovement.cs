@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     //Recall
     //private float recallDuration = 115f/60f;
-    [SerializeField] private SpriteRenderer pencil;
+    public SpriteRenderer pencil;
     private GameObject[] enemies;
     public CooldownTimer recallTimer;
     public UnityEngine.UI.Slider recallBar;
