@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class BasicMusicScript : MonoBehaviour
 {
-    private FMOD.Studio.EventInstance instance;
+    public static BasicMusicScript instance { get; private set; }
+
+    private FMOD.Studio.EventInstance fmodInstance;
 
     public FMODUnity.EventReference fmodEvent;
 
-    [SerializeField][Range(0f, 30f)]
-    private float intensity;
+    [Range(0f, 30f)]
+    public float intensity;
 
     [Space(10)]
     public bool autoUpdate = true;
@@ -17,22 +19,31 @@ public class BasicMusicScript : MonoBehaviour
     [SerializeField] [Range(0f, 30f)]
     private float intensityPerEnemy;
 
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.LogError("Found more than one Data Persistence Manager in the scene");
+        }
+        instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        instance = FMODUnity.RuntimeManager.CreateInstance(fmodEvent);
-        instance.start();
+        fmodInstance = FMODUnity.RuntimeManager.CreateInstance(fmodEvent);
+        fmodInstance.start();
         InvokeRepeating("UpdateIntensity", 0f, 2f); //Update the music intensity every 2 seconds
     }
 
     // Update is called once per frame
     void Update()
     {
-        instance.setParameterByName("Intensity", intensity);
+        fmodInstance.setParameterByName("Intensity", intensity);
     }
 
     private void OnDestroy() {
-        instance.stop(0);
+        fmodInstance.stop(0);
     }
 
     public void setIntensity(float value)
@@ -47,7 +58,7 @@ public class BasicMusicScript : MonoBehaviour
         {
             EnemyAI enemy = obj.GetComponent<EnemyAI>();
             //Is this enemy on the oddle team and trying to attack
-            if (enemy != null && enemy.team == Team.oddle && (enemy.state == State.chase || enemy.state == State.attack))
+            if (enemy != null && !(enemy is DoodleBars) && enemy.team == Team.oddle && (enemy.state == State.chase || enemy.state == State.attack))
             {
                 //Increment the intensity 
                 total += intensityPerEnemy;

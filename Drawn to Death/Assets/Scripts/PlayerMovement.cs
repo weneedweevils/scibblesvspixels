@@ -215,10 +215,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         aimDirection = playerInput.actions["Aim"].ReadValue<Vector2>();
 
         playerarms.FrameUpdate(aimDirection);
-        dashTimer.Update();
+
+        float timeModifier = (BasicMusicScript.instance.intensity < 1f ? 5f : 1f);
+        dashTimer.Update(timeModifier);
         //recallTimer.Update();
-        invincibilityTimer.Update();
-        lifestealEndTimer.Update();
+        invincibilityTimer.Update(timeModifier);
+        lifestealEndTimer.Update(timeModifier);
 
         // Handles lifesteal animation
         if (weapon.lifestealTimer.IsActive() && weapon.lifestealStartTimer.IsOnCooldown() && !orb)

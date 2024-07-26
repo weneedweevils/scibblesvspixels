@@ -71,7 +71,7 @@ public class Attack : MonoBehaviour
     private SpriteRenderer lifestealImage;
     public bool lifestealStart;
     public TextMeshProUGUI uiCounter;
-
+    float timeModifier = 1f;
 
     /* ----- Misc ----- */
 
@@ -138,6 +138,7 @@ public class Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        timeModifier = (BasicMusicScript.instance.intensity < 1f ? 5f : 1f);
         if (allies.Count > 0)
         {
             ControlAllies();
@@ -159,7 +160,7 @@ public class Attack : MonoBehaviour
         if (!lifestealStart)
         {
             //Attack Timer
-            attackTimer.Update();
+            attackTimer.Update(timeModifier);
             if (attackTimer.IsUseable())
             {
                 animator.SetBool("attacking", false);
@@ -187,7 +188,7 @@ public class Attack : MonoBehaviour
     public void CheckRevive()
     {
         //Revive Timer
-        reviveTimer.Update();
+        reviveTimer.Update(timeModifier);
         
         // if revive is at max cooldown, flash the notifier
          if(reviveTimer.IsUseable() && !activatedReviveNotifier){
@@ -265,7 +266,7 @@ public class Attack : MonoBehaviour
         if (!player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying && Time.timeScale != 0f)
         {
             //Lifesteal Timer
-            lifestealTimer.Update();
+            lifestealTimer.Update(timeModifier);
         }
         lifestealStartTimer.Update();
 
