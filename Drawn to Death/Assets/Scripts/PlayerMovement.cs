@@ -101,7 +101,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public GameObject volumeControllerObject;
     private VolumeController volumeController;
 
-
     public Animator CameraReference;
     public Animator HealthBarReference;
 
@@ -116,9 +115,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     // Pause all input besides escape
     public bool pauseInput = false;
-
-   
-   
 
     //additional scripts
     [Header("New input system")]
