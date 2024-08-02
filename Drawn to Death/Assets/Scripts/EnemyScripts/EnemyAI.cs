@@ -47,7 +47,6 @@ public abstract class EnemyAI : MonoBehaviour
     public CooldownTimer slowedTimer;
     public CooldownTimer buffTimer;
     public float slowDuration;
-    public float buffDuration;
     public bool buffed = false;
 
     [Header("References")]
@@ -123,7 +122,7 @@ public abstract class EnemyAI : MonoBehaviour
         invincibilityTimer2 = new CooldownTimer(0f, invincibilityDuration);
         attackTimer = new CooldownTimer(attackCooldown, attackDuration);
         slowedTimer = new CooldownTimer(0.1f, slowDuration);
-        buffTimer = new CooldownTimer(0.1f, buffDuration);
+        buffTimer = new CooldownTimer(0.1f, playerMovement.allyBuffDuration);
         invincibilityTimerOodler = new CooldownTimer(oodlerInvincibilityDuration * 0.5f, oodlerInvincibilityDuration * 0.5f);
 
 
@@ -257,8 +256,8 @@ public abstract class EnemyAI : MonoBehaviour
                 if (buffTimer.IsOnCooldown())
                 {
                     buffed = false;
-                    speed /= 2;
-                    damage /= 2;
+                    speed /= playerMovement.allySpdModifier;
+                    damage /= playerMovement.allyStrModifier;
                     attackTimer.SetCooldown(attackCooldown);
                     selfImage.color = Color.white;
                 }

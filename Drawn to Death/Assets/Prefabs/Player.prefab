@@ -403,10 +403,14 @@ MonoBehaviour:
   dashCooldown: 1
   dashBar: {fileID: 0}
   animator: {fileID: 0}
-  weapon: {fileID: 0}
+  recallCooldown: 8
+  allyHealPercentage: 0.5
+  allyStrModifier: 2
+  allySpdModifier: 2
+  allyAtkSpdModifier: 0.5
+  allyBuffDuration: 5
   pencil: {fileID: 3034122452498883460}
   recallBar: {fileID: 0}
-  allyHealPercentage: 0.5
   animationDone: 1
   timelinePlaying: 0
   health: 100
@@ -416,10 +420,17 @@ MonoBehaviour:
   abilityDamageReduction: 0.4
   hud: {fileID: 0}
   pauseUi: {fileID: 0}
+  volumeControllerObject: {fileID: 0}
   CameraReference: {fileID: 1320437566207600155}
   HealthBarReference: {fileID: 0}
   oodlerCooldown: 0
   pauseInput: 0
+  controls:
+    m_Name: 
+    m_Id: 
+    m_Asset: {fileID: 0}
+    m_Actions: []
+    m_Bindings: []
   eraserObject: {fileID: 4163747329736801976}
   armsObject: {fileID: 3966632181802528408}
   isGamepad: 0
