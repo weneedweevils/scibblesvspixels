@@ -403,8 +403,8 @@ MonoBehaviour:
   dashCooldown: 1
   dashBar: {fileID: 0}
   animator: {fileID: 0}
-  recallCooldown: 8
-  allyHealPercentage: 0.5
+  recallCooldown: 15
+  allyHealPercentage: 0.3
   allyStrModifier: 2
   allySpdModifier: 2
   allyAtkSpdModifier: 0.5
@@ -426,8 +426,8 @@ MonoBehaviour:
   oodlerCooldown: 0
   pauseInput: 0
   controls:
-    m_Name: 
-    m_Id: 
+    m_Name: Controls
+    m_Id: d6522f7b-7175-4fd6-b541-8dacee39d512
     m_Asset: {fileID: 0}
     m_Actions: []
     m_Bindings: []
@@ -549,7 +549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632ae7eb1d4ce49d38a1e38ee7efe7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guid: 791ee1f6cd677ce9-d530cff6fd9da580
+  guid: 021dfcc71e87913a-5f1c14cbcf88f80a
 --- !u!61 &3786005922980315812
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -642,6 +642,70 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 8e9b5724-f769-44ae-ad3f-56457a621108
     m_ActionName: Player/LifeSteal[/Mouse/rightButton,/DualShock4GamepadHID/buttonNorth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 091d92e6-35fc-40c2-a76b-f438a7c085dd
+    m_ActionName: Player/Escape[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4455e10b-e11c-439c-83f4-5dcb982fa9d4
+    m_ActionName: Player/SkipText[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9c7a8b87-eeb6-4c55-8d81-7c872a1d68e4
+    m_ActionName: Player/ReloadDialogue[/Keyboard/leftBracket]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a0a15ac6-638a-4e31-bc32-868237b1f4b0
+    m_ActionName: Player/PreviousDialogue[/Keyboard/rightBracket]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0fb36e47-6e8b-47be-a354-b886271d7aed
+    m_ActionName: UI/Escape[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e633c107-6c72-4f32-b1b8-24d681061c6f
+    m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1061485e-4bd1-43a3-a683-86b7b0d10445
+    m_ActionName: UI/Submit[/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f956b7c1-63fa-4fd6-9149-b33fb65c38db
+    m_ActionName: UI/Cancel[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: febd2d75-1c17-49da-88c2-804d2c6fa99d
+    m_ActionName: UI/Point[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ce0020f1-c29b-4ffe-ad33-bf3a170e5f5b
+    m_ActionName: UI/Click[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e7ea4dd1-9905-4024-96aa-46c9c0e6c02a
+    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 836fc0cc-1e92-47bf-8bea-f4c86404b0e5
+    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 55f5db70-ad2b-43ca-ac0e-1e16c17b812a
+    m_ActionName: UI/RightClick[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 41e749f9-7458-4a4c-9c3d-e36e4c694525
+    m_ActionName: UI/TrackedDevicePosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 918f9f9d-8227-473b-8ba7-9a0a58e56dda
+    m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7a718920-74f9-4ee7-adc7-a9fbb778caaf
+    m_ActionName: UI/ScrollFaster[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -801,7 +865,8 @@ MonoBehaviour:
   attackCooldown: 0.5
   reviveRadius: 10
   reviveCap: 50
-  reviveCooldown: 8
+  reviveCooldown: 7
+  OutOfCombatCooldownBoost: 5
   targetDistance: 50
   reviveBar: {fileID: 0}
   activatedReviveNotifier: 0
