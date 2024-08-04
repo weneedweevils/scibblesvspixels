@@ -19,8 +19,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
-
-
     //Movement Checks
     [Header("Physics")]
     public float accelerationCoefficient;   //how quickly it speeds up
@@ -29,7 +27,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public float speedModifier;             //modifiers applied to the player (affects maxVelocity)
 
     //Dash
-    [Header("Dash Options")]
+    [Header("Dash")]
     public bool dashEnabled;
     public float dashBoost;
     public float dashCooldown;
@@ -42,16 +40,24 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     //Animations
     [HideInInspector] public Animator animator;
     private SpriteRenderer sprite;
-    public Attack weapon;
+    public Attack weapon { get; private set; }
 
     //Recall
-    //private float recallDuration = 115f/60f;
+    [Header("Recall")]
+    private float recallDuration = 115f/60f; 
+    public float recallCooldown;
+    [Range(0, 1)] public float allyHealPercentage;
+    public float allyStrModifier;
+    public float allySpdModifier;
+    public float allyAtkSpdModifier;
+    public float allyBuffDuration;
+
     [SerializeField] private SpriteRenderer pencil;
     private GameObject[] enemies;
     public CooldownTimer recallTimer;
     public UnityEngine.UI.Slider recallBar;
     private CooldownBarBehaviour recallCooldownBar;
-    public float allyHealPercentage;
+    
     
     private UnityEngine.UI.Image recallNotifier;
     private bool activatedRecallNotifier = false;
@@ -95,7 +101,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public GameObject volumeControllerObject;
     private VolumeController volumeController;
 
-
     public Animator CameraReference;
     public Animator HealthBarReference;
 
@@ -110,9 +115,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     // Pause all input besides escape
     public bool pauseInput = false;
-
-   
-   
 
     //additional scripts
     [Header("New input system")]
@@ -143,15 +145,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         health = maxHealth;
         dashTimer = new CooldownTimer(dashCooldown, dashBoost / friction);
         invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
-        recallTimer = new CooldownTimer(0, 0);
+        recallTimer = new CooldownTimer(recallCooldown, recallDuration);
         lifestealEndTimer = new CooldownTimer(0.1f, 0.532f);
 
         dashCooldownBar = new CooldownBarBehaviour(dashBar, dashCooldown);
-        recallCooldownBar = new CooldownBarBehaviour(recallBar, weapon.reviveCooldown);
+        recallCooldownBar = new CooldownBarBehaviour(recallBar, recallCooldown);
 
         dashTimer.Connect(dashCooldownBar);
         recallTimer.Connect(recallCooldownBar);
-        weapon.reviveTimer.Couple(recallTimer);
 
         dashNotifier = dashBar.transform.parent.GetChild(1).GetComponent<UnityEngine.UI.Image>();
         recallNotifier = recallBar.transform.parent.GetChild(1).GetComponent<UnityEngine.UI.Image>();
@@ -164,12 +165,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         playerInput = GetComponent<PlayerInput>();
 
         playerarms = new PlayerArms(eraserObject, gameObject, armsObject, playerInput, this);
-        
-       
-
     }
-
- 
 
     public void OnDeviceChanged(PlayerInput pi)
     {
@@ -182,41 +178,17 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
             isGamepad = false;
         }
-
     }
-
-    // enable the player controller
-    void Awake()
-    {
-       
-        //controls = new PlayerControlMap();
-        //controls.Enable();
-        //controls.Player.Move.performed += value =>
-        //{
-
-        //    // there is a current bug with this method resulting in the controller being slightly slower than mouse and keyboard when moving
-        //    acceleration= value.ReadValue<Vector2>()*accelerationCoefficient;
-        //};
-
-        //controls.Player.Aim.performed += value2 =>
-        //{
-        //    aimDirection = value2.ReadValue<Vector2>();
-          
-        //};
-    }
-    
-
 
     // Update is called once per frame
     void Update()
     {
-
         acceleration = playerInput.actions["Move"].ReadValue<Vector2>()*accelerationCoefficient;
         aimDirection = playerInput.actions["Aim"].ReadValue<Vector2>();
 
         playerarms.FrameUpdate(aimDirection);
         dashTimer.Update();
-        //recallTimer.Update();
+        recallTimer.Update();
         invincibilityTimer.Update();
         lifestealEndTimer.Update();
 
@@ -271,7 +243,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
 
         // disable movement if player is recalling
-        if (weapon.reviveTimer.IsActive())
+        if (weapon.reviveTimer.IsActive() || recallTimer.IsActive())
         {
             acceleration.x = 0;
             acceleration.y = 0;
@@ -342,7 +314,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                 temp.a = 0f;
                 restricted.color = temp;
                 
-                if(weapon.reviveTimer.IsUseable() && !activatedRecallNotifier){
+                if(recallTimer.IsUseable() && !activatedRecallNotifier){
                     var temp1 = recallNotifier.color;
                     temp1.a = 1f;
                     recallNotifier.color = temp1;
@@ -354,7 +326,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         //reset notifier if we have allies or have pressed revive or recall
         if ((playerInput.actions["Rally"].triggered || playerInput.actions["Revive"].triggered) && weapon.GetAllies().Count > 0)
         {
-            weapon.activatedReviveNotifier = false;
             activatedRecallNotifier = false;
         }
 
@@ -364,13 +335,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             var temp = recallNotifier.color;
             temp.a -= 0.01f;
             recallNotifier.color = temp;
-
         }
 
         //If player pressed recall and they are not on cooldown and they have allies, do recall
-        if (weapon.reviveTimer.IsUseable() && CanUseAbility() && playerInput.actions["Rally"].triggered && weapon.GetAllies().Count > 0)
+        if (recallTimer.IsUseable() && CanUseAbility() && playerInput.actions["Rally"].triggered && weapon.GetAllies().Count > 0)
         {
-            weapon.reviveTimer.StartTimer();
+            recallTimer.StartTimer();
             pencil.enabled = false;
             StopMovement();
             FMODUnity.RuntimeManager.PlayOneShot("event:/RallyAbility");
@@ -421,16 +391,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         return v;
     }
 
-   
-
-
     private void ManageAnimations()
     {
-       
         //Set the speed parameter in the animator
         animator.SetFloat("speed", velocity.magnitude);
 
-        if (!inFreezeDialogue() && !timelinePlaying && !weapon.reviveTimer.IsActive())
+        if (!inFreezeDialogue() && !timelinePlaying && !weapon.reviveTimer.IsActive() && !recallTimer.IsActive())
         {
             if (dashTimer.IsActive() && velocity.x != 0f)
             {
@@ -453,19 +419,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                     Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
                     sprite.flipX = mousePosition.x < transform.position.x;
                 }
-                
-
             }
-
-            
-
-            
-
         }
 
         //Account for backwards movement
         animator.SetBool("backwards", velocity.x != 0f && (velocity.x < 0f != sprite.flipX));
-        
     }
 
     public void StopMovement()
@@ -486,13 +444,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                return DialogueManager.Instance.dialogueActive;
         }
     }
-
-    public void HandleArms()
-    {
-
-    }
-
-
 
     // Function to run when player takes damage
     public void Damage(float damageTaken, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f)
@@ -571,13 +522,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     //Some abilities can not be used simultaneously - Check to see if any of those are not active
     public bool CanUseAbility()
     {
-        return !(weapon.reviveTimer.IsActive() || dashTimer.IsActive()) &&
+        return !(weapon.reviveTimer.IsActive() || dashTimer.IsActive() || recallTimer.IsActive()) &&
                !(inFreezeDialogue() || timelinePlaying);
     }
 
     public bool UsingAbility()
     {
-        return weapon.reviveTimer.IsActive() || weapon.lifestealTimer.IsActive() || dashTimer.IsActive() || weapon.lifestealStartTimer.IsActive();
+        return weapon.reviveTimer.IsActive() || recallTimer.IsActive() || weapon.lifestealTimer.IsActive() || dashTimer.IsActive() || weapon.lifestealStartTimer.IsActive();
     }
 
     //Animate the camera zoom
@@ -610,9 +561,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                     enemy.transform.position = transform.position + total;
                     enemyai.Heal(enemyai.maxHealth * allyHealPercentage);
                     enemyai.buffed = true;
-                    enemyai.speed *= 2;
-                    enemyai.damage *= 2;
-                    enemyai.attackTimer.SetCooldown(enemyai.attackCooldown / 2);
+                    enemyai.speed *= allySpdModifier;
+                    enemyai.damage *= allyStrModifier;
+                    enemyai.attackTimer.SetCooldown(enemyai.attackCooldown * allyAtkSpdModifier);
                 }
             }
         }

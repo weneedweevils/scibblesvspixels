@@ -41,6 +41,7 @@ public class Attack : MonoBehaviour
     public float reviveRadius;
     public int reviveCap;
     public float reviveCooldown = 0f;
+    [Min(1f)] public float OutOfCombatCooldownBoost = 5f;
     public float targetDistance = 100f;
     public CooldownTimer reviveTimer;
     public Slider reviveBar;
@@ -187,10 +188,13 @@ public class Attack : MonoBehaviour
     public void CheckRevive()
     {
         //Revive Timer
-        reviveTimer.Update();
-        
+        if (reviveTimer.IsOnCooldown() && BasicMusicScript.instance.GetIntensity() < 1f)
+            reviveTimer.Update(OutOfCombatCooldownBoost);
+        else
+            reviveTimer.Update();
+
         // if revive is at max cooldown, flash the notifier
-         if(reviveTimer.IsUseable() && !activatedReviveNotifier){
+        if (reviveTimer.IsUseable() && !activatedReviveNotifier){
             var temp1 = reviveNotifier.color;
             temp1.a = 1f;
             reviveNotifier.color = temp1;
