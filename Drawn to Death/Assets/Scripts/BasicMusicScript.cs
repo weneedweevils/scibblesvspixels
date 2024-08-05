@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class BasicMusicScript : MonoBehaviour
 {
-    private FMOD.Studio.EventInstance instance;
+    public static BasicMusicScript instance;
+    private FMOD.Studio.EventInstance eventInstance;
 
     public FMODUnity.EventReference fmodEvent;
 
@@ -17,22 +18,31 @@ public class BasicMusicScript : MonoBehaviour
     [SerializeField] [Range(0f, 30f)]
     private float intensityPerEnemy;
 
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.LogError("Found more than one Basic Music Script in the scene");
+        }
+        instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        instance = FMODUnity.RuntimeManager.CreateInstance(fmodEvent);
-        instance.start();
+        eventInstance = FMODUnity.RuntimeManager.CreateInstance(fmodEvent);
+        eventInstance.start();
         InvokeRepeating("UpdateIntensity", 0f, 2f); //Update the music intensity every 2 seconds
     }
 
     // Update is called once per frame
     void Update()
     {
-        instance.setParameterByName("Intensity", intensity);
+        eventInstance.setParameterByName("Intensity", intensity);
     }
 
     private void OnDestroy() {
-        instance.stop(0);
+        eventInstance.stop(0);
     }
 
     public void setIntensity(float value)
@@ -61,5 +71,10 @@ public class BasicMusicScript : MonoBehaviour
     public void UpdateIntensity()
     {
         if (autoUpdate) { setIntensity(CalculateIntensity()); }
+    }
+
+    public float GetIntensity()
+    {
+        return intensity;
     }
 }

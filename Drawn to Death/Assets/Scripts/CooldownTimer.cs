@@ -38,12 +38,12 @@ public class CooldownTimer
         return !(active || onCooldown);
     }
 
-    public void Update()
+    public void Update(float timeModifier = 1f)
     {
         //Update the timer if it is not usable 
         if (!IsUseable())
         {
-            timer += Time.deltaTime;
+            timer += Time.deltaTime * timeModifier;
 
             //Check if active state is over -> start the cooldown
             if (active && timer >= activeduration)

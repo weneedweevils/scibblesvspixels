@@ -14,20 +14,11 @@ using UnityEngine.Timeline;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using static System.Net.Mime.MediaTypeNames;
-using MilkShake;
 using System.Threading;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
-    //Input options
-    [Header("Movement Controls")]
-    public KeyCode up = KeyCode.W;
-    public KeyCode down = KeyCode.S;
-    public KeyCode left = KeyCode.A;
-    public KeyCode right = KeyCode.D;
-    public KeyCode dash = KeyCode.Space;
-    public KeyCode recall = KeyCode.R;
-    
     //Movement Checks
     [Header("Physics")]
     public float accelerationCoefficient;   //how quickly it speeds up
@@ -36,7 +27,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public float speedModifier;             //modifiers applied to the player (affects maxVelocity)
 
     //Dash
-    [Header("Dash Options")]
+    [Header("Dash")]
     public bool dashEnabled;
     public float dashBoost;
     public float dashCooldown;
@@ -49,16 +40,24 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     //Animations
     [HideInInspector] public Animator animator;
     private SpriteRenderer sprite;
-    private Attack weapon;
+    public Attack weapon { get; private set; }
 
     //Recall
-    //private float recallDuration = 115f/60f;
+    [Header("Recall")]
+    private float recallDuration = 115f/60f; 
+    public float recallCooldown;
+    [Range(0, 1)] public float allyHealPercentage;
+    public float allyStrModifier;
+    public float allySpdModifier;
+    public float allyAtkSpdModifier;
+    public float allyBuffDuration;
+
     [SerializeField] private SpriteRenderer pencil;
     private GameObject[] enemies;
     public CooldownTimer recallTimer;
     public UnityEngine.UI.Slider recallBar;
     private CooldownBarBehaviour recallCooldownBar;
-    public float allyHealPercentage;
+    
     
     private UnityEngine.UI.Image recallNotifier;
     private bool activatedRecallNotifier = false;
@@ -71,15 +70,15 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     [HideInInspector] public bool animationDone = true;
 
     //Physics info
-    private Vector2 velocity, acceleration;
+    private Vector2 velocity, acceleration, accelerationCorrected;
+   
 
     Rigidbody2D rbody;
     BoxCollider2D boxCollider;
     private bool boxColliding = false;
 
-    // Used to determine if dialogue is happening
+    // Used to determine if timeline is active
     [Header("Cutscene")]
-    private GameObject dialogue;
     public bool timelinePlaying = false;
 
     // Health
@@ -96,11 +95,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public GameObject pauseUi;
     private GameObject panel; // This is the panel that contains in image whose color can be changed to simulate a damage effect
     private UnityEngine.UI.Image restricted;
-    public ShakePreset myShakePreset;
-    public Shaker shakeCam;
     private GameObject lifestealOrb;
     private bool orb = false;
     private CooldownTimer lifestealEndTimer;
+    public GameObject volumeControllerObject;
+    private VolumeController volumeController;
+
+    public Animator CameraReference;
+    public Animator HealthBarReference;
 
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
@@ -113,6 +115,16 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     // Pause all input besides escape
     public bool pauseInput = false;
+
+    //additional scripts
+    [Header("New input system")]
+    public InputActionMap controls;
+    private PlayerArms playerarms;
+    public GameObject eraserObject;
+    public GameObject armsObject;
+    public bool isGamepad = false;
+    private Vector2 aimDirection;
+    private PlayerInput playerInput; 
 
     // Start is called before the first frame update
     void Start()
@@ -128,19 +140,19 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         weapon = GetComponentInChildren<Attack>();
         eraser = transform.GetChild(0).GetChild(0).gameObject.GetComponent<SpriteRenderer>();
         lifestealOrb = transform.GetChild(4).gameObject;
+        volumeController = volumeControllerObject.GetComponent<VolumeController>();
 
         health = maxHealth;
         dashTimer = new CooldownTimer(dashCooldown, dashBoost / friction);
         invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
-        recallTimer = new CooldownTimer(0, 0);
+        recallTimer = new CooldownTimer(recallCooldown, recallDuration);
         lifestealEndTimer = new CooldownTimer(0.1f, 0.532f);
 
         dashCooldownBar = new CooldownBarBehaviour(dashBar, dashCooldown);
-        recallCooldownBar = new CooldownBarBehaviour(recallBar, weapon.reviveCooldown);
+        recallCooldownBar = new CooldownBarBehaviour(recallBar, recallCooldown);
 
         dashTimer.Connect(dashCooldownBar);
         recallTimer.Connect(recallCooldownBar);
-        weapon.reviveTimer.Couple(recallTimer);
 
         dashNotifier = dashBar.transform.parent.GetChild(1).GetComponent<UnityEngine.UI.Image>();
         recallNotifier = recallBar.transform.parent.GetChild(1).GetComponent<UnityEngine.UI.Image>();
@@ -149,14 +161,34 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         damageScreen = panel.GetComponent<UnityEngine.UI.Image>();
 
         restricted = GameObject.Find("RestrictRally").GetComponent<UnityEngine.UI.Image>();
-       
+
+        playerInput = GetComponent<PlayerInput>();
+
+        playerarms = new PlayerArms(eraserObject, gameObject, armsObject, playerInput, this);
+    }
+
+    public void OnDeviceChanged(PlayerInput pi)
+    {
+        Debug.Log(pi.currentControlScheme.ToString());
+        if(pi.currentControlScheme.Equals("Gamepad") || pi.currentControlScheme.Equals("Playstation"))
+        {
+            isGamepad = true;
+        }
+        else
+        {
+            isGamepad = false;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        acceleration = playerInput.actions["Move"].ReadValue<Vector2>()*accelerationCoefficient;
+        aimDirection = playerInput.actions["Aim"].ReadValue<Vector2>();
+
+        playerarms.FrameUpdate(aimDirection);
         dashTimer.Update();
-        //recallTimer.Update();
+        recallTimer.Update();
         invincibilityTimer.Update();
         lifestealEndTimer.Update();
 
@@ -191,28 +223,27 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
         
         // Disable movement if in dialogue/cutscene where we don't want movement
-        if (!inFreezeDialogue() && !timelinePlaying && pauseUi.active == false)
+        if (!inFreezeDialogue() && !timelinePlaying) //&& pauseUi.active == false)
         {
             hud.SetActive(true);
             //Determine acceleration
 
-
-            if (!pauseInput) // checks pause input without disabling hud
-            {
-                acceleration.x = ((Input.GetKey(left) ? -1 : 0) + (Input.GetKey(right) ? 1 : 0)) * accelerationCoefficient;
-                acceleration.y = ((Input.GetKey(down) ? -1 : 0) + (Input.GetKey(up) ? 1 : 0)) * accelerationCoefficient;
-            }
+             // Decrease SFX volume
+            volumeController.inCutscene = false;
         }
-        else
+        else 
         {
             hud.SetActive(false);
             weapon.animator.SetBool("attacking", false);
             acceleration.x = 0;
             acceleration.y = 0;
+
+            // Return SFX volume to original setting
+            volumeController.inCutscene = true;
         }
 
         // disable movement if player is recalling
-        if (weapon.reviveTimer.IsActive())
+        if (weapon.reviveTimer.IsActive() || recallTimer.IsActive())
         {
             acceleration.x = 0;
             acceleration.y = 0;
@@ -245,7 +276,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
 
 
-        if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && Input.GetKey(dash) && Mathf.Abs(velocity.magnitude) > 0f && !pauseInput)
+        if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && playerInput.actions["Dash"].triggered && Mathf.Abs(velocity.magnitude) > 0f && !pauseInput)
         {
             activatedDashNotifier = false;
             velocity += velocity.normalized * dashBoost;
@@ -257,8 +288,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
         else if (dashTimer.IsOnCooldown())
         {
-            if (animator.GetBool("dashing")) 
-            { 
+            if (animator.GetBool("dashing"))
+            {
                 pencil.enabled = true;
                 animator.SetBool("dashing", false);
                 sprite.color = new Color(255, 255, 255, 1f);
@@ -283,7 +314,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                 temp.a = 0f;
                 restricted.color = temp;
                 
-                if(weapon.reviveTimer.IsUseable() && !activatedRecallNotifier){
+                if(recallTimer.IsUseable() && !activatedRecallNotifier){
                     var temp1 = recallNotifier.color;
                     temp1.a = 1f;
                     recallNotifier.color = temp1;
@@ -292,25 +323,24 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             }
         }
 
-        // reset notifier if we have allies or have pressed revive or recall
-        if ((Input.GetKey(recall)||Input.GetKey(weapon.reviveButton)) && weapon.GetAllies().Count>0)
+        //reset notifier if we have allies or have pressed revive or recall
+        if ((playerInput.actions["Rally"].triggered || playerInput.actions["Revive"].triggered) && weapon.GetAllies().Count > 0)
         {
-            weapon.activatedReviveNotifier = false;
             activatedRecallNotifier = false;
         }
-        
+
         // if recall notifier is visible, decrease the alpha value
         if (recallNotifier.color.a > 0)
         {
             var temp = recallNotifier.color;
             temp.a -= 0.01f;
             recallNotifier.color = temp;
-
         }
 
-        // If player pressed recall and they are not on cooldown and they have allies, do recall
-        if (weapon.reviveTimer.IsUseable() && CanUseAbility() && Input.GetKey(recall) && weapon.GetAllies().Count>0 ){
-            weapon.reviveTimer.StartTimer();
+        //If player pressed recall and they are not on cooldown and they have allies, do recall
+        if (recallTimer.IsUseable() && CanUseAbility() && playerInput.actions["Rally"].triggered && weapon.GetAllies().Count > 0)
+        {
+            recallTimer.StartTimer();
             pencil.enabled = false;
             StopMovement();
             FMODUnity.RuntimeManager.PlayOneShot("event:/RallyAbility");
@@ -363,11 +393,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void ManageAnimations()
     {
-       
         //Set the speed parameter in the animator
         animator.SetFloat("speed", velocity.magnitude);
 
-        if (!inFreezeDialogue() && !timelinePlaying && !weapon.reviveTimer.IsActive())
+        if (!inFreezeDialogue() && !timelinePlaying && !weapon.reviveTimer.IsActive() && !recallTimer.IsActive())
         {
             if (dashTimer.IsActive() && velocity.x != 0f)
             {
@@ -377,18 +406,24 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             else
             {
                 //Flip the sprite according to mouse position relative to the players position
-                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-
-                sprite.flipX = mousePosition.x < transform.position.x;
-
+                if(isGamepad)
+                {
+                    if (aimDirection.x != 0 && aimDirection.y != 0)
+                    {
+                        sprite.flipX = aimDirection.x < 0;
+                    }
+                }
+                else
+                {
+                    Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+                    sprite.flipX = mousePosition.x < transform.position.x;
+                }
             }
-
         }
 
         //Account for backwards movement
         animator.SetBool("backwards", velocity.x != 0f && (velocity.x < 0f != sprite.flipX));
-        
     }
 
     public void StopMovement()
@@ -400,21 +435,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Ensures movement is disabled if dialogue wants it to be
     public bool inFreezeDialogue()
     {
-        
-        if (dialogue != null)
+        if (DialogueManager.Instance == null)
         {
-            
-            if (!dialogue.GetComponent<DialogueController>().DialogueActive()) // Ensures dialogue object is destroyed if movement freeze is on
-            {
-                dialogue.SetActive(false); // Deactivates dialogue after end, can be changed if we ever want repeatable dialogue
-                dialogue = null;
-                return false;
-            }
-            return dialogue.GetComponent<DialogueController>().DialogueActive() && dialogue.GetComponent<DialogueController>().stopMovement;
+            return false; 
         }
         else
         {
-            return false;
+               return DialogueManager.Instance.dialogueActive;
         }
     }
 
@@ -426,12 +453,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             return;
         }
 
-        if (shakeCam != null)
-        {
-            shakeCam.Shake(myShakePreset);
-        }
-
-        ChangeScreenColor(true);
+        HealthBarReference.SetTrigger("HealthBarShake");
+        CameraReference.SetTrigger("Shake");
 
         if (UsingAbility())
         {
@@ -451,10 +474,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             velocity = knockbackDir.normalized * knockbackPower * 3;
         }
 
+        // flashes damage indicator around health bar
+        ChangeScreenColor(true);
+
         if (health <= 0)
         {
-          
-            MenuManager.GotoScene(Scene.Ded);
+            StartCoroutine(MenuManager.LoadScene(Scene.Ded));
         }
     }
 
@@ -497,13 +522,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     //Some abilities can not be used simultaneously - Check to see if any of those are not active
     public bool CanUseAbility()
     {
-        return !(weapon.reviveTimer.IsActive() || dashTimer.IsActive()) &&
+        return !(weapon.reviveTimer.IsActive() || dashTimer.IsActive() || recallTimer.IsActive()) &&
                !(inFreezeDialogue() || timelinePlaying);
     }
 
     public bool UsingAbility()
     {
-        return weapon.reviveTimer.IsActive() || weapon.lifestealTimer.IsActive() || dashTimer.IsActive() || weapon.lifestealStartTimer.IsActive();
+        return weapon.reviveTimer.IsActive() || recallTimer.IsActive() || weapon.lifestealTimer.IsActive() || dashTimer.IsActive() || weapon.lifestealStartTimer.IsActive();
     }
 
     //Animate the camera zoom
@@ -536,9 +561,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                     enemy.transform.position = transform.position + total;
                     enemyai.Heal(enemyai.maxHealth * allyHealPercentage);
                     enemyai.buffed = true;
-                    enemyai.speed *= 2;
-                    enemyai.damage *= 2;
-                    enemyai.attackTimer.SetCooldown(enemyai.attackCooldown / 2);
+                    enemyai.speed *= allySpdModifier;
+                    enemyai.damage *= allyStrModifier;
+                    enemyai.attackTimer.SetCooldown(enemyai.attackCooldown * allyAtkSpdModifier);
                 }
             }
         }
@@ -588,38 +613,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         return;
     }
 
-    // Dialogue enter
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-     
-
-        switch (collision.gameObject.tag)
-        {
-            //Dialogue trigger
-            case "Dialogue":
-                {
-                    dialogue = collision.gameObject;
-                    dialogue.GetComponent<DialogueController>().ActivateDialogue();
-                    break;
-                }
-
-            default:
-                {
-                    break;
-                }
-        }
-      
-    }
-
-    // Dialogue exit
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        //if (dialogue != null) {
-            //dialogue.SetActive(false); // Deactivates dialogue after trigger, can be changed if we ever want repeatable dialogue
-            //dialogue = null;
-        //}
-    }
-
     public void SetTimelineActive(bool isActive)
     {
         timelinePlaying = isActive;
@@ -656,6 +649,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
             pauseInput = false;
         }
+    }
+
+    public PlayerInput getInputSystem()
+    {
+        return playerInput;
     }
 
 }

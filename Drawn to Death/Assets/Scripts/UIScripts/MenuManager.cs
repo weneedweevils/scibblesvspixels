@@ -1,4 +1,4 @@
-﻿ using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -12,12 +12,15 @@ public class MenuManager : MonoBehaviour, IDataPersistence
     public Scene nextScene;
     public bool newGame = false;
     public bool loadGame = false;
+    public float transitionTime;
 
     [Header("References")]
     public TextMeshProUGUI text;
+    public Animator transition;
 
     public void QuitGame()
     {
+        StartCoroutine(LoadScene(nextScene, transition, transitionTime));
         Application.Quit();
     }
 
@@ -28,11 +31,17 @@ public class MenuManager : MonoBehaviour, IDataPersistence
             DataPersistenceManager.instance.NewGame();
             nextScene = Scene.Level_1;
         }
-        GotoScene(nextScene);
+        StartCoroutine(LoadScene(nextScene, transition, transitionTime));
     }
 
-    public static void GotoScene(Scene scene)
+    public static IEnumerator LoadScene(Scene scene, Animator transition = null, float transitionTime = 0f)
     {
+        if (transition != null)
+        {
+            transition.gameObject.SetActive(true);
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+        }
         SceneManager.LoadScene((int)scene);
     }
 
@@ -53,7 +62,7 @@ public class MenuManager : MonoBehaviour, IDataPersistence
     public void ShowCredits()
     {
         nextScene = Scene.Credits;
-        GotoScene(nextScene);
+        StartCoroutine(LoadScene(nextScene, transition, transitionTime));
     }
 
     public void OnHovered()
@@ -81,4 +90,5 @@ public class MenuManager : MonoBehaviour, IDataPersistence
     {
         FMODUnity.RuntimeManager.PlayOneShot("event:/UIBack");
     }
+
 }
