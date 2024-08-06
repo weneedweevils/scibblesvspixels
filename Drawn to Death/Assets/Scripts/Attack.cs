@@ -65,11 +65,11 @@ public class Attack : MonoBehaviour
     private CooldownBarBehaviour lifestealCooldownBar;
     private UnityEngine.UI.Image lifeStealNotifier;
     private bool activatedLsNotifier = false;
-    private float lifestealRatio;
+    [HideInInspector] public float lifestealRatio;
 
     //Misc
     private List<EnemyAI> allies = new List<EnemyAI>();
-    private SpriteRenderer lifestealImage;
+    [HideInInspector] public SpriteRenderer lifestealImage;
     public bool lifestealStart;
     public TextMeshProUGUI uiCounter;
 

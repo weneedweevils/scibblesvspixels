@@ -9,6 +9,7 @@ public class GameData
     public bool skipTutorial;
     public Scene scene;
     public Vector3 playerPosition;
+    public List<int> upgradeLevels;
     
     public GameData(bool tutorial)
     {
@@ -16,5 +17,6 @@ public class GameData
         skipTutorial = tutorial;
         scene = Scene.Level_1;
         playerPosition = Vector3.zero;
+        upgradeLevels = new List<int>();
     }
 }
