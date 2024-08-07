@@ -62,7 +62,7 @@ public class OodleKnight : EnemyAI
     {
         
         //Face the target
-        if (target.position.x > transform.position.x)
+        if (target != null && (target.position.x > transform.position.x))
         {
             enemygraphics.localRotation = Quaternion.Euler(0, 180, 0);
         }
@@ -82,14 +82,14 @@ public class OodleKnight : EnemyAI
             {
                 targetOffset.Set(((target.position.x > transform.position.x) ? -1 : 1) * 3f, -1f);
                 Debug.LogFormat("targetOffset: {0}", targetOffset);
+
+                //Calculate direction to travel to the next waypoint
+                Vector2 direction = ((Vector2)target.position + targetOffset - rb.position).normalized;
+
+                //Apply a force in that direction
+                Vector2 force = direction * speed * 0.8f * Time.deltaTime;
+                rb.AddForce(force);
             }
-
-            //Calculate direction to travel to the next waypoint
-            Vector2 direction = ((Vector2)target.position + targetOffset - rb.position).normalized;
-
-            //Apply a force in that direction
-            Vector2 force = direction * speed * 0.8f * Time.deltaTime;
-            rb.AddForce(force);
         }
     }
 
@@ -101,7 +101,7 @@ public class OodleKnight : EnemyAI
 
     override public float PathLength(bool toPlayer = false)
     {
-        if (state == State.attack && !(toPlayer && !targetIsPlayer))
+        if (state == State.attack && !(toPlayer && !targetIsPlayer) && target != null)
         {
             return Vector2.Distance(rb.position, target.position);
         }
