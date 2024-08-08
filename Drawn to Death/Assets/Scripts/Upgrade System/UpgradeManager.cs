@@ -4,9 +4,42 @@ using UnityEngine;
 
 public class UpgradeManager : MonoBehaviour, IDataPersistence
 {
+    public static UpgradeManager instance { get; private set; }
+
     public bool loadLevels;
-    [Space(10)]
-    [SerializeField] private UpgradeMap[] upgrades;
+
+    [Header("Shop")]
+    public UpgradeMap[] upgrades;
+    public int currency;
+    [TextArea] public string defaultTextboxContent;
+
+    [Header("UI")]
+    public TMPro.TextMeshProUGUI currencyCounter;
+    public TMPro.TextMeshProUGUI textbox;
+
+    public void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.LogError("Found more than one Upgrade Manager in the scene");
+        }
+        instance = this;
+    }
+
+    public void Start()
+    {
+        SetTextbox();
+
+        for (int i = 0; i < upgrades.Length; i++)
+        {
+            upgrades[i].option.Init(i);
+        }
+    }
+
+    public void Update()
+    {
+        currencyCounter.text = string.Format("x{0}", currency);
+    }
 
     public void ApplyUpgrades()
     {
@@ -19,6 +52,14 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
             //Apply this upgrade's effect at the appropriate level
             map.upgrade.ApplyUpgrade(map.level);
         }
+    }
+
+    public void SetTextbox(string content = null)
+    {
+        if (content is null)
+            textbox.text = defaultTextboxContent;
+        else
+            textbox.text = content;
     }
 
     public void LoadData(GameData data)
@@ -56,5 +97,6 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
 public struct UpgradeMap
 {
     public Upgrade upgrade;
+    public UpgradeOption option;
     public int level;
 }
