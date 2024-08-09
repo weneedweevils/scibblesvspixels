@@ -24,6 +24,7 @@ public class DialogueTrigger : MonoBehaviour
         {
             DialogueManager.Instance.StartDialogue(dialogueSequence);
             activeTrigger = false;
+            gameObject.SetActive(false);
         }
     }
 
@@ -33,6 +34,7 @@ public class DialogueTrigger : MonoBehaviour
         {
             DialogueManager.Instance.StartDialogue(dialogueSequence);
             activeTrigger = false;
+            gameObject.SetActive(false);
         }
     }
 
@@ -42,6 +44,7 @@ public class DialogueTrigger : MonoBehaviour
         {
             DialogueManager.Instance.StartDialogue(dialogueSequence);
             activeTrigger = false;
+            gameObject.SetActive(false);
         }
     }
 
@@ -51,6 +54,7 @@ public class DialogueTrigger : MonoBehaviour
         {
             DialogueManager.Instance.StartDialogue(dialogueSequence);
             activeTrigger = false;
+            gameObject.SetActive(false);
         }
     }
 
@@ -60,6 +64,7 @@ public class DialogueTrigger : MonoBehaviour
         {
             DialogueManager.Instance.StartDialogue(dialogueSequence);
             activeTrigger = false;
+            gameObject.SetActive(false);
         }
     }
 }
