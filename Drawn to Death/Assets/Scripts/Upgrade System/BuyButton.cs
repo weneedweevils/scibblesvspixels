@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class BuyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class BuyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public enum BuyState { Unavailable, Buyable, Purchased }
     public BuyState state;
@@ -36,21 +36,30 @@ public class BuyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void Buy()
     {
-        if (state == BuyState.Buyable && UpgradeManager.instance.currency >= price)
-        {
-            UpgradeManager.instance.currency -= price;
-            parent.UpgradeTier();
-        }
-        return;
+        UpgradeManager.instance.currency -= price;
+        parent.UpgradeTier();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        UpgradeManager.instance.SetTextbox(description);
+        if (state == BuyState.Buyable)
+        {
+            UpgradeManager.instance.SetTextbox(description);
+            FMODUnity.RuntimeManager.PlayOneShot("event:/UIHover");
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         //UpgradeManager.instance.SetTextbox();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (state == BuyState.Buyable && UpgradeManager.instance.currency >= price)
+        {
+            Buy();
+            FMODUnity.RuntimeManager.PlayOneShot("event:/UIAccept");
+        }
     }
 }

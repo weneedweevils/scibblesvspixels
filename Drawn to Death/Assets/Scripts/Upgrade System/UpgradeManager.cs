@@ -12,6 +12,7 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
     public UpgradeMap[] upgrades;
     public int currency;
     [TextArea] public string defaultTextboxContent;
+    public Soul soulBlueprint;
 
     [Header("UI")]
     public TMPro.TextMeshProUGUI currencyCounter;
@@ -90,6 +91,17 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
         }
 
         data.upgradeLevels = upgradeLevels;
+    }
+
+    public void CreateSoul(Vector2 pos, int count, int value)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            //Instantiate the soul
+            Soul soul = Instantiate<Soul>(soulBlueprint, transform.parent);
+            soul.transform.position = pos;
+            soul.SetValue(value);
+        }
     }
 }
 
