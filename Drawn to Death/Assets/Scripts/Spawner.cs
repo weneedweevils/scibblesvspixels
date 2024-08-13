@@ -112,7 +112,7 @@ public class Spawner : MonoBehaviour
             }
 
             //Check time limit
-            if (limitTimer.IsUseable() && (limit == Limit.Time || limit == Limit.Either))
+            if (attemptTimer.IsUseable() && limitTimer.IsUseable() && (limit == Limit.Time || limit == Limit.Either))
             {
                 active = false;
             }
@@ -124,7 +124,7 @@ public class Spawner : MonoBehaviour
             }
 
             //Check time and unit limit
-            if (limitTimer.IsUseable() && spawnCount >= unitLimit && limit == Limit.Both)
+            if (attemptTimer.IsUseable() && limitTimer.IsUseable() && spawnCount >= unitLimit && limit == Limit.Both)
             {
                 active = false;
             }
@@ -139,6 +139,11 @@ public class Spawner : MonoBehaviour
                 ++spawnCount;
                 spawnTime = false;
                 attemptTimer.StartTimer();
+            }
+
+            if (!active && !triggerActive)
+            {
+                gameObject.SetActive(false);
             }
         }
     }
