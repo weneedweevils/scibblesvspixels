@@ -170,7 +170,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public void OnDeviceChanged(PlayerInput pi)
     {
         Debug.Log(pi.currentControlScheme.ToString());
-        if(pi.currentControlScheme.Equals("Gamepad") || pi.currentControlScheme.Equals("Playstation"))
+        if(pi.currentControlScheme.Equals("Gamepad") || pi.currentControlScheme.Equals("Playstation") || pi.currentControlScheme.Equals("Xbox"))
         {
             isGamepad = true;
         }
@@ -279,7 +279,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && playerInput.actions["Dash"].triggered && Mathf.Abs(velocity.magnitude) > 0f && !pauseInput)
         {
             activatedDashNotifier = false;
-            velocity += velocity.normalized * dashBoost;
+            velocity += acceleration.normalized * dashBoost;
             animator.SetBool("dashing", true);
             pencil.enabled = false;
             sprite.color = new Color(255, 255, 255, 0.50f);
@@ -409,10 +409,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
                 if(isGamepad)
                 {
-                    if (aimDirection.x != 0 && aimDirection.y != 0)
-                    {
-                        sprite.flipX = aimDirection.x < 0;
-                    }
+                    sprite.flipX = armsObject.transform.localScale.x < 0;
+                    
                 }
                 else
                 {
@@ -425,6 +423,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         //Account for backwards movement
         animator.SetBool("backwards", velocity.x != 0f && (velocity.x < 0f != sprite.flipX));
     }
+
+   
 
     public void StopMovement()
     {

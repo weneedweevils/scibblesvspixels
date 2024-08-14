@@ -9,6 +9,7 @@ public class IconManager : MonoBehaviour
     public GameObject playstationIcons;
     public GameObject xboxIcons;
     public GameObject kbmIcons;
+    public GameObject gamepadIcons;
 
 
     void Start()
@@ -31,6 +32,11 @@ public class IconManager : MonoBehaviour
         {
             ChangeToXbox();
         }
+
+        if (PI.currentControlScheme.Equals("Gamepad"))
+        {
+            ChangeToGamepad();
+        }
     }
 
 
@@ -39,6 +45,7 @@ public class IconManager : MonoBehaviour
         playstationIcons.SetActive(true);
         xboxIcons.SetActive(false);
         kbmIcons.SetActive(false);
+        gamepadIcons.SetActive(false);
     }
 
     public void ChangeToKBM()
@@ -46,11 +53,21 @@ public class IconManager : MonoBehaviour
         kbmIcons.SetActive(true);
         playstationIcons.SetActive(false);
         xboxIcons.SetActive(false);
+        gamepadIcons.SetActive(false);
     }
 
     public void ChangeToXbox()
     {
         xboxIcons.SetActive(true);
+        playstationIcons.SetActive(false);
+        kbmIcons.SetActive(false);
+        gamepadIcons.SetActive(false);
+    }
+
+    public void ChangeToGamepad()
+    {
+        gamepadIcons.SetActive(true);
+        xboxIcons.SetActive(false);
         playstationIcons.SetActive(false);
         kbmIcons.SetActive(false);
     }
