@@ -26,6 +26,8 @@ public abstract class EnemyAI : MonoBehaviour
     public float attackCooldown;
     public float attackDistance;
     public float slowdownFactor = 3f;
+    public float stunCooldownRatio = 0.7f;
+    public float knockbackRatio = 1f;
 
     [Header("Pathfinding")]
     public bool moving = true;
@@ -571,7 +573,7 @@ public abstract class EnemyAI : MonoBehaviour
         //Apply Knockback
         if (knockbackPower > 0f)
         {
-            rb.velocity = knockbackDir.normalized * knockbackPower;
+            rb.velocity = knockbackDir.normalized * knockbackPower * knockbackRatio;
         }
         
         //Flash hurt color
@@ -602,10 +604,10 @@ public abstract class EnemyAI : MonoBehaviour
 
         if (!attackTimer.IsOnCooldown())
         {
-            attackTimer.StartCooldown(attackCooldown * 0.7f);
+            attackTimer.StartCooldown(attackCooldown * stunCooldownRatio);
         } else
         {
-            attackTimer.StartCooldown(Mathf.Min(attackTimer.timer, attackCooldown * 0.7f));
+            attackTimer.StartCooldown(Mathf.Min(attackTimer.timer, attackCooldown * stunCooldownRatio));
         }
         animator.SetBool("attacking", false);
         animator.SetBool("chasing", true);
