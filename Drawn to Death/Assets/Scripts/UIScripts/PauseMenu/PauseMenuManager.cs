@@ -13,10 +13,7 @@ using UnityEngine.UI;
 
 public class PauseMenuManager : MonoBehaviour
 
-
-
 {
-
     public enum Scene { Splash_Screen, Menu, Intructions, Level_1, Level_2, Level_3, Ded, End, Credits }
 
 
@@ -53,7 +50,7 @@ public class PauseMenuManager : MonoBehaviour
     public GameObject SettingsFirstButton;
     public GameObject PauseFirstButton;
     public GameObject ControlsFirstButton;
-
+    private GameObject currentButton;
 
     //public int Menu = 1;
     public bool paused = false;
@@ -110,7 +107,6 @@ public class PauseMenuManager : MonoBehaviour
     // Goes to the settings screen where you can adjust volume
     public void GoToSettings()
     {
-        EventSystem.current.SetSelectedGameObject(SettingsFirstButton);
         menuStateMachine.ChangeState(settingsState);
        
     }
@@ -165,5 +161,17 @@ public class PauseMenuManager : MonoBehaviour
     {
         FMODUnity.RuntimeManager.PlayOneShot("event:/UIHover");
     }
+
+    public void SetCurrentButton(GameObject button)
+    {
+        currentButton = button;
+        EventSystem.current.SetSelectedGameObject(currentButton);
+    }
+
+    public void OnDeviceChanged()
+    {
+        EventSystem.current.SetSelectedGameObject(currentButton);
+    }
+
 }
 

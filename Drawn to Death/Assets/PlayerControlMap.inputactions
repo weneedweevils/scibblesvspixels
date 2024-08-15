@@ -623,6 +623,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "LeftClick",
+                    "type": "PassThrough",
+                    "id": "60e8180c-820c-4430-b583-792ed0647d53",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "TrackedDevicePosition",
                     "type": "PassThrough",
                     "id": "41e749f9-7458-4a4c-9c3d-e36e4c694525",
@@ -1143,6 +1152,17 @@
                     "processors": "",
                     "groups": "Gamepad;Playstation;Xbox",
                     "action": "ScrollFaster",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "44538357-1517-49f8-ad0f-d63e386b6ea5",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

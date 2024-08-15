@@ -17,7 +17,7 @@ public class PauseActiveState : MenuBaseState
         base.EnterState();
         pauseMenuManager.PauseMenu.SetActive(true);
         pauseMenuManager.playerInput.SwitchCurrentActionMap("UI");
-        EventSystem.current.SetSelectedGameObject(pauseMenuManager.PauseFirstButton);
+        pauseMenuManager.SetCurrentButton(pauseMenuManager.PauseFirstButton);
     }
 
     public override void ExitState()
