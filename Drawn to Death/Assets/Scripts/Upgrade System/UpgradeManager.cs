@@ -9,10 +9,11 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
     public bool loadLevels;
 
     [Header("Shop")]
-    public UpgradeMap[] upgrades;
     public int currency;
-    [TextArea] public string defaultTextboxContent;
     public Soul soulBlueprint;
+    [Space(10)] public UpgradeMap[] upgrades;
+    [Space(10)] [TextArea] public string defaultTextboxContent;
+    
 
     [Header("UI")]
     public TMPro.TextMeshProUGUI currencyCounter;

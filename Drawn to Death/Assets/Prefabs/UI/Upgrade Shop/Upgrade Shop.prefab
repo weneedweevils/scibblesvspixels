@@ -14,10 +14,10 @@ GameObject:
   - component: {fileID: 2808043147582080395}
   - component: {fileID: 1012288181530485808}
   - component: {fileID: 1680435065521252854}
-  - component: {fileID: 8712099088483202722}
-  - component: {fileID: 3390813613745032266}
-  - component: {fileID: 4806051205141015411}
   - component: {fileID: 7825799013329462112}
+  - component: {fileID: 3390813613745032266}
+  - component: {fileID: 8712099088483202722}
+  - component: {fileID: 4806051205141015411}
   m_Layer: 5
   m_Name: Upgrade Shop
   m_TagString: Untagged
@@ -118,6 +118,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadLevels: 0
+  currency: 0
+  soulBlueprint: {fileID: 8054706523448195836, guid: 7f3fb579b7e3dc040ae1317d59d72241,
+    type: 3}
   upgrades:
   - upgrade: {fileID: 1680435065521252854}
     option: {fileID: 5968285612965390086}
@@ -134,11 +137,8 @@ MonoBehaviour:
   - upgrade: {fileID: 4806051205141015411}
     option: {fileID: 7474827398121366735}
     level: 0
-  currency: 100
   defaultTextboxContent: Hello, welcome to the extradimentional soul shop. Here you
     can upgrade my abilities in exchange for souls!
-  soulBlueprint: {fileID: 8054706523448195836, guid: 7f3fb579b7e3dc040ae1317d59d72241,
-    type: 3}
   currencyCounter: {fileID: 8676575814842643804}
   textbox: {fileID: 8676575815314118601}
 --- !u!114 &1680435065521252854
@@ -154,77 +154,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upgradeCosts: 0a0000000f0000000f0000000f000000
+  upgradeDescription: Our lifeblood and the very thing keeping us alive.
   upgradeDescriptions:
-  - Tier I HP Upgrade
-  - Tier II HP Upgrade
-  - Tier III HP Upgrade
-  - Tier IV HP Upgrade
+  - "Allows me to withstand a little more. \n<b>HP: 100 -> 125</b>"
+  - "We could all do with a little more... life inside. \n<b>HP: 125 -> 150</b>"
+  - "How nice, I feel more powerful already. \n<b>HP: 150 -> 175</b>"
+  - "I am not a magnanimous being, the Oodler will not stand a chance. \n<b>HP: 175
+    -> 200</b>"
   extraHP: 25
---- !u!114 &8712099088483202722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6296794519898475440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c59a187232d8ae94c876c79240bf4347, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upgradeCosts: 05000000070000000a00000007000000
-  upgradeDescriptions:
-  - Tier I HP Upgrade
-  - Tier II HP Upgrade
-  - Tier III HP Upgrade
-  - Tier IV HP Upgrade
-  cooldownReduction: 5
-  allyHealIncrease: 0.3
-  allyStrIncrease: 0.5
-  allySpdIncrease: 0.5
-  allyAtkSpdModAdjustment: -0.25
-  buffDurationIncrease: 2
---- !u!114 &3390813613745032266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6296794519898475440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 578d6a99ab1d60545886a8fd7293e979, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upgradeCosts: 060000000a0000000a0000000a000000
-  upgradeDescriptions:
-  - Tier I HP Upgrade
-  - Tier II HP Upgrade
-  - Tier III HP Upgrade
-  - Tier IV HP Upgrade
-  radiusIncrease: 2
-  cooldownDecrease: 1
---- !u!114 &4806051205141015411
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6296794519898475440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98630effb3a889743bb4566394de7a6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upgradeCosts: 05000000080000000800000008000000
-  upgradeDescriptions:
-  - Tier I HP Upgrade
-  - Tier II HP Upgrade
-  - Tier III HP Upgrade
-  - Tier IV HP Upgrade
-  radiusIncrease: 1
-  extraDamage: 0.5
-  cooldownReduction: 1
 --- !u!114 &7825799013329462112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,13 +175,120 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upgradeCosts: 050000000a0000000f0000000f000000
+  upgradeDescription: Our last resort is such a primitive weapon. We must improve
+    upon its lethality.
   upgradeDescriptions:
-  - Tier I HP Upgrade
-  - Tier II HP Upgrade
-  - Tier III HP Upgrade
-  - Tier IV HP Upgrade
+  - 'If only a fool could wield this weapon, a fool I must be.
+
+    <b>Damage: 15
+    -> 18</b>'
+  - 'Not great; not terrible... for a stick.
+
+    <b>Damage: 18 -> 21</b>'
+  - 'I begrudgingly admit, this is not bad.
+
+    <b>Damage: 21 -> 24</b>'
+  - 'This is the best it will get, I suppose.
+
+    <b>Damage: 24 -> 27</b>'
   damageIncrease: 3
   knockbackIncrease: 1
+--- !u!114 &3390813613745032266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6296794519898475440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 578d6a99ab1d60545886a8fd7293e979, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeCosts: 060000000a0000000a0000000a000000
+  upgradeDescription: "Gives purpose to death and call forth minions from those we\u2019ve
+    slain."
+  upgradeDescriptions:
+  - 'Even doodles deserves a second chance.
+
+    <b>Radius: 10 -> 12 | Cooldown:
+    7 -> 6</b>'
+  - 'Eternal servitude or an eternal nap?
+
+    <b>Radius: 12 -> 14 | Cooldown: 6
+    -> 5</b>'
+  - 'Rise, RISE MY BEAUTIFUL MINIONS!!
+
+    <b>Radius: 14 -> 16 | Cooldown: 5 ->
+    4</b>'
+  - "AHAHAHA, they\u2019ll all be mine! MINE!\n<b>Radius: 16 -> 18 | Cooldown: 4
+    -> 3</b>"
+  radiusIncrease: 2
+  cooldownDecrease: 1
+--- !u!114 &8712099088483202722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6296794519898475440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c59a187232d8ae94c876c79240bf4347, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeCosts: 05000000070000000a00000007000000
+  upgradeDescription: Emboldens our allies and increases their viciousness.
+  upgradeDescriptions:
+  - 'Do you think the Oodler would be jealous?
+
+    <b>Cooldown: 15->10</b>'
+  - "Heh, vicious little weevils aren\u2019t they?\n<b>Heal: 30% -> 60%</b>"
+  - 'Yes, my minions ATTACK - ATTACK I SAY!
+
+    <b>Buff: 200% -> 250%</b>'
+  - 'They grow up so fast *wipes tear*
+
+    <b>Buff Duration: 5 -> 7</b>'
+  cooldownReduction: 5
+  allyHealIncrease: 0.3
+  allyStrIncrease: 0.5
+  allySpdIncrease: 0.5
+  allyAtkSpdModAdjustment: -0.25
+  buffDurationIncrease: 2
+--- !u!114 &4806051205141015411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6296794519898475440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98630effb3a889743bb4566394de7a6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeCosts: 05000000080000000800000008000000
+  upgradeDescription: A ravage ability that siphons the health from our enemies,
+    adds it to our own, and slows them down.
+  upgradeDescriptions:
+  - "I\u2019d wager that the Oodler would be jealous of this one.\n<b>Radius: 20
+    -> 24 | Damage: 15 -> 18 | Cooldown 10 -> 9</b>"
+  - 'Their essences, all mine, leaving nothing but emptiness behind.
+
+    <b>Radius:
+    24 -> 28 | Damage: 18 -> 21 | Cooldown 9 -> 8</b>'
+  - 'Life is a buffet, so why not feast on a little extra?
+
+    <b>Radius: 28 ->
+    32 | Damage: 21 -> 24 | Cooldown 8 -> 7</b>'
+  - 'Why just sample when you can have it all?
+
+    <b>Radius: 32 -> 36 | Damage:
+    24 -> 27 | Cooldown 7 -> 6</b>'
+  radiusIncrease: 4
+  extraDamage: 3
+  cooldownReduction: 1
 --- !u!114 &8676575815129638511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -944,7 +988,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sample Text
+  m_text: "Allows me to withstand a little more. \n<b>HP: 100 -> 125</b>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f8620cf03a9e74840ba3b753e449bdfa, type: 2}
   m_sharedMaterial: {fileID: 5927761015816152180, guid: f8620cf03a9e74840ba3b753e449bdfa,
@@ -972,8 +1016,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28
-  m_fontSizeBase: 28
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -984,7 +1028,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 10
+  m_lineSpacing: -10
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -1147,8 +1191,8 @@ MonoBehaviour:
   m_Padding:
     m_Left: 10
     m_Right: 3
-    m_Top: 4
-    m_Bottom: 4
+    m_Top: 6
+    m_Bottom: 6
   m_ChildAlignment: 3
   m_Spacing: 25
   m_ChildForceExpandWidth: 1

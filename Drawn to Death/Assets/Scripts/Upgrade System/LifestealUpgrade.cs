@@ -20,7 +20,7 @@ public class LifestealUpgrade : Upgrade
         eraser.lifestealImage.transform.localScale *= eraser.lifestealRadius * 10.45f;
 
         //Increase damage/sec of Lifesteal
-        eraser.lifestealDamage += extraDamage * level * eraser.lifestealDuration;
+        eraser.lifestealDamage += extraDamage * level;
 
         //Reduce cooldown of Lifesteal
         eraser.lifestealCooldown -= cooldownReduction * level;

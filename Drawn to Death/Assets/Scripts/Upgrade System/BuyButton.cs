@@ -44,6 +44,7 @@ public class BuyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         if (state == BuyState.Buyable)
         {
+            parent.displayDescription = false;
             UpgradeManager.instance.SetTextbox(description);
             FMODUnity.RuntimeManager.PlayOneShot("event:/UIHover");
         }
@@ -51,7 +52,8 @@ public class BuyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        //UpgradeManager.instance.SetTextbox();
+        parent.displayDescription = true;
+        UpgradeManager.instance.SetTextbox(parent.description);
     }
 
     public void OnPointerClick(PointerEventData eventData)
