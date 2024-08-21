@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class UpgradeManager : MonoBehaviour, IDataPersistence
 {
@@ -10,6 +11,7 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
 
     [Header("Shop")]
     public int currency;
+    public TextMeshProUGUI soulCounter;
     public Soul soulBlueprint;
     [Space(10)] public UpgradeMap[] upgrades;
     [Space(10)] [TextArea] public string defaultTextboxContent;
@@ -39,6 +41,7 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
     public void Update()
     {
         currencyCounter.text = string.Format("x{0}", currency);
+        soulCounter.text = currency.ToString();
     }
 
     public void Init()
