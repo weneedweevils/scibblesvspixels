@@ -10,6 +10,7 @@ public class GameData
     public Scene scene;
     public Vector3 playerPosition;
     public List<int> upgradeLevels;
+    public int currency;
     
     public GameData(bool tutorial)
     {
@@ -18,5 +19,6 @@ public class GameData
         scene = Scene.Level_1;
         playerPosition = Vector3.zero;
         upgradeLevels = new List<int>();
+        currency = 0;
     }
 }

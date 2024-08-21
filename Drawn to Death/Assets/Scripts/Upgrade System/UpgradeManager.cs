@@ -30,11 +30,9 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
 
     public void Start()
     {
-        SetTextbox();
-
-        for (int i = 0; i < upgrades.Length; i++)
+        if (!loadLevels)
         {
-            upgrades[i].option.Init(i);
+            Init();
         }
     }
 
@@ -43,6 +41,16 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
         currencyCounter.text = string.Format("x{0}", currency);
     }
 
+    public void Init()
+    {
+        SetTextbox();
+
+        for (int i = 0; i < upgrades.Length; i++)
+        {
+            upgrades[i].option.Init(i);
+        }
+    }
+    
     public void ApplyUpgrades()
     {
         //Apply the effect for each upgrade that exists
@@ -66,9 +74,12 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
-        //DEBUG OPTION: toggle loading upgrade levels from saved game data
+        //toggle loading upgrade levels from saved game data
         if (loadLevels)
         {
+            //Load currency
+            currency = data.currency;
+
             //Ensure the length of the saved 'upgrade levels' list matches the number of upgrades
             if (data.upgradeLevels.Count != upgrades.Length) return;
 
@@ -78,6 +89,9 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
                 upgrades[i].level = data.upgradeLevels[i];
             }
         }
+
+        //Initialize the shop
+        Init();
 
         //Apply the upgrades
         ApplyUpgrades();
@@ -92,6 +106,7 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
         }
 
         data.upgradeLevels = upgradeLevels;
+        data.currency = currency;
     }
 
     public void CreateSoul(Vector2 pos, int count, int value)
