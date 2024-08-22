@@ -136,4 +136,14 @@ public class DialogueManager : MonoBehaviour
     {
         return sfx[dialogueSFX];
     }
+
+    public DialogueBox GetCurrentDialogue()
+    {
+        return currentDialogue;
+    }
+
+    public void SetCurrentDialogueNull()
+    {
+        currentDialogue = null;
+    }
 }

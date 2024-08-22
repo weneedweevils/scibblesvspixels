@@ -16,6 +16,7 @@ using UnityEngine.UIElements;
 using static System.Net.Mime.MediaTypeNames;
 using System.Threading;
 using UnityEngine.InputSystem;
+using System.Xml.Serialization;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
@@ -656,4 +657,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         return playerInput;
     }
 
+    public SpriteRenderer GetPencil()
+    {
+        return pencil;
+    }
 }
