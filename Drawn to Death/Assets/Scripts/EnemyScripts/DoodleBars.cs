@@ -12,6 +12,7 @@ public class DoodleBars : EnemyAI
         deathDuration = 25f / 60f;
         attackDuration = 12f / 60f;
         invincibilityDuration = 20f / 60f;
+        type = Type.bars;
         base.Start();
     }
 
