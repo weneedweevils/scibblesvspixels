@@ -104,16 +104,27 @@ MonoBehaviour:
   HealthCrystal2: {fileID: 0}
   HealthCrystal3: {fileID: 0}
   HealthCrystal4: {fileID: 0}
-  nextScene: 7
+  nextScene: 8
+  healthBarParent: {fileID: 0}
   healthBar: {fileID: 0}
   currentHealthUI: {fileID: 0}
   maxHealthUI: {fileID: 0}
+  PlayerScript: {fileID: 0}
   oodlerSlamCooldown: 0
   vulnerable: 0
   oodlerAttackDamage: 50
   dropZoneObject: {fileID: 0}
   grabbing: 0
   caught: 0
+  bossVulnerabilityTime: 0
+  slamWarningTime: 0
+  grabWarningTime: 0
+  airTime: 0
+  phase: 0
+  attackType: 1
+  allowedSlams: 1
+  SlamNum: 0
+  blockers: []
 --- !u!95 &3608185996306943922
 Animator:
   serializedVersion: 3
