@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 // if you want to use this in FSM inherit from EnemybaseState class
 public enum Team {player, neutral, oddle};
 public enum State {idle, chase, follow, attack, dying, dead, reviving };
+public enum Type { crab, cubie, knight, bars, general };
 public abstract class EnemyAI : MonoBehaviour
 {
 
@@ -16,6 +17,7 @@ public abstract class EnemyAI : MonoBehaviour
     [Header("State")]
     public Team team = Team.oddle;
     public State state = State.chase;
+    public Type type = Type.general;
     public bool isolated = false;
 
     [Header("Stats")]
@@ -26,6 +28,8 @@ public abstract class EnemyAI : MonoBehaviour
     public float attackCooldown;
     public float attackDistance;
     public float slowdownFactor = 3f;
+    public float stunCooldownRatio = 0.7f;
+    public float knockbackRatio = 1f;
     [Min(0)] public int killReward = 1;
 
     [Header("Pathfinding")]
@@ -132,11 +136,16 @@ public abstract class EnemyAI : MonoBehaviour
         if (moving)
         { 
             InvokeRepeating("CheckState", 0f, 0.5f); //Update the path every half second if not a movable object
-
         }
         if (blockers.Length != 0)
         {
             isolated = true;
+        }
+
+        // Ensure enemy type is defined
+        if (type == Type.general)
+        {
+            Debug.Log("Enemy type is defined as general. Please define the enemy type in the child script for the enemy.");
         }
     }
 
@@ -257,7 +266,14 @@ public abstract class EnemyAI : MonoBehaviour
                 if (buffTimer.IsOnCooldown())
                 {
                     buffed = false;
-                    speed /= playerMovement.allySpdModifier;
+                    if (type == Type.crab)
+                    {
+                        speed /= playerMovement.crabSpdModifier;
+                    }
+                    else
+                    {
+                        speed /= playerMovement.allySpdModifier;
+                    }
                     damage /= playerMovement.allyStrModifier;
                     attackTimer.SetCooldown(attackCooldown);
                     selfImage.color = Color.white;
@@ -556,8 +572,8 @@ public abstract class EnemyAI : MonoBehaviour
     // Function to run when enemies/allies takes damage
     virtual public void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f, bool lifeSteal = false)
     {
-        //Dont hit dead bodies
-        if (state == State.dead || state == State.dying || (team == Team.player && playerAttack.reviveTimer.IsActive() && !lifeSteal))
+        // Don't hit dead bodies or buffed knights
+        if (state == State.dead || state == State.dying || (team == Team.player && playerAttack.reviveTimer.IsActive() && !lifeSteal) || (type == Type.knight && buffed))
         {
             return;
         }
@@ -576,7 +592,7 @@ public abstract class EnemyAI : MonoBehaviour
         //Apply Knockback
         if (knockbackPower > 0f)
         {
-            rb.velocity = knockbackDir.normalized * knockbackPower;
+            rb.velocity = knockbackDir.normalized * knockbackPower * knockbackRatio;
         }
         
         //Flash hurt color
@@ -607,10 +623,10 @@ public abstract class EnemyAI : MonoBehaviour
 
         if (!attackTimer.IsOnCooldown())
         {
-            attackTimer.StartCooldown(attackCooldown * 0.7f);
+            attackTimer.StartCooldown(attackCooldown * stunCooldownRatio);
         } else
         {
-            attackTimer.StartCooldown(Mathf.Min(attackTimer.timer, attackCooldown * 0.7f));
+            attackTimer.StartCooldown(Mathf.Min(attackTimer.timer, attackCooldown * stunCooldownRatio));
         }
         animator.SetBool("attacking", false);
         animator.SetBool("chasing", true);
