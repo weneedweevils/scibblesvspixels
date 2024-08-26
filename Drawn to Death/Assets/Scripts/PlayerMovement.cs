@@ -423,6 +423,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         //Account for backwards movement
         animator.SetBool("backwards", velocity.x != 0f && (velocity.x < 0f != sprite.flipX));
+
+        // Check low health which triggers health bar to rotate back and forth
+        CheckLowHealth();
+
     }
 
    
@@ -457,6 +461,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         HealthBarReference.SetTrigger("HealthBarShake");
         CameraReference.SetTrigger("Shake");
 
+        Debug.Log(health);
+
+        Debug.Log(maxHealth);
+
+       
+
         if (UsingAbility())
         {
             health -= (damageTaken * (1 - abilityDamageReduction));
@@ -474,6 +484,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
             velocity = knockbackDir.normalized * knockbackPower * 3;
         }
+
+        // function will make the health bar move around when low on health
+        
 
         // flashes damage indicator around health bar
         ChangeScreenColor(true);
@@ -503,6 +516,18 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                 temp.a = 0.5f;
                 damageScreen.color = temp;
             }
+        }
+    }
+
+    public void CheckLowHealth()
+    {
+        if (health < maxHealth/3f)
+        {
+            HealthBarReference.SetBool("LowHealth", true);
+        }
+        else
+        {
+            HealthBarReference.SetBool("LowHealth", false);
         }
     }
 
