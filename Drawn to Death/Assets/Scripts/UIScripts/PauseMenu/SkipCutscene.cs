@@ -37,6 +37,14 @@ public class SkipCutscene : MonoBehaviour
     {
      
 
+     
+    }
+
+
+    // Update is called once per frame
+    void Update()
+    {
+
         //if (cutsceneObjects.activeSelf == false)
         //{
         //    skippedCutscene = true;
@@ -47,14 +55,7 @@ public class SkipCutscene : MonoBehaviour
         //    skippedCutscene = false;
         //}
 
-        //Debug.Log("we have skipped our cutscene? "+skippedCutscene);
-    }
 
-
-    // Update is called once per frame
-    void Update()
-    {
-   
         if (!skippedCutscene)
         {
             isPressed = playerInput.actions["SkipCutscene"].ReadValue<float>() > 0;
@@ -109,5 +110,12 @@ public class SkipCutscene : MonoBehaviour
         hud.SetActive(true);
         player.GetPencil().enabled = true;
     }
+
+    public void OnDisable()
+    {
+        Debug.Log("Skipped le cutscene");
+        Destroy(gameObject); 
+    }
+ 
 }
     

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class DataPersistenceManager : MonoBehaviour
 {
@@ -30,6 +31,10 @@ public class DataPersistenceManager : MonoBehaviour
     private List<IDataPersistence> dataPersistenceObjects;
     private FileDataHandler dataHandler;
 
+    public UnityEvent SkipCutscene; // event that is fired when user skips cutscene
+
+    GameObject skipCutsceneObject;
+
     private void Awake()
     {
         if (instance != null)
@@ -37,6 +42,13 @@ public class DataPersistenceManager : MonoBehaviour
             Debug.LogError("Found more than one Data Persistence Manager in the scene");
         }
         instance = this;
+
+
+        skipCutsceneObject = GameObject.FindGameObjectWithTag("SkipCutsceneObject");
+        if (skipCutsceneObject != null)
+        {
+            SkipCutscene.AddListener(skipCutsceneObject.GetComponent<SkipCutscene>().OnDisable);
+        }
     }
 
     private void Start()
@@ -56,6 +68,8 @@ public class DataPersistenceManager : MonoBehaviour
         if (newGame) { NewGame(); }
         if (loadGame) { LoadGame(); }
         if (saveGame) { SaveGame(); }
+
+       
     }
 
     [ContextMenu("New Game")]
@@ -84,6 +98,8 @@ public class DataPersistenceManager : MonoBehaviour
             {
                 if (cutsceneObject != null) { cutsceneObject.SetActive(false); }
                 if (cutsceneObject != null) { hud.SetActive(true); }
+                SkipCutscene.Invoke();
+                
             }
 
             // Disable tutorial
@@ -131,4 +147,6 @@ public class DataPersistenceManager : MonoBehaviour
         IEnumerable<IDataPersistence> dataPerObjects = FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();
         return new List<IDataPersistence>(dataPerObjects);
     }
+
+  
 }

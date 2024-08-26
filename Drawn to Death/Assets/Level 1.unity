@@ -10434,7 +10434,7 @@ GameObject:
   - component: {fileID: 379005661}
   m_Layer: 0
   m_Name: SkipCutsceneObject
-  m_TagString: Untagged
+  m_TagString: SkipCutsceneObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49591,8 +49591,11 @@ MonoBehaviour:
   newGame: 0
   loadGame: 1
   saveGame: 1
-  skipCutsceneOnLoad: 0
+  skipCutsceneOnLoad: 1
   skipTutorialOnLoad: 0
+  SkipCutscene:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1639195793
 GameObject:
   m_ObjectHideFlags: 0
