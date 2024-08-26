@@ -112,6 +112,11 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
     public EnemyAI[] blockers;
 
+    //animation
+
+    public Animator animator;
+
+
 
     private void Awake()
     {
@@ -131,11 +136,12 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     void Start()
     {
 
+        animator = GetComponent<Animator>();    
         CurrentHealth = MaxHealth;
         currentHealthUI.text = CurrentHealth.ToString();
         maxHealthUI.text = MaxHealth.ToString();
 
-        StateMachine.Initialize(oodlerInitial);
+        StateMachine.Initialize(oodlerChase);
 
         BossSprite = GetComponent<SpriteRenderer>();
         PlayerScript = Glich.GetComponent<PlayerMovement>();

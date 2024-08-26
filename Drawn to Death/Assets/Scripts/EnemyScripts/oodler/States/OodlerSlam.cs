@@ -30,6 +30,7 @@ public class OodlerSlam : OodlerBase
         boss.SetAirPosition();
         delay = true;
         boss.ShowAttack();
+        boss.animator.SetTrigger("Slam");
     }
 
 

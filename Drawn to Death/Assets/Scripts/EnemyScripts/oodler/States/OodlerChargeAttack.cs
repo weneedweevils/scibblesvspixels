@@ -39,7 +39,7 @@ public class OodlerChargeAttack : OodlerBase
 
         if(attackCharged)
         {
-            boss.attackType =(Boss.AttackType)Random.Range(0, 2);
+            boss.attackType = Boss.AttackType.Slam;//(Boss.AttackType)Random.Range(0, 2);
             Debug.Log("ATTACK TYPE IS " + boss.attackType);
 
 
