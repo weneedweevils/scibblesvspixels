@@ -112,6 +112,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "TESTINGDELETEME",
+                    "type": "Button",
+                    "id": "689a104a-32bb-4331-b0ee-a8cb4c5c1789",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -554,6 +563,28 @@
                     "action": "SkipCutscene",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7c453af0-9a4e-442b-bde9-0ba77e27801a",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad;Playstation;Xbox",
+                    "action": "SkipCutscene",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fd910536-4731-4935-8881-31e7de1f6b90",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TESTINGDELETEME",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -697,7 +728,7 @@
                     "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad;Playstation",
+                    "groups": "Gamepad;Playstation;Xbox",
                     "action": "Escape",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -719,7 +750,7 @@
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Playstation;Gamepad",
+                    "groups": "Playstation;Gamepad;Xbox",
                     "action": "Escape",
                     "isComposite": false,
                     "isPartOfComposite": false
