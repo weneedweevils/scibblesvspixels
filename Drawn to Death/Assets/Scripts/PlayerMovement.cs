@@ -119,13 +119,25 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     //additional scripts
     [Header("New input system")]
-    public InputActionMap controls;
+    public GameObject inputHandler;
     private PlayerArms playerarms;
     public GameObject eraserObject;
     public GameObject armsObject;
     public bool isGamepad = false;
     private Vector2 aimDirection;
-    private PlayerInput playerInput; 
+
+    [HideInInspector]
+    public PlayerInput playerInput;
+
+
+    
+
+
+    public void Awake()
+    {
+        playerInput = inputHandler.GetComponent<PlayerInput>();
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -163,7 +175,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         restricted = GameObject.Find("RestrictRally").GetComponent<UnityEngine.UI.Image>();
 
-        playerInput = GetComponent<PlayerInput>();
+        //playerInput = GetComponent<PlayerInput>();
 
         playerarms = new PlayerArms(eraserObject, gameObject, armsObject, playerInput, this);
     }

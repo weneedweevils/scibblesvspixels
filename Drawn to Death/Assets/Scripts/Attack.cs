@@ -89,8 +89,8 @@ public class Attack : MonoBehaviour
     public int isHit;
 
 
-    // herearaer
-
+    // Getting Input Handler //
+    public GameObject inputHandler;
     private PlayerInput playerInput;
 
 
@@ -130,11 +130,12 @@ public class Attack : MonoBehaviour
         isHit = 0;
 
 
-        playerInput = playerMovement.GetComponent<PlayerInput>();
+        playerInput = inputHandler.GetComponent<PlayerInput>();
         
 
 
     }
+
 
     // Update is called once per frame
     void Update()

@@ -33,6 +33,10 @@ public class PauseMenuManager : MonoBehaviour
 
     // PlAYER MOVEMENT //
     public PlayerMovement player;
+
+    public GameObject inputHandler;
+
+    [HideInInspector]
     public PlayerInput playerInput;
 
 
@@ -68,10 +72,7 @@ public class PauseMenuManager : MonoBehaviour
         menuState = new MenuState(this, menuStateMachine);
         keyboardRebindState = new KeyboardRebindState(this, menuStateMachine);
         controllerRebindState = new ControllerRebindState(this, menuStateMachine);
-
-        playerInput = player.GetComponent<PlayerInput>();
-        
-
+        playerInput = inputHandler.GetComponent<PlayerInput>();
     }
 
     // Initialize to the Empty State //
