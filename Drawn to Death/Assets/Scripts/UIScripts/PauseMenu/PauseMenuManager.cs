@@ -174,5 +174,14 @@ public class PauseMenuManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(currentButton);
     }
 
+    public void DisableControls()
+    {
+
+    }
+
+    public void EnableControls()
+    {
+
+    }
 }
 

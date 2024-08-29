@@ -18,6 +18,7 @@ public class PauseActiveState : MenuBaseState
         pauseMenuManager.PauseMenu.SetActive(true);
         pauseMenuManager.playerInput.SwitchCurrentActionMap("UI");
         pauseMenuManager.SetCurrentButton(pauseMenuManager.PauseFirstButton);
+        pauseMenuManager.playerInput.actions.FindAction("Lifesteal").Disable();
     }
 
     public override void ExitState()

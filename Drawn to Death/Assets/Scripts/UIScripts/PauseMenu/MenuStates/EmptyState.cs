@@ -30,6 +30,7 @@ public class EmptyState : MenuBaseState
     public override void EnterState()
     {
         base.EnterState();
+        pauseMenuManager.playerInput.actions.FindAction("Lifesteal").Enable();
         Resume();
         pauseMenuManager.playerInput.SwitchCurrentActionMap("Player");
        
