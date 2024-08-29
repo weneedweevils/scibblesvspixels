@@ -11,7 +11,11 @@ public class SkipCutscene : MonoBehaviour
 {
 
     public PlayerMovement player;
+    public GameObject inputHandler;
+
+    [HideInInspector]
     public PlayerInput playerInput;
+
     private Slider progressSlider;
     public GameObject childObject;
     public GameObject cutsceneObjects;
@@ -29,7 +33,7 @@ public class SkipCutscene : MonoBehaviour
 
     private void Awake()
     {
-        playerInput = player.GetComponent<PlayerInput>();
+        playerInput = inputHandler.GetComponent<PlayerInput>();
         progressSlider = GetComponentInChildren<Slider>();
     }
     // Start is called before the first frame update

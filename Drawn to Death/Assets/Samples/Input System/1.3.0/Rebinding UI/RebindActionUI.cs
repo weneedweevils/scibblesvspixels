@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq.Expressions;
+
+// Reworked parts of this code from the following video https://www.youtube.com/watch?v=csqVa2Vimao
 
 ////TODO: localization support
 
@@ -277,17 +280,26 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             // Configure the rebind.
             m_RebindOperation = action.PerformInteractiveRebinding(bindingIndex)
                 .WithControlsExcluding("<Mouse>/leftButton")
-                .WithControlsExcluding("<Mouse>/rightButton")
-                .WithControlsExcluding("<Pointer>/position") // Don't bind to mouse position
-                .WithControlsExcluding("<Pointer>/delta") // Don't bind to mouse movement deltas
+                .WithControlsExcluding("<Pointer>/position") 
+                .WithControlsExcluding("<Pointer>/delta") 
                 .WithControlsExcluding("<Pointer>/{PrimaryAction}")
                 .WithControlsExcluding("<Mouse>/press")
+                .WithControlsExcluding("<Gamepad>/leftStick")
+                .WithControlsExcluding("<Gamepad>/rightStick")
+                .WithControlsExcluding("<PlaystationController>/leftStick")
+                .WithControlsExcluding("<PlaystationController>/rightStick")
+                .WithControlsExcluding("<XboxController>/leftStick")
+                .WithControlsExcluding("<XboxController>/rightStick")
+                .WithCancelingThrough("<Keyboard>/escape")
+
+
                 .OnCancel(
                     operation =>
                     {
                         action.Enable();
                         m_RebindStopEvent?.Invoke(this, operation);
                         m_RebindOverlay?.SetActive(false);
+                        m_duplicateActionOverlay?.SetActive(false);
                         UpdateBindingDisplay();
                         CleanUp();
                     })
@@ -296,7 +308,18 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                     {
                         action.Enable();
                         m_RebindOverlay?.SetActive(false);
+                        m_duplicateActionOverlay?.SetActive(false);
                         m_RebindStopEvent?.Invoke(this, operation);
+
+                        // checks for duplicate bindings and cancels operation
+                        if(CheckDuplicateBindings(action, bindingIndex, allCompositeParts)){
+                            m_duplicateActionOverlay?.SetActive(true);
+                            action.RemoveBindingOverride(bindingIndex);
+                            CleanUp();
+                            PerformInteractiveRebind(action, bindingIndex, allCompositeParts);
+                            return;
+                        }
+
                         UpdateBindingDisplay();
                         CleanUp();
 
@@ -334,6 +357,24 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             m_RebindStartEvent?.Invoke(this, m_RebindOperation);
 
             m_RebindOperation.Start();
+        }
+
+        private bool CheckDuplicateBindings(InputAction action, int bindingIndex, bool allCompositePart = false)
+        {
+            InputBinding newBinding = action.bindings[bindingIndex];
+            foreach (InputBinding binding in action.actionMap.bindings)
+            {
+                if(binding.action == newBinding.action)
+                {
+                    continue;
+                }
+                if(binding.effectivePath == newBinding.effectivePath)
+                {
+                    Debug.Log("Duplicate Binding found" + newBinding.effectivePath);
+                    return true;
+                }
+            }
+            return false;
         }
 
         protected void OnEnable()
@@ -411,6 +452,10 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         [Tooltip("Optional text label that will be updated with prompt for user input.")]
         [SerializeField]
         private TextMeshProUGUI m_RebindText;
+
+        [Tooltip("Optional UI that will be shown when a key being rebound is already in use")]
+        [SerializeField]
+        private GameObject m_duplicateActionOverlay;
 
         [Tooltip("Event that is triggered when the way the binding is display should be updated. This allows displaying "
             + "bindings in custom ways, e.g. using images instead of text.")]
