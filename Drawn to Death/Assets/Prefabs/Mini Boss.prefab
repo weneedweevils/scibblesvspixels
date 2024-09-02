@@ -107,9 +107,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6533997305229305210}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.175026, y: 23.31473, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 6533997305596891202}
   - {fileID: 5106141774369319990}
@@ -226,6 +226,10 @@ MonoBehaviour:
   knockback: 20
   bossHPBar: {fileID: 0}
   hpInfo: {fileID: 0}
+  boostSpeedModifier: 7
+  boostDuration: 0.5
+  boostCooldown: 4
+  baseSpeed: 0
 --- !u!50 &6533997305229305209
 Rigidbody2D:
   serializedVersion: 4
