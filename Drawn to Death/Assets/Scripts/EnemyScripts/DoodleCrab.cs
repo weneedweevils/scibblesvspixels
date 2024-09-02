@@ -37,6 +37,7 @@ public class DoodleCrab : EnemyAI
             if (cutscene)
             {
                 cutscene = false;
+                base.healthBar.Enable();
                 base.healthBar.SetHealth(base.health, base.maxHealth);
             }
         }
