@@ -35,6 +35,13 @@ public class Projectile : MonoBehaviour
         //Remove from parent but keep position
         transform.parent = parent.transform.parent;
         transform.position = parent.transform.position;
+
+        // Add spread to projectiles if buffed
+        if (parent.buffed)
+        {
+            velocity.x *= Random.Range(0.5f, 1f);
+            velocity.y *= Random.Range(0.5f, 1f);
+        }
     }
 
     // Update is called once per frame

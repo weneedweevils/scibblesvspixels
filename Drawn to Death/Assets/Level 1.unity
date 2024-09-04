@@ -4503,9 +4503,9 @@ ParticleSystem:
     fps: 30
     frameOverTime:
       serializedVersion: 2
-      minMaxState: 1
+      minMaxState: 3
       scalar: 0.9999
-      minScalar: 0.9999
+      minScalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4616,7 +4616,16 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 21300000, guid: 84fb8faf3b2802f40b7fa901ecc8f462, type: 3}
+    - sprite: {fileID: 7730149655417827209, guid: 29e8763c5cf0df645b9a188a0e409dd2,
+        type: 3}
+    - sprite: {fileID: 4614252202462204509, guid: 29e8763c5cf0df645b9a188a0e409dd2,
+        type: 3}
+    - sprite: {fileID: -6810886489421772566, guid: 29e8763c5cf0df645b9a188a0e409dd2,
+        type: 3}
+    - sprite: {fileID: -3207756022312281369, guid: 29e8763c5cf0df645b9a188a0e409dd2,
+        type: 3}
+    - sprite: {fileID: 5571271674547539164, guid: 29e8763c5cf0df645b9a188a0e409dd2,
+        type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -9230,12 +9239,12 @@ PrefabInstance:
     - target: {fileID: 7298473912298103450, guid: 34d9b55fa170a444bb86050513388636,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 7298473912298103450, guid: 34d9b55fa170a444bb86050513388636,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 7298473912298103450, guid: 34d9b55fa170a444bb86050513388636,
         type: 3}
@@ -46026,7 +46035,7 @@ Canvas:
   m_GameObject: {fileID: 1370336361}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 1800207734}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -47371,7 +47380,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 100
+  m_SortingOrder: 110
   m_TargetDisplay: 0
 --- !u!224 &1468501010
 RectTransform:
@@ -52602,9 +52611,9 @@ ParticleSystem:
     fps: 30
     frameOverTime:
       serializedVersion: 2
-      minMaxState: 1
+      minMaxState: 3
       scalar: 0.9999
-      minScalar: 0.9999
+      minScalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -52715,7 +52724,16 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 21300000, guid: 7cce9fc4e1259514da332ee9f6a9b6da, type: 3}
+    - sprite: {fileID: 7730149655417827209, guid: 29e8763c5cf0df645b9a188a0e409dd2,
+        type: 3}
+    - sprite: {fileID: 4614252202462204509, guid: 29e8763c5cf0df645b9a188a0e409dd2,
+        type: 3}
+    - sprite: {fileID: -6810886489421772566, guid: 29e8763c5cf0df645b9a188a0e409dd2,
+        type: 3}
+    - sprite: {fileID: -3207756022312281369, guid: 29e8763c5cf0df645b9a188a0e409dd2,
+        type: 3}
+    - sprite: {fileID: 5571271674547539164, guid: 29e8763c5cf0df645b9a188a0e409dd2,
+        type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -87086,6 +87104,16 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 17060506650434018}
+    - target: {fileID: 1465540096225463952, guid: 592ea4b5ecc00564c9d65975c95dfc6e,
+        type: 3}
+      propertyPath: EnemiesObject
+      value: 
+      objectReference: {fileID: 762693304}
+    - target: {fileID: 1465540096225463952, guid: 592ea4b5ecc00564c9d65975c95dfc6e,
+        type: 3}
+      propertyPath: BlockersObject
+      value: 
+      objectReference: {fileID: 408382185}
     - target: {fileID: 1493369014313910573, guid: 592ea4b5ecc00564c9d65975c95dfc6e,
         type: 3}
       propertyPath: m_Layer

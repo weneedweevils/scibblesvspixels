@@ -272,11 +272,14 @@ MonoBehaviour:
   isolated: 0
   health: 100
   maxHealth: 100
-  speed: 100
+  speed: 6000
   damage: 25
   attackCooldown: 3
   attackDistance: 15
   slowdownFactor: 3
+  stunCooldownRatio: 0.3
+  knockbackRatio: 0.3
+  moving: 1
   targetSeeker: {fileID: 341526141160939099}
   playerSeeker: {fileID: 7210164956526107006}
   seekDistance: 100
@@ -287,7 +290,6 @@ MonoBehaviour:
   slowed: 0
   lifestealing: 0
   slowDuration: 5
-  buffDuration: 6
   buffed: 0
   movementCollider: {fileID: 6282859167183135427}
   healthBar: {fileID: 2305447178658235973}
@@ -310,7 +312,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.5
+  m_Mass: 20
   m_LinearDrag: 1
   m_AngularDrag: 0
   m_GravityScale: 0

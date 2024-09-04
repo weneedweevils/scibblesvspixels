@@ -514,7 +514,7 @@ public class Attack : MonoBehaviour
                         if (attackTimer.IsActive() && enemy != null && enemy.team == Team.oddle && enemy.invincibilityTimer.IsUseable() && enemy.PathLength(true) <= 15f)
                         {
                             //Calculate knockback
-                            Vector2 direction = ((Vector2)enemy.transform.position - (Vector2)transform.position).normalized;
+                            Vector2 direction = ((Vector2)enemy.transform.position - (Vector2)transform.position).normalized * enemy.knockbackRatio;
                             //Damage enemy
                             enemy.Damage(damage, true, true, direction, knockback);
                         }
