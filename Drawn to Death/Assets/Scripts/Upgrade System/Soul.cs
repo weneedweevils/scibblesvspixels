@@ -13,6 +13,7 @@ public class Soul : MonoBehaviour
     private float duration = 1f; //Time for the soul to reach its target position
     private float elapsedTime = 0.0f;
     private PlayerMovement player;
+    private Animator animator;
 
     public void Start()
     {
@@ -24,6 +25,9 @@ public class Soul : MonoBehaviour
 
         //Find player reference
         player = FindObjectOfType<PlayerMovement>();
+
+        // Get animator component
+        animator = GetComponent<Animator>();
     }
 
     //Update is called once per frame
@@ -34,12 +38,12 @@ public class Soul : MonoBehaviour
         // Calculate the distance to the player
         float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
 
-        if (distanceToPlayer < collectDistance)
+        if (distanceToPlayer < collectDistance && !animator.GetCurrentAnimatorStateInfo(0).IsName("Soul Spawn") && !player.inFreezeDialogue() && !player.timelinePlaying)
         {
             // Collect the soul and destroy the object
             CollectSoul();
         }
-        else if (distanceToPlayer < attractDistance)
+        else if (distanceToPlayer < attractDistance && !animator.GetCurrentAnimatorStateInfo(0).IsName("Soul Spawn") && !player.inFreezeDialogue() && !player.timelinePlaying)
         {
             // Move towards the player
             MoveTowardsPlayer(distanceToPlayer);
