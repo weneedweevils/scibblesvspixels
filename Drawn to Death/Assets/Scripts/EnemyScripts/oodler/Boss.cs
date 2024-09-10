@@ -136,14 +136,15 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     void Start()
     {
 
-        animator = GetComponent<Animator>();    
+     
         CurrentHealth = MaxHealth;
         currentHealthUI.text = CurrentHealth.ToString();
         maxHealthUI.text = MaxHealth.ToString();
 
         StateMachine.Initialize(oodlerChase);
 
-        BossSprite = GetComponent<SpriteRenderer>();
+        animator = GetComponentInChildren<Animator>();
+        BossSprite = GetComponentInChildren<SpriteRenderer>();
         PlayerScript = Glich.GetComponent<PlayerMovement>();
         DamageCollider = GetComponentInChildren<PolygonCollider2D>();
         //DamageCollider = GetComponent<BoxCollider2D>(); // trigger hitbox for detecting attack collisions
