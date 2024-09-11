@@ -1,10 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Numerics;
 using System.Xml.Schema;
+using JetBrains.Annotations;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 
 public class Boss : MonoBehaviour, Imovable//, IDamagable,
@@ -35,11 +40,14 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     public OodlerGrab oodlerGrab { get; set; }
     public OodlerDrop oodlerDrop { get; set; }
     public OodlerInitial oodlerInitial{ get; set; }
+    public OodlerRun oodlerRun { get; set; }
 
     //Movment
     private Vector3 playerOffSet = Vector3.zero;
     private Vector3 glichLastPosition = Vector3.zero;
     private Vector3 oodlerAirPosition = Vector3.zero;
+    private Vector3 oodlerRunDestination = Vector3.zero;
+    private Vector3 runPosition = Vector3.zero; 
     private Vector3 offScreen = new Vector3(220, 130, 0);
 
     // Health Crystals and health
@@ -68,8 +76,8 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
 
     //BoxCollider2D DamageCollider;
-    PolygonCollider2D DamageCollider;
-    CircleCollider2D hitboxCollider;
+    private PolygonCollider2D DamageCollider;
+    private CircleCollider2D hitboxCollider;
     public bool oodlerSlamCooldown = false;
     public bool vulnerable = false;
     private float invincibilityDuration = 40f / 60f;
@@ -115,6 +123,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     //animation
 
     public Animator animator;
+    private SpriteRenderer spriteRenderer;
 
 
 
@@ -129,6 +138,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         oodlerGrab = new OodlerGrab(this, StateMachine);
         oodlerDrop = new OodlerDrop(this, StateMachine);
         oodlerInitial = new OodlerInitial(this, StateMachine);
+        oodlerRun = new OodlerRun(this, StateMachine);
         
     }
 
@@ -141,14 +151,16 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         currentHealthUI.text = CurrentHealth.ToString();
         maxHealthUI.text = MaxHealth.ToString();
 
-        StateMachine.Initialize(oodlerChase);
+        StateMachine.Initialize(oodlerRun);
 
         animator = GetComponentInChildren<Animator>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
         BossSprite = GetComponentInChildren<SpriteRenderer>();
         PlayerScript = Glich.GetComponent<PlayerMovement>();
         DamageCollider = GetComponentInChildren<PolygonCollider2D>();
         //DamageCollider = GetComponent<BoxCollider2D>(); // trigger hitbox for detecting attack collisions
-        hitboxCollider = GetComponent<CircleCollider2D>(); // collider hitbox for detecting physical collisions with object
+        hitboxCollider = GetComponentInChildren<CircleCollider2D>(); // collider hitbox for detecting physical collisions with object
         invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
         healthBarImage = healthBar.GetComponent<UnityEngine.UI.Image>();
         oodlerRB = GetComponent<Rigidbody2D>();
@@ -161,7 +173,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
     }
 
-
+    // Damage Function will damage the oodler and check if they are dead
     public void Damage(float damageTaken)
     {
         CurrentHealth = CurrentHealth - damageTaken;
@@ -174,12 +186,14 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         }
     }
 
+    // Die function will be called when the oodler dies
     public void Die()
     {
         Debug.Log("oodler is dead :/");
     }
 
 
+    // MoveEnemy will move the oodler
     public void MoveEnemy(Vector2 velocity)
     {
         Rigidbody.velocity = velocity;
@@ -209,6 +223,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         //maxHealthUI.text = MaxHealth.ToString();
     }
 
+    // FixedUpdate to update physics
     private void FixedUpdate()
     {
         
@@ -218,6 +233,16 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     }
 
 
+    private void CheckSpriteDirection(){
+        if(transform.position.x - Glich.transform.position.x >= 0){
+            spriteRenderer.flipX = true;
+            TestAttackSprite.GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else{
+             spriteRenderer.flipX = false;
+               TestAttackSprite.GetComponent<SpriteRenderer>().flipX = false;
+        }
+    }
 
 
     // BOSS METHODS //
@@ -294,6 +319,53 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
     // MOVING METHODS //
 
+    public void SelectRunPosition(){
+        runPosition = Glich.transform.position+new Vector3(0,20,0);
+    }
+
+    // This method will move the ooodler to the position where it will try to run glich over
+    public bool MoveToRunPosition(float speed = 50){
+        var step = speed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, runPosition, step);
+        MoveShadowSprite();
+        if(Vector3.Distance(transform.position,runPosition)<0.3f){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    //
+    public bool LandForRun(float speed = 5){
+        SetAirPosition();
+        var step = speed * Time.deltaTime;
+        var runGroundPosition = runPosition + new Vector3(0,-12f,0);
+        transform.position = Vector3.MoveTowards(transform.position,runGroundPosition,step);
+        if(Vector3.Distance(transform.position,runGroundPosition)<0.3f){
+            animator.SetTrigger("Walk");
+            oodlerRunDestination = (Glich.transform.position-transform.position).normalized;
+
+            return true;
+
+        }else{
+            return false;
+        }
+    }
+
+    public bool Run(float speed = 100){
+        var step = speed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position,Glich.transform.position+oodlerRunDestination*20f,step);
+        CheckSpriteDirection();
+         if(Vector3.Distance(transform.position,Glich.transform.position+oodlerRunDestination*20f)<0.3f){
+            animator.SetTrigger("Idle");
+
+            return true;
+
+        }else{
+            return false;
+        }
+    }
+
 
     // This function moves the oodler to the drop zone where they drop glich
     public void MoveToDropZone(float speed = 20)
@@ -312,6 +384,8 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
         
     }
+
+    
 
     //void OnDrawGizmos()
     //{
@@ -341,6 +415,12 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     {
         var step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, glichLastPosition, step);
+    }
+
+    public void Land(float speed = 100)
+    {
+        var step = speed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, playerOffSet, step);
     }
 
     // This function will move the oodler to a location offscreen
@@ -670,4 +750,6 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
         }
     }
+
+   
 }
