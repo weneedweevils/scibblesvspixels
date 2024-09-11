@@ -30,6 +30,7 @@ public abstract class EnemyAI : MonoBehaviour
     public float slowdownFactor = 3f;
     public float stunCooldownRatio = 0.7f;
     public float knockbackRatio = 1f;
+    [Min(0)] public int killReward = 1;
 
     [Header("Pathfinding")]
     public bool moving = true;
@@ -502,6 +503,7 @@ public abstract class EnemyAI : MonoBehaviour
     abstract protected void Attack();
 
     //Kill this entity
+    [ContextMenu("Kill")]
     virtual public void Kill()
     {
         // Play the death sfx
@@ -511,6 +513,9 @@ public abstract class EnemyAI : MonoBehaviour
         if (team == Team.oddle) //First Death
         {
             team = Team.neutral;
+
+            //Spawn Soul Currency
+            UpgradeManager.instance.CreateSoul(transform.position, killReward, 1);
         }
         health = 0;
         state = State.dying;
