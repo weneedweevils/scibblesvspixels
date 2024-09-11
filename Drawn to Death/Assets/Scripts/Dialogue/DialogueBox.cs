@@ -64,10 +64,12 @@ public class DialogueBox : MonoBehaviour
         speakerName.text = style.speakerName;
         speakerName.color = style.nameColor;
         speakerName.font = style.nameFont;
+        speakerName.fontSize = style.nameFontSize;
 
         //Set the dialogue text & style
         dialogueText.color = style.textColor;
         dialogueText.font = style.textFont;
+        dialogueText.fontSize = style.textFontSize;
         delay = dialogueEntry.writeDelay;
 
         //Set Dialogue Text
