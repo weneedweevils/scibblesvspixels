@@ -20,6 +20,9 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
     [Header("UI")]
     public TMPro.TextMeshProUGUI currencyCounter;
     public TMPro.TextMeshProUGUI textbox;
+    public TMP_FontAsset basicFont;
+    public TMP_FontAsset fancyFont;
+    public float fontSize;
 
     public void Awake()
     {
@@ -73,6 +76,9 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
             textbox.text = defaultTextboxContent;
         else
             textbox.text = content;
+
+        textbox.font = (DialogueManager.fancyFont ? fancyFont : basicFont);
+        textbox.fontSize = (DialogueManager.fancyFont ? fontSize : fontSize * 0.8f);
     }
 
     public void LoadData(GameData data)
