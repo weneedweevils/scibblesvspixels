@@ -23,6 +23,7 @@ public class DialogueManager : MonoBehaviour
 {
     //Singleton instance
     public static DialogueManager Instance { get; private set; }
+    public static bool fancyFont;
 
     public Transform dialogueParentContainer;
     public int dialogueID = 0;
@@ -69,7 +70,9 @@ public class DialogueManager : MonoBehaviour
             Debug.LogError("Error in DialogueManager - dialogueParentContainer is null");
 
         playerInput = player.GetComponent<PlayerInput>();
-        
+
+        fancyFont = (PlayerPrefs.GetInt("fancyFont", 1) != 0);
+        Debug.LogFormat("Fancy Font: {0}", (fancyFont?"ON":"OFF"));
     }
 
     public void StartDialogue(DialogueSequence dialogueSequence)
