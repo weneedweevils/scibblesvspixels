@@ -216,6 +216,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f29e8fe6d29241df9ffc1f2ec236541, type: 3}
+--- !u!95 &33659218 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1513891687068356343, guid: 402aaaedf2a9a3141928747a407a5eb7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1428868187}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &35125293
 GameObject:
   m_ObjectHideFlags: 0
@@ -5485,6 +5491,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Doodle Bars (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.data[0]
+      value: 
+      objectReference: {fileID: 1623816508}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.data[1]
+      value: 
+      objectReference: {fileID: 1027441285}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.data[2]
+      value: 
+      objectReference: {fileID: 823910027}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.data[3]
+      value: 
+      objectReference: {fileID: 2069586837}
     - target: {fileID: 8606025616751456813, guid: 6744da465353f014cb4c4555f102bf5c,
         type: 3}
       propertyPath: grid
@@ -6742,6 +6773,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Doodle Bars (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.data[0]
+      value: 
+      objectReference: {fileID: 1623816508}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.data[1]
+      value: 
+      objectReference: {fileID: 1287785832}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.data[2]
+      value: 
+      objectReference: {fileID: 823910027}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.data[3]
+      value: 
+      objectReference: {fileID: 2069586837}
     - target: {fileID: 8606025616751456813, guid: 6744da465353f014cb4c4555f102bf5c,
         type: 3}
       propertyPath: grid
@@ -7265,6 +7321,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Doodle Bars (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.data[0]
+      value: 
+      objectReference: {fileID: 1623816508}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.data[1]
+      value: 
+      objectReference: {fileID: 1287785832}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.data[2]
+      value: 
+      objectReference: {fileID: 1027441285}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.data[3]
+      value: 
+      objectReference: {fileID: 2069586837}
     - target: {fileID: 8606025616751456813, guid: 6744da465353f014cb4c4555f102bf5c,
         type: 3}
       propertyPath: grid
@@ -9028,8 +9109,13 @@ PrefabInstance:
     - target: {fileID: 6356419222414121670, guid: 72657c078df370a4484073cbdab47a57,
         type: 3}
       propertyPath: nextScene
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 6356419222414121670, guid: 72657c078df370a4484073cbdab47a57,
+        type: 3}
+      propertyPath: transition
+      value: 
+      objectReference: {fileID: 33659218}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72657c078df370a4484073cbdab47a57, type: 3}
 --- !u!4 &1148640868 stripped
@@ -9292,6 +9378,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Doodle Bars
       objectReference: {fileID: 0}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.data[0]
+      value: 
+      objectReference: {fileID: 1287785832}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.data[1]
+      value: 
+      objectReference: {fileID: 1027441285}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.data[2]
+      value: 
+      objectReference: {fileID: 823910027}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.data[3]
+      value: 
+      objectReference: {fileID: 2069586837}
     - target: {fileID: 8606025616751456813, guid: 6744da465353f014cb4c4555f102bf5c,
         type: 3}
       propertyPath: grid
@@ -42819,6 +42930,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Doodle Bars (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.data[0]
+      value: 
+      objectReference: {fileID: 1623816508}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.data[1]
+      value: 
+      objectReference: {fileID: 1287785832}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.data[2]
+      value: 
+      objectReference: {fileID: 1027441285}
+    - target: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
+        type: 3}
+      propertyPath: friends.Array.data[3]
+      value: 
+      objectReference: {fileID: 823910027}
     - target: {fileID: 8606025616751456813, guid: 6744da465353f014cb4c4555f102bf5c,
         type: 3}
       propertyPath: grid
