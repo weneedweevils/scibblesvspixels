@@ -75,13 +75,12 @@ public class MenuManager : MonoBehaviour, IDataPersistence
 
     public void OnHovered()
     {
-        text.color = new Color(255,255,255,0.50f);
         FMODUnity.RuntimeManager.PlayOneShot("event:/UIHover");
     }
 
     public void OnHoveredExit()
     {
-        text.color = new Color(255, 255, 255, 1f);
+        return;
     }
 
     public void PlayAcceptSound()
@@ -98,5 +97,4 @@ public class MenuManager : MonoBehaviour, IDataPersistence
     {
         FMODUnity.RuntimeManager.PlayOneShot("event:/UIBack");
     }
-
 }
