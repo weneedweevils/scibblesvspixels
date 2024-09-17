@@ -2,6 +2,7 @@
 using System.Numerics;
 using System.Xml.Schema;
 using JetBrains.Annotations;
+using Pathfinding;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -12,22 +13,83 @@ using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 
-public class Boss : MonoBehaviour, Imovable//, IDamagable,
+public class Boss : MonoBehaviour
 {
-    // references
+    // Private variables
+    public Rigidbody2D Rigidbody { get; set; }
+    public Animator animator;
+    private SpriteRenderer oodlerSprite;
+ 
+
+    // Public Parameters
+    [Header ("Public float")]
     private float MaxHealth = 500f;
     private float CurrentHealth = 500f;
     public float MovementSpeed { get; set; } = 100f;
-    public Rigidbody2D Rigidbody { get; set; }
-    public SpriteRenderer BossSprite { get; set; }
+    public float oodlerAttackDamage = 50f;
+    private float invincibilityDuration = 40f / 60f;
 
-    [field: SerializeField] public GameObject Glich;
+     // timings and speeds for boss battle
+    public float bossVulnerabilityTime = 10f; // Time the oodler is vulnerable
+    public float slamWarningTime = 1f; // Time the oodler stops before Slamming player
+    public float grabWarningTime = 1.25f; // Time the oodler stops before grabbing player
+    public float airTime = 5f;
+    public int allowedSlams = 1;
+    public int SlamNum = 0;
 
-    [field: SerializeField] public SpriteRenderer TestAttackSprite;
+    
+    [Header("Public bool Parameters")]
+    public bool grabbing = false;
+    public bool caught = false;
+
+    // ENUMS
+    public enum AttackType {Grab,Slam}
+    public enum Phase {P1,P2,P3}
+    public Phase phase = Phase.P1;
+    public AttackType attackType = AttackType.Slam;
+
+    
+
+    [Header ("Shadow Reference")]
+    public SpriteRenderer oodlerShadow;
    
-   
 
 
+    [Header ("Player References")]
+    public PlayerMovement PlayerScript;
+    public GameObject Glich;
+
+
+    // Health Crystals and health
+
+    [Header ("Health Crystals")]
+    public GameObject HealthCrystal1;
+    bool countedOne = false;
+    public GameObject HealthCrystal2;
+    bool countedTwo = false;
+    public GameObject HealthCrystal3;
+    bool countedThree = false;
+    public GameObject HealthCrystal4;
+    bool countedFour = false;
+    private int CrystalsRemaining = 4;
+
+
+    // UI
+    [Header ("UI References")]
+    public GameObject healthBarParent;
+    public GameObject healthBar;
+    public TextMeshProUGUI currentHealthUI;
+    public TextMeshProUGUI maxHealthUI;
+    private UnityEngine.UI.Image healthBarImage;
+
+
+    [Header ("HitBox References")]
+    // Collider References
+    public GameObject runHitboxCollider;
+
+    public GameObject attackHitboxCollider;
+
+    public GameObject selfHitboxCollider;
 
 
     // States
@@ -42,6 +104,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     public OodlerInitial oodlerInitial{ get; set; }
     public OodlerRun oodlerRun { get; set; }
 
+
     //Movment
     private Vector3 playerOffSet = Vector3.zero;
     private Vector3 glichLastPosition = Vector3.zero;
@@ -49,81 +112,30 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     private Vector3 oodlerRunDestination = Vector3.zero;
     private Vector3 runPosition = Vector3.zero; 
     private Vector3 offScreen = new Vector3(220, 130, 0);
-
-    // Health Crystals and health
-    public GameObject HealthCrystal1;
-    bool countedOne = false;
-    public GameObject HealthCrystal2;
-    bool countedTwo = false;
-    public GameObject HealthCrystal3;
-    bool countedThree = false;
-    public GameObject HealthCrystal4;
-    bool countedFour = false;
-    public Scene nextScene = Scene.End;
-    int CrystalsRemaining = 4;
-
-
-    // UI
-    public GameObject healthBarParent;
-    public GameObject healthBar;
-    public TextMeshProUGUI currentHealthUI;
-    public TextMeshProUGUI maxHealthUI;
-    private UnityEngine.UI.Image healthBarImage;
-
-
-    // Attacking
-    public PlayerMovement PlayerScript;
-
-
-    //BoxCollider2D DamageCollider;
-    private PolygonCollider2D DamageCollider;
-    private CircleCollider2D hitboxCollider;
     public bool oodlerSlamCooldown = false;
     public bool vulnerable = false;
-    private float invincibilityDuration = 40f / 60f;
+   
     public CooldownTimer invincibilityTimer;
-    public float oodlerAttackDamage = 50f;
+    
     Rigidbody2D oodlerRB;
 
 
     // for controlling enemies for Drop attack
     public GameObject dropZoneObject;
-    public bool grabbing = false;
-    public bool caught = false;
     private Vector3 dropZone;
     private Vector3 dropZoneCorrected;
-
-
-    // timings and speeds for boss battle
-    public float bossVulnerabilityTime; // Time the oodler is vulnerable
-    public float slamWarningTime; // Time the oodler stops before Slamming player
-    public float grabWarningTime; // Time the oodler stops before grabbing player
-    public float airTime;
-   
-
-
-    // ENUMS
-    public enum AttackType {Grab,Slam}
-    public enum Phase {P1,P2,P3}
-    public Phase phase = Phase.P1;
-    public AttackType attackType = AttackType.Slam;
 
 
     // Phases
     private bool enteredPhase2=false;
     private bool enteredPhase3=false;
 
-    public int allowedSlams = 1;
-    public int SlamNum = 0;
-
+    
     //blockers
-
     public EnemyAI[] blockers;
 
-    //animation
-
-    public Animator animator;
-    private SpriteRenderer spriteRenderer;
+    
+    public Scene nextScene = Scene.End;
 
 
 
@@ -145,22 +157,27 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
     void Start()
     {
+        
+
+        //DamageCollider = GetComponentInChildren<PolygonCollider2D>();
+        //hitboxCollider = GetComponentInChildren<CircleCollider2D>(); // collider hitbox for detecting physical collisions with object
+        //RunCollider = GetComponentInChildren<PolygonCollider2D>();
 
      
         CurrentHealth = MaxHealth;
         currentHealthUI.text = CurrentHealth.ToString();
         maxHealthUI.text = MaxHealth.ToString();
 
-        StateMachine.Initialize(oodlerRun);
+        StateMachine.Initialize(oodlerChase);
 
         animator = GetComponentInChildren<Animator>();
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        oodlerSprite = GetComponentInChildren<SpriteRenderer>();
 
-        BossSprite = GetComponentInChildren<SpriteRenderer>();
+       
         PlayerScript = Glich.GetComponent<PlayerMovement>();
-        DamageCollider = GetComponentInChildren<PolygonCollider2D>();
-        //DamageCollider = GetComponent<BoxCollider2D>(); // trigger hitbox for detecting attack collisions
-        hitboxCollider = GetComponentInChildren<CircleCollider2D>(); // collider hitbox for detecting physical collisions with object
+
+       
+
         invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
         healthBarImage = healthBar.GetComponent<UnityEngine.UI.Image>();
         oodlerRB = GetComponent<Rigidbody2D>();
@@ -226,30 +243,27 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     // FixedUpdate to update physics
     private void FixedUpdate()
     {
-        
         StateMachine.currentOodlerState.FrameUpdate();
-        
         invincibilityTimer.Update();
     }
 
 
     private void CheckSpriteDirection(){
         if(transform.position.x - Glich.transform.position.x >= 0){
-            spriteRenderer.flipX = true;
-            TestAttackSprite.GetComponent<SpriteRenderer>().flipX = true;
+            oodlerSprite.flipX = true;
+            oodlerShadow.GetComponent<SpriteRenderer>().flipX = true;
         }
         else{
-             spriteRenderer.flipX = false;
-               TestAttackSprite.GetComponent<SpriteRenderer>().flipX = false;
+             oodlerSprite.flipX = false;
+               oodlerShadow.GetComponent<SpriteRenderer>().flipX = false;
         }
     }
 
 
-    // BOSS METHODS //
+    // --BOSS METHODS-- //
 
 
     // ENABLERS AND DISABLERS //
-
 
 
     // Enabling/Disabling Hitboxes
@@ -257,11 +271,11 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     {
         if(enable)
         {
-            DamageCollider.enabled = true;  
+            attackHitboxCollider.SetActive(true);
         }
         else
         {
-            DamageCollider.enabled = false;
+            attackHitboxCollider.SetActive(false);
         }
     }
 
@@ -272,13 +286,27 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     {
         if (enable)
         {
-            hitboxCollider.enabled = true;
+            selfHitboxCollider.SetActive(true);
         }
         else
         {
-            hitboxCollider.enabled = false;
+            selfHitboxCollider.SetActive(false);
         }
     }
+
+
+     public void EnableRunHitbox(bool enable)
+    {
+        if (enable)
+        {
+            runHitboxCollider.SetActive(true);
+        }
+        else
+        {
+            runHitboxCollider.SetActive(false);
+        }
+    }
+
 
     // This function enables/disables gliches hitboxes
     public void EnableGlichColliders(bool enable)
@@ -298,35 +326,30 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     // This function shows the oodlers shadows
     public void ShowShadow()
     {
-        TestAttackSprite.color = new Color(0, 0, 0, 0.25f);
+        oodlerShadow.color = new Color(0, 0, 0, 0.25f);
     }
      
     // This function shows the attack
     public void ShowAttack()
     {
-        TestAttackSprite.color = new Color(255, 0, 0, 1f);
+        oodlerShadow.color = new Color(255, 0, 0, 1f);
     }
 
     // This function hides the oodlers shadow
     public void HideShadow()
     {
-        TestAttackSprite.color = new Color(0, 0, 0, 0f);
+        oodlerShadow.color = new Color(0, 0, 0, 0f);
     }
 
-
-
-
-
     // MOVING METHODS //
-
     public void SelectRunPosition(){
-        runPosition = Glich.transform.position+new Vector3(0,20,0);
+        runPosition = Glich.transform.position+new Vector3(20,20,0);
     }
 
     // This method will move the ooodler to the position where it will try to run glich over
     public bool MoveToRunPosition(float speed = 50){
         var step = speed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, runPosition, step);
+        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, runPosition, step));
         MoveShadowSprite();
         if(Vector3.Distance(transform.position,runPosition)<0.3f){
             return true;
@@ -335,16 +358,16 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         }
     }
 
-    //
-    public bool LandForRun(float speed = 5){
+    // This method will "Land" the oodler on the ground
+    public bool LandForRun(float speed = 15){
         SetAirPosition();
         var step = speed * Time.deltaTime;
         var runGroundPosition = runPosition + new Vector3(0,-12f,0);
-        transform.position = Vector3.MoveTowards(transform.position,runGroundPosition,step);
+        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position,runGroundPosition,step));
         if(Vector3.Distance(transform.position,runGroundPosition)<0.3f){
             animator.SetTrigger("Walk");
             oodlerRunDestination = (Glich.transform.position-transform.position).normalized;
-
+            HideShadow();
             return true;
 
         }else{
@@ -354,13 +377,11 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
     public bool Run(float speed = 100){
         var step = speed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position,Glich.transform.position+oodlerRunDestination*20f,step);
+        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position,Glich.transform.position+oodlerRunDestination*20f,step));
         CheckSpriteDirection();
          if(Vector3.Distance(transform.position,Glich.transform.position+oodlerRunDestination*20f)<0.3f){
             animator.SetTrigger("Idle");
-
             return true;
-
         }else{
             return false;
         }
@@ -371,7 +392,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     public void MoveToDropZone(float speed = 20)
     {
         var step = speed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, dropZoneCorrected, step);
+        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, dropZoneCorrected, step));
         MoveShadowSprite();
     }
 
@@ -380,7 +401,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     public void DropGlich(float speed = 10)
     {
         var step = speed * Time.deltaTime;
-        Glich.transform.position = Vector3.MoveTowards(Glich.transform.position, dropZone, step);
+        Glich.transform.position = Vector3.MoveTowards(Glich.transform.position, dropZone, step); // CHANGE THIS LATER TO RIGIDBODY
 
         
     }
@@ -402,8 +423,8 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         var step = speed * Time.deltaTime;
         playerOffSet = Glich.transform.localPosition;
         playerOffSet.y = playerOffSet.y + 10f;
-        transform.position = Vector3.MoveTowards(transform.localPosition, playerOffSet, step);
-        oodlerRB.MovePosition(transform.position);
+        //transform.position = Vector3.MoveTowards(transform.position, playerOffSet, step);
+        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, playerOffSet, step));
         MoveShadowSprite();
 
        
@@ -414,21 +435,20 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     public void Slam(float speed = 100)
     {
         var step = speed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, glichLastPosition, step);
+        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, glichLastPosition, step));
     }
 
     public void Land(float speed = 100)
     {
         var step = speed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, playerOffSet, step);
+        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, playerOffSet, step));
     }
 
     // This function will move the oodler to a location offscreen
     public void MoveOffScreen(float speed = 100)
     {
         var step = speed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, offScreen, step);
-
+        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, offScreen, step));
         MoveShadowSprite();
     }
 
@@ -439,7 +459,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
         playerOffSet = Glich.transform.localPosition;
         playerOffSet.y = playerOffSet.y + 10f;
         var step = speed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, oodlerAirPosition, step);
+        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, oodlerAirPosition, step));
 
     }
 
@@ -450,7 +470,8 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     {
         Vector3 spriteOffset = transform.position;
         spriteOffset.y = transform.position.y - 12f;
-        TestAttackSprite.transform.position = spriteOffset;
+        //oodlerShadow.transform.position = spriteOffset;
+        oodlerShadow.GetComponent<Rigidbody2D>().MovePosition(spriteOffset);
 
     }
 
@@ -623,25 +644,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     }
 
 
-    public void CheckDirection()
-    {
-        if (transform.position.x >= Glich.transform.position.x)
-        {
-            if (BossSprite.flipX == false)
-            {
-                BossSprite.flipX = true;
-                TestAttackSprite.flipX = true;
-            }
-        }
-        else
-        {
-            if (BossSprite.flipX == true)
-            {
-                BossSprite.flipX = false;
-                TestAttackSprite.flipX = false;
-            }
-        }
-    }
+    
 
 
 
@@ -653,7 +656,7 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     {
         glichLastPosition = Glich.transform.position;
     }
-
+    
     // this function will get the saved position glich was at
     public Vector3 GetLastPosition()
     {
@@ -675,11 +678,11 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
     // this function will increase the alpha value slowly and reveal the outline of where the hand will slam
     public bool RevealAttack()
     {
-        if (TestAttackSprite.color.a < 1)
+        if (oodlerShadow.color.a < 1)
         {
-            var temp = TestAttackSprite.color;
-            temp.a += 0.01f;
-            TestAttackSprite.color = temp;
+            var temp = oodlerShadow.color;
+            temp.a += 0.5f * Time.deltaTime;
+            oodlerShadow.color = temp;
             return false;
         }
         else
@@ -750,6 +753,11 @@ public class Boss : MonoBehaviour, Imovable//, IDamagable,
 
         }
     }
+
+    public void ChangeSpriteSortingOrder(int sortingLayer){
+        oodlerSprite.sortingOrder = sortingLayer;
+    }
+    
 
    
 }

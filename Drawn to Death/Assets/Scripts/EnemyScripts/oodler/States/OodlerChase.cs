@@ -66,6 +66,7 @@ public class OodlerChase : OodlerBase
         // gradually follow glich's position
         if (Vector3.Distance(boss.Glich.transform.position, boss.transform.position) < 20f)
         {
+            Debug.Log("something happened Here");
             var speed = 50f;
             boss.Stalk(speed);
         }

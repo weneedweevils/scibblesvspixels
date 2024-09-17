@@ -106,7 +106,7 @@ public class OodlerGrab : OodlerBase
             {
                 delay = false;
                 boss.EnableAreaHitbox(true);
-                boss.BossSprite.sortingOrder = 5;
+                boss.ChangeSpriteSortingOrder(5);
 
             }
         }

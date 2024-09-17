@@ -33,7 +33,7 @@ public class OodlerChargeAttack : OodlerBase
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        boss.Stalk();
+        boss.Stalk(100f);
         bool attackCharged = boss.RevealAttack();
 
 

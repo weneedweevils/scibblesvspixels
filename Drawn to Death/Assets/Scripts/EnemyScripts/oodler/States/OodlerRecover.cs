@@ -20,7 +20,7 @@ public class OodlerRecover : OodlerBase
         boss.vulnerable = false;
         timer = 0f;
         boss.EnableAreaHitbox(false);
-        boss.BossSprite.sortingOrder = 8;
+        boss.ChangeSpriteSortingOrder(8);
 
     
         if (boss.caught == true)

@@ -30,7 +30,7 @@ public class OodlerSlam : OodlerBase
         boss.SetAirPosition();
         delay = true;
         boss.ShowAttack();
-        boss.animator.SetTrigger("Slam");
+        //boss.animator.SetTrigger("Slam");
     }
 
 
@@ -80,7 +80,8 @@ public class OodlerSlam : OodlerBase
                 {
                     
                     oodlerStateMachine.ChangeState(boss.oodlerRecover);
-                    boss.BossSprite.sortingOrder = 8;
+                    boss.ChangeSpriteSortingOrder(8);
+                    
                 }
             }
 
@@ -94,7 +95,7 @@ public class OodlerSlam : OodlerBase
             if (delayTimer > boss.slamWarningTime)
             {
                
-                boss.BossSprite.sortingOrder = 5;
+                boss.ChangeSpriteSortingOrder(5);
                 Debug.Log("about to strike my hand down");
                 delay = false;
                 
