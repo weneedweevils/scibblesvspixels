@@ -27,7 +27,7 @@ public class EndCutscene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        skipButton.gameObject.SetActive(false);
+        skipButton.gameObject.SetActive(true);
         menuButton.SetActive(false);
         instance = FMODUnity.RuntimeManager.CreateInstance(fmodEvent);
         instance.start();
@@ -71,7 +71,7 @@ public class EndCutscene : MonoBehaviour
         }
         else if (videoStarted && !videoPlayer.isPlaying)
         {
-            menuButton.SetActive(true);
+            
             EventSystem.current.SetSelectedGameObject(menuButton);
             skipButton.gameObject.SetActive(false);
         }
@@ -86,6 +86,7 @@ public class EndCutscene : MonoBehaviour
 
         if (videoPlayer.time > creditStartTime)
         {
+            menuButton.SetActive(true);
             if (credits.gameObject.transform.GetChild(0).transform.position.y >= 270)
             {
                 scrollSpeed = 0;
