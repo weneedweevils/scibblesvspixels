@@ -30,14 +30,14 @@ public class OodlerSlam : OodlerBase
         boss.SetAirPosition();
         delay = true;
         boss.ShowAttack();
-        //boss.animator.SetTrigger("Slam");
+        
     }
 
 
     public override void ExitState()
     {
         delayTimer = 0f;
-        boss.oodlerSlamCooldown = false; // set the cooldown back
+        boss.SetSlamCooldown(false); // set the cooldown back
         base.ExitState();
         boss.SlamNum++;
     }
@@ -54,9 +54,9 @@ public class OodlerSlam : OodlerBase
             {
                 reachedTarget = true;
                 boss.EnableAttackHitbox(false);
-                boss.oodlerSlamCooldown = true; // set to true so that the oodler does not hurt anyone on the ground
+                boss.SetSlamCooldown(true); // set to true so that the oodler does not hurt anyone on the ground
                 boss.HideShadow();
-                boss.vulnerable = true;
+                boss.SetBossVulnerability(true);
             }
 
             // This will continue to move the hand down on glich
@@ -98,11 +98,17 @@ public class OodlerSlam : OodlerBase
                 boss.ChangeSpriteSortingOrder(5);
                 Debug.Log("about to strike my hand down");
                 delay = false;
-                
                 boss.EnableAreaHitbox(true);
+                boss.animator.SetTrigger("Slam");
 
             }
         }
 
     }
+    
+    // This method is supposed to offset the slam
+    public void AnimationOffset(){
+    
+    }
 }
+

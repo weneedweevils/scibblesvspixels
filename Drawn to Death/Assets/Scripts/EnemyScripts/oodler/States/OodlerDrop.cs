@@ -24,7 +24,7 @@ public class OodlerDrop : OodlerBase
     public override void ExitState()
     {
         base.ExitState();
-        boss.caught = false;
+        boss.SetBossCaught(false);
 
     }
 

@@ -31992,9 +31992,9 @@ MonoBehaviour:
   animator: {fileID: 1068024697}
   oodlerAttackDamage: 50
   bossVulnerabilityTime: 5
-  slamWarningTime: 3
+  slamWarningTime: 2
   grabWarningTime: 1.25
-  airTime: 5
+  airTime: 3
   allowedSlams: 1
   SlamNum: 0
   grabbing: 0
@@ -45053,19 +45053,15 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 5.9433155, y: 3.2871723}
-      - {x: 3.1249604, y: 2.2789469}
-      - {x: 1.0828412, y: 1.5155342}
-      - {x: -0.2561612, y: 0.57952714}
-      - {x: -2.5076315, y: -1.3596373}
-      - {x: -1.6850884, y: -2.643138}
-      - {x: -0.015610933, y: -3.137393}
-      - {x: 2.6775424, y: -3.459796}
-      - {x: 3.7228355, y: -2.3846111}
-      - {x: 8.466604, y: 3.366747}
-      - {x: 8.425716, y: 3.3590126}
-      - {x: 8.6492405, y: 4.0029774}
-      - {x: 8.184252, y: 3.903864}
+    - - {x: -0.50460863, y: 1.7931798}
+      - {x: -1.3185346, y: 1.5324271}
+      - {x: -2.0423589, y: 1.1803324}
+      - {x: -2.4012156, y: 0.38743687}
+      - {x: -1.0014803, y: -2.1069374}
+      - {x: -0.4852457, y: -2.142789}
+      - {x: 0.74623275, y: -1.9913874}
+      - {x: 2.2325, y: -1.2101817}
+      - {x: 1.0274658, y: 1.2087634}
 --- !u!114 &7207548268880901157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45091,6 +45087,7 @@ GameObject:
   - component: {fileID: 9144765925250153967}
   - component: {fileID: 4109160619175855811}
   - component: {fileID: 7207548268880901157}
+  - component: {fileID: 8806824749036982292}
   m_Layer: 0
   m_Name: SlamHitBox
   m_TagString: oodlerHitbox
@@ -45098,6 +45095,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!50 &8806824749036982292
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8806824749036982291}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!4 &9144765925250153967
 Transform:
   m_ObjectHideFlags: 0
@@ -45106,8 +45124,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8806824749036982291}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.2896843, y: -0.49744797, z: -10.3815155}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 432823625}
   m_RootOrder: 1

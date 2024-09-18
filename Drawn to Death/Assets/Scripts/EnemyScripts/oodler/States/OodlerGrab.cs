@@ -35,7 +35,7 @@ public class OodlerGrab : OodlerBase
         boss.SetAirPosition();
         delay = true;
         boss.ShowAttack();
-        boss.caught = false;
+        boss.SetBossCaught(false);
  
 
     }
@@ -44,7 +44,7 @@ public class OodlerGrab : OodlerBase
     {
         base.ExitState();
         delayTimer = 0f;
-        boss.oodlerSlamCooldown = false; // set the cooldown back
+        boss.SetSlamCooldown(false); // set the cooldown back
         base.ExitState();
     }
 
@@ -60,9 +60,9 @@ public class OodlerGrab : OodlerBase
             {
                 reachedTarget = true;
                 boss.EnableAttackHitbox(false);
-                boss.oodlerSlamCooldown = true; // set to true so that the oodler does not hurt anyone on the ground
+                boss.SetSlamCooldown(true); // set to true so that the oodler does not hurt anyone on the ground
                 boss.HideShadow();
-                boss.vulnerable = true;
+                boss.SetBossVulnerability(true);
             }
 
             // This will continue to move the hand down on glich
@@ -79,7 +79,7 @@ public class OodlerGrab : OodlerBase
             // Logic for once we hit the ground and if we caught them 
             else
             {
-                if (boss.caught == true)
+                if (boss.IsCaught())
                 {
                     boss.ControlAllies(boss.dropZoneObject, true); // change this to only occur when caught
                     oodlerStateMachine.ChangeState(boss.oodlerRecover);

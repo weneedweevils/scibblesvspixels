@@ -157,37 +157,22 @@ public class Boss : MonoBehaviour
 
     void Start()
     {
-        
-
-        //DamageCollider = GetComponentInChildren<PolygonCollider2D>();
-        //hitboxCollider = GetComponentInChildren<CircleCollider2D>(); // collider hitbox for detecting physical collisions with object
-        //RunCollider = GetComponentInChildren<PolygonCollider2D>();
-
-     
+        StateMachine.Initialize(oodlerChase);
         CurrentHealth = MaxHealth;
         currentHealthUI.text = CurrentHealth.ToString();
         maxHealthUI.text = MaxHealth.ToString();
 
-        StateMachine.Initialize(oodlerChase);
-
         animator = GetComponentInChildren<Animator>();
         oodlerSprite = GetComponentInChildren<SpriteRenderer>();
 
-       
         PlayerScript = Glich.GetComponent<PlayerMovement>();
-
-       
 
         invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
         healthBarImage = healthBar.GetComponent<UnityEngine.UI.Image>();
         oodlerRB = GetComponent<Rigidbody2D>();
 
-        
-
         dropZoneCorrected = new Vector3(dropZoneObject.transform.position.x, dropZoneObject.transform.position.y + 10f, 0);
         dropZone = new Vector3(dropZoneObject.transform.position.x, dropZoneObject.transform.position.y, 0);
-
-
     }
 
     // Damage Function will damage the oodler and check if they are dead
@@ -210,12 +195,6 @@ public class Boss : MonoBehaviour
     }
 
 
-    // MoveEnemy will move the oodler
-    public void MoveEnemy(Vector2 velocity)
-    {
-        Rigidbody.velocity = velocity;
-    }
-
 
     private void AnimationTriggerEvent(AnimationTriggerType triggerType)
     {
@@ -231,6 +210,7 @@ public class Boss : MonoBehaviour
     }
 
 
+    #region Update
     private void Update(){
         CheckWinCondition();
         currentHealthUI.text = Mathf.Ceil(CurrentHealth).ToString();
@@ -246,8 +226,10 @@ public class Boss : MonoBehaviour
         StateMachine.currentOodlerState.FrameUpdate();
         invincibilityTimer.Update();
     }
+    #endregion
 
 
+    #region Animation
     private void CheckSpriteDirection(){
         if(transform.position.x - Glich.transform.position.x >= 0){
             oodlerSprite.flipX = true;
@@ -259,6 +241,50 @@ public class Boss : MonoBehaviour
         }
     }
 
+     // This function shows the oodlers shadows
+    public void ShowShadow()
+    {
+        oodlerShadow.color = new Color(0, 0, 0, 0.25f);
+    }
+     
+    // This function shows the attack
+    public void ShowAttack()
+    {
+        oodlerShadow.color = new Color(255, 0, 0, 1f);
+    }
+
+    // This function hides the oodlers shadow
+    public void HideShadow()
+    {
+        oodlerShadow.color = new Color(0, 0, 0, 0f);
+    }
+
+     public void ChangeSpriteSortingOrder(int sortingLayer){
+        oodlerSprite.sortingOrder = sortingLayer;
+    }
+
+
+     // this function will increase the alpha value slowly and reveal the outline of where the hand will slam
+    public bool RevealAttack()
+    {
+        if (oodlerShadow.color.a < 1)
+        {
+            var temp = oodlerShadow.color;
+            temp.a += 0.5f * Time.deltaTime;
+            oodlerShadow.color = temp;
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+      
+    }
+
+
+
+    # endregion
+
 
     // --BOSS METHODS-- //
 
@@ -267,6 +293,9 @@ public class Boss : MonoBehaviour
 
 
     // Enabling/Disabling Hitboxes
+
+
+    #region Hitboxes
     public void EnableAttackHitbox(bool enable)
     {
         if(enable)
@@ -323,24 +352,12 @@ public class Boss : MonoBehaviour
         }
     }
 
-    // This function shows the oodlers shadows
-    public void ShowShadow()
-    {
-        oodlerShadow.color = new Color(0, 0, 0, 0.25f);
-    }
-     
-    // This function shows the attack
-    public void ShowAttack()
-    {
-        oodlerShadow.color = new Color(255, 0, 0, 1f);
-    }
+    #endregion
 
-    // This function hides the oodlers shadow
-    public void HideShadow()
-    {
-        oodlerShadow.color = new Color(0, 0, 0, 0f);
-    }
+   
 
+
+    #region Moving Methods
     // MOVING METHODS //
     public void SelectRunPosition(){
         runPosition = Glich.transform.position+new Vector3(20,20,0);
@@ -406,7 +423,6 @@ public class Boss : MonoBehaviour
         
     }
 
-    
 
     //void OnDrawGizmos()
     //{
@@ -436,6 +452,9 @@ public class Boss : MonoBehaviour
     {
         var step = speed * Time.deltaTime;
         oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, glichLastPosition, step));
+        oodlerSprite.transform.position = Vector3.MoveTowards(transform.position, oodlerAirPosition, step);
+
+        //oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, oodlerShadow.transform.position, step));
     }
 
     public void Land(float speed = 100)
@@ -488,9 +507,11 @@ public class Boss : MonoBehaviour
     }
 
 
-
+    #endregion
 
     // CHECKS //
+
+    #region Bool Checks
 
     // this function will return a bool if the oodler has reached offscreen
     public bool ReachedOffScreen()
@@ -505,6 +526,7 @@ public class Boss : MonoBehaviour
         }
     }
 
+    // This function will check if the oodler reached the last position it was in the air
     public bool ReachedAirPosition()
     {
         if (transform.position == oodlerAirPosition)
@@ -530,7 +552,7 @@ public class Boss : MonoBehaviour
         }
     }
 
-    // This fucntion returns a bool if glich has reached their drop zone location 
+    // This fucntion returns a bool if glich has reached their drop zone location when the oodler drops them
     public bool GlichReachedDropZone()
     {
 
@@ -578,6 +600,9 @@ public class Boss : MonoBehaviour
         }
     }
 
+    #endregion
+
+    // this function will check to see if all the crystals are still active or if the oodler dies, cutscene plays if any one of these conditions are met
     public void CheckWinCondition()
     {
         //if (HealthCrystal1 == null && !countedOne)
@@ -645,18 +670,15 @@ public class Boss : MonoBehaviour
 
 
     
-
-
-
-
     // SETTERS AND GETTERS //
+    #region Setters
 
     // this function will save a position glich was at
     public void SetLastPosition()
     {
         glichLastPosition = Glich.transform.position;
     }
-    
+
     // this function will get the saved position glich was at
     public Vector3 GetLastPosition()
     {
@@ -670,30 +692,51 @@ public class Boss : MonoBehaviour
         oodlerAirPosition = transform.position;
     }
 
+    public void SetSlamCooldown(bool onCooldown){
+        if(onCooldown){
+            oodlerSlamCooldown = true;
+        }
+        else{
+             oodlerSlamCooldown = false;
+        }
+    }
+
+    public void SetBossVulnerability(bool isVulnerable){
+        if(isVulnerable){
+            vulnerable = true;
+        }
+        else{
+            vulnerable = false;
+        }
+    }
+
+    public void SetBossCaught(bool isCaught){
+        if(isCaught){
+            caught = true;
+        }
+        else{
+            caught = false;
+        }
+
+    }
+
+
+    #endregion
 
 
 
     // OTHER //
+    #region Other
+   
 
-    // this function will increase the alpha value slowly and reveal the outline of where the hand will slam
-    public bool RevealAttack()
-    {
-        if (oodlerShadow.color.a < 1)
-        {
-            var temp = oodlerShadow.color;
-            temp.a += 0.5f * Time.deltaTime;
-            oodlerShadow.color = temp;
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-      
+    public bool OnSlamCooldown(){
+        return oodlerSlamCooldown;
     }
 
-    // this function will check to see if all the crystals are still active or if the oodler dies, cutscene plays if any one of these conditions are met
-   
+    public bool IsCaught(){
+        return caught;
+    }
+
 
     public void heal(float heal_amount)
     {
@@ -754,10 +797,5 @@ public class Boss : MonoBehaviour
         }
     }
 
-    public void ChangeSpriteSortingOrder(int sortingLayer){
-        oodlerSprite.sortingOrder = sortingLayer;
-    }
-    
-
-   
+    #endregion 
 }

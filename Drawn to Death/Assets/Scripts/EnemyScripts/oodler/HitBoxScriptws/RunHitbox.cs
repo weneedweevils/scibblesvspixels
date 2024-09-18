@@ -49,7 +49,7 @@ public class RunHitbox : MonoBehaviour{
                     EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
 
 
-                    if (enemy != null && !enemy.invincibilityTimer.IsActive() && oodlerScript.oodlerSlamCooldown == false) //&& oodlerScript.activateDamage())
+                    if (enemy != null && !enemy.invincibilityTimer.IsActive() && !oodlerScript.OnSlamCooldown()) //&& oodlerScript.activateDamage())
                     {
                         enemy.Damage(oodlerScript.oodlerAttackDamage);
                     }
@@ -59,7 +59,7 @@ public class RunHitbox : MonoBehaviour{
                         HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
                         if (crystal != null)
                         {
-                            if (crystal != null && crystal.invincibilityTimer.IsUseable() && oodlerScript.oodlerSlamCooldown == false)// && oodlerScript.activateDamage())
+                            if (crystal != null && crystal.invincibilityTimer.IsUseable() && !oodlerScript.OnSlamCooldown())// && oodlerScript.activateDamage())
                             {
                                 //Damage enemy
                                 crystal.CrystalDamage(oodlerScript.oodlerAttackDamage, true);

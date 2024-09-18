@@ -17,13 +17,13 @@ public class OodlerRecover : OodlerBase
     public override void EnterState()
     {
         boss.ShowShadow();
-        boss.vulnerable = false;
+        boss.SetBossVulnerability(false);
         timer = 0f;
         boss.EnableAreaHitbox(false);
         boss.ChangeSpriteSortingOrder(8);
 
     
-        if (boss.caught == true)
+        if (boss.IsCaught())
         {
             boss.PlayerScript.PausePlayerInput(true);
             boss.EnableGlichColliders(false);
@@ -42,7 +42,7 @@ public class OodlerRecover : OodlerBase
         boss.MoveUp();
 
         // if we caught glich move with boss
-        if (boss.caught == true)
+        if (boss.IsCaught())
         {
             
             boss.MoveGlichWithOodler();
@@ -55,9 +55,9 @@ public class OodlerRecover : OodlerBase
             if (timer > boss.airTime)
             {
 
-                Debug.Log("caught is set to" + boss.caught);
+                Debug.Log("caught is set to" + boss.IsCaught());
 
-                if (boss.caught) {
+                if (boss.IsCaught()) {
                     Debug.Log("CHanging states to drop");
                     oodlerStateMachine.ChangeState(boss.oodlerDrop);
                     

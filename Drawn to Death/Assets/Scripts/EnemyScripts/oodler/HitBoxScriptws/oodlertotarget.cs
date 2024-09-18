@@ -26,7 +26,7 @@ public class oodlertotarget:MonoBehaviour
                     if (oodlerScript.grabbing == false)
                     {
 
-                        if (!PlayerScript.dashTimer.IsActive() && oodlerScript.oodlerSlamCooldown == false && !PlayerScript.invincibilityTimer.IsActive() && oodlerScript.activateDamage())
+                        if (!PlayerScript.dashTimer.IsActive() && !oodlerScript.OnSlamCooldown() && !PlayerScript.invincibilityTimer.IsActive() && oodlerScript.activateDamage())
                         {
                             PlayerScript.Damage(oodlerScript.oodlerAttackDamage);
                         }
@@ -35,8 +35,8 @@ public class oodlertotarget:MonoBehaviour
                     else
                     {
                         
-                        oodlerScript.caught = true;
-                        Debug.Log(oodlerScript.caught);
+                        oodlerScript.SetBossCaught(true);
+                        Debug.Log(oodlerScript.IsCaught());
                     }
 
 
@@ -49,7 +49,7 @@ public class oodlertotarget:MonoBehaviour
                     EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
 
 
-                    if (enemy != null && !enemy.invincibilityTimer.IsActive() && oodlerScript.oodlerSlamCooldown == false) //&& oodlerScript.activateDamage())
+                    if (enemy != null && !enemy.invincibilityTimer.IsActive() && !oodlerScript.OnSlamCooldown()) //&& oodlerScript.activateDamage())
                     {
                         enemy.Damage(oodlerScript.oodlerAttackDamage);
                     }
@@ -59,7 +59,7 @@ public class oodlertotarget:MonoBehaviour
                         HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
                         if (crystal != null)
                         {
-                            if (crystal != null && crystal.invincibilityTimer.IsUseable() && oodlerScript.oodlerSlamCooldown == false)// && oodlerScript.activateDamage())
+                            if (crystal != null && crystal.invincibilityTimer.IsUseable() && !oodlerScript.OnSlamCooldown())// && oodlerScript.activateDamage())
                             {
                                 //Damage enemy
                                 crystal.CrystalDamage(oodlerScript.oodlerAttackDamage, true);
