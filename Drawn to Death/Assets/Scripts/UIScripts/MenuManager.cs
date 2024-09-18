@@ -13,6 +13,7 @@ public class MenuManager : MonoBehaviour, IDataPersistence
     public Scene nextScene;
     public bool newGame = false;
     public bool loadGame = false;
+    public bool saveGame = false;
     public float transitionTime;
 
     [Header("References")]
@@ -31,6 +32,13 @@ public class MenuManager : MonoBehaviour, IDataPersistence
         {
             DataPersistenceManager.instance.NewGame();
             nextScene = Scene.Level_1;
+        }
+        else if (saveGame && nextScene != Scene.End)
+        {
+            DataPersistenceManager.instance.SaveGame();
+            GameData data = DataPersistenceManager.instance.GetGameData();
+            data.skipCutscene = false;
+            DataPersistenceManager.instance.UpdateGame();
         }
         StartCoroutine(LoadScene(nextScene, transition, transitionTime));
     }

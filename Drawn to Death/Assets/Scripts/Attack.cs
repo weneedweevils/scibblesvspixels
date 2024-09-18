@@ -65,11 +65,11 @@ public class Attack : MonoBehaviour
     private CooldownBarBehaviour lifestealCooldownBar;
     private UnityEngine.UI.Image lifeStealNotifier;
     private bool activatedLsNotifier = false;
-    private float lifestealRatio;
+    [HideInInspector] public float lifestealRatio;
 
     //Misc
     private List<EnemyAI> allies = new List<EnemyAI>();
-    private SpriteRenderer lifestealImage;
+    [HideInInspector] public SpriteRenderer lifestealImage;
     public bool lifestealStart;
     public TextMeshProUGUI uiCounter;
 
@@ -515,7 +515,7 @@ public class Attack : MonoBehaviour
                         if (attackTimer.IsActive() && enemy != null && enemy.team == Team.oddle && enemy.invincibilityTimer.IsUseable() && enemy.PathLength(true) <= 15f)
                         {
                             //Calculate knockback
-                            Vector2 direction = ((Vector2)enemy.transform.position - (Vector2)transform.position).normalized;
+                            Vector2 direction = ((Vector2)enemy.transform.position - (Vector2)transform.position).normalized * enemy.knockbackRatio;
                             //Damage enemy
                             enemy.Damage(damage, true, true, direction, knockback);
                         }

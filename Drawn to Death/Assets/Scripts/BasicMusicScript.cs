@@ -57,7 +57,7 @@ public class BasicMusicScript : MonoBehaviour
         {
             EnemyAI enemy = obj.GetComponent<EnemyAI>();
             //Is this enemy on the oddle team and trying to attack
-            if (enemy != null && enemy.team == Team.oddle && (enemy.state == State.chase || enemy.state == State.attack))
+            if (enemy != null && !(enemy is DoodleBars) && enemy.team == Team.oddle && (enemy.state == State.chase || enemy.state == State.attack))
             {
                 //Increment the intensity 
                 total += intensityPerEnemy;

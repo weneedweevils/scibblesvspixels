@@ -306,6 +306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 2
   state: 0
+  type: 4
   isolated: 0
   health: 150
   maxHealth: 150
@@ -314,6 +315,9 @@ MonoBehaviour:
   attackCooldown: 100
   attackDistance: -1
   slowdownFactor: 3
+  stunCooldownRatio: 0.7
+  knockbackRatio: 1
+  killReward: 0
   moving: 1
   targetSeeker: {fileID: 8639319312470385590}
   playerSeeker: {fileID: 4189887901981635619}
@@ -325,7 +329,6 @@ MonoBehaviour:
   slowed: 0
   lifestealing: 0
   slowDuration: 0
-  buffDuration: 0
   buffed: 0
   movementCollider: {fileID: 756136004653378014}
   healthBar: {fileID: 1438910299221223785}

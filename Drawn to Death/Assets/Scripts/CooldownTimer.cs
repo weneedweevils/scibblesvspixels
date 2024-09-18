@@ -97,6 +97,11 @@ public class CooldownTimer
         cooldownDuration = cooldownValue;
     }
 
+    public void SetDuration(float durationValue)
+    {
+        activeduration = durationValue;
+    }
+
     public void Connect(CooldownBarBehaviour bar)
     {
         cooldownBar = bar;

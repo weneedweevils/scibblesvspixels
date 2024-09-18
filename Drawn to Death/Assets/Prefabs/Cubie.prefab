@@ -229,9 +229,10 @@ MonoBehaviour:
   maxHealth: 30
   speed: 200
   damage: 9
-  attackCooldown: 5
+  attackCooldown: 3
   attackDistance: 40
   slowdownFactor: 3
+  moving: 1
   targetSeeker: {fileID: 6909617949889408915}
   playerSeeker: {fileID: 4562456546076731574}
   seekDistance: 150
@@ -242,7 +243,6 @@ MonoBehaviour:
   slowed: 0
   lifestealing: 0
   slowDuration: 5
-  buffDuration: 6
   buffed: 0
   movementCollider: {fileID: 896092914398761739}
   healthBar: {fileID: 7080362902095066479}
@@ -256,6 +256,7 @@ MonoBehaviour:
     type: 3}
   DarkProjectileObject: {fileID: 8362002342163769882, guid: 174bf031ab0d5473ba2186f264f4278e,
     type: 3}
+  maxRallyBullets: 10
   cutscene: 0
 --- !u!50 &4562456546076731576
 Rigidbody2D:

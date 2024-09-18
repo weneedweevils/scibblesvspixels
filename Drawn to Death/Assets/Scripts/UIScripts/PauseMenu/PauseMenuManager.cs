@@ -59,6 +59,11 @@ public class PauseMenuManager : MonoBehaviour
     //public int Menu = 1;
     public bool paused = false;
 
+    // ENEMY OBJECTS //
+    [Header("ENEMY OBJECTS")]
+    public GameObject EnemiesObject;
+    public GameObject BlockersObject;
+
 
 
     private void Awake()
@@ -91,6 +96,8 @@ public class PauseMenuManager : MonoBehaviour
     public void GoToControls()
     {
         menuStateMachine.ChangeState(controlsState);
+        EnemiesObject.SetActive(false);
+        BlockersObject.SetActive(false);
     }
 
 
@@ -99,6 +106,11 @@ public class PauseMenuManager : MonoBehaviour
     {
         menuStateMachine.GoBackState();
         PlayBackSound();
+        if (menuStateMachine.currentMenu == pauseState)
+        {
+            EnemiesObject.SetActive(true);
+            BlockersObject.SetActive(true);
+        }
     }
 
 

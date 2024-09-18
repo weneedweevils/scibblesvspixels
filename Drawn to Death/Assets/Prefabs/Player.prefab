@@ -404,10 +404,12 @@ MonoBehaviour:
   animator: {fileID: 0}
   recallCooldown: 15
   allyHealPercentage: 0.3
-  allyStrModifier: 2
-  allySpdModifier: 2
+  allyStrModifier: 1.5
+  allySpdModifier: 1.5
   allyAtkSpdModifier: 0.5
   allyBuffDuration: 5
+  crabSpdModifier: 2
+  crabAtkSpdModifier: 0.2
   pencil: {fileID: 3034122452498883460}
   recallBar: {fileID: 0}
   animationDone: 1
@@ -733,9 +735,11 @@ MonoBehaviour:
   lifestealRadius: 20
   lifestealCooldown: 10
   targetDistanceLifesteal: 100
-  lifestealDamage: 14
+  lifestealDamage: 15
   lifestealDuration: 5
   lifestealBar: {fileID: 0}
+  lifestealRatio: 0
+  lifestealImage: {fileID: 0}
   lifestealStart: 0
   uiCounter: {fileID: 0}
   animator: {fileID: 0}
