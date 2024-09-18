@@ -62,13 +62,15 @@ public class OodlerSlam : OodlerBase
             // This will continue to move the hand down on glich
             if (!reachedTarget)
             {
-                boss.Slam();
+                //boss.Slam();
+
+
 
                 // activates the attack hitbox a few units above gliches position
-                if (boss.transform.position.y < boss.GetLastPosition().y + 0.01f)
-                {
-                    boss.EnableAttackHitbox(true);
-                }
+                // if (boss.transform.position.y < boss.GetLastPosition().y + 0.01f)
+                // {
+                //     boss.EnableAttackHitbox(true);
+                // }
             }
 
             // Logic for once we hit the ground
@@ -110,5 +112,8 @@ public class OodlerSlam : OodlerBase
     public void AnimationOffset(){
     
     }
+
+
+  
 }
 
