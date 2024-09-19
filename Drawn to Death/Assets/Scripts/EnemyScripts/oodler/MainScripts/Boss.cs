@@ -18,7 +18,6 @@ public class Boss : MonoBehaviour
     // Private variables
     public Rigidbody2D Rigidbody { get; set; }
     public Animator animator;
-    private Animator shadowAnimator;
     private SpriteRenderer oodlerSprite;
  
 
@@ -52,7 +51,9 @@ public class Boss : MonoBehaviour
     
 
     [Header ("Shadow Reference")]
+    public GameObject oodlerShadowObject;
     public SpriteRenderer oodlerShadow;
+    public Animator shadowAnimator;
    
 
 
@@ -163,7 +164,11 @@ public class Boss : MonoBehaviour
         currentHealthUI.text = CurrentHealth.ToString();
         maxHealthUI.text = MaxHealth.ToString();
 
-        shadowAnimator = oodlerShadow.GetComponent<Animator>();
+
+        //shadowAnimator = oodlerShadowObject.GetComponentInChildren<Animator>();
+        //oodlerShadow = oodlerShadowObject.GetComponentInChildren<SpriteRenderer>();
+
+
         animator = GetComponentInChildren<Animator>();
         oodlerSprite = GetComponentInChildren<SpriteRenderer>();
 
@@ -172,9 +177,14 @@ public class Boss : MonoBehaviour
         invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
         healthBarImage = healthBar.GetComponent<UnityEngine.UI.Image>();
         oodlerRB = GetComponent<Rigidbody2D>();
+      
 
         dropZoneCorrected = new Vector3(dropZoneObject.transform.position.x, dropZoneObject.transform.position.y + 10f, 0);
         dropZone = new Vector3(dropZoneObject.transform.position.x, dropZoneObject.transform.position.y, 0);
+
+        Debug.Log("My Rigidbody is" + oodlerRB);
+        Debug.Log("my shadow is" + shadowAnimator);
+        Debug.Log("My shadow sprite is" + oodlerShadow);
     }
 
     // Damage Function will damage the oodler and check if they are dead
@@ -235,11 +245,11 @@ public class Boss : MonoBehaviour
     private void CheckSpriteDirection(){
         if(transform.position.x - Glich.transform.position.x >= 0){
             oodlerSprite.flipX = true;
-            oodlerShadow.GetComponent<SpriteRenderer>().flipX = true; // might need to change this so I only have to reference it
+            oodlerShadow.flipX = true; // might need to change this so I only have to reference it
         }
         else{
              oodlerSprite.flipX = false;
-               oodlerShadow.GetComponent<SpriteRenderer>().flipX = false;
+               oodlerShadow.flipX = false;
         }
     }
 
@@ -252,7 +262,7 @@ public class Boss : MonoBehaviour
     // This function shows the attack
     public void ShowAttack()
     {
-        oodlerShadow.color = new Color(255, 0, 0, 1f);
+        //oodlerShadow.color = new Color(255, 0, 0, 1f);
     }
 
     // This function hides the oodlers shadow
@@ -498,7 +508,7 @@ public class Boss : MonoBehaviour
         Vector3 spriteOffset = transform.position;
         spriteOffset.y = transform.position.y - 12f;
         //oodlerShadow.transform.position = spriteOffset;
-        oodlerShadow.GetComponent<Rigidbody2D>().MovePosition(spriteOffset);
+        oodlerShadowObject.GetComponent<Rigidbody2D>().MovePosition(spriteOffset);
 
         Debug.Log("Moving Shadow to " + spriteOffset);
 
