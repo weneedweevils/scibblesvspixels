@@ -18,6 +18,7 @@ public class Boss : MonoBehaviour
     // Private variables
     public Rigidbody2D Rigidbody { get; set; }
     public Animator animator;
+    private Animator shadowAnimator;
     private SpriteRenderer oodlerSprite;
  
 
@@ -162,6 +163,7 @@ public class Boss : MonoBehaviour
         currentHealthUI.text = CurrentHealth.ToString();
         maxHealthUI.text = MaxHealth.ToString();
 
+        shadowAnimator = oodlerShadow.GetComponent<Animator>();
         animator = GetComponentInChildren<Animator>();
         oodlerSprite = GetComponentInChildren<SpriteRenderer>();
 
@@ -233,7 +235,7 @@ public class Boss : MonoBehaviour
     private void CheckSpriteDirection(){
         if(transform.position.x - Glich.transform.position.x >= 0){
             oodlerSprite.flipX = true;
-            oodlerShadow.GetComponent<SpriteRenderer>().flipX = true;
+            oodlerShadow.GetComponent<SpriteRenderer>().flipX = true; // might need to change this so I only have to reference it
         }
         else{
              oodlerSprite.flipX = false;
@@ -279,6 +281,10 @@ public class Boss : MonoBehaviour
             return true;
         }
       
+    }
+
+    public Animator GetShadow(){
+        return shadowAnimator;
     }
 
 
@@ -383,6 +389,7 @@ public class Boss : MonoBehaviour
         oodlerRB.MovePosition(Vector3.MoveTowards(transform.position,runGroundPosition,step));
         if(Vector3.Distance(transform.position,runGroundPosition)<0.3f){
             animator.SetTrigger("Walk");
+            shadowAnimator.SetTrigger("Walk");
             oodlerRunDestination = (Glich.transform.position-transform.position).normalized;
             HideShadow();
             return true;
@@ -398,6 +405,7 @@ public class Boss : MonoBehaviour
         CheckSpriteDirection();
          if(Vector3.Distance(transform.position,Glich.transform.position+oodlerRunDestination*20f)<0.3f){
             animator.SetTrigger("Idle");
+            shadowAnimator.SetTrigger("Idle");
             return true;
         }else{
             return false;
@@ -452,7 +460,7 @@ public class Boss : MonoBehaviour
     {
         var step = speed * Time.deltaTime;
         oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, glichLastPosition, step));
-        oodlerSprite.transform.position = Vector3.MoveTowards(transform.position, oodlerAirPosition, step);
+        //oodlerSprite.transform.position = Vector3.MoveTowards(transform.position, oodlerAirPosition, step);
 
         //oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, oodlerShadow.transform.position, step));
     }
@@ -491,6 +499,8 @@ public class Boss : MonoBehaviour
         spriteOffset.y = transform.position.y - 12f;
         //oodlerShadow.transform.position = spriteOffset;
         oodlerShadow.GetComponent<Rigidbody2D>().MovePosition(spriteOffset);
+
+        Debug.Log("Moving Shadow to " + spriteOffset);
 
     }
 

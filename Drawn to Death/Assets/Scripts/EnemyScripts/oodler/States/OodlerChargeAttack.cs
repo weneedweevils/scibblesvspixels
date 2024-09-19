@@ -19,6 +19,8 @@ public class OodlerChargeAttack : OodlerBase
     {
         base.EnterState();
         Debug.Log("Entering Attack State");
+        boss.animator.SetTrigger("SlamWindUp");
+        boss.GetShadow().SetTrigger("SlamWindUp");
         // change colour to red
         //boss.ShowAttack();
 

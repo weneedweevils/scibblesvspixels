@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class OodlerSlam : OodlerBase
 {
     bool reachedTarget = false;
-    bool delay = true;
+    bool delay = false;
     private float timer = 0f;
     private float delayTimer = 0f;
+    private bool slamFrame = false;
+
+    private AnimationEventNotifier animationEventNotifier;
 
     public OodlerSlam(Boss boss, OodlerStateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
@@ -23,13 +27,19 @@ public class OodlerSlam : OodlerBase
     {
         boss.grabbing = false;
         base.EnterState();
+
         timer = 0f;
         delayTimer = 0f;    
+        delay = false;
+
         reachedTarget = false;
+
         boss.SetLastPosition();
         boss.SetAirPosition();
-        delay = true;
         boss.ShowAttack();
+
+        animationEventNotifier = boss.GetComponentInChildren<AnimationEventNotifier>(); //get animation event notifier
+        animationEventNotifier.SlamNotifier += AnimationOffset;
         
     }
 
@@ -40,80 +50,86 @@ public class OodlerSlam : OodlerBase
         boss.SetSlamCooldown(false); // set the cooldown back
         base.ExitState();
         boss.SlamNum++;
+        animationEventNotifier.SlamNotifier -= AnimationOffset;
+        
+
     }
 
     public override void FrameUpdate()
     {
         base.FrameUpdate();
 
-        // if the delay is over
-        if (!delay)
-        {
-            // disable collider once we reach the ground and set reach target to true
-            if (!reachedTarget && boss.ReachedPlayerReal())
-            {
+
+        // delay check
+        if(!delay){
+            delay=OnDelay();
+        }
+
+        // check to see if we have reached the players location 
+        else if(!reachedTarget && boss.ReachedPlayerReal() && slamFrame){
                 reachedTarget = true;
                 boss.EnableAttackHitbox(false);
                 boss.SetSlamCooldown(true); // set to true so that the oodler does not hurt anyone on the ground
                 boss.HideShadow();
                 boss.SetBossVulnerability(true);
-            }
-
-            // This will continue to move the hand down on glich
-            if (!reachedTarget)
-            {
-                //boss.Slam();
-
-
-
-                // activates the attack hitbox a few units above gliches position
-                // if (boss.transform.position.y < boss.GetLastPosition().y + 0.01f)
-                // {
-                //     boss.EnableAttackHitbox(true);
-                // }
-            }
-
-            // Logic for once we hit the ground
-            else
-            {
-                timer += Time.deltaTime;
-                // if the oodler has been on the ground for more than 5 seconds get up
-                if (timer > boss.bossVulnerabilityTime)
-                {
-                    
-                    oodlerStateMachine.ChangeState(boss.oodlerRecover);
-                    boss.ChangeSpriteSortingOrder(8);
-                    
-                }
-            }
-
+                boss.animator.SetTrigger("Idle");
+                boss.GetShadow().SetTrigger("Idle");
         }
 
-        // a few seconds of delay to give player time to react
-        else
-        {
 
-            delayTimer += Time.deltaTime;
-            if (delayTimer > boss.slamWarningTime)
+        // check to see if 
+        else if(!reachedTarget && slamFrame){
+            boss.Slam();
+
+            if (boss.transform.position.y < boss.GetLastPosition().y + 0.01f)
+                {
+                    boss.EnableAttackHitbox(true);
+                }
+        }
+
+        // Logic for once we hit the ground
+        else if (reachedTarget)
+        {
+            timer += Time.deltaTime;
+            // if the oodler has been on the ground for more than 5 seconds get up
+            if (timer > boss.bossVulnerabilityTime)
             {
-               
-                boss.ChangeSpriteSortingOrder(5);
+                
+                oodlerStateMachine.ChangeState(boss.oodlerRecover);
+                boss.ChangeSpriteSortingOrder(8);
+                
+            }
+        }
+    }
+    
+
+    
+
+    // This method is supposed to offset the slam
+    public void AnimationOffset(){
+        slamFrame = true;
+        Debug.Log("THE SLAM HAS STARTED");
+    }
+
+
+
+    // Function will return false until the delay is over
+    public bool OnDelay(){
+        delayTimer+=Time.deltaTime;
+        if(delayTimer > boss.slamWarningTime){
+            boss.ChangeSpriteSortingOrder(5);
                 Debug.Log("about to strike my hand down");
                 delay = false;
                 boss.EnableAreaHitbox(true);
                 boss.animator.SetTrigger("Slam");
-
-            }
+                boss.GetShadow().SetTrigger("Slam");
+                return true;
+        }
+        else{
+            return false;
         }
 
     }
-    
-    // This method is supposed to offset the slam
-    public void AnimationOffset(){
-    
-    }
-
-
   
 }
 
