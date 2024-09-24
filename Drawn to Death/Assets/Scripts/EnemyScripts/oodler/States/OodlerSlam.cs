@@ -9,8 +9,9 @@ public class OodlerSlam : OodlerBase
     bool delay = false;
     private float timer = 0f;
     private float delayTimer = 0f;
-    private bool slamFrame = false;
+    private bool isSlamFrame = false;
 
+    private bool slamWasActivated = false;
     private AnimationEventNotifier animationEventNotifier;
 
     public OodlerSlam(Boss boss, OodlerStateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
@@ -26,6 +27,10 @@ public class OodlerSlam : OodlerBase
     public override void EnterState()
     {
         boss.grabbing = false;
+        slamWasActivated = false;
+        reachedTarget = false;
+        isSlamFrame = false;
+
         base.EnterState();
 
         timer = 0f;
@@ -40,6 +45,7 @@ public class OodlerSlam : OodlerBase
 
         animationEventNotifier = boss.GetComponentInChildren<AnimationEventNotifier>(); //get animation event notifier
         animationEventNotifier.SlamNotifier += AnimationOffset;
+        animationEventNotifier.HitBoxActive += ActivateHitbox;
         
     }
 
@@ -51,6 +57,7 @@ public class OodlerSlam : OodlerBase
         base.ExitState();
         boss.SlamNum++;
         animationEventNotifier.SlamNotifier -= AnimationOffset;
+        animationEventNotifier.HitBoxActive -= ActivateHitbox;
         
 
     }
@@ -66,30 +73,29 @@ public class OodlerSlam : OodlerBase
         }
 
         // check to see if we have reached the players location 
-        else if(!reachedTarget && boss.ReachedPlayerReal() && slamFrame){
+        else if(!reachedTarget && boss.ReachedPlayerReal() && isSlamFrame && slamWasActivated){
                 reachedTarget = true;
-                boss.EnableAttackHitbox(false);
+               
                 boss.SetSlamCooldown(true); // set to true so that the oodler does not hurt anyone on the ground
                 boss.HideShadow();
                 boss.SetBossVulnerability(true);
                 boss.animator.SetTrigger("Idle");
                 boss.GetShadow().SetTrigger("Idle");
+                Debug.Log("DISABLING ATTACK HITBOX");
+                boss.EnableAttackHitbox(false);
         }
 
 
         // check to see if 
-        else if(!reachedTarget && slamFrame){
+        else if(!reachedTarget && isSlamFrame){
             boss.Slam();
-
-            if (boss.transform.position.y < boss.GetLastPosition().y + 0.01f)
-                {
-                    boss.EnableAttackHitbox(true);
-                }
         }
 
         // Logic for once we hit the ground
         else if (reachedTarget)
         {
+            
+            
             timer += Time.deltaTime;
             // if the oodler has been on the ground for more than 5 seconds get up
             if (timer > boss.bossVulnerabilityTime)
@@ -107,9 +113,16 @@ public class OodlerSlam : OodlerBase
 
     // This method is supposed to offset the slam
     public void AnimationOffset(){
-        slamFrame = true;
+        isSlamFrame = true;
         Debug.Log("THE SLAM HAS STARTED");
     }
+
+    public void ActivateHitbox(){
+        Debug.Log("Enabled attack Hitbox");
+        boss.EnableAttackHitbox(true);
+        slamWasActivated = true;
+    }
+
 
 
 

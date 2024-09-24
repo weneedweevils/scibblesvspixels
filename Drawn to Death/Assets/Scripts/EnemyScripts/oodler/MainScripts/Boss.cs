@@ -262,7 +262,7 @@ public class Boss : MonoBehaviour
     // This function shows the attack
     public void ShowAttack()
     {
-        //oodlerShadow.color = new Color(255, 0, 0, 1f);
+        oodlerShadow.color = new Color(255, 0, 0, 1f);
     }
 
     // This function hides the oodlers shadow
@@ -274,7 +274,7 @@ public class Boss : MonoBehaviour
      public void ChangeSpriteSortingOrder(int sortingLayer){
         oodlerSprite.sortingOrder = sortingLayer;
     }
-
+    
 
      // this function will increase the alpha value slowly and reveal the outline of where the hand will slam
     public bool RevealAttack()
@@ -510,8 +510,6 @@ public class Boss : MonoBehaviour
         //oodlerShadow.transform.position = spriteOffset;
         oodlerShadowObject.GetComponent<Rigidbody2D>().MovePosition(spriteOffset);
 
-        Debug.Log("Moving Shadow to " + spriteOffset);
-
     }
 
 
@@ -596,7 +594,7 @@ public class Boss : MonoBehaviour
     // this function will return a bool if the oodler has reached the glichs offset position
     public bool ReachedPlayer()
     {
-        if (transform.position == playerOffSet)
+        if (Vector3.Distance(transform.position,playerOffSet)<0.3f)
         {
             return true;
         }
@@ -609,7 +607,7 @@ public class Boss : MonoBehaviour
     // this function will return a bool if the oodler has reached gliches actual position
     public bool ReachedPlayerReal()
     {
-        if (transform.position == glichLastPosition)
+        if (Vector3.Distance(transform.position,glichLastPosition)<0.3f)
         {
            
             return true;
