@@ -32,8 +32,13 @@ public class PauseMenuManager : MonoBehaviour
     public KeyboardRebindState keyboardRebindState;
 
     // PlAYER MOVEMENT //
+     [Header("Player and Input")]
     public PlayerMovement player;
 
+    public GameObject BottomHud;
+
+    public GameObject UpperHud;
+    
     public GameObject inputHandler;
 
     [HideInInspector]

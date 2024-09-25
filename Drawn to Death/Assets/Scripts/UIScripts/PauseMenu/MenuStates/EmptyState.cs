@@ -34,8 +34,6 @@ public class EmptyState : MenuBaseState
         Resume();
         pauseMenuManager.playerInput.SwitchCurrentActionMap("Player");
        
-
-       
     }
 
     public override void ExitState()
@@ -53,6 +51,8 @@ public class EmptyState : MenuBaseState
         pauseMenuManager.PauseMenu.SetActive(false);
         Time.timeScale = 1f;
         pauseMenuManager.paused = false;
+        pauseMenuManager.BottomHud.SetActive(true);
+        pauseMenuManager.UpperHud.SetActive(true);
 
     }
     
@@ -60,6 +60,7 @@ public class EmptyState : MenuBaseState
     {
         Time.timeScale = 0f;
         pauseMenuManager.paused = true;
+        pauseMenuManager.BottomHud.SetActive(false);
   
     
  
