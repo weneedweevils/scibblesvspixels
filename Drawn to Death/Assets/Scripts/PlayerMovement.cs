@@ -126,7 +126,28 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public GameObject armsObject;
     public bool isGamepad = false;
     private Vector2 aimDirection;
-    private PlayerInput playerInput; 
+    private PlayerInput playerInput;
+
+    public static PlayerMovement instance;
+
+    protected virtual void Awake()
+    {
+        // If an instance already exists and it's not this one, destroy this instance
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+
+    protected virtual void OnDestroy()
+    {
+        // Reset the instance to null when the object is destroyed
+        if (instance == this) instance = null;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -443,7 +464,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
         else
         {
-               return DialogueManager.Instance.dialogueActive;
+            return DialogueManager.Instance.dialogueActive || Pause.PauseManager.paused;
         }
     }
 

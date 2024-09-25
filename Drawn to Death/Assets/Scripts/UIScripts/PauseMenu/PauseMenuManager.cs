@@ -64,7 +64,7 @@ public class PauseMenuManager : MonoBehaviour
     public GameObject BlockersObject;
 
 
-
+    
     private void Awake()
     {
         menuStateMachine = new MenuStateMachine();
@@ -81,18 +81,18 @@ public class PauseMenuManager : MonoBehaviour
         
 
     }
-
+    
     // Initialize to the Empty State //
     private void Start()
     {
         menuStateMachine.Initialize(emptyState);
     }
-
+    
     private void Update()
     {
         menuStateMachine.currentMenu.FrameUpdate();
     }
-
+    
 
     // function to go to the control screen state//
     public void GoToControls()
