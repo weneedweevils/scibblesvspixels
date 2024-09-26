@@ -279,7 +279,6 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             Debug.Log(action);
             // Configure the rebind.
             m_RebindOperation = action.PerformInteractiveRebinding(bindingIndex)
-                .WithControlsExcluding("<Mouse>/leftButton")
                 .WithControlsExcluding("<Pointer>/position") 
                 .WithControlsExcluding("<Pointer>/delta") 
                 .WithControlsExcluding("<Pointer>/{PrimaryAction}")

@@ -7362,6 +7362,7 @@ GameObject:
   m_Component:
   - component: {fileID: 379005660}
   - component: {fileID: 379005661}
+  - component: {fileID: 379005662}
   m_Layer: 5
   m_Name: SkipCutsceneObject
   m_TagString: SkipCutsceneObject
@@ -7409,6 +7410,35 @@ MonoBehaviour:
   dataPersistenceManager: {fileID: 1621257184}
   hud: {fileID: 338816385}
   dialogueManager: {fileID: 405574015}
+--- !u!114 &379005662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 379005659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: f938e345b71124a5cac20bc1eecebf7f, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 379005661}
+          m_MethodName: OnDisable
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &399539650
 GameObject:
   m_ObjectHideFlags: 0
@@ -32404,7 +32434,7 @@ PlayableDirector:
   - key: {fileID: 715672769145611423, guid: a0c42ff9cb3609e4fa0aab614078ecad, type: 2}
     value: {fileID: 0}
   - key: {fileID: -166327778409299664, guid: a0c42ff9cb3609e4fa0aab614078ecad, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 379005662}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &803596360

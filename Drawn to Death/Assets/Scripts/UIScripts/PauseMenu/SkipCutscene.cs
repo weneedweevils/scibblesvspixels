@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
+using UnityEngine.Timeline;
 using UnityEngine.UI;
 
 public class SkipCutscene : MonoBehaviour
@@ -22,6 +23,8 @@ public class SkipCutscene : MonoBehaviour
     public DataPersistenceManager dataPersistenceManager;
     public GameObject hud;
     public DialogueManager dialogueManager;
+
+
 
 
     private bool isPressed;
