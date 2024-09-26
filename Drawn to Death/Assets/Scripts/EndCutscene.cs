@@ -22,7 +22,7 @@ public class EndCutscene : MonoBehaviour
     public float scrollSpeed;
     private bool skipped = false;
 
-    private PlayerInput playerInput;
+    public PlayerInput playerInput;
 
     // Start is called before the first frame update
     void Start()
@@ -31,9 +31,7 @@ public class EndCutscene : MonoBehaviour
         menuButton.SetActive(false);
         instance = FMODUnity.RuntimeManager.CreateInstance(fmodEvent);
         instance.start();
-        //skipButton.onClick.AddListener(() => { SkipVideo(); });
-        playerInput = GetComponent<PlayerInput>();
-}
+    }
 
     public void SkipVideo()
     {
