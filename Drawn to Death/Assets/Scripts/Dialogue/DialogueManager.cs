@@ -70,10 +70,13 @@ public class DialogueManager : MonoBehaviour
         if (dialogueParentContainer == null)
             Debug.LogError("Error in DialogueManager - dialogueParentContainer is null");
 
-        playerInput = inputHandler.GetComponent<PlayerInput>();
-        
         fancyFont = (PlayerPrefs.GetInt("fancyFont", 1) != 0);
         Debug.LogFormat("Fancy Font: {0}", (fancyFont?"ON":"OFF"));
+    }
+
+    public void Start()
+    {
+        playerInput = CustomInput.instance.playerInput;
     }
 
     public void StartDialogue(DialogueSequence dialogueSequence)

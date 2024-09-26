@@ -15,7 +15,7 @@ namespace Pause
         public GameObject[] deactivate;
         private static MenuButton backButton = null;
         public static bool paused = false;
-        private static PlayerInput playerInput;
+        private PlayerInput playerInput;
 
         private static Dictionary<Sound, string> SFXMap = new Dictionary<Sound, string>()
         {
@@ -27,7 +27,7 @@ namespace Pause
 
         public void Start()
         {
-            playerInput = PlayerMovement.instance.GetComponent<PlayerInput>();
+            playerInput = CustomInput.instance.playerInput;
             Pause(false);
         }
 
@@ -67,11 +67,11 @@ namespace Pause
             paused = pause;
             if (paused)
             {
-                playerInput.SwitchCurrentActionMap("UI");
+                instance.playerInput.SwitchCurrentActionMap("UI");
             }
             else
             {
-                playerInput.SwitchCurrentActionMap("Player");
+                instance.playerInput.SwitchCurrentActionMap("Player");
             }
             foreach (GameObject obj in instance.activate) obj.SetActive(paused);
             foreach (GameObject obj in instance.deactivate) obj.SetActive(!paused);

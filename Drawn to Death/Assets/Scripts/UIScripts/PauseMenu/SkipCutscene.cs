@@ -36,7 +36,7 @@ public class SkipCutscene : MonoBehaviour
 
     private void Awake()
     {
-        playerInput = inputHandler.GetComponent<PlayerInput>();
+        playerInput = CustomInput.instance.playerInput;
         progressSlider = GetComponentInChildren<Slider>();
     }
     // Start is called before the first frame update

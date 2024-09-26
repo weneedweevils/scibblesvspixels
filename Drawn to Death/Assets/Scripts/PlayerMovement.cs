@@ -18,7 +18,7 @@ using System.Threading;
 using UnityEngine.InputSystem;
 using System.Xml.Serialization;
 
-public class PlayerMovement : MonoBehaviour, IDataPersistence
+public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 {
     //Movement Checks
     [Header("Physics")]
@@ -131,31 +131,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     [HideInInspector]
     public PlayerInput playerInput;
     
-    public static PlayerMovement instance;
-
-    protected virtual void Awake()
-    {
-        // If an instance already exists and it's not this one, destroy this instance
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            instance = this;
-            playerInput = inputHandler.GetComponent<PlayerInput>();
-        }
-    }
-
-    protected virtual void OnDestroy()
-    {
-        // Reset the instance to null when the object is destroyed
-        if (instance == this) instance = null;
-    }
-    
     // Start is called before the first frame update
     void Start()
     {
+        playerInput = CustomInput.instance.playerInput;
+
         cam = Camera.main;
         noZoom = cam.orthographicSize;
         targetZoom = cam.orthographicSize;

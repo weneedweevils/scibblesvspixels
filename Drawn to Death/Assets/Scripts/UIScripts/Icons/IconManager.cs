@@ -14,7 +14,7 @@ public class IconManager : MonoBehaviour
 
     void Start()
     {
-        PlayerInput playerInput = GameObject.Find("Player").GetComponent<PlayerInput>();
+        PlayerInput playerInput = CustomInput.instance.playerInput;
 
     }
 

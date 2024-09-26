@@ -82,7 +82,7 @@ public class PauseMenuManager : MonoBehaviour
         menuState = new MenuState(this, menuStateMachine);
         keyboardRebindState = new KeyboardRebindState(this, menuStateMachine);
         controllerRebindState = new ControllerRebindState(this, menuStateMachine);
-        playerInput = inputHandler.GetComponent<PlayerInput>();
+        playerInput = CustomInput.instance.playerInput;
     }
     
     // Initialize to the Empty State //

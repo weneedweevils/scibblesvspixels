@@ -128,14 +128,12 @@ public class Attack : MonoBehaviour
         // Get a reference to the script that controls the lifestealFMOD event
         lifestealFmod = FMODUnity.RuntimeManager.CreateInstance(lifestealSfx);
         isHit = 0;
-
-
-        playerInput = inputHandler.GetComponent<PlayerInput>();
-        
-
-
     }
 
+    public void Start()
+    {
+        playerInput = CustomInput.instance.playerInput;
+    }
 
     // Update is called once per frame
     void Update()
