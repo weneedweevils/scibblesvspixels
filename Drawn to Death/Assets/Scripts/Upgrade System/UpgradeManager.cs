@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class UpgradeManager : MonoBehaviour, IDataPersistence
+public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
 {
-    public static UpgradeManager instance { get; private set; }
-
     public bool loadLevels;
 
     [Header("Shop")]
@@ -23,15 +21,6 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
     public TMP_FontAsset basicFont;
     public TMP_FontAsset fancyFont;
     public float fontSize;
-
-    public void Awake()
-    {
-        if (instance != null)
-        {
-            Debug.LogError("Found more than one Upgrade Manager in the scene");
-        }
-        instance = this;
-    }
 
     public void Start()
     {

@@ -972,7 +972,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9973ea964ecee74c95ada499ddc77af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volumeControllerObject: {fileID: 0}
   masterVolSlider: {fileID: 7350223519973880252}
   musicVolSlider: {fileID: 1691614439562581427}
   sfxVolSlider: {fileID: 6979168990204186959}
@@ -1891,7 +1890,7 @@ PrefabInstance:
     - target: {fileID: 8726976692567699626, guid: 22c6a0eb8bb20774ba830ade1bbe29f7,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8726976692567699626, guid: 22c6a0eb8bb20774ba830ade1bbe29f7,
         type: 3}
@@ -1901,7 +1900,7 @@ PrefabInstance:
     - target: {fileID: 8726976692567699626, guid: 22c6a0eb8bb20774ba830ade1bbe29f7,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: CancelInvoke
+      value: SFXSliderChange
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22c6a0eb8bb20774ba830ade1bbe29f7, type: 3}
@@ -2068,7 +2067,7 @@ PrefabInstance:
     - target: {fileID: 8726976692567699626, guid: 22c6a0eb8bb20774ba830ade1bbe29f7,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8726976692567699626, guid: 22c6a0eb8bb20774ba830ade1bbe29f7,
         type: 3}
@@ -2078,7 +2077,7 @@ PrefabInstance:
     - target: {fileID: 8726976692567699626, guid: 22c6a0eb8bb20774ba830ade1bbe29f7,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: CancelInvoke
+      value: MasterSliderChange
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22c6a0eb8bb20774ba830ade1bbe29f7, type: 3}
@@ -2729,7 +2728,7 @@ PrefabInstance:
     - target: {fileID: 8726976692567699626, guid: 22c6a0eb8bb20774ba830ade1bbe29f7,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8726976692567699626, guid: 22c6a0eb8bb20774ba830ade1bbe29f7,
         type: 3}
@@ -2739,7 +2738,7 @@ PrefabInstance:
     - target: {fileID: 8726976692567699626, guid: 22c6a0eb8bb20774ba830ade1bbe29f7,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: CancelInvoke
+      value: MusicSliderChange
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22c6a0eb8bb20774ba830ade1bbe29f7, type: 3}

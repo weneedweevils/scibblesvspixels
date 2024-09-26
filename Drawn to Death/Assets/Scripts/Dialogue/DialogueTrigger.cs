@@ -22,7 +22,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (activationMethod == TriggerMode.OnStart && activeTrigger)
         {
-            DialogueManager.Instance.StartDialogue(dialogueSequence);
+            DialogueManager.instance.StartDialogue(dialogueSequence);
             activeTrigger = false;
             gameObject.SetActive(false);
         }
@@ -32,7 +32,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (activationMethod == TriggerMode.OnEnable && activeTrigger)
         {
-            DialogueManager.Instance.StartDialogue(dialogueSequence);
+            DialogueManager.instance.StartDialogue(dialogueSequence);
             activeTrigger = false;
             gameObject.SetActive(false);
         }
@@ -42,7 +42,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (activationMethod == TriggerMode.OnDisable && activeTrigger)
         {
-            DialogueManager.Instance.StartDialogue(dialogueSequence);
+            DialogueManager.instance.StartDialogue(dialogueSequence);
             activeTrigger = false;
             gameObject.SetActive(false);
         }
@@ -52,7 +52,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player" && activationMethod == TriggerMode.OnTriggerEnter && activeTrigger)
         {
-            DialogueManager.Instance.StartDialogue(dialogueSequence);
+            DialogueManager.instance.StartDialogue(dialogueSequence);
             activeTrigger = false;
             gameObject.SetActive(false);
         }
@@ -62,7 +62,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player" && activationMethod == TriggerMode.OnTriggerExit && activeTrigger)
         {
-            DialogueManager.Instance.StartDialogue(dialogueSequence);
+            DialogueManager.instance.StartDialogue(dialogueSequence);
             activeTrigger = false;
             gameObject.SetActive(false);
         }

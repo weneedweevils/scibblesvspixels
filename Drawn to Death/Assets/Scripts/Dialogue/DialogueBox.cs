@@ -23,11 +23,11 @@ public class DialogueBox : MonoBehaviour
 
     private void Update()
     {
-        if (DialogueManager.Instance.playerInput.actions["SkipText"].triggered)
+        if (DialogueManager.instance.playerInput.actions["SkipText"].triggered)
         {
             if (finished)
             {
-                DialogueManager.Instance.NextDialogue();
+                DialogueManager.instance.NextDialogue();
             }
             else
             {
@@ -37,14 +37,14 @@ public class DialogueBox : MonoBehaviour
             }
         }
 
-        if (DialogueManager.Instance.playerInput.actions["ReloadDialogue"].triggered)
+        if (DialogueManager.instance.playerInput.actions["ReloadDialogue"].triggered)
         {
-            DialogueManager.Instance.ResetDialogue();
+            DialogueManager.instance.ResetDialogue();
         }
 
-        if (DialogueManager.Instance.playerInput.actions["PreviousDialogue"].triggered)
+        if (DialogueManager.instance.playerInput.actions["PreviousDialogue"].triggered)
         {
-            DialogueManager.Instance.PrevDialogue();
+            DialogueManager.instance.PrevDialogue();
         }
     }
 

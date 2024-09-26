@@ -7,7 +7,6 @@ namespace Pause
 {
     public class SettingsUI : MonoBehaviour
     {
-        public GameObject volumeControllerObject;
         private VolumeController volumeController;
         [SerializeField] private Slider masterVolSlider, musicVolSlider, sfxVolSlider;
         [SerializeField] private Toggle fancyFontToggle;
@@ -63,6 +62,7 @@ namespace Pause
         public void FancyFontChange()
         {
             PlayerPrefs.SetInt("fancyFont", (fancyFontToggle.isOn ? 1 : 0));
+            DialogueManager.fancyFont = fancyFontToggle.isOn;
             Debug.LogFormat("Set fancyFont to {0}", PlayerPrefs.GetInt("fancyFont"));
         }
     }

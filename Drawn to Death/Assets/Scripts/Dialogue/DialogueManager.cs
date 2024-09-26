@@ -19,10 +19,8 @@ public enum DialogueSFX
     GlichMad
 }
 
-public class DialogueManager : MonoBehaviour
+public class DialogueManager : Singleton<DialogueManager>
 {
-    //Singleton instance
-    public static DialogueManager Instance { get; private set; }
     public static bool fancyFont;
 
     public Transform dialogueParentContainer;
@@ -55,23 +53,14 @@ public class DialogueManager : MonoBehaviour
         { DialogueSFX.GlichMad, "event:/GlichDialogueMad"}
     };
 
-    private void Awake()
+    protected override void Awake()
     {
-        // Ensure only one instance of InputManager exists
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        base.Awake();
 
         if (dialogueParentContainer == null)
             Debug.LogError("Error in DialogueManager - dialogueParentContainer is null");
 
         fancyFont = (PlayerPrefs.GetInt("fancyFont", 1) != 0);
-        Debug.LogFormat("Fancy Font: {0}", (fancyFont?"ON":"OFF"));
     }
 
     public void Start()

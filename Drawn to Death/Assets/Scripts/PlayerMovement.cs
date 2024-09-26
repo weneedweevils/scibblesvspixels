@@ -446,13 +446,13 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     // Ensures movement is disabled if dialogue wants it to be
     public bool inFreezeDialogue()
     {
-        if (DialogueManager.Instance == null)
+        if (DialogueManager.instance == null)
         {
             return false; 
         }
         else
         {
-            return DialogueManager.Instance.dialogueActive || Pause.PauseManager.paused;
+            return DialogueManager.instance.dialogueActive || Pause.PauseManager.paused;
         }
     }
 
