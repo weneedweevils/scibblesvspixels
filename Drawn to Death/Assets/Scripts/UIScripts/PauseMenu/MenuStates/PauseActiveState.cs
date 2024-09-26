@@ -17,13 +17,16 @@ public class PauseActiveState : MenuBaseState
         base.EnterState();
         pauseMenuManager.PauseMenu.SetActive(true);
         pauseMenuManager.playerInput.SwitchCurrentActionMap("UI");
-        EventSystem.current.SetSelectedGameObject(pauseMenuManager.PauseFirstButton);
+        pauseMenuManager.SetCurrentButton(pauseMenuManager.PauseFirstButton);
+        pauseMenuManager.playerInput.actions.FindAction("Lifesteal").Disable();
+        pauseMenuManager.UpperHud.SetActive(true);
     }
 
     public override void ExitState()
     {
         base.ExitState();
         pauseMenuManager.PauseMenu.SetActive(false);
+        pauseMenuManager.UpperHud.SetActive(false);
         
 
     }

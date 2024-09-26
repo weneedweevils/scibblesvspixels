@@ -14,6 +14,7 @@ public class SettingsState : MenuBaseState
         
         base.EnterState();
         pauseMenuManager.Settings.SetActive(true);
+        pauseMenuManager.SetCurrentButton(pauseMenuManager.SettingsFirstButton);
     }
 
     public override void ExitState()

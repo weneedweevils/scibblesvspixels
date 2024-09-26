@@ -9,32 +9,66 @@ public class IconManager : MonoBehaviour
     public GameObject playstationIcons;
     public GameObject xboxIcons;
     public GameObject kbmIcons;
-
-
+    public GameObject gamepadIcons;
 
 
     void Start()
     {
-        PlayerInput playerInput = GetComponent<PlayerInput>();
-        
+        PlayerInput playerInput = GameObject.Find("Player").GetComponent<PlayerInput>();
 
     }
 
     public void OnDeviceChanged(PlayerInput PI)
     {
         if (PI.currentControlScheme.Equals("Playstation")){
- 
-            playstationIcons.SetActive(true);
-            xboxIcons.SetActive(false);
-            kbmIcons.SetActive(false);
+            ChangeToPlaystation();
         }
 
         if (PI.currentControlScheme.Equals("KBM")){
-            Debug.Log("keyboard");
-            kbmIcons.SetActive(true);
-            playstationIcons.SetActive(false);
-            xboxIcons.SetActive(false);
-            
+            ChangeToKBM();
         }
+
+        if (PI.currentControlScheme.Equals("Xbox"))
+        {
+            ChangeToXbox();
+        }
+
+        if (PI.currentControlScheme.Equals("Gamepad"))
+        {
+            ChangeToGamepad();
+        }
+    }
+
+
+    public void ChangeToPlaystation()
+    {
+        playstationIcons.SetActive(true);
+        xboxIcons.SetActive(false);
+        kbmIcons.SetActive(false);
+        gamepadIcons.SetActive(false);
+    }
+
+    public void ChangeToKBM()
+    {
+        kbmIcons.SetActive(true);
+        playstationIcons.SetActive(false);
+        xboxIcons.SetActive(false);
+        gamepadIcons.SetActive(false);
+    }
+
+    public void ChangeToXbox()
+    {
+        xboxIcons.SetActive(true);
+        playstationIcons.SetActive(false);
+        kbmIcons.SetActive(false);
+        gamepadIcons.SetActive(false);
+    }
+
+    public void ChangeToGamepad()
+    {
+        gamepadIcons.SetActive(true);
+        xboxIcons.SetActive(false);
+        playstationIcons.SetActive(false);
+        kbmIcons.SetActive(false);
     }
 }

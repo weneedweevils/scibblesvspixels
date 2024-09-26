@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,7 +34,8 @@ public class DialogueManager : MonoBehaviour
     private DialogueBox currentDialogue = null;
     private DialogueEntry currentEntry;
 
-    public GameObject player;
+    public GameObject inputHandler;
+    [HideInInspector]
     public PlayerInput playerInput;
 
     private Dictionary<DialogueSFX, string> sfx = new Dictionary<DialogueSFX, string>()
@@ -69,8 +70,8 @@ public class DialogueManager : MonoBehaviour
         if (dialogueParentContainer == null)
             Debug.LogError("Error in DialogueManager - dialogueParentContainer is null");
 
-        playerInput = player.GetComponent<PlayerInput>();
-
+        playerInput = inputHandler.GetComponent<PlayerInput>();
+        
         fancyFont = (PlayerPrefs.GetInt("fancyFont", 1) != 0);
         Debug.LogFormat("Fancy Font: {0}", (fancyFont?"ON":"OFF"));
     }
@@ -138,5 +139,15 @@ public class DialogueManager : MonoBehaviour
     public string DialogueSFXEventPath(DialogueSFX dialogueSFX)
     {
         return sfx[dialogueSFX];
+    }
+
+    public DialogueBox GetCurrentDialogue()
+    {
+        return currentDialogue;
+    }
+
+    public void SetCurrentDialogueNull()
+    {
+        currentDialogue = null;
     }
 }
