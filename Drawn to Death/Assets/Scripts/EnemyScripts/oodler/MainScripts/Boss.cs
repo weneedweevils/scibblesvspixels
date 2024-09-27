@@ -607,13 +607,23 @@ public class Boss : MonoBehaviour
     // this function will return a bool if the oodler has reached gliches actual position
     public bool ReachedPlayerReal()
     {
-        if (Vector3.Distance(transform.position,glichLastPosition)<0.3f)
+        if (Vector3.Distance(transform.position,glichLastPosition)<0.2f)
         {
            
             return true;
         }
         else
         {
+            return false;
+        }
+    }
+
+    public bool ActivateSlamHitbox(){
+         if (Vector3.Distance(transform.position,glichLastPosition)<1.5f)
+        {
+            return true;
+        }
+        else{
             return false;
         }
     }

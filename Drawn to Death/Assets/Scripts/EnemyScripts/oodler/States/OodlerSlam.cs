@@ -45,7 +45,7 @@ public class OodlerSlam : OodlerBase
 
         animationEventNotifier = boss.GetComponentInChildren<AnimationEventNotifier>(); //get animation event notifier
         animationEventNotifier.SlamNotifier += AnimationOffset;
-        animationEventNotifier.HitBoxActive += ActivateHitbox;
+        //animationEventNotifier.HitBoxActive += ActivateHitbox;
         
     }
 
@@ -89,6 +89,11 @@ public class OodlerSlam : OodlerBase
         // check to see if 
         else if(!reachedTarget && isSlamFrame){
             boss.Slam();
+
+            if(!slamWasActivated && boss.ActivateSlamHitbox()){
+                boss.EnableAttackHitbox(true);
+                slamWasActivated = true;
+            }
         }
 
         // Logic for once we hit the ground
