@@ -71,7 +71,9 @@ public class RunHitbox : MonoBehaviour{
 
             case "Column":
                 {
+                    Debug.Log("collided with column");
                     Destroy(collision.gameObject);
+                    
 
                 }
                 break;

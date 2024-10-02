@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Xml.Schema;
 using JetBrains.Annotations;
@@ -11,6 +13,7 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
+using Random = UnityEngine.Random;
 
 
 public class Boss : MonoBehaviour
@@ -111,7 +114,7 @@ public class Boss : MonoBehaviour
     private Vector3 playerOffSet = Vector3.zero;
     private Vector3 glichLastPosition = Vector3.zero;
     private Vector3 oodlerAirPosition = Vector3.zero;
-    private Vector3 oodlerRunDestination = Vector3.zero;
+    private Vector3 oodlerRunDirection = Vector3.zero;
     private Vector3 runPosition = Vector3.zero; 
     private Vector3 offScreen = new Vector3(220, 130, 0);
     public bool oodlerSlamCooldown = false;
@@ -139,7 +142,8 @@ public class Boss : MonoBehaviour
     
     public Scene nextScene = Scene.End;
 
-
+    private float angle = 0f;
+    private List<Vector3> points;
 
     private void Awake()
     {
@@ -159,7 +163,7 @@ public class Boss : MonoBehaviour
 
     void Start()
     {
-        StateMachine.Initialize(oodlerChase);
+        StateMachine.Initialize(oodlerRun);
         CurrentHealth = MaxHealth;
         currentHealthUI.text = CurrentHealth.ToString();
         maxHealthUI.text = MaxHealth.ToString();
@@ -185,6 +189,8 @@ public class Boss : MonoBehaviour
         Debug.Log("My Rigidbody is" + oodlerRB);
         Debug.Log("my shadow is" + shadowAnimator);
         Debug.Log("My shadow sprite is" + oodlerShadow);
+
+        points = new List<Vector3>();
     }
 
     // Damage Function will damage the oodler and check if they are dead
@@ -375,8 +381,78 @@ public class Boss : MonoBehaviour
 
     #region Moving Methods
     // MOVING METHODS //
+
+    public void CircleGlich( float speed, float radius){
+
+
+        // if(angle>360f){
+        //     angle = 0f;
+        // }
+
+        var step = speed * Time.deltaTime;
+       
+        Debug.Log("My angle is "+ angle);
+
+        playerOffSet = Glich.transform.localPosition;
+        playerOffSet.y = playerOffSet.y + 10f;
+
+        float x = playerOffSet.x + (Mathf.Cos(angle)*radius);
+        float y = playerOffSet.y + (Mathf.Sin(angle)*radius);
+
+        angle = angle + speed*Time.deltaTime;
+        Debug.Log("angle is "+ angle);
+        MoveShadowSprite();
+        Vector3 circlePosition = new Vector3(x,y,0);
+
+
+        //transform.position = circlePosition;
+        //points.Add(circlePosition);
+
+        oodlerRB.MovePosition(circlePosition);
+    }
+
+    // void OnDrawGizmos(){
+    //     Gizmos.color = Color.magenta;
+    //      if(points.Count > 1){
+    //         Gizmos.DrawLine(points[points.Count-1],points[points.Count-2]);
+    //     }
+
+    // }
+
     public void SelectRunPosition(){
-        runPosition = Glich.transform.position+new Vector3(20,20,0);
+        //RaycastHit hit;
+        float starting_angle = 0;
+        float radius = 30f;
+        var Positions = new List<Vector3>();
+        int layerMask = 1 << 8;
+     
+        
+        for(float i = starting_angle; i<360f; i = i + 1f){
+
+            
+            float x = Glich.transform.position.x + (Mathf.Cos(i)*radius);
+            float y = Glich.transform.position.y + (Mathf.Sin(i)*radius);
+            Vector3 landingSpot = new Vector3(x,y,0);
+            Vector3 direction = (Glich.transform.position - landingSpot).normalized;
+
+            RaycastHit2D hit = Physics2D.Raycast(landingSpot, direction, Mathf.Infinity, layerMask);
+         
+
+            Debug.Log("I hit a wall at a distance of " + hit.distance + " from the point");
+            
+            if(hit.distance > radius){
+                Positions.Add(landingSpot);
+            //     Debug.DrawLine(landingSpot, Glich.transform.position, Color.magenta, 5f);
+            //     Debug.Log(i + " is a valid angle and there are not obstacles in the way");
+            }
+        }
+
+        var rnd = new Random();
+        int index = Random.Range(0, Positions.Count);
+        runPosition = Positions[index];
+
+
+
     }
 
     // This method will move the ooodler to the position where it will try to run glich over
@@ -389,7 +465,21 @@ public class Boss : MonoBehaviour
         }else{
             return false;
         }
+    }       
+
+
+    public bool ReachedCirclePosition(float speed = 50){
+        var step = speed * Time.deltaTime;
+        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, runPosition, step));
+        MoveShadowSprite();
+        if(Vector3.Distance(transform.position,runPosition)<0.3f){
+            return true;
+        }else{
+            return false;
+        }
+
     }
+
 
     // This method will "Land" the oodler on the ground
     public bool LandForRun(float speed = 15){
@@ -400,7 +490,7 @@ public class Boss : MonoBehaviour
         if(Vector3.Distance(transform.position,runGroundPosition)<0.3f){
             animator.SetTrigger("Walk");
             shadowAnimator.SetTrigger("Walk");
-            oodlerRunDestination = (Glich.transform.position-transform.position).normalized;
+            oodlerRunDirection = (Glich.transform.position-transform.position).normalized;
             HideShadow();
             return true;
 
@@ -411,15 +501,19 @@ public class Boss : MonoBehaviour
 
     public bool Run(float speed = 100){
         var step = speed * Time.deltaTime;
-        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position,Glich.transform.position+oodlerRunDestination*20f,step));
+        oodlerRB.MovePosition(transform.position + oodlerRunDirection * step);
+        //oodlerRB.MovePosition(Vector3.MoveTowards(transform.position,oodlerRunDirection*Mathf.Infinity,step));
         CheckSpriteDirection();
-         if(Vector3.Distance(transform.position,Glich.transform.position+oodlerRunDestination*20f)<0.3f){
-            animator.SetTrigger("Idle");
-            shadowAnimator.SetTrigger("Idle");
-            return true;
-        }else{
-            return false;
-        }
+
+
+        return false;
+        //  if(Vector3.Distance(transform.position,Glich.transform.position+oodlerRunDirection*20f)<0.3f){
+        //     animator.SetTrigger("Idle");
+        //     shadowAnimator.SetTrigger("Idle");
+        //     return true;
+        // }else{
+        //     return false;
+        // }
     }
 
 

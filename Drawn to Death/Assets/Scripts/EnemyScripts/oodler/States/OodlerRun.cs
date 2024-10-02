@@ -13,11 +13,15 @@ public class OodlerRun : OodlerBase
     private bool runGroundPosition = false;
     private bool finalRunPosition = false;
     private float speed = 20f;
+    float timer = 0f;
+    float myRadius = 10f;
 
     public override void EnterState()
     {
-        boss.SelectRunPosition();
+        //boss.SelectRunPosition();
         base.EnterState();
+        boss.SelectRunPosition();
+
     }
 
     public override void ExitState()
@@ -29,6 +33,20 @@ public class OodlerRun : OodlerBase
     {
         base.FrameUpdate();
 
+        
+       
+
+        // if(timer>5f){
+        //     boss.CircleGlich(5f, myRadius);
+        //     myRadius = myRadius - 1*Time.deltaTime;
+        // }
+        // else{
+        //     boss.Stalk();
+        // }
+        // timer = timer+Time.deltaTime;
+
+
+        //ORIGINAL CODE//
         if (!runPosition){
             runPosition = boss.MoveToRunPosition();
         }   
@@ -36,11 +54,13 @@ public class OodlerRun : OodlerBase
              runGroundPosition = boss.LandForRun();
         }
         else if(!finalRunPosition){
+            boss.EnableRunHitbox(true);
             Debug.Log("skrrrskrrr");
             finalRunPosition = boss.Run(speed);
             speed = speed + 1f;
         }
         else{
+            boss.EnableRunHitbox(false);
             Debug.Log("Here");
         }
         
