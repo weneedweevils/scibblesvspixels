@@ -49,8 +49,9 @@ public class MenuManager : MonoBehaviour, IDataPersistence
         {
             transition.gameObject.SetActive(true);
             transition.SetTrigger("Start");
-            yield return new WaitForSeconds(transitionTime);
+            yield return new WaitForSecondsRealtime(transitionTime);
         }
+        Time.timeScale = 1;
         SceneManager.LoadScene((int)scene);
     }
 

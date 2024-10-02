@@ -46,17 +46,17 @@ namespace Pause
 
         public void MasterSliderChange()
         {
-            volumeController.SetMasterVolume(masterVolSlider.value);
+            volumeController?.SetMasterVolume(masterVolSlider.value);
         }
 
         public void MusicSliderChange()
         {
-            volumeController.SetMusicVolume(musicVolSlider.value);
+            volumeController?.SetMusicVolume(musicVolSlider.value);
         }
 
         public void SFXSliderChange()
         {
-            volumeController.SetSFXVolume(sfxVolSlider.value);
+            volumeController?.SetSFXVolume(sfxVolSlider.value);
         }
 
         public void FancyFontChange()
