@@ -2,18 +2,23 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
+using UnityEngine.Scripting;
 
-public class OodlerBase
+public class BaseState
 {
 
     protected Boss boss;
-    protected OodlerStateMachine oodlerStateMachine;
+    protected StateMachine oodlerStateMachine;
+    protected ChildStateMachine childStateMachine;
 
-    public OodlerBase(Boss boss, OodlerStateMachine oodlerStateMachine) {
+    public BaseState(Boss boss, StateMachine oodlerStateMachine) {
         this.boss = boss;
         this.oodlerStateMachine = oodlerStateMachine;
     }
 
+    private void Awake(){
+        childStateMachine = new ChildStateMachine();
+    }
   
     public virtual void EnterState() { }
 

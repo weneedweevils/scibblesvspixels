@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OodlerInitial : OodlerBase
+public class OodlerInitial : BaseState
 {
-    public OodlerInitial(Boss boss, OodlerStateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+    public OodlerInitial(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
 

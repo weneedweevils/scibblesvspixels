@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OodlerIdle : OodlerBase
+public class OodlerIdle : BaseState
 {
 
     private float timer = 0f;
 
-    public OodlerIdle(Boss boss, OodlerStateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+    public OodlerIdle(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
    

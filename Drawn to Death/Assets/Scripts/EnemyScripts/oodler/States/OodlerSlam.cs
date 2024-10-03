@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class OodlerSlam : OodlerBase
+public class OodlerSlam : BaseState
 {
     bool reachedTarget = false;
     bool delay = false;
@@ -14,7 +14,7 @@ public class OodlerSlam : OodlerBase
     private bool slamWasActivated = false;
     private AnimationEventNotifier animationEventNotifier;
 
-    public OodlerSlam(Boss boss, OodlerStateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+    public OodlerSlam(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
 
     }

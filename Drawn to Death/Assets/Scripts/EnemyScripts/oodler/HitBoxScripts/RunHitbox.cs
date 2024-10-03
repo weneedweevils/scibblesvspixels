@@ -32,15 +32,10 @@ public class RunHitbox : MonoBehaviour{
                     if (!PlayerScript.dashTimer.IsActive() &&  !PlayerScript.invincibilityTimer.IsActive() && oodlerScript.activateDamage())
                     {
                         PlayerScript.Damage(oodlerScript.oodlerAttackDamage);
+                        Debug.Log("hit glich");
                         glichRb.AddForce(new Vector2(100f,100f));
                     }
                    
-
-                   
-                    
-
-
-
                 }
                 break;
 
@@ -71,12 +66,18 @@ public class RunHitbox : MonoBehaviour{
 
             case "Column":
                 {
-                    Debug.Log("collided with column");
+                    Debug.Log("collided with column hjashjkbfnbjkasfnbjkfaskjn");
                     Destroy(collision.gameObject);
                     
 
                 }
                 break;
+            case "Obstacle":
+            {
+
+                oodlerScript.hitObstacle = true;
+                break;
+            }
 
             default:
                 {
@@ -85,4 +86,5 @@ public class RunHitbox : MonoBehaviour{
         }
 
     }
-}
+  }
+

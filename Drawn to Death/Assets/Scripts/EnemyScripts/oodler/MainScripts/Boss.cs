@@ -98,7 +98,7 @@ public class Boss : MonoBehaviour
 
 
     // States
-    public OodlerStateMachine StateMachine { get; set; }
+    public StateMachine stateMachine { get; set; }
     public OodlerChase oodlerChase { get; set; }
     public OodlerIdle oodlerIdle { get; set; }
     public OodlerChargeAttack oodlerChargeAttack { get; set; }
@@ -119,6 +119,7 @@ public class Boss : MonoBehaviour
     private Vector3 offScreen = new Vector3(220, 130, 0);
     public bool oodlerSlamCooldown = false;
     public bool vulnerable = false;
+    public bool hitObstacle = false;
    
     public CooldownTimer invincibilityTimer;
     
@@ -147,23 +148,23 @@ public class Boss : MonoBehaviour
 
     private void Awake()
     {
-        StateMachine = new OodlerStateMachine();
-        oodlerIdle = new OodlerIdle(this, StateMachine);
-        oodlerChase = new OodlerChase(this, StateMachine);
-        oodlerChargeAttack = new OodlerChargeAttack(this, StateMachine);
-        oodlerSlam = new OodlerSlam(this, StateMachine);
-        oodlerRecover = new OodlerRecover(this, StateMachine);
-        oodlerGrab = new OodlerGrab(this, StateMachine);
-        oodlerDrop = new OodlerDrop(this, StateMachine);
-        oodlerInitial = new OodlerInitial(this, StateMachine);
-        oodlerRun = new OodlerRun(this, StateMachine);
+        stateMachine = new StateMachine();
+        oodlerIdle = new OodlerIdle(this, stateMachine);
+        oodlerChase = new OodlerChase(this, stateMachine);
+        oodlerChargeAttack = new OodlerChargeAttack(this, stateMachine);
+        oodlerSlam = new OodlerSlam(this, stateMachine);
+        oodlerRecover = new OodlerRecover(this, stateMachine);
+        oodlerGrab = new OodlerGrab(this, stateMachine);
+        oodlerDrop = new OodlerDrop(this, stateMachine);
+        oodlerInitial = new OodlerInitial(this, stateMachine);
+        oodlerRun = new OodlerRun(this, stateMachine);
         
     }
 
 
     void Start()
     {
-        StateMachine.Initialize(oodlerRun);
+        stateMachine.Initialize(oodlerRun);
         CurrentHealth = MaxHealth;
         currentHealthUI.text = CurrentHealth.ToString();
         maxHealthUI.text = MaxHealth.ToString();
@@ -216,7 +217,7 @@ public class Boss : MonoBehaviour
 
     private void AnimationTriggerEvent(AnimationTriggerType triggerType)
     {
-        StateMachine.currentOodlerState.AnimationTriggerEvent(triggerType);
+        stateMachine.currentOodlerState.AnimationTriggerEvent(triggerType);
 
     }
 
@@ -241,7 +242,7 @@ public class Boss : MonoBehaviour
     // FixedUpdate to update physics
     private void FixedUpdate()
     {
-        StateMachine.currentOodlerState.FrameUpdate();
+        stateMachine.currentOodlerState.FrameUpdate();
         invincibilityTimer.Update();
     }
     #endregion
@@ -439,10 +440,10 @@ public class Boss : MonoBehaviour
          
 
             Debug.Log("I hit a wall at a distance of " + hit.distance + " from the point");
-            
+            Debug.DrawLine(landingSpot, Glich.transform.position, Color.magenta, 5f);
             if(hit.distance > radius){
                 Positions.Add(landingSpot);
-            //     Debug.DrawLine(landingSpot, Glich.transform.position, Color.magenta, 5f);
+                Debug.DrawLine(landingSpot, Glich.transform.position, Color.magenta, 5f);
             //     Debug.Log(i + " is a valid angle and there are not obstacles in the way");
             }
         }
@@ -500,13 +501,16 @@ public class Boss : MonoBehaviour
     }
 
     public bool Run(float speed = 100){
+
+        if(hitObstacle){
+            return true;
+        }
         var step = speed * Time.deltaTime;
         oodlerRB.MovePosition(transform.position + oodlerRunDirection * step);
         //oodlerRB.MovePosition(Vector3.MoveTowards(transform.position,oodlerRunDirection*Mathf.Infinity,step));
         CheckSpriteDirection();
-
-
         return false;
+
         //  if(Vector3.Distance(transform.position,Glich.transform.position+oodlerRunDirection*20f)<0.3f){
         //     animator.SetTrigger("Idle");
         //     shadowAnimator.SetTrigger("Idle");

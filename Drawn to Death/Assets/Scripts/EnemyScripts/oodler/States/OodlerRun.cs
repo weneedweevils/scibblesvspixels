@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class OodlerRun : OodlerBase
+public class OodlerRun : BaseState
 {
-    public OodlerRun(Boss boss, OodlerStateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+    public OodlerRun(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
+
+
+    
     
     private bool runPosition = false;
     private bool runGroundPosition = false;
@@ -27,6 +30,7 @@ public class OodlerRun : OodlerBase
     public override void ExitState()
     {
         base.ExitState();
+        boss.hitObstacle = false;
     }
 
     public override void FrameUpdate()
@@ -55,7 +59,6 @@ public class OodlerRun : OodlerBase
         }
         else if(!finalRunPosition){
             boss.EnableRunHitbox(true);
-            Debug.Log("skrrrskrrr");
             finalRunPosition = boss.Run(speed);
             speed = speed + 1f;
         }

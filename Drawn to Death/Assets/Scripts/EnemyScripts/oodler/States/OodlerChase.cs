@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.TextCore;
 
-public class OodlerChase : OodlerBase
+public class OodlerChase : BaseState
 {
 
     // Random Values needed
@@ -13,7 +13,7 @@ public class OodlerChase : OodlerBase
     bool calculateTime = false;
     private float timer = 0f;
 
-    public OodlerChase(Boss boss, OodlerStateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+    public OodlerChase(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
 
     }

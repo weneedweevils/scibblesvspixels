@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OodlerChargeAttack : OodlerBase
+public class OodlerChargeAttack : BaseState
 {
 
     
-    public OodlerChargeAttack(Boss boss, OodlerStateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+    public OodlerChargeAttack(Boss boss, StateMachine stateMachine) : base(boss, stateMachine)
     {
     }
 

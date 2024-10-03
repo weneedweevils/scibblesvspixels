@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OodlerStateMachine
+public class StateMachine
 {
-    public OodlerBase currentOodlerState { get; set; }
+    public BaseState currentOodlerState { get; set; }
 
-    public void Initialize(OodlerBase startingState)
+    public void Initialize(BaseState startingState)
     {
         currentOodlerState = startingState;
         currentOodlerState.EnterState();
     }
    
 
-    public void ChangeState(OodlerBase newState)
+    public void ChangeState(BaseState newState)
     {
         currentOodlerState.ExitState();
         currentOodlerState = newState;
