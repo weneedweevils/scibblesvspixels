@@ -6,16 +6,18 @@ public class ChildBaseState : MonoBehaviour
 {
     protected Boss boss;
     protected ChildStateMachine childStateMachine;
+    protected StateMachine parentStateMachine;
     protected BaseState parentState;
 
 
-    public ChildBaseState(Boss boss, ChildStateMachine childStateMachine, BaseState parentState) {
+    public ChildBaseState(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine, BaseState parentState) {
         this.boss = boss;
         this.childStateMachine = childStateMachine;
+        this.parentStateMachine = parentStateMachine;
         this.parentState = parentState;
     }
 
-  
+
     public virtual void EnterState() { }
 
     public virtual void ExitState() { } 

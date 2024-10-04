@@ -5,11 +5,16 @@ using UnityEngine;
 public class OodlerChargeAttack : BaseState
 {
 
+    private void Awake()
+    {
+
+    }
     
     public OodlerChargeAttack(Boss boss, StateMachine stateMachine) : base(boss, stateMachine)
     {
     }
 
+   
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
     {
         base.AnimationTriggerEvent(triggerType);
@@ -17,10 +22,12 @@ public class OodlerChargeAttack : BaseState
 
     public override void EnterState()
     {
+       
         base.EnterState();
         Debug.Log("Entering Attack State");
         boss.animator.SetTrigger("SlamWindUp");
         boss.GetShadow().SetTrigger("SlamWindUp");
+
         // change colour to red
         //boss.ShowAttack();
 
@@ -58,5 +65,7 @@ public class OodlerChargeAttack : BaseState
         }
     }
 
- 
+
+
+
 }

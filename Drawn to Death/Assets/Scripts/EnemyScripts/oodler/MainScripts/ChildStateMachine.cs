@@ -12,7 +12,6 @@ public class ChildStateMachine : MonoBehaviour
         currentChildState.EnterState();
     }
    
-
     public void ChangeState(ChildBaseState newState)
     {
         currentChildState.ExitState();

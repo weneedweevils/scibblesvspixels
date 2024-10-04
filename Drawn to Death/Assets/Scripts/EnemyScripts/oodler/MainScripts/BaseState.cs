@@ -14,9 +14,6 @@ public class BaseState
     public BaseState(Boss boss, StateMachine oodlerStateMachine) {
         this.boss = boss;
         this.oodlerStateMachine = oodlerStateMachine;
-    }
-
-    private void Awake(){
         childStateMachine = new ChildStateMachine();
     }
   
@@ -29,6 +26,8 @@ public class BaseState
     public virtual void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType) {
     
     }
+
+    public virtual void getChildStateMachine() { }
 
 
 }

@@ -9,8 +9,12 @@ public class OodlerRun : BaseState
     {
     }
 
-
-    
+    // Sub States Needed
+    // 1. Go to valid Run Position using radius
+    // 2. Land at Position
+    // 3. Charge towards glich
+    public GoToRunPosition goToRunPosition { get; set; }
+    public Land land;
     
     private bool runPosition = false;
     private bool runGroundPosition = false;
@@ -19,24 +23,36 @@ public class OodlerRun : BaseState
     float timer = 0f;
     float myRadius = 10f;
 
+    
     public override void EnterState()
     {
+        goToRunPosition = new GoToRunPosition(boss, childStateMachine, oodlerStateMachine, this);
+        land = new Land(boss, childStateMachine, oodlerStateMachine, this);
+
+
         //boss.SelectRunPosition();
         base.EnterState();
-        boss.SelectRunPosition();
+        // In the first Child State We find the run position
+        childStateMachine.Initialize(goToRunPosition);
+       
 
     }
 
     public override void ExitState()
     {
         base.ExitState();
+
+        goToRunPosition = null;
+
+
+
         boss.hitObstacle = false;
     }
 
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-
+        childStateMachine.currentChildState.FrameUpdate();
         
        
 

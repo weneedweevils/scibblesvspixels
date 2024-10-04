@@ -61,8 +61,8 @@ public class Boss : MonoBehaviour
 
 
     [Header ("Player References")]
-    public PlayerMovement PlayerScript;
-    public GameObject Glich;
+    public PlayerMovement playerScript;
+    public GameObject glich;
 
 
     // Health Crystals and health
@@ -115,7 +115,7 @@ public class Boss : MonoBehaviour
     private Vector3 glichLastPosition = Vector3.zero;
     private Vector3 oodlerAirPosition = Vector3.zero;
     private Vector3 oodlerRunDirection = Vector3.zero;
-    private Vector3 runPosition = Vector3.zero; 
+    
     private Vector3 offScreen = new Vector3(220, 130, 0);
     public bool oodlerSlamCooldown = false;
     public bool vulnerable = false;
@@ -123,7 +123,7 @@ public class Boss : MonoBehaviour
    
     public CooldownTimer invincibilityTimer;
     
-    Rigidbody2D oodlerRB;
+    public Rigidbody2D oodlerRB;
 
 
     // for controlling enemies for Drop attack
@@ -170,14 +170,10 @@ public class Boss : MonoBehaviour
         maxHealthUI.text = MaxHealth.ToString();
 
 
-        //shadowAnimator = oodlerShadowObject.GetComponentInChildren<Animator>();
-        //oodlerShadow = oodlerShadowObject.GetComponentInChildren<SpriteRenderer>();
-
-
         animator = GetComponentInChildren<Animator>();
         oodlerSprite = GetComponentInChildren<SpriteRenderer>();
 
-        PlayerScript = Glich.GetComponent<PlayerMovement>();
+        playerScript = glich.GetComponent<PlayerMovement>();
 
         invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
         healthBarImage = healthBar.GetComponent<UnityEngine.UI.Image>();
@@ -250,7 +246,7 @@ public class Boss : MonoBehaviour
 
     #region Animation
     private void CheckSpriteDirection(){
-        if(transform.position.x - Glich.transform.position.x >= 0){
+        if(transform.position.x - glich.transform.position.x >= 0){
             oodlerSprite.flipX = true;
             oodlerShadow.flipX = true; // might need to change this so I only have to reference it
         }
@@ -361,17 +357,17 @@ public class Boss : MonoBehaviour
 
 
     // This function enables/disables gliches hitboxes
-    public void EnableGlichColliders(bool enable)
+    public void EnableglichColliders(bool enable)
     {
         if (enable)
         {
-            Glich.GetComponent<CapsuleCollider2D>().enabled = true;
-            Glich.GetComponent<BoxCollider2D>().enabled = true;
+            glich.GetComponent<CapsuleCollider2D>().enabled = true;
+            glich.GetComponent<BoxCollider2D>().enabled = true;
         }
         else
         {
-            Glich.GetComponent<CapsuleCollider2D>().enabled = false;
-            Glich.GetComponent<BoxCollider2D>().enabled = false;
+            glich.GetComponent<CapsuleCollider2D>().enabled = false;
+            glich.GetComponent<BoxCollider2D>().enabled = false;
         }
     }
 
@@ -383,7 +379,7 @@ public class Boss : MonoBehaviour
     #region Moving Methods
     // MOVING METHODS //
 
-    public void CircleGlich( float speed, float radius){
+    public void Circleglich( float speed, float radius){
 
 
         // if(angle>360f){
@@ -394,7 +390,7 @@ public class Boss : MonoBehaviour
        
         Debug.Log("My angle is "+ angle);
 
-        playerOffSet = Glich.transform.localPosition;
+        playerOffSet = glich.transform.localPosition;
         playerOffSet.y = playerOffSet.y + 10f;
 
         float x = playerOffSet.x + (Mathf.Cos(angle)*radius);
@@ -420,66 +416,8 @@ public class Boss : MonoBehaviour
 
     // }
 
-    public void SelectRunPosition(){
-        //RaycastHit hit;
-        float starting_angle = 0;
-        float radius = 30f;
-        var Positions = new List<Vector3>();
-        int layerMask = 1 << 8;
-     
-        
-        for(float i = starting_angle; i<360f; i = i + 1f){
+  
 
-            
-            float x = Glich.transform.position.x + (Mathf.Cos(i)*radius);
-            float y = Glich.transform.position.y + (Mathf.Sin(i)*radius);
-            Vector3 landingSpot = new Vector3(x,y,0);
-            Vector3 direction = (Glich.transform.position - landingSpot).normalized;
-
-            RaycastHit2D hit = Physics2D.Raycast(landingSpot, direction, Mathf.Infinity, layerMask);
-         
-
-            Debug.Log("I hit a wall at a distance of " + hit.distance + " from the point");
-            Debug.DrawLine(landingSpot, Glich.transform.position, Color.magenta, 5f);
-            if(hit.distance > radius){
-                Positions.Add(landingSpot);
-                Debug.DrawLine(landingSpot, Glich.transform.position, Color.magenta, 5f);
-            //     Debug.Log(i + " is a valid angle and there are not obstacles in the way");
-            }
-        }
-
-        var rnd = new Random();
-        int index = Random.Range(0, Positions.Count);
-        runPosition = Positions[index];
-
-
-
-    }
-
-    // This method will move the ooodler to the position where it will try to run glich over
-    public bool MoveToRunPosition(float speed = 50){
-        var step = speed * Time.deltaTime;
-        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, runPosition, step));
-        MoveShadowSprite();
-        if(Vector3.Distance(transform.position,runPosition)<0.3f){
-            return true;
-        }else{
-            return false;
-        }
-    }       
-
-
-    public bool ReachedCirclePosition(float speed = 50){
-        var step = speed * Time.deltaTime;
-        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, runPosition, step));
-        MoveShadowSprite();
-        if(Vector3.Distance(transform.position,runPosition)<0.3f){
-            return true;
-        }else{
-            return false;
-        }
-
-    }
 
 
     // This method will "Land" the oodler on the ground
@@ -491,7 +429,7 @@ public class Boss : MonoBehaviour
         if(Vector3.Distance(transform.position,runGroundPosition)<0.3f){
             animator.SetTrigger("Walk");
             shadowAnimator.SetTrigger("Walk");
-            oodlerRunDirection = (Glich.transform.position-transform.position).normalized;
+            oodlerRunDirection = (glich.transform.position-transform.position).normalized;
             HideShadow();
             return true;
 
@@ -511,7 +449,7 @@ public class Boss : MonoBehaviour
         CheckSpriteDirection();
         return false;
 
-        //  if(Vector3.Distance(transform.position,Glich.transform.position+oodlerRunDirection*20f)<0.3f){
+        //  if(Vector3.Distance(transform.position,glich.transform.position+oodlerRunDirection*20f)<0.3f){
         //     animator.SetTrigger("Idle");
         //     shadowAnimator.SetTrigger("Idle");
         //     return true;
@@ -531,10 +469,10 @@ public class Boss : MonoBehaviour
 
 
     // This function drops glich to the drop zone 
-    public void DropGlich(float speed = 10)
+    public void Dropglich(float speed = 10)
     {
         var step = speed * Time.deltaTime;
-        Glich.transform.position = Vector3.MoveTowards(Glich.transform.position, dropZone, step); // CHANGE THIS LATER TO RIGIDBODY
+        glich.transform.position = Vector3.MoveTowards(glich.transform.position, dropZone, step); // CHANGE THIS LATER TO RIGIDBODY
 
         
     }
@@ -553,7 +491,7 @@ public class Boss : MonoBehaviour
     public void Stalk(float speed = 20f)
     {
         var step = speed * Time.deltaTime;
-        playerOffSet = Glich.transform.localPosition;
+        playerOffSet = glich.transform.localPosition;
         playerOffSet.y = playerOffSet.y + 10f;
         //transform.position = Vector3.MoveTowards(transform.position, playerOffSet, step);
         oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, playerOffSet, step));
@@ -591,7 +529,7 @@ public class Boss : MonoBehaviour
     // This function will move the oodler off the ground
     public void MoveUp(float speed = 20)
     {
-        playerOffSet = Glich.transform.localPosition;
+        playerOffSet = glich.transform.localPosition;
         playerOffSet.y = playerOffSet.y + 10f;
         var step = speed * Time.deltaTime;
         oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, oodlerAirPosition, step));
@@ -612,14 +550,14 @@ public class Boss : MonoBehaviour
 
 
     // This function will move the glich with the oodler if they are caught
-    public void MoveGlichWithOodler()
+    public void MoveglichWithOodler()
     {
         if (caught == true)
         {
-            Glich.transform.position = transform.position;
+            glich.transform.position = transform.position;
         }
 
-        PlayerScript.StopMovement();
+        playerScript.StopMovement();
     }
 
 
@@ -669,20 +607,20 @@ public class Boss : MonoBehaviour
     }
 
     // This fucntion returns a bool if glich has reached their drop zone location when the oodler drops them
-    public bool GlichReachedDropZone()
+    public bool glichReachedDropZone()
     {
 
-        var glichCurrentRoundedPosition = new Vector3(Mathf.Round(Glich.transform.position.x),Mathf.Round(Glich.transform.position.y),Mathf.Round(Glich.transform.position.z));
+        var glichCurrentRoundedPosition = new Vector3(Mathf.Round(glich.transform.position.x),Mathf.Round(glich.transform.position.y),Mathf.Round(glich.transform.position.z));
 
-        if (Glich.transform.position == dropZone ||Vector3.Distance(Glich.transform.position,dropZone)<0.3)
+        if (glich.transform.position == dropZone ||Vector3.Distance(glich.transform.position,dropZone)<0.3)
         {
             return true;
         }
         else
         {
-            PlayerScript.StopMovement();
-            Debug.Log("Rounded Glich Position is "+ glichCurrentRoundedPosition);
-            Debug.Log("Actual Glich Position is " + Glich.transform.position);
+            playerScript.StopMovement();
+            Debug.Log("Rounded glich Position is "+ glichCurrentRoundedPosition);
+            Debug.Log("Actual glich Position is " + glich.transform.position);
             Debug.Log("Drop Zone Position is" + dropZone);
 
             return false;
@@ -802,7 +740,7 @@ public class Boss : MonoBehaviour
     // this function will save a position glich was at
     public void SetLastPosition()
     {
-        glichLastPosition = Glich.transform.position;
+        glichLastPosition = glich.transform.position;
     }
 
     // this function will get the saved position glich was at
