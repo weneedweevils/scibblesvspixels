@@ -10,9 +10,7 @@ using UnityEngine.UI;
 
 public class SkipCutscene : MonoBehaviour
 {
-
     public PlayerMovement player;
-    public GameObject inputHandler;
 
     [HideInInspector]
     public PlayerInput playerInput;
@@ -23,9 +21,8 @@ public class SkipCutscene : MonoBehaviour
     public DataPersistenceManager dataPersistenceManager;
     public GameObject hud;
     public DialogueManager dialogueManager;
-
-
-
+    public TMPro.TextMeshProUGUI label;
+    private InputAction action;
 
     private bool isPressed;
     float skipTimer = 0f;
@@ -33,40 +30,30 @@ public class SkipCutscene : MonoBehaviour
     private bool skippedCutscene = false;
     float skipTime = 2f;
 
-
     private void Awake()
     {
         playerInput = CustomInput.instance.playerInput;
         progressSlider = GetComponentInChildren<Slider>();
     }
-    // Start is called before the first frame update
-    void Start()
+
+    private void Start()
     {
-     
+        // Get display string from action.
+        action = playerInput.actions["SkipCutscene"];
 
-     
+        if (action != null)
+        {
+            string bindingText = action.GetBindingDisplayString().ToUpper();
+            label.text = string.Format("SKIP CUTSCENE\n[{0}]", bindingText);
+        }
     }
-
 
     // Update is called once per frame
     void Update()
     {
-
-        //if (cutsceneObjects.activeSelf == false)
-        //{
-        //    skippedCutscene = true;
-
-        //}
-        //else
-        //{
-        //    skippedCutscene = false;
-        //}
-
-
         if (!skippedCutscene)
         {
             isPressed = playerInput.actions["SkipCutscene"].ReadValue<float>() > 0;
-
 
             // Increase the progress bar to skip cutscene
             if (isPressed)
@@ -106,7 +93,6 @@ public class SkipCutscene : MonoBehaviour
         }
     }
 
-
     public void HandleSkipCutscene()
     {
         Destroy(dialogueManager.GetCurrentDialogue().gameObject);
@@ -123,6 +109,4 @@ public class SkipCutscene : MonoBehaviour
         Debug.Log("Destroyed object");
         Destroy(gameObject); 
     }
- 
 }
-    
