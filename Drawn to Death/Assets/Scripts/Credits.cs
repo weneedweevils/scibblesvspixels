@@ -16,7 +16,7 @@ public class Credits : MonoBehaviour
     private void Start()
     {
         Debug.Log("Started");
-        playerInput = GetComponent<PlayerInput>();
+        playerInput = CustomInput.instance.playerInput;
         
     }
 

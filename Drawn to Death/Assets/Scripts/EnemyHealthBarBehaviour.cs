@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyHealthBarBehaviour : MonoBehaviour
+public class EnemyHealthBarBehaviour : HealthBar
 {
-    public Slider healthBar;
-    public Color low;
-    public Color high;
     public Vector3 offset;
     public float xScale;
     public float yScale;
 
-    public void SetHealth(float health, float maxHealth)
+    public override void SetHealth(float health, float maxHealth)
     {
         healthBar.gameObject.SetActive(health < maxHealth && health > 0);
         healthBar.value = health;
@@ -33,10 +30,5 @@ public class EnemyHealthBarBehaviour : MonoBehaviour
     void Update()
     {
         healthBar.transform.position = Camera.main.WorldToScreenPoint(transform.parent.position + offset);
-    }
-
-    public void Disable()
-    {
-        healthBar.gameObject.SetActive(false);
     }
 }

@@ -21,7 +21,7 @@ namespace DialogueSystem
         public void Start()
         {
             player = GameObject.Find("Player").GetComponent<PlayerMovement>();
-            playerInput = player.GetComponent<PlayerInput>();
+            playerInput = CustomInput.instance.playerInput;
         }
 
         public bool finished { get; protected set; }
