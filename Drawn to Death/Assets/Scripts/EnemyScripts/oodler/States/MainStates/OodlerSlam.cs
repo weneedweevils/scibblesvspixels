@@ -120,7 +120,7 @@ public class OodlerSlam : BaseState
         isSlamFrame = true;
         Debug.Log("THE SLAM HAS STARTED");
     }
-
+    
     public void ActivateHitbox(){
         Debug.Log("Enabled attack Hitbox");
         boss.EnableAttackHitbox(true);

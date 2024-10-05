@@ -69,7 +69,7 @@ public class OodlerRecover : BaseState
 
                 else if(boss.SlamNum < boss.allowedSlams)
                 {
-                        oodlerStateMachine.ChangeState(boss.oodlerChase);
+                        //oodlerStateMachine.ChangeState(boss.oodlerChase);
                 }
                 else
                 {

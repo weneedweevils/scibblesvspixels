@@ -34,7 +34,7 @@ public class OodlerIdle : BaseState
         {
             timer = timer + Time.deltaTime;
             if (timer > 1f) {
-                oodlerStateMachine.ChangeState(boss.oodlerChase);
+               // oodlerStateMachine.ChangeState(boss.oodlerChase);
             }
         }
         else

@@ -1,7 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build.Reporting;
 using UnityEngine;
 using UnityEngine.TextCore;
+
+
+/// <summary>
+/// This state will make the oodler select a position on the circumference of a circle centered on glich, and go to that position
+/// </summary>
+
 
 public class GoToRunPosition : ChildBaseState
 {
@@ -17,8 +24,6 @@ public class GoToRunPosition : ChildBaseState
         base.EnterState();
         reachedPosition = false;
         SelectRunPosition();
-       
-
     }
     
 

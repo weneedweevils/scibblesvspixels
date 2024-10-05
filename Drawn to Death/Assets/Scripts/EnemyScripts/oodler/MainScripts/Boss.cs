@@ -103,7 +103,6 @@ public class Boss : MonoBehaviour
     public ChildStateMachine childStateMachine{ get; set; }
 
 
-    public OodlerChase oodlerChase { get; set; }
     public OodlerIdle oodlerIdle { get; set; }
     public OodlerChargeAttack oodlerChargeAttack { get; set; }
     public OodlerSlam oodlerSlam { get; set; }
@@ -119,6 +118,8 @@ public class Boss : MonoBehaviour
     public Land land{get;set;}
     public Run run{get;set;}
     public EmptyChildState emptyChildState{get;set;}
+    public Chase chase{get;set;}
+
 
 
     //Movment
@@ -143,6 +144,7 @@ public class Boss : MonoBehaviour
     private Vector3 dropZoneCorrected;
 
 
+
     // Phases
     private bool enteredPhase2=false;
     private bool enteredPhase3=false;
@@ -153,9 +155,10 @@ public class Boss : MonoBehaviour
 
     
     public Scene nextScene = Scene.End;
-
     private float angle = 0f;
     private List<Vector3> points;
+
+   
 
     private void Awake()
     {
@@ -163,7 +166,6 @@ public class Boss : MonoBehaviour
         childStateMachine = new ChildStateMachine();
 
         oodlerIdle = new OodlerIdle(this, stateMachine, childStateMachine);
-        oodlerChase = new OodlerChase(this, stateMachine,childStateMachine);
         oodlerChargeAttack = new OodlerChargeAttack(this, stateMachine,childStateMachine);
         oodlerSlam = new OodlerSlam(this, stateMachine,childStateMachine);
         oodlerRecover = new OodlerRecover(this, stateMachine,childStateMachine);
@@ -176,12 +178,15 @@ public class Boss : MonoBehaviour
         land = new Land(this,childStateMachine,stateMachine);
         run = new Run(this,childStateMachine,stateMachine);
         emptyChildState = new EmptyChildState(this,childStateMachine,stateMachine);
+        chase = new Chase(this,childStateMachine,stateMachine);
     }
 
 
     void Start()
     {
+
         
+
         childStateMachine.Initialize(emptyChildState);
         stateMachine.Initialize(oodlerRun);
        
@@ -224,6 +229,10 @@ public class Boss : MonoBehaviour
             Die();
         }
     }
+
+
+    
+
 
     // Die function will be called when the oodler dies
     public void Die()
@@ -439,6 +448,14 @@ public class Boss : MonoBehaviour
     // }
 
   
+  public void Stalk(float speed = 20f)
+    {
+        var step = speed * Time.deltaTime;
+        playerOffSet = glich.transform.localPosition;
+        playerOffSet.y = playerOffSet.y + 10f;
+        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, playerOffSet, step));
+        MoveShadowSprite();
+    }
 
 
     
@@ -472,19 +489,7 @@ public class Boss : MonoBehaviour
     //}
 
 
-    // This function will follow the players position with an offset of 10 units above them
-    public void Stalk(float speed = 20f)
-    {
-        var step = speed * Time.deltaTime;
-        playerOffSet = glich.transform.localPosition;
-        playerOffSet.y = playerOffSet.y + 10f;
-        //transform.position = Vector3.MoveTowards(transform.position, playerOffSet, step);
-        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, playerOffSet, step));
-        MoveShadowSprite();
-
-       
-
-    }
+    
 
     // This function will make the oodler come down and strike the players last known location
     public void Slam(float speed = 100)

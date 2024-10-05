@@ -54,7 +54,7 @@ public class Land : ChildBaseState
         Debug.Log(Vector3.Distance(boss.transform.position, runGroundPosition));
         if (Vector3.Distance(boss.transform.position, runGroundPosition) < 0.3f)
         {
-            //boss.transform.position = runGroundPosition;
+            boss.oodlerRB.MovePosition(runGroundPosition);
             boss.HideShadow();
             return true;
         }
