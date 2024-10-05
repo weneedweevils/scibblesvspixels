@@ -14,9 +14,8 @@ public class OodlerSlam : BaseState
     private bool slamWasActivated = false;
     private AnimationEventNotifier animationEventNotifier;
 
-    public OodlerSlam(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+    public OodlerSlam(Boss boss, StateMachine oodlerStateMachine, ChildStateMachine childStateMachine) : base(boss, oodlerStateMachine, childStateMachine)
     {
-
     }
 
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)

@@ -5,17 +5,16 @@ using UnityEngine.EventSystems;
 
 public class OodlerGrab : BaseState
 {   
-    public OodlerGrab(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
-    {
-
-    }
-
 
 
     bool reachedTarget = false;
     bool delay = true;
     private float timer = 0f;
     private float delayTimer = 0f;
+
+    public OodlerGrab(Boss boss, StateMachine oodlerStateMachine, ChildStateMachine childStateMachine) : base(boss, oodlerStateMachine, childStateMachine)
+    {
+    }
 
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
     {

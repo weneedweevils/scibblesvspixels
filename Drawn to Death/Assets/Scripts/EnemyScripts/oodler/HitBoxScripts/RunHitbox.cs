@@ -74,8 +74,7 @@ public class RunHitbox : MonoBehaviour{
                 break;
             case "Obstacle":
             {
-
-                oodlerScript.hitObstacle = true;
+                oodlerScript.run.OnHitObstacle();
                 break;
             }
 

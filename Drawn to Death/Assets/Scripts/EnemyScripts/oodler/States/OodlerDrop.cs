@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class OodlerDrop : BaseState
 {
-    public OodlerDrop(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+  
+    
+
+    float delay = 0f;
+
+    public OodlerDrop(Boss boss, StateMachine oodlerStateMachine, ChildStateMachine childStateMachine) : base(boss, oodlerStateMachine, childStateMachine)
     {
     }
 
-    float delay = 0f;
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
     {
         base.AnimationTriggerEvent(triggerType);
@@ -56,8 +60,8 @@ public class OodlerDrop : BaseState
                 {
                     Debug.Log("have eached drop zone");
                     boss.EnableGlichColliders(true);
-                    boss.ControlAllies(boss.Glich, false);
-                    boss.PlayerScript.PausePlayerInput(false);
+                    boss.ControlAllies(boss.glich, false);
+                    boss.playerScript.PausePlayerInput(false);
                     oodlerStateMachine.ChangeState(boss.oodlerIdle);
                 }
             }

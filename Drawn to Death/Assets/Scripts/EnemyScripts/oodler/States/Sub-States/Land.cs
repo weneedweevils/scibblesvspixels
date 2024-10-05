@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.TextCore;
+using Vector3 = UnityEngine.Vector3;
 
 public class Land : ChildBaseState
 {
-    public Land(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine, BaseState parentState) : base(boss, childStateMachine, parentStateMachine, parentState)
+    public Land(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) : base(boss, childStateMachine, parentStateMachine)
     {
     }
+    private bool reachedPosition = false;
+    private Vector3 runGroundPosition;
 
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
     {
@@ -17,7 +21,8 @@ public class Land : ChildBaseState
     public override void EnterState()
     {
         base.EnterState();
-
+        reachedPosition = false;
+        runGroundPosition = boss.transform.position + new Vector3(0, -12f, 0);
     }
 
     public override void ExitState()
@@ -28,24 +33,30 @@ public class Land : ChildBaseState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
+
+
+        reachedPosition = LandOodler();
+        if(reachedPosition){
+            childStateMachine.ChangeState(boss.run);
+        }
+        
     }
 
     // This method will "Land" the oodler on the ground
-    public bool LandForRun(float speed = 15)
+    public bool LandOodler(float speed = 15)
     {
 
-        boss.SetAirPosition();
+        boss.SetAirPosition(); 
         var step = speed * Time.deltaTime;
-        var runGroundPosition = runPosition + new Vector3(0, -12f, 0);
-        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, runGroundPosition, step));
-        if (Vector3.Distance(transform.position, runGroundPosition) < 0.3f)
+        boss.oodlerRB.MovePosition(Vector3.MoveTowards(boss.transform.position, runGroundPosition, step));
+        Debug.Log(boss.transform.position);
+        Debug.Log(runGroundPosition);
+        Debug.Log(Vector3.Distance(boss.transform.position, runGroundPosition));
+        if (Vector3.Distance(boss.transform.position, runGroundPosition) < 0.3f)
         {
-            animator.SetTrigger("Walk");
-            shadowAnimator.SetTrigger("Walk");
-            oodlerRunDirection = (glich.transform.position - transform.position).normalized;
-            HideShadow();
+            //boss.transform.position = runGroundPosition;
+            boss.HideShadow();
             return true;
-
         }
         else
         {

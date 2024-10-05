@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChildStateMachine : MonoBehaviour
+public class ChildStateMachine 
 {
     public ChildBaseState currentChildState { get; set; }
 

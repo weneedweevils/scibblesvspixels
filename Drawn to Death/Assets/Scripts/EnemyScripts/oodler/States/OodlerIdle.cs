@@ -7,10 +7,10 @@ public class OodlerIdle : BaseState
 
     private float timer = 0f;
 
-    public OodlerIdle(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+    public OodlerIdle(Boss boss, StateMachine oodlerStateMachine, ChildStateMachine childStateMachine) : base(boss, oodlerStateMachine, childStateMachine)
     {
     }
-   
+
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
     {
         base.AnimationTriggerEvent(triggerType);

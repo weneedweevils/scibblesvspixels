@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class OodlerInitial : BaseState
 {
-    public OodlerInitial(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+   
+    public OodlerInitial(Boss boss, StateMachine oodlerStateMachine, ChildStateMachine childStateMachine) : base(boss, oodlerStateMachine, childStateMachine)
     {
     }
 

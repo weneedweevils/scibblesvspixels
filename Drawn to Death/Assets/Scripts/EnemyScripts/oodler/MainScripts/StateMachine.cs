@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Android;
 
 public class StateMachine
 {
@@ -18,5 +19,10 @@ public class StateMachine
         currentOodlerState.ExitState();
         currentOodlerState = newState;
         currentOodlerState.EnterState();
+    }
+
+
+    public BaseState GetCurrentState(){
+        return currentOodlerState;
     }
 }

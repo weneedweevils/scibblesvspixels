@@ -5,17 +5,17 @@ using UnityEngine.TextCore;
 
 public class GoToRunPosition : ChildBaseState
 {
-    public GoToRunPosition(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine, BaseState parentState) : base(boss, childStateMachine, parentStateMachine, parentState)
+    public GoToRunPosition(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) : base(boss, childStateMachine, parentStateMachine)
     {
     }
 
     private Vector3 runPosition;
-    private bool reachedPosition;
+    private bool reachedPosition = false;
 
     public override void EnterState()
     {
         base.EnterState();
-
+        reachedPosition = false;
         SelectRunPosition();
        
 
@@ -33,7 +33,7 @@ public class GoToRunPosition : ChildBaseState
         reachedPosition = MoveToRunPosition();
 
         if(reachedPosition) {
-           childStateMachine.ChangeState(parentState)
+           childStateMachine.ChangeState(boss.land);
         }
 
     }
@@ -48,7 +48,7 @@ public class GoToRunPosition : ChildBaseState
     {
        
         float starting_angle = 0;
-        float radius = 30f;
+        float radius = 20f;
         var Positions = new List<Vector3>();
         int layerMask = 1 << 8;
 
@@ -83,10 +83,11 @@ public class GoToRunPosition : ChildBaseState
     public bool MoveToRunPosition(float speed = 50)
     {
         var step = speed * Time.deltaTime;
-        boss.oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, runPosition, step));
+        boss.oodlerRB.MovePosition(Vector3.MoveTowards(boss.transform.position, runPosition, step));
         boss.MoveShadowSprite();
-        if (Vector3.Distance(transform.position, runPosition) < 0.3f)
+        if (Vector3.Distance(boss.transform.position, runPosition) < 0.3f)
         {
+            boss.transform.position = runPosition;
             return true;
         }
         else

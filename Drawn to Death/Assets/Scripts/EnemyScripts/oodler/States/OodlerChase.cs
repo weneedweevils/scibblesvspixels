@@ -13,9 +13,8 @@ public class OodlerChase : BaseState
     bool calculateTime = false;
     private float timer = 0f;
 
-    public OodlerChase(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+    public OodlerChase(Boss boss, StateMachine oodlerStateMachine, ChildStateMachine childStateMachine) : base(boss, oodlerStateMachine, childStateMachine)
     {
-
     }
 
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
@@ -64,7 +63,7 @@ public class OodlerChase : BaseState
 
 
         // gradually follow glich's position
-        if (Vector3.Distance(boss.Glich.transform.position, boss.transform.position) < 20f)
+        if (Vector3.Distance(boss.glich.transform.position, boss.transform.position) < 20f)
         {
             Debug.Log("something happened Here");
             var speed = 50f;

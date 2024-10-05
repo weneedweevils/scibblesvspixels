@@ -9,12 +9,10 @@ public class OodlerChargeAttack : BaseState
     {
 
     }
-    
-    public OodlerChargeAttack(Boss boss, StateMachine stateMachine) : base(boss, stateMachine)
+    public OodlerChargeAttack(Boss boss, StateMachine oodlerStateMachine, ChildStateMachine childStateMachine) : base(boss, oodlerStateMachine, childStateMachine)
     {
     }
 
-   
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
     {
         base.AnimationTriggerEvent(triggerType);

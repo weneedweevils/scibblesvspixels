@@ -10,11 +10,12 @@ public class BaseState
     protected Boss boss;
     protected StateMachine oodlerStateMachine;
     protected ChildStateMachine childStateMachine;
+    
 
-    public BaseState(Boss boss, StateMachine oodlerStateMachine) {
+    public BaseState(Boss boss, StateMachine oodlerStateMachine, ChildStateMachine childStateMachine) {
         this.boss = boss;
         this.oodlerStateMachine = oodlerStateMachine;
-        childStateMachine = new ChildStateMachine();
+        this.childStateMachine = childStateMachine;
     }
   
     public virtual void EnterState() { }

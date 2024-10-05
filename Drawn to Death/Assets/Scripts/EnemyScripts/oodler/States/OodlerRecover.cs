@@ -4,9 +4,9 @@
 public class OodlerRecover : BaseState
 {
     private float timer = 0f;
-    public OodlerRecover(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+
+    public OodlerRecover(Boss boss, StateMachine oodlerStateMachine, ChildStateMachine childStateMachine) : base(boss, oodlerStateMachine, childStateMachine)
     {
-        
     }
 
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
@@ -25,7 +25,7 @@ public class OodlerRecover : BaseState
     
         if (boss.IsCaught())
         {
-            boss.PlayerScript.PausePlayerInput(true);
+            boss.playerScript.PausePlayerInput(true);
             boss.EnableGlichColliders(false);
         }
     }

@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChildBaseState : MonoBehaviour
+public class ChildBaseState 
 {
     protected Boss boss;
     protected ChildStateMachine childStateMachine;
     protected StateMachine parentStateMachine;
-    protected BaseState parentState;
 
 
-    public ChildBaseState(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine, BaseState parentState) {
+    public ChildBaseState(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) {
         this.boss = boss;
         this.childStateMachine = childStateMachine;
         this.parentStateMachine = parentStateMachine;
-        this.parentState = parentState;
     }
 
 
