@@ -99,6 +99,7 @@ public class Boss : MonoBehaviour
     public GameObject selfHitboxCollider;
 
     public GameObject grabHitboxCollider;
+    public GameObject attackColumnHitboxCollider;
 
 
     // States
@@ -361,10 +362,12 @@ public class Boss : MonoBehaviour
         if(enable)
         {
             attackHitboxCollider.SetActive(true);
+            attackColumnHitboxCollider.SetActive(true);
         }
         else
         {
             attackHitboxCollider.SetActive(false);
+            attackColumnHitboxCollider.SetActive(false);
         }
     }
 
@@ -407,6 +410,8 @@ public class Boss : MonoBehaviour
             grabHitboxCollider.SetActive(false);
         }
     }
+
+    
 
 
     // This function enables/disables gliches hitboxes

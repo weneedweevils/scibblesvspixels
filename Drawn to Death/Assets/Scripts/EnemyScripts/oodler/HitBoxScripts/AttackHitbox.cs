@@ -55,14 +55,6 @@ public class AttackHitbox:MonoBehaviour
                     }
                 }
                 break;
-
-            case "Column":
-                {
-                    Destroy(collision.gameObject);
-
-                }
-                break;
-
             default:
                 {
                     break;
