@@ -37,6 +37,7 @@ public class Land : ChildBaseState
 
         reachedPosition = LandOodler();
         if(reachedPosition){
+            boss.ChangeSpriteSortingOrder(5);
             childStateMachine.ChangeState(boss.run);
         }
         
@@ -45,8 +46,6 @@ public class Land : ChildBaseState
     // This method will "Land" the oodler on the ground
     public bool LandOodler(float speed = 15)
     {
-
-        boss.SetAirPosition(); 
         var step = speed * Time.deltaTime;
         boss.oodlerRB.MovePosition(Vector3.MoveTowards(boss.transform.position, runGroundPosition, step));
         Debug.Log(boss.transform.position);

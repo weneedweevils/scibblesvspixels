@@ -31,7 +31,7 @@ public class OodlerGrab : BaseState
         delayTimer = 0f;
         reachedTarget = false;
         boss.SetLastPosition();
-        boss.SetAirPosition();
+        //boss.SetAirPosition();
         delay = true;
         boss.ShowAttack();
         boss.SetBossCaught(false);

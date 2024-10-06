@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class oodlertotarget:MonoBehaviour
+public class GrabHitbox:MonoBehaviour
 
     
 {
@@ -20,27 +20,8 @@ public class oodlertotarget:MonoBehaviour
 
             case "Player":
                 {
-
-                    //if (oodlerSlamCooldown == false && !PlayerScript.dashTimer.IsActive())
-
-                    if (oodlerScript.grabbing == false)
-                    {
-
-                        if (!PlayerScript.dashTimer.IsActive() && !oodlerScript.OnSlamCooldown() && !PlayerScript.invincibilityTimer.IsActive() && oodlerScript.activateDamage())
-                        {
-                            PlayerScript.Damage(oodlerScript.oodlerAttackDamage);
-                        }
-                    }
-
-                    else
-                    {
-                        
-                        oodlerScript.SetBossCaught(true);
-                        Debug.Log(oodlerScript.IsCaught());
-                    }
-
-
-
+                    oodlerScript.SetBossCaught(true);
+                    Debug.Log(oodlerScript.IsCaught());
                 }
                 break;
 

@@ -17,16 +17,11 @@ public class OodlerRun : BaseState
     private Vector3 runPosition;
 
     
+    
     public override void EnterState()
     {
-
-
-
-      
         base.EnterState();
         boss.childStateMachine.ChangeState(boss.chase);
-       
-
     }
 
     public override void ExitState()

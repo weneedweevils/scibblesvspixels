@@ -35,52 +35,52 @@ public class OodlerRecover : BaseState
         base.ExitState();
     }
 
-    public override void FrameUpdate()
-    {
+    // public override void FrameUpdate()
+    // {
         
-        base.FrameUpdate();
-        boss.MoveUp();
+    //     base.FrameUpdate();
+    //     boss.MoveUp();
 
-        // if we caught glich move with boss
-        if (boss.IsCaught())
-        {
+    //     // if we caught glich move with boss
+    //     if (boss.IsCaught())
+    //     {
             
-            boss.MoveGlichWithOodler();
-        }
+    //         boss.MoveGlichWithOodler();
+    //     }
         
         // Once we reached the max air height wait 3 seconds before going to drop state or idle state
-        if(boss.ReachedAirPosition())
-        {
-            timer = timer + Time.deltaTime;
-            if (timer > boss.airTime)
-            {
+        // if(boss.ReachedAirPosition())
+        // {
+        //     timer = timer + Time.deltaTime;
+        //     if (timer > boss.airTime)
+        //     {
 
-                Debug.Log("caught is set to" + boss.IsCaught());
+        //         Debug.Log("caught is set to" + boss.IsCaught());
 
-                if (boss.IsCaught()) {
-                    Debug.Log("CHanging states to drop");
-                    oodlerStateMachine.ChangeState(boss.oodlerDrop);
+        //         if (boss.IsCaught()) {
+        //             Debug.Log("CHanging states to drop");
+        //             oodlerStateMachine.ChangeState(boss.oodlerDrop);
                     
-                }
-                else if(boss.grabbing)
-                {
-                    oodlerStateMachine.ChangeState(boss.oodlerIdle);
-                }
+        //         }
+        //         else if(boss.grabbing)
+        //         {
+        //             oodlerStateMachine.ChangeState(boss.oodlerIdle);
+        //         }
 
-                else if(boss.SlamNum < boss.allowedSlams)
-                {
-                        //oodlerStateMachine.ChangeState(boss.oodlerChase);
-                }
-                else
-                {
-                        boss.SlamNum = 0;
-                        oodlerStateMachine.ChangeState(boss.oodlerIdle);
-                }
+        //         else if(boss.SlamNum < boss.allowedSlams)
+        //         {
+        //                 //oodlerStateMachine.ChangeState(boss.oodlerChase);
+        //         }
+        //         else
+        //         {
+        //                 boss.SlamNum = 0;
+        //                 oodlerStateMachine.ChangeState(boss.oodlerIdle);
+        //         }
 
                 
-            }
-        }
+        //     }
+        // }
     }
 
 
-}
+

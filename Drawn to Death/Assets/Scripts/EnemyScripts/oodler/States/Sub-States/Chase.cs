@@ -19,8 +19,6 @@ public class Chase : ChildBaseState
     {
     }
 
-
-
     public override void EnterState()
     {
         base.EnterState();
@@ -43,18 +41,21 @@ public class Chase : ChildBaseState
     {
         // If the distance between glich and oodler gets shorter, oodler will quickly snap to glichs posiiton
         if (Vector3.Distance(boss.glich.transform.position, boss.transform.position) < 20f){
-            Stalk(100f);
+            reachedTarget = boss.Stalk(reachedTarget, 100f);
             if(reachedTarget){
                 if(bossTimer.Update()){
-                    childStateMachine.ChangeState(boss.goToRunPosition);
+                    if(parentStateMachine.currentOodlerState == boss.oodlerRun){
+                        childStateMachine.ChangeState(boss.goToRunPosition);
+                    }
+                    if(parentStateMachine.currentOodlerState == boss.oodlerSlam){
+                        childStateMachine.ChangeState(boss.prepareAttack);
+                    }
                 }   
             }
         }
         else{
-           Stalk(20f);
+           reachedTarget = boss.Stalk(reachedTarget, 50f);
         }
-        
-        
     }
 
 
@@ -67,18 +68,6 @@ public class Chase : ChildBaseState
 
     
 
-    // This function will follow the players position with an offset of 10 units above them
-    public void Stalk(float speed = 20f)
-    {
-        var step = speed * Time.deltaTime;
-        playerOffSet = boss.glich.transform.localPosition;
-        playerOffSet.y = playerOffSet.y + 10f;
-        boss.oodlerRB.MovePosition(Vector3.MoveTowards(boss.transform.position, playerOffSet, step));
-        boss.MoveShadowSprite();
-        if(Vector3.Distance(boss.transform.position, playerOffSet)<1f){
-            boss.oodlerRB.MovePosition(playerOffSet);
-            reachedTarget = true;
-        }
-    }
+    
 
 }
