@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private bool activatedDashNotifier = false;
 
     //Animations
-    [HideInInspector] public Animator animator;
+    public Animator animator;
     private SpriteRenderer sprite;
     public Attack weapon { get; private set; }
 
@@ -182,7 +182,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     // Update is called once per frame
     void Update()
-    {
+    {   
+        Debug.Log(playerInput.actions);
         acceleration = playerInput.actions["Move"].ReadValue<Vector2>()*accelerationCoefficient;
         aimDirection = playerInput.actions["Aim"].ReadValue<Vector2>();
 
@@ -522,7 +523,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     //Some abilities can not be used simultaneously - Check to see if any of those are not active
     public bool CanUseAbility()
     {
-        //Debug.Log(dashTimer.IsActive());
+        
         return !(weapon.reviveTimer.IsActive() || dashTimer.IsActive() || recallTimer.IsActive()) &&
                !(inFreezeDialogue() || timelinePlaying);
     }
