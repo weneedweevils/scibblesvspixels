@@ -262,7 +262,6 @@ GameObject:
   - component: {fileID: 2462823223073394684}
   - component: {fileID: 2454788199460616579}
   - component: {fileID: 2462823222744332875}
-  - component: {fileID: 2462823222744332872}
   - component: {fileID: 17060506650434024}
   - component: {fileID: 3786005922980315812}
   - component: {fileID: 3549213141545925226}
@@ -454,19 +453,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 1
---- !u!114 &2462823222744332872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2454788199460616583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5724f9fd52a64244949ec31c8383386, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sfx: event:/GlichFootsteps
 --- !u!114 &17060506650434024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,7 +465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632ae7eb1d4ce49d38a1e38ee7efe7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guid: ab60e44cc5537a30-6d82ae60afa0e881
+  guid: 83e2d5675b2ceba0-d8f57b329b871991
 --- !u!61 &3786005922980315812
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -922,6 +908,7 @@ GameObject:
   - component: {fileID: 365378666863103656}
   - component: {fileID: 3835808821740322995}
   - component: {fileID: 5942736406461716722}
+  - component: {fileID: 8357900385525332921}
   m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
@@ -1012,6 +999,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8357900385525332921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7394020995328581176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5724f9fd52a64244949ec31c8383386, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfx: event:/GlichFootsteps
 --- !u!1 &7880962804287198294
 GameObject:
   m_ObjectHideFlags: 0

@@ -38,6 +38,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private bool activatedDashNotifier = false;
 
     //Animations
+    [HideInInspector]
     public Animator animator;
     private SpriteRenderer sprite;
     public Attack weapon { get; private set; }
@@ -135,10 +136,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         boxCollider = GetComponent<BoxCollider2D>();
         rbody = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-        sprite = GetComponent<SpriteRenderer>();
+        animator = GetComponentInChildren<Animator>();
+        sprite = GetComponentInChildren<SpriteRenderer>();
         weapon = GetComponentInChildren<Attack>();
-        eraser = transform.GetChild(0).GetChild(0).gameObject.GetComponent<SpriteRenderer>();
+        //eraser = transform.GetChild(0).GetChild(0).gameObject.GetComponent<SpriteRenderer>(); // CHANGE THIS SO IT DOES NOT RELY ON THE POSITION OF THE PARENT
+        eraser = GameObject.Find("Eraser").GetComponent<SpriteRenderer>();
         lifestealOrb = transform.GetChild(4).gameObject;
         volumeController = volumeControllerObject.GetComponent<VolumeController>();
 
@@ -182,8 +184,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     // Update is called once per frame
     void Update()
-    {   
-        Debug.Log(playerInput.actions);
+    {  
         acceleration = playerInput.actions["Move"].ReadValue<Vector2>()*accelerationCoefficient;
         aimDirection = playerInput.actions["Aim"].ReadValue<Vector2>();
 
