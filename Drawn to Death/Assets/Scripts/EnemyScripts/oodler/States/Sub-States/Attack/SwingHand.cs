@@ -33,7 +33,6 @@ public class SwingHand : ChildBaseState
         animationEventNotifier = boss.GetComponentInChildren<AnimationEventNotifier>(); //get animation event notifier
         animationEventNotifier.SlamNotifier += AnimationOffset;
         animationEventNotifier.HitBoxActive += ActivateHitbox;
-
         boss.ChangeSpriteSortingOrder(5);
         boss.animator.SetTrigger("Slam");
         boss.GetShadow().SetTrigger("Slam"); // the shadow shrinks in its animator when you 
@@ -60,7 +59,7 @@ public class SwingHand : ChildBaseState
         // This if statement is for when the fist comes down
         if(!reachedTarget && isSlamFrame){
             boss.Slam();
-            if(!slamWasActivated && boss.ActivateSlamHitbox()){
+            if(!slamWasActivated && boss.CloseToTarget()){
                 boss.EnableAttackHitbox(true);
                 slamWasActivated = true;
             }

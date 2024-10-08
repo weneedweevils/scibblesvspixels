@@ -45,7 +45,7 @@ public class Boss : MonoBehaviour
     
     [Header("Public bool Parameters")]
     public bool grabbing = false;
-    public bool caught = false;
+    private bool caught = false;
 
     // ENUMS
     public enum AttackType {Grab,Slam}
@@ -127,6 +127,9 @@ public class Boss : MonoBehaviour
     public SwingHand swingHand{get;set;}
     public Vulnerable vulnerableState{get;set;}
     public Rise rise{get;set;}
+    public PrepareGrab prepareGrab{get;set;}
+    public AttemptGrab attemptGrab{get;set;}
+    public CarryGlich carryGlich{get;set;}
 
 
 
@@ -187,9 +190,13 @@ public class Boss : MonoBehaviour
         emptyChildState = new EmptyChildState(this,childStateMachine,stateMachine);
         chase = new Chase(this,childStateMachine,stateMachine);
         prepareAttack = new PrepareAttack(this, childStateMachine, stateMachine);
+        prepareGrab = new PrepareGrab(this,childStateMachine,stateMachine);
         swingHand = new SwingHand(this,childStateMachine,stateMachine);
         vulnerableState = new Vulnerable(this,childStateMachine,stateMachine);
         rise = new Rise(this,childStateMachine,stateMachine);
+        attemptGrab = new AttemptGrab(this,childStateMachine,stateMachine);
+        carryGlich = new CarryGlich(this,childStateMachine,stateMachine);
+
     }
 
 
@@ -199,9 +206,8 @@ public class Boss : MonoBehaviour
         
 
         childStateMachine.Initialize(emptyChildState);
-        stateMachine.Initialize(oodlerSlam);
+        stateMachine.Initialize(oodlerGrab);
        
-
 
         CurrentHealth = MaxHealth;
         currentHealthUI.text = CurrentHealth.ToString();
@@ -221,9 +227,9 @@ public class Boss : MonoBehaviour
         dropZoneCorrected = new Vector3(dropZoneObject.transform.position.x, dropZoneObject.transform.position.y + 10f, 0);
         dropZone = new Vector3(dropZoneObject.transform.position.x, dropZoneObject.transform.position.y, 0);
 
-        Debug.Log("My Rigidbody is" + oodlerRB);
-        Debug.Log("my shadow is" + shadowAnimator);
-        Debug.Log("My shadow sprite is" + oodlerShadow);
+        // Debug.Log("My Rigidbody is" + oodlerRB);
+        // Debug.Log("my shadow is" + shadowAnimator);
+        // Debug.Log("My shadow sprite is" + oodlerShadow);
 
         points = new List<Vector3>();
     }
@@ -429,7 +435,7 @@ public class Boss : MonoBehaviour
         }
     }
 
-     public bool ActivateSlamHitbox(){
+     public bool CloseToTarget(){
          if (Vector3.Distance(transform.position,glichLastPosition)<1.5f)
         {
             return true;
@@ -439,6 +445,8 @@ public class Boss : MonoBehaviour
         }
     }
 
+
+   
     #endregion
 
    
@@ -604,7 +612,7 @@ public class Boss : MonoBehaviour
             glich.transform.position = transform.position;
         }
 
-        playerScript.StopMovement();
+        //playerScript.StopMovement();
     }
 
 
@@ -821,6 +829,10 @@ public class Boss : MonoBehaviour
             caught = false;
         }
 
+    } 
+
+    public bool IsCaught(){
+        return caught;
     }
 
 
@@ -836,9 +848,7 @@ public class Boss : MonoBehaviour
         return oodlerSlamCooldown;
     }
 
-    public bool IsCaught(){
-        return caught;
-    }
+ 
 
 
     public void heal(float heal_amount)

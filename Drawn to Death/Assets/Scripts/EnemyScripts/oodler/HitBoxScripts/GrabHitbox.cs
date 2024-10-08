@@ -13,7 +13,7 @@ public class GrabHitbox:MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Collided with " + collision.name);
+      
 
         switch (collision.gameObject.tag)
         {
@@ -21,41 +21,35 @@ public class GrabHitbox:MonoBehaviour
             case "Player":
                 {
                     oodlerScript.SetBossCaught(true);
-                    Debug.Log(oodlerScript.IsCaught());
+                    Debug.Log("CAUGHT GLICH");
                 }
                 break;
 
-            case "Enemy":
-                {
-                    EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
+            // case "Enemy":
+            //     {
+            //         EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
 
 
-                    if (enemy != null && !enemy.invincibilityTimer.IsActive() && !oodlerScript.OnSlamCooldown()) //&& oodlerScript.activateDamage())
-                    {
-                        enemy.Damage(oodlerScript.oodlerAttackDamage);
-                    }
+            //         if (enemy != null && !enemy.invincibilityTimer.IsActive() && !oodlerScript.OnSlamCooldown()) //&& oodlerScript.activateDamage())
+            //         {
+            //             enemy.Damage(oodlerScript.oodlerAttackDamage);
+            //         }
 
-                    else
-                    {
-                        HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
-                        if (crystal != null)
-                        {
-                            if (crystal != null && crystal.invincibilityTimer.IsUseable() && !oodlerScript.OnSlamCooldown())// && oodlerScript.activateDamage())
-                            {
-                                //Damage enemy
-                                crystal.CrystalDamage(oodlerScript.oodlerAttackDamage, true);
-                            }
-                        }
-                    }
-                }
-                break;
+            //         else
+            //         {
+            //             HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
+            //             if (crystal != null)
+            //             {
+            //                 if (crystal != null && crystal.invincibilityTimer.IsUseable() && !oodlerScript.OnSlamCooldown())// && oodlerScript.activateDamage())
+            //                 {
+            //                     //Damage enemy
+            //                     crystal.CrystalDamage(oodlerScript.oodlerAttackDamage, true);
+            //                 }
+            //             }
+            //         }
+            //     }
+            //     break;
 
-            case "Column":
-                {
-                    Destroy(collision.gameObject);
-
-                }
-                break;
 
             default:
                 {

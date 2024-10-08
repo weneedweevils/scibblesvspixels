@@ -8,6 +8,7 @@ public class AnimationEventNotifier : MonoBehaviour
 
     public event Action SlamNotifier;
     public event Action HitBoxActive;
+    public event Action GrabNotifier;
     
 
     public void SlamStarted(){
@@ -16,5 +17,8 @@ public class AnimationEventNotifier : MonoBehaviour
 
     public void SetHitBoxTrue(){
         HitBoxActive?.Invoke();
+    }
+    public void GrabStarted(){
+        GrabNotifier?.Invoke();
     }
 }

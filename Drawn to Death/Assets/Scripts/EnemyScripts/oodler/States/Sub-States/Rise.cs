@@ -8,6 +8,7 @@ public class Rise : ChildBaseState
 {
 
     private Vector3 airPosition;
+    BossTimer bossTimer;
     public Rise(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) : base(boss, childStateMachine, parentStateMachine)
     {
     }
@@ -23,6 +24,14 @@ public class Rise : ChildBaseState
         airPosition = boss.transform.position;
         airPosition.y = airPosition.y + 12f;
         Debug.Log("entered rise state");
+        Debug.Log(parentStateMachine.currentOodlerState);
+        bossTimer = new BossTimer(4f);
+
+        if(boss.IsCaught()){
+            boss.playerScript.animator.SetTrigger("Grabbed");
+            boss.playerScript.ChangeSpriteSortingOrder(9);
+        }
+
       
     }
 
@@ -35,8 +44,18 @@ public class Rise : ChildBaseState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        if(RiseOodler()){
-            childStateMachine.ChangeState(boss.prepareAttack);
+        
+        IfCaught();
+        if(bossTimer.Update()){
+            if(RiseOodler()){
+                // // Check if we have caught glich and we are in the grab parent state
+                if(parentStateMachine.currentOodlerState == boss.oodlerGrab && boss.IsCaught())
+                     childStateMachine.ChangeState(boss.carryGlich);
+                 else{
+                     childStateMachine.ChangeState(boss.chase);
+                 }
+            }
+
         }
     }
 
@@ -47,10 +66,12 @@ public class Rise : ChildBaseState
     }
 
 
-    public bool RiseOodler(float speed = 15)
+    public bool RiseOodler(float speed = 10f)
     {
+        
         var step = speed * Time.deltaTime;
         boss.oodlerRB.MovePosition(Vector3.MoveTowards(boss.transform.position, airPosition, step));
+
         if (Vector3.Distance(boss.transform.position, airPosition) < 0.3f)
         {
             boss.oodlerRB.MovePosition(airPosition);
@@ -60,5 +81,12 @@ public class Rise : ChildBaseState
         {
             return false;
         }
+    }
+
+    public void IfCaught(){
+         if(parentStateMachine.currentOodlerState == boss.oodlerGrab && boss.IsCaught()){
+             boss.MoveGlichWithOodler();
+        }
+
     }
 }
