@@ -32,7 +32,6 @@ public class DialogueManager : Singleton<DialogueManager>
     private DialogueBox currentDialogue = null;
     private DialogueEntry currentEntry;
 
-    public GameObject inputHandler;
     [HideInInspector]
     public PlayerInput playerInput;
 
