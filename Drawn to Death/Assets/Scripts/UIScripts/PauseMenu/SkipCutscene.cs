@@ -30,14 +30,11 @@ public class SkipCutscene : MonoBehaviour
     private bool skippedCutscene = false;
     float skipTime = 2f;
 
-    private void Awake()
+    private void Start()
     {
         playerInput = CustomInput.instance.playerInput;
         progressSlider = GetComponentInChildren<Slider>();
-    }
-
-    private void Start()
-    {
+        
         // Get display string from action.
         action = playerInput.actions["SkipCutscene"];
 
@@ -68,7 +65,6 @@ public class SkipCutscene : MonoBehaviour
                     HandleSkipCutscene();
                     skippedCutscene = true;
                 }
-
             }
 
             else
