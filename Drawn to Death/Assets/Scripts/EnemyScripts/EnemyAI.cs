@@ -608,8 +608,6 @@ public abstract class EnemyAI : MonoBehaviour
             invincibilityTimer.StartTimer();
 
             Stun();
-
-            attackSFXInstance.stop(0);
         }
 
         return;
