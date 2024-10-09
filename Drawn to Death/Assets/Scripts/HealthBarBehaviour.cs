@@ -3,18 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBarBehaviour : MonoBehaviour
+public class HealthBarBehaviour : HealthBar
 {
-    public Slider healthBar;
-    public Color low;
-    public Color high;
-
     // FMOD Glich Hurt event
     public string sfx;
 
-    public void SetHealth(float health, float maxHealth)
+    public override void SetHealth(float health, float maxHealth)
     {
-        if (health < healthBar.value){
+        if (sfx != null && !sfx.Equals("") && health < healthBar.value){
             // Play the FMOD event 
             FMODUnity.RuntimeManager.PlayOneShot(sfx);
         }
