@@ -69,16 +69,7 @@ public class OodlerDrop : BaseState
             {
                 boss.MoveGlichWithOodler();
                 delay += Time.deltaTime;
-            }
-
-            
-
-            
-            
+            } 
         }
     }
-
-   
-
-
 }

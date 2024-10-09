@@ -33,7 +33,7 @@ public class PrepareAttack : ChildBaseState
         base.FrameUpdate();
 
         // Following if statement will stalk glich, once the redoutline is fully revealed we will stop the oodler for sometime to give the player time to react
-        if(!stopOodler){
+        if(!stopOodler){ // This logic here seems flawed
             reachedTarget = boss.Stalk(reachedTarget, 100f);
             if(reachedTarget){
                 attackCharged = boss.RevealAttack();

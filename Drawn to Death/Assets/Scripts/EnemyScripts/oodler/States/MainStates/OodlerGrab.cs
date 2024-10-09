@@ -25,7 +25,7 @@ public class OodlerGrab : BaseState
     {
         base.EnterState();
         boss.SetBossCaught(false);
-        childStateMachine.ChangeState(boss.prepareGrab);
+        childStateMachine.ChangeState(boss.chase);
  
 
     }
