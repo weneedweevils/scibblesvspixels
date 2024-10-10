@@ -476,6 +476,10 @@ public class Attack : MonoBehaviour
             {
                 allies.Remove(ally);
             } 
+            else if (ally.type == Type.hopper) // Allied Oodle Hoppers always follow and heal player
+            {
+                ally.SetTarget(player, true);
+            }
             else if (target != null)  //Found  a target -> go attack target
             {
                 if (ally.state == State.follow)

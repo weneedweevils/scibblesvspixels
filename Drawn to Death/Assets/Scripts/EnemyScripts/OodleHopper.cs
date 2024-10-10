@@ -8,23 +8,23 @@ public class OodleHopper : EnemyAI
     [Header("Doodle Hopper Specific References")]
     public float lungeForce = 30000f;
     public bool cutscene = false;
-    private float windupDuration = 35f / 60f;
     private float hopInterval = 120f / 60f;
     private float hopDuration = 47f / 60f;
-    private CooldownTimer windupTimer;
     private CooldownTimer hopCooldown;
-    private bool lunged = true;
+    [HideInInspector] public SpriteRenderer healImage;
 
     override protected void Start()
     {
         deathDuration = 56f / 60f;
-        attackDuration = 47f / 60f;
+        attackDuration = 300f / 60f;
         invincibilityDuration = 20f / 60f;
         type = Type.hopper;
 
         //Create timers
-        windupTimer = new CooldownTimer(0f, windupDuration);
         hopCooldown = new CooldownTimer(hopInterval, hopDuration);
+
+        healImage = this.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>();
+        healImage.transform.localScale *= attackDistance * 10.45f;
 
         base.Start();
     }
@@ -148,7 +148,7 @@ public class OodleHopper : EnemyAI
                         {
                             state = State.idle;
                         }
-                        else if (PathLength() <= attackDistance)
+                        else if (PathLength() <= attackDistance && attackTimer.IsUseable())
                         {
                             state = State.attack;
                         }
@@ -164,21 +164,27 @@ public class OodleHopper : EnemyAI
                     if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
                     {
                         //Activate Attack behaviour
+                        //Activates healing for whatever team the oodle hopper is on
                         Attack();
-
-                        if (PathLength() > attackDistance)
+                        if (!attackTimer.IsActive())
                         {
-                            animator.SetBool("attacking", false);
-                            animator.SetBool("chasing", true);
-                            state = State.chase;
+                            Debug.Log("Attack Over");
+                            animator.SetBool("hopping", false);
+                            animator.SetBool("idle", true);
+                            if (team == Team.player)
+                            {
+                                state = State.follow;
+                                Debug.Log("Follow");
+                            }
+                            else if (team == Team.oddle)
+                            {
+                                state = State.chase;
+                                Debug.Log("Chase");
+                            }
                             attackSFXInstance.stop(0);
+                            healImage.enabled = false;
                             return;
                         }
-                    }
-                    else
-                    {
-                        // Prevent sudden attacks after cutscenes
-                        Stun();
                     }
                     break;
                 }
@@ -186,6 +192,7 @@ public class OodleHopper : EnemyAI
                 {
                     // If attack sfx is playing, stop it
                     attackSFXInstance.stop(0);
+                    healImage.enabled = false;
 
                     //dying Behaviour
                     animationTimer += Time.deltaTime;
@@ -224,21 +231,26 @@ public class OodleHopper : EnemyAI
                         animationTimer = 0f;
                         state = State.follow;
                         animator.SetBool("reviving", false);
-                        animator.SetBool("chasing", false);
-                        animator.SetBool("attacking", false);
+                        animator.SetBool("idle", false);
+                        animator.SetBool("hopping", false);
                         animator.SetBool("dying", false);
                     }
                     break;
                 }
-            case State.follow:
+            case State.follow: 
                 {
                     if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
                     {
-
                         //follow Behaviour
-                        animator.SetBool("attacking", false);
-                        animator.SetBool("chasing", true);
-                        MoveEnemy();
+                        //follow player and heal when in range
+                        if (PathLength() <= attackDistance && attackTimer.IsUseable())
+                        {
+                            state = State.attack;
+                        }
+                        else
+                        {
+                            MoveEnemy();
+                        }
                     }
                     break;
                 }
@@ -247,7 +259,6 @@ public class OodleHopper : EnemyAI
         if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
         {
             //Update timers
-            windupTimer.Update();
             hopCooldown.Update();
 
             if (cutscene)
@@ -261,61 +272,38 @@ public class OodleHopper : EnemyAI
             cutscene = true;
             base.healthBar.Disable();
         }
-        else
-        {
-            // Prevents lunge from happening if cutscene interupted attack
-            lunged = true;
-        }
         // Stop hopper after hop duration is over
-        if (hopCooldown.IsOnCooldown() && (rb.velocity != Vector2.zero || rb.angularVelocity != 0f))
+        if (hopCooldown.IsOnCooldown() && (rb.velocity != Vector2.zero || rb.angularVelocity != 0f || animator.GetBool("hopping")))
         {
             rb.velocity = Vector2.zero;
             rb.angularVelocity = 0f;
-            animator.SetBool("attacking", false);
-            animator.SetBool("chasing", true);
+            animator.SetBool("hopping", false);
+            animator.SetBool("idle", true);
         }
     }
 
     override protected void Attack() // Heal Ring
     {
-        if (target != null && attackTimer.IsUseable())
+        if (target != null && attackTimer.IsUseable() && !hopCooldown.IsActive())
         {
-            //Start the Attack and Windup Timers
-            lunged = false;
+            //Start the Attack Timer
             attackTimer.StartTimer();
-            windupTimer.StartTimer();
-            animator.SetBool("attacking", true);
-            animator.SetBool("chasing", false);
-        }
+            animator.SetBool("hopping", false);
+            animator.SetBool("idle", true);
+            healImage.enabled = true;
 
-        if (PathLength() > attackDistance)
-        {
-            // Prevents lunge with no animation if player goes out of range
-            lunged = true;
-        }
-
-        if (!lunged && !windupTimer.IsActive())
-        {
             // play the attack sfx
             attackSFXInstance.start();
-
-            //Lunge at the target
-            Vector2 direction = ((Vector2)target.position - rb.position).normalized;
-            rb.AddForce(direction * lungeForce * Time.deltaTime);
-            lunged = true;
         }
+
+        //Lunge at the target
+        //Vector2 direction = ((Vector2)target.position - rb.position).normalized;
+        //rb.AddForce(direction * lungeForce * Time.deltaTime);
 
         if (attackTimer.IsOnCooldown())
         {
-            animator.SetBool("attacking", false);
-            animator.SetBool("chasing", true);
+            healImage.enabled = false;
         }
-    }
-
-    override public void Stun()
-    {
-        windupTimer.ResetTimer();
-        base.Stun();
     }
 
     protected override void MoveEnemy()
@@ -331,8 +319,11 @@ public class OodleHopper : EnemyAI
         if (hopCooldown.IsUseable())
         {
             hopCooldown.StartTimer();
-            animator.SetBool("attacking", true);
-            animator.SetBool("chasing", false);
+            animator.SetBool("hopping", true);
+            animator.SetBool("idle", false);
+
+            // play the attack sfx TODO: REPLACE EVENTUALLY
+            attackSFXInstance.start();
 
             //Apply a force in that direction
             Vector2 force = direction * speed * Time.deltaTime;
@@ -359,6 +350,23 @@ public class OodleHopper : EnemyAI
         }
     }
 
+    public override void Kill()
+    {
+        //Set Animation variables
+        //For Oodle Hopper hopping replaces attacking and idle replaces chasing for more accurate bool names
+        animator.SetBool("hopping", false);
+        animator.SetBool("idle", false);
+        base.Kill();
+    }
+
+    public override void Stun()
+    {
+        //Set Animation variables
+        animator.SetBool("hopping", false);
+        animator.SetBool("idle", true);
+        base.Stun();
+    }
+
     protected void OnTriggerStay2D(Collider2D collision)
     {
         if (health > 0)
@@ -370,7 +378,7 @@ public class OodleHopper : EnemyAI
 
                         //Get a reference to the player
                         PlayerMovement player = collision.gameObject.GetComponent<PlayerMovement>();
-                        if (attackTimer.IsActive() && !windupTimer.IsActive() && team == Team.oddle && player.invincibilityTimer.IsUseable())
+                        if (attackTimer.IsActive() && team == Team.oddle && player.invincibilityTimer.IsUseable())
                         {
                             //Damage player
                             player.Damage(damage);
@@ -387,7 +395,7 @@ public class OodleHopper : EnemyAI
 
                         if (otherAI != null)
                         {
-                            if (attackTimer.IsActive() && !windupTimer.IsActive() && otherAI != null && team != otherAI.team && otherAI.team != Team.neutral && otherAI.invincibilityTimer2.IsUseable())
+                            if (attackTimer.IsActive() && otherAI != null && team != otherAI.team && otherAI.team != Team.neutral && otherAI.invincibilityTimer2.IsUseable())
                             {
                                 Debug.Log(string.Format("{0} Hut {1} for {2} damage", name, otherAI.name, damage));
                                 //Damage enemy
@@ -404,7 +412,7 @@ public class OodleHopper : EnemyAI
 
                             //Debug.Log(otherAI.invincibilityTimer2.IsUseable());
 
-                            if (attackTimer.IsActive() && !windupTimer.IsActive() && crystal != null && crystal.invincibilityTimer.IsUseable())
+                            if (attackTimer.IsActive() && crystal != null && crystal.invincibilityTimer.IsUseable())
                             {
                                 //Damage crystal
                                 crystal.CrystalDamage(damage, true);
@@ -414,7 +422,7 @@ public class OodleHopper : EnemyAI
 
                         else if (oodler != null)
                         {
-                            if (attackTimer.IsActive() && !windupTimer.IsActive() && oodler != null && oodler.BossIsDamageable() && !invincibilityTimerOodler.IsActive())//!oodler.invincibilityTimer.IsActive())
+                            if (attackTimer.IsActive() && oodler != null && oodler.BossIsDamageable() && !invincibilityTimerOodler.IsActive())//!oodler.invincibilityTimer.IsActive())
                             {
 
                                 //Damage enemy
