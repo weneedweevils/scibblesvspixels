@@ -112,7 +112,7 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
         for (int i = 0; i < count; i++)
         {
             //Instantiate the soul
-            Soul soul = Instantiate<Soul>(soulBlueprint, transform.parent);
+            Soul soul = Instantiate<Soul>(soulBlueprint, transform);
             soul.transform.position = pos;
             soul.SetValue(value);
         }
