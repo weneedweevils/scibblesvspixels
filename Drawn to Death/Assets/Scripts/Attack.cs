@@ -231,7 +231,7 @@ public class Attack : MonoBehaviour
                 foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
                 {
                     EnemyAI enemy = obj.GetComponent<EnemyAI>();
-                    if (enemy == null || allies.Count >= reviveCap)
+                    if (enemy == null || allies.Count >= reviveCap || !enemy.revivable)
                     {
                         continue;
                     }
