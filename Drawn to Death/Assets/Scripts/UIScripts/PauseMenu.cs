@@ -17,7 +17,7 @@ public class PauseMenu : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<PlayerMovement>();
-        playerInput = player.getInputSystem();
+        playerInput = CustomInput.instance.playerInput;
     }
 
     // Update is called once per frame

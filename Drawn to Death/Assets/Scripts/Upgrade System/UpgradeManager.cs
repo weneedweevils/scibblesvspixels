@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class UpgradeManager : MonoBehaviour, IDataPersistence
+public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
 {
-    public static UpgradeManager instance { get; private set; }
-
     public bool loadLevels;
 
     [Header("Shop")]
@@ -20,15 +18,9 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
     [Header("UI")]
     public TMPro.TextMeshProUGUI currencyCounter;
     public TMPro.TextMeshProUGUI textbox;
-
-    public void Awake()
-    {
-        if (instance != null)
-        {
-            Debug.LogError("Found more than one Upgrade Manager in the scene");
-        }
-        instance = this;
-    }
+    public TMP_FontAsset basicFont;
+    public TMP_FontAsset fancyFont;
+    public float fontSize;
 
     public void Start()
     {
@@ -73,6 +65,9 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
             textbox.text = defaultTextboxContent;
         else
             textbox.text = content;
+
+        textbox.font = (DialogueManager.fancyFont ? fancyFont : basicFont);
+        textbox.fontSize = (DialogueManager.fancyFont ? fontSize : fontSize * 0.8f);
     }
 
     public void LoadData(GameData data)
@@ -117,7 +112,7 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
         for (int i = 0; i < count; i++)
         {
             //Instantiate the soul
-            Soul soul = Instantiate<Soul>(soulBlueprint, transform.parent);
+            Soul soul = Instantiate<Soul>(soulBlueprint, transform);
             soul.transform.position = pos;
             soul.SetValue(value);
         }

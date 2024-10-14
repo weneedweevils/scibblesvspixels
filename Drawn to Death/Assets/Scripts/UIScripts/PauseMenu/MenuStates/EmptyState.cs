@@ -30,10 +30,9 @@ public class EmptyState : MenuBaseState
     public override void EnterState()
     {
         base.EnterState();
+        pauseMenuManager.playerInput.actions.FindAction("Lifesteal").Enable();
         Resume();
         pauseMenuManager.playerInput.SwitchCurrentActionMap("Player");
-       
-
        
     }
 
@@ -52,6 +51,8 @@ public class EmptyState : MenuBaseState
         pauseMenuManager.PauseMenu.SetActive(false);
         Time.timeScale = 1f;
         pauseMenuManager.paused = false;
+        pauseMenuManager.BottomHud.SetActive(true);
+        pauseMenuManager.UpperHud.SetActive(true);
 
     }
     
@@ -59,6 +60,7 @@ public class EmptyState : MenuBaseState
     {
         Time.timeScale = 0f;
         pauseMenuManager.paused = true;
+        pauseMenuManager.BottomHud.SetActive(false);
   
     
  
