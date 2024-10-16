@@ -456,9 +456,6 @@ public class Attack : MonoBehaviour
             {
                 continue;
             }
-            
-
-
         }
 
         //Set Allies target & remove dead allies

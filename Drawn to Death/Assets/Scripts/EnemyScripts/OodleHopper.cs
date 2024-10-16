@@ -27,6 +27,10 @@ public class OodleHopper : EnemyAI
         healImage.transform.localScale *= attackDistance * 10.45f;
 
         base.Start();
+
+        // Override target defaults
+        target = null;
+        targetIsPlayer = false;
     }
 
     override protected void FixedUpdate()
@@ -132,6 +136,7 @@ public class OodleHopper : EnemyAI
         {
             case State.idle:
                 {
+                    Debug.Log("Idle");
                     //idle Behaviour
                     if (PathLength() < seekDistance && !playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
                     {
@@ -279,6 +284,68 @@ public class OodleHopper : EnemyAI
             rb.angularVelocity = 0f;
             animator.SetBool("hopping", false);
             animator.SetBool("idle", true);
+        }
+    }
+
+    protected override void FindTarget()
+    {
+        if (!targetIsDropZone)
+        {
+            //Find closest enemy target in range
+            float minDist = float.MaxValue;
+            float targetDistance = 10000f;
+
+            //Iterate through all enemies
+            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
+            {
+                EnemyAI enemy = obj.GetComponent<EnemyAI>();
+                HealthCrystal crystal = obj.GetComponent<HealthCrystal>();
+                Boss oodler = obj.GetComponent<Boss>();
+
+                if (enemy != null)
+                {
+                    //Ignore doodleBars and any enemies that are not part of the enemy team
+                    if (enemy == null || enemy.team != Team.oddle || enemy is DoodleBars || obj == gameObject)
+                    {
+                        continue;
+                    }
+
+                    float dist = Vector2.Distance(rb.position, enemy.transform.position);
+                    if (dist <= targetDistance && dist < minDist)
+                    {
+                        target = enemy.transform;
+                        minDist = dist;
+                        targetIsPlayer = false;
+                    }
+                }
+
+
+                else if (crystal != null)
+                {
+                    float dist = Vector2.Distance(rb.position, crystal.transform.position);
+                    if (dist <= targetDistance && dist < minDist)
+                    {
+                        target = crystal.transform;
+                        minDist = dist;
+                        targetIsPlayer = false;
+                    }
+                }
+
+                else if (oodler != null && oodler.BossIsDamageable())
+                {
+                    float dist = Vector2.Distance(rb.position, crystal.transform.position);
+                    if (dist <= targetDistance && dist < minDist)
+                    {
+                        target = oodler.transform;
+                        minDist = dist;
+                        targetIsPlayer = false;
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+            }
         }
     }
 
