@@ -28,14 +28,17 @@ public class MiniBoss : OodleKnight
         if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
         {
             //Enable/Disable bossHPBar
-            if (state == State.chase || state == State.attack || team == Team.player)
+            if (bossHPBar != null)
             {
-                bossHPBar.SetActive(true);
-                hpInfo.text = string.Format("{0} / {1}", Mathf.CeilToInt(health), Mathf.CeilToInt(maxHealth));
-            }
-            else
-            {
-                bossHPBar.SetActive(false);
+                if (state == State.chase || state == State.attack)
+                {
+                    bossHPBar.SetActive(true);
+                    hpInfo.text = string.Format("{0} / {1}", Mathf.CeilToInt(health), Mathf.CeilToInt(maxHealth));
+                }
+                else
+                {
+                    bossHPBar.SetActive(false);
+                }
             }
 
             //Boost Ability
