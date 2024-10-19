@@ -68,7 +68,7 @@ public class VolumeController : Singleton<VolumeController>
         sfxVol = volume;
         dialogueVol = volume;
         PlayerPrefs.SetFloat("SFXVolume", volume);
-        PlaySFXSample();
+        //PlaySFXSample();
     }
 
     public void PlaySFXSample(){
