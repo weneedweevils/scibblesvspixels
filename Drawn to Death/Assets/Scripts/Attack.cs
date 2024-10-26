@@ -512,7 +512,7 @@ public class Attack : MonoBehaviour
 
                     if (enemy != null)
                     {
-                        if (attackTimer.IsActive() && enemy != null && enemy.team == Team.oddle && enemy.invincibilityTimer.IsUseable() && enemy.PathLength(true) <= 15f)
+                        if (attackTimer.IsActive() && enemy != null && enemy.team == Team.oddle && enemy.invincibilityTimer.IsUseable() && PlayerCanHit(enemy))
                         {
                             //Calculate knockback
                             Vector2 direction = ((Vector2)enemy.transform.position - (Vector2)transform.position).normalized * enemy.knockbackRatio;
@@ -559,4 +559,27 @@ public class Attack : MonoBehaviour
         lifestealFmod.stop(0);
     }
 
+    public bool PlayerCanHit(EnemyAI enemy)
+    {
+        float delta = 2f;
+        for (float dx = -delta; dx <= delta; dx++)
+        {
+            for (float dy = -delta; dy <= delta; dy++)
+            {
+                Vector2 offset = new Vector2(dx, dy);
+
+                if (Physics2D.Raycast(
+                    enemy.transform.position + (Vector3)offset,
+                    player.transform.position - enemy.transform.position,
+                    Vector2.Distance(enemy.transform.position, player.transform.position),
+                    LayerMask.GetMask("Obstacle")
+                ).collider == null)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }

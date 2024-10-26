@@ -159,9 +159,12 @@ public abstract class EnemyAI : MonoBehaviour
 
         //Update path to Player
         float inrange = Vector2.Distance(rb.position - pathOffset, player.transform.position - (Vector3)pathOffset);
-        if (playerSeeker.IsDone() && inrange < seekDistance)
+        if (type != Type.hopper || team == Team.player)
         {
-            playerSeeker.StartPath(rb.position - pathOffset, player.transform.position - (Vector3)pathOffset, OnPlayerPathComplete);
+            if (playerSeeker.IsDone() && inrange < seekDistance)
+            {
+                playerSeeker.StartPath(rb.position - pathOffset, player.transform.position - (Vector3)pathOffset, OnPlayerPathComplete);
+            }
         }
 
         //Make an attempt at finding a new target
@@ -171,7 +174,7 @@ public abstract class EnemyAI : MonoBehaviour
         }
 
         //Check if the target is not the player
-        if (!targetIsPlayer)
+        if (!targetIsPlayer && target != null)
         {
             //Update path to target
             inrange = Vector2.Distance(rb.position - pathOffset, target.position - (Vector3)pathOffset);
