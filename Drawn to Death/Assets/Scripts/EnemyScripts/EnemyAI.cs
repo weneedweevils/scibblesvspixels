@@ -19,6 +19,7 @@ public abstract class EnemyAI : MonoBehaviour
     public State state = State.chase;
     public Type type = Type.general;
     public bool isolated = false;
+    public bool revivable = true;
 
     [Header("Stats")]
     public float health;
@@ -56,7 +57,7 @@ public abstract class EnemyAI : MonoBehaviour
 
     [Header("References")]
     public Collider2D movementCollider;
-    public EnemyHealthBarBehaviour healthBar;
+    public HealthBar healthBar;
     public Transform enemygraphics;
     public Color hurtCol = Color.red;
     public Color reviveCol = Color.green;
@@ -165,7 +166,7 @@ public abstract class EnemyAI : MonoBehaviour
         }
 
         //Make an attempt at finding a new target
-        if (target == null || (PathLength() > seekDistance * 0.1 && team == Team.oddle))
+        if (target == null || (PathLength() > attackDistance && team == Team.oddle))
         {
             FindTarget();
         }
@@ -232,7 +233,7 @@ public abstract class EnemyAI : MonoBehaviour
                 {
                     if (blocker.isDead())
                     {
-                        isolated = false;
+                        BlockerActivation();
                         break;
                     }
                 }
@@ -438,6 +439,12 @@ public abstract class EnemyAI : MonoBehaviour
         }
     }
 
+    //Usually called when the blocker that is isolating this enemy is destroyed
+    virtual protected void BlockerActivation()
+    {
+        isolated = false;
+    }
+
     //Make an attempt at finding a new target
     virtual protected void FindTarget()
     {
@@ -606,10 +613,7 @@ public abstract class EnemyAI : MonoBehaviour
         {
             invincibilityTimer.StartTimer();
 
-         
             Stun();
-
-            attackSFXInstance.stop(0);
         }
 
         return;

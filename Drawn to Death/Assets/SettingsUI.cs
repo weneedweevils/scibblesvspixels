@@ -3,34 +3,67 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SettingsUI : MonoBehaviour
+namespace Pause
 {
-    public GameObject volumeControllerObject;
-    private VolumeController volumeController;
-    private Slider masterVolSlider, musicVolSlider, sfxVolSlider;
+    public class SettingsUI : MonoBehaviour
+    {
+        private VolumeController volumeController;
+        [SerializeField] private Slider masterVolSlider, musicVolSlider, sfxVolSlider;
+        [SerializeField] private Toggle fancyFontToggle;
 
-    void Awake(){
-        volumeController = volumeControllerObject.GetComponent<VolumeController>();
-        masterVolSlider = transform.GetChild(0).GetChild(1).GetComponent<Slider>();
-        musicVolSlider = transform.GetChild(1).GetChild(1).GetComponent<Slider>();
-        sfxVolSlider = transform.GetChild(2).GetChild(1).GetComponent<Slider>();
-    }
-    void OnEnable(){
-        masterVolSlider.value = volumeController.masterVol; 
-        musicVolSlider.value = volumeController.musicVol;
-        sfxVolSlider.value = volumeController.sfxVol;
-    }
+        void OnEnable()
+        {
+            volumeController = VolumeController.instance;
 
-    public void MasterSliderChange(float value){
-        volumeController.SetMasterVolume(value);
-    }
+            SetVolume(Volume.Master, volumeController.masterVol);
+            SetVolume(Volume.Music, volumeController.musicVol);
+            SetVolume(Volume.SFX, volumeController.sfxVol);
 
-    public void MusicSliderChange(float value){
-        volumeController.SetMusicVolume(value);
-    }
+            fancyFontToggle.isOn = DialogueManager.fancyFont;
+        }
 
-    public void SFXSliderChange(float value){
-        volumeController.SetSFXVolume(value);
+        public void SetVolume(Volume volume, float value)
+        {
+            switch (volume)
+            {
+                case Volume.Master:
+                    masterVolSlider.value = value;
+                    volumeController.SetMasterVolume(value);
+                    break;
+                case Volume.Music:
+                    musicVolSlider.value = value;
+                    volumeController.SetMusicVolume(value);
+                    break;
+                case Volume.SFX:
+                    sfxVolSlider.value = value;
+                    volumeController.SetSFXVolume(value);
+                    break;
+                default:
+                    Debug.LogErrorFormat("Trying to change volume of unsupported volume type {0}", volume);
+                    break;
+            }
+        }
+
+        public void MasterSliderChange()
+        {
+            volumeController?.SetMasterVolume(masterVolSlider.value);
+        }
+
+        public void MusicSliderChange()
+        {
+            volumeController?.SetMusicVolume(musicVolSlider.value);
+        }
+
+        public void SFXSliderChange()
+        {
+            volumeController?.SetSFXVolume(sfxVolSlider.value);
+        }
+
+        public void FancyFontChange()
+        {
+            PlayerPrefs.SetInt("fancyFont", (fancyFontToggle.isOn ? 1 : 0));
+            DialogueManager.fancyFont = fancyFontToggle.isOn;
+            Debug.LogFormat("Set fancyFont to {0}", PlayerPrefs.GetInt("fancyFont"));
+        }
     }
-    
 }

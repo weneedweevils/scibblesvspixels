@@ -21,6 +21,6 @@ public class DialogueEntry
 
     public string SFXEventPath()
     {
-        return DialogueManager.Instance.DialogueSFXEventPath(dialogueSFX);
+        return DialogueManager.instance.DialogueSFXEventPath(dialogueSFX);
     }
 }

@@ -16,8 +16,9 @@ using UnityEngine.UIElements;
 using static System.Net.Mime.MediaTypeNames;
 using System.Threading;
 using UnityEngine.InputSystem;
+using System.Xml.Serialization;
 
-public class PlayerMovement : MonoBehaviour, IDataPersistence
+public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 {
     //Movement Checks
     [Header("Physics")]
@@ -120,17 +121,21 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     //additional scripts
     [Header("New input system")]
-    public InputActionMap controls;
+    public GameObject inputHandler;
     private PlayerArms playerarms;
     public GameObject eraserObject;
     public GameObject armsObject;
     public bool isGamepad = false;
     private Vector2 aimDirection;
-    private PlayerInput playerInput; 
 
+    [HideInInspector]
+    public PlayerInput playerInput;
+    
     // Start is called before the first frame update
     void Start()
     {
+        playerInput = CustomInput.instance.playerInput;
+
         cam = Camera.main;
         noZoom = cam.orthographicSize;
         targetZoom = cam.orthographicSize;
@@ -164,7 +169,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         restricted = GameObject.Find("RestrictRally").GetComponent<UnityEngine.UI.Image>();
 
-        playerInput = GetComponent<PlayerInput>();
+        //playerInput = GetComponent<PlayerInput>();
 
         playerarms = new PlayerArms(eraserObject, gameObject, armsObject, playerInput, this);
     }
@@ -172,7 +177,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public void OnDeviceChanged(PlayerInput pi)
     {
         Debug.Log(pi.currentControlScheme.ToString());
-        if(pi.currentControlScheme.Equals("Gamepad") || pi.currentControlScheme.Equals("Playstation"))
+        if(pi.currentControlScheme.Equals("Gamepad") || pi.currentControlScheme.Equals("Playstation") || pi.currentControlScheme.Equals("Xbox"))
         {
             isGamepad = true;
         }
@@ -281,7 +286,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && playerInput.actions["Dash"].triggered && Mathf.Abs(velocity.magnitude) > 0f && !pauseInput)
         {
             activatedDashNotifier = false;
-            velocity += velocity.normalized * dashBoost;
+            velocity += acceleration.normalized * dashBoost;
             animator.SetBool("dashing", true);
             pencil.enabled = false;
             sprite.color = new Color(255, 255, 255, 0.50f);
@@ -411,10 +416,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
                 if(isGamepad)
                 {
-                    if (aimDirection.x != 0 && aimDirection.y != 0)
-                    {
-                        sprite.flipX = aimDirection.x < 0;
-                    }
+                    sprite.flipX = armsObject.transform.localScale.x < 0;
+                    
                 }
                 else
                 {
@@ -426,7 +429,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         //Account for backwards movement
         animator.SetBool("backwards", velocity.x != 0f && (velocity.x < 0f != sprite.flipX));
+
+        // Check low health which triggers health bar to rotate back and forth
+        CheckLowHealth();
+
     }
+
+   
 
     public void StopMovement()
     {
@@ -437,13 +446,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     // Ensures movement is disabled if dialogue wants it to be
     public bool inFreezeDialogue()
     {
-        if (DialogueManager.Instance == null)
+        if (DialogueManager.instance == null)
         {
             return false; 
         }
         else
         {
-               return DialogueManager.Instance.dialogueActive;
+            return DialogueManager.instance.dialogueActive || Pause.PauseManager.paused;
         }
     }
 
@@ -457,6 +466,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         HealthBarReference.SetTrigger("HealthBarShake");
         CameraReference.SetTrigger("Shake");
+
+        Debug.Log(health);
+
+        Debug.Log(maxHealth);
+
+       
 
         if (UsingAbility())
         {
@@ -475,6 +490,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
             velocity = knockbackDir.normalized * knockbackPower * 3;
         }
+
+        // function will make the health bar move around when low on health
+        
 
         // flashes damage indicator around health bar
         ChangeScreenColor(true);
@@ -504,6 +522,18 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                 temp.a = 0.5f;
                 damageScreen.color = temp;
             }
+        }
+    }
+
+    public void CheckLowHealth()
+    {
+        if (health < maxHealth/3f)
+        {
+            HealthBarReference.SetBool("LowHealth", true);
+        }
+        else
+        {
+            HealthBarReference.SetBool("LowHealth", false);
         }
     }
 
@@ -666,4 +696,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         return playerInput;
     }
 
+    public SpriteRenderer GetPencil()
+    {
+        return pencil;
+    }
 }

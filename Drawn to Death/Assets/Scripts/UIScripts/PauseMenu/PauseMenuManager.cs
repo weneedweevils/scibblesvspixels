@@ -13,10 +13,7 @@ using UnityEngine.UI;
 
 public class PauseMenuManager : MonoBehaviour
 
-
-
 {
-
     public enum Scene { Splash_Screen, Menu, Intructions, Level_1, Level_2, Level_3, Ded, End, Credits }
 
 
@@ -35,7 +32,16 @@ public class PauseMenuManager : MonoBehaviour
     public KeyboardRebindState keyboardRebindState;
 
     // PlAYER MOVEMENT //
+     [Header("Player and Input")]
     public PlayerMovement player;
+
+    public GameObject BottomHud;
+
+    public GameObject UpperHud;
+    
+    public GameObject inputHandler;
+
+    [HideInInspector]
     public PlayerInput playerInput;
 
 
@@ -53,7 +59,7 @@ public class PauseMenuManager : MonoBehaviour
     public GameObject SettingsFirstButton;
     public GameObject PauseFirstButton;
     public GameObject ControlsFirstButton;
-
+    private GameObject currentButton;
 
     //public int Menu = 1;
     public bool paused = false;
@@ -64,7 +70,7 @@ public class PauseMenuManager : MonoBehaviour
     public GameObject BlockersObject;
 
 
-
+    
     private void Awake()
     {
         menuStateMachine = new MenuStateMachine();
@@ -76,23 +82,20 @@ public class PauseMenuManager : MonoBehaviour
         menuState = new MenuState(this, menuStateMachine);
         keyboardRebindState = new KeyboardRebindState(this, menuStateMachine);
         controllerRebindState = new ControllerRebindState(this, menuStateMachine);
-
-        playerInput = player.GetComponent<PlayerInput>();
-        
-
+        playerInput = CustomInput.instance.playerInput;
     }
-
+    
     // Initialize to the Empty State //
     private void Start()
     {
         menuStateMachine.Initialize(emptyState);
     }
-
+    
     private void Update()
     {
         menuStateMachine.currentMenu.FrameUpdate();
     }
-
+    
 
     // function to go to the control screen state//
     public void GoToControls()
@@ -122,7 +125,6 @@ public class PauseMenuManager : MonoBehaviour
     // Goes to the settings screen where you can adjust volume
     public void GoToSettings()
     {
-        EventSystem.current.SetSelectedGameObject(SettingsFirstButton);
         menuStateMachine.ChangeState(settingsState);
        
     }
@@ -176,6 +178,27 @@ public class PauseMenuManager : MonoBehaviour
     public void OnHovered()
     {
         FMODUnity.RuntimeManager.PlayOneShot("event:/UIHover");
+    }
+
+    public void SetCurrentButton(GameObject button)
+    {
+        currentButton = button;
+        EventSystem.current.SetSelectedGameObject(currentButton);
+    }
+
+    public void OnDeviceChanged()
+    {
+        EventSystem.current.SetSelectedGameObject(currentButton);
+    }
+
+    public void DisableControls()
+    {
+
+    }
+
+    public void EnableControls()
+    {
+
     }
 }
 
