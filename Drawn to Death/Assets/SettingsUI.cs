@@ -10,9 +10,19 @@ namespace Pause
         private VolumeController volumeController;
         [SerializeField] private Slider masterVolSlider, musicVolSlider, sfxVolSlider;
         [SerializeField] private Toggle fancyFontToggle;
+        private bool setup = false;
 
         void OnEnable()
         {
+            StartCoroutine("Setup");
+        }
+
+        IEnumerator Setup()
+        {
+            setup = false;
+
+            yield return null;  //Give volumeController some time to start, otherwise all values will be set to 1
+
             volumeController = VolumeController.instance;
 
             SetVolume(Volume.Master, volumeController.masterVol);
@@ -20,6 +30,14 @@ namespace Pause
             SetVolume(Volume.SFX, volumeController.sfxVol);
 
             fancyFontToggle.isOn = DialogueManager.fancyFont;
+
+            setup = true;
+        }
+
+        private void OnDisable()
+        {
+            PlayerPrefs.Save();
+            setup = false;
         }
 
         public void SetVolume(Volume volume, float value)
@@ -46,24 +64,26 @@ namespace Pause
 
         public void MasterSliderChange()
         {
-            volumeController?.SetMasterVolume(masterVolSlider.value);
+            if (setup)
+                volumeController?.SetMasterVolume(masterVolSlider.value);
         }
 
         public void MusicSliderChange()
         {
-            volumeController?.SetMusicVolume(musicVolSlider.value);
+            if (setup)
+                volumeController?.SetMusicVolume(musicVolSlider.value);
         }
 
         public void SFXSliderChange()
         {
-            volumeController?.SetSFXVolume(sfxVolSlider.value);
+            if (setup)
+                volumeController?.SetSFXVolume(sfxVolSlider.value);
         }
 
         public void FancyFontChange()
         {
             PlayerPrefs.SetInt("fancyFont", (fancyFontToggle.isOn ? 1 : 0));
             DialogueManager.fancyFont = fancyFontToggle.isOn;
-            Debug.LogFormat("Set fancyFont to {0}", PlayerPrefs.GetInt("fancyFont"));
         }
     }
 }
