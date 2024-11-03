@@ -32,13 +32,13 @@ public class SkipCutscene : MonoBehaviour
 
     private void Awake()
     {
-        playerInput = CustomInput.instance.playerInput;
         progressSlider = GetComponentInChildren<Slider>();
     }
 
     private void Start()
     {
         // Get display string from action.
+        playerInput = CustomInput.instance.playerInput;
         action = playerInput.actions["SkipCutscene"];
 
         if (action != null)
