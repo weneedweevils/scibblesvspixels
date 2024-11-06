@@ -44,7 +44,7 @@ public class Run : ChildBaseState
 
         if(hitObstacle){
             boss.EnableRunHitbox(false);
-             boss.animator.SetTrigger("idle");
+            boss.animator.SetTrigger("Stunned");
             return true;
         }
 

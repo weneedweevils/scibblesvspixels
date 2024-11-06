@@ -15,6 +15,7 @@ using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 using Random = UnityEngine.Random;
 using UnityEngine.Android;
+using System.Runtime.InteropServices;
 
 
 
@@ -59,6 +60,9 @@ public class Boss : MonoBehaviour
     public GameObject oodlerShadowObject;
     public SpriteRenderer oodlerShadow;
     public Animator shadowAnimator;
+    private Color shadowColor = new Color(0f,0f,0f,0.25f);
+    private Color shadowChargingColor = new Color(1f,0f,0f,0.5f);
+    private Color shadowChargedColor = new Color(255f, 0f, 0f, 1f);
    
 
 
@@ -105,8 +109,6 @@ public class Boss : MonoBehaviour
     // States
     public StateMachine stateMachine { get; set; }
     public ChildStateMachine childStateMachine{ get; set; }
-
-
     public OodlerIdle oodlerIdle { get; set; }
     public OodlerSlam oodlerSlam { get; set; }
     public OodlerRecover oodlerRecover { get; set; }
@@ -206,7 +208,7 @@ public class Boss : MonoBehaviour
         
 
         childStateMachine.Initialize(emptyChildState);
-        stateMachine.Initialize(oodlerGrab);
+        stateMachine.Initialize(oodlerRun);
        
 
         CurrentHealth = MaxHealth;
@@ -307,19 +309,19 @@ public class Boss : MonoBehaviour
      // This function shows the oodlers shadows
     public void ShowShadow()
     {
-        oodlerShadow.color = new Color(0, 0, 0, 0.25f);
+        oodlerShadow.color = shadowColor;
     }
      
     // This function shows the attack
     public void ShowAttack()
     {
-        oodlerShadow.color = new Color(255, 0, 0, 0.5f);
+        oodlerShadow.color = shadowChargedColor;
     }
 
     // This function hides the oodlers shadow
     public void HideShadow()
     {
-        oodlerShadow.color = new Color(0, 0, 0, 0f);
+        oodlerShadow.color = new Color(0f, 0f, 0f, 0f);
     }
 
      public void ChangeSpriteSortingOrder(int sortingLayer){
@@ -327,18 +329,28 @@ public class Boss : MonoBehaviour
     }
     
 
+    
+
+   
+  
      // this function will increase the alpha value slowly and reveal the outline of where the hand will slam
+    private float elapsedTime = 0f;
+    private float chargeTime = 2f;
     public bool RevealAttack()
     {
-        if (oodlerShadow.color.a < 0.5f)
+
+        if (elapsedTime < chargeTime)
         {
-            var temp = oodlerShadow.color;
-            temp.a += 0.5f * Time.deltaTime;
-            oodlerShadow.color = temp;
+           
+            elapsedTime += Time.deltaTime;
+            Color newAlpha = Color.Lerp(shadowColor,shadowChargingColor,elapsedTime/chargeTime);
+            oodlerShadow.color = newAlpha;
             return false;
         }
         else
         {
+            elapsedTime = 0f;
+            ShowAttack();
             return true;
         }
       
@@ -347,8 +359,6 @@ public class Boss : MonoBehaviour
     public Animator GetShadow(){
         return shadowAnimator;
     }
-
-
 
     # endregion
 
@@ -615,6 +625,10 @@ public class Boss : MonoBehaviour
         //oodlerShadow.transform.position = spriteOffset;
         oodlerShadowObject.GetComponent<Rigidbody2D>().MovePosition(spriteOffset);
 
+    }
+
+    public void MoveShadowToHand(){
+        oodlerShadowObject.transform.position = transform.position;
     }
 
 

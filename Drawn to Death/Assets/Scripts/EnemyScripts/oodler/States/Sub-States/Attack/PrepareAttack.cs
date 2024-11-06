@@ -39,7 +39,7 @@ public class PrepareAttack : ChildBaseState
                 attackCharged = boss.RevealAttack();
                 if(attackCharged){
                     if(bossTimer.Update()){
-                        boss.ShowAttack();
+                        //boss.ShowAttack();
                         stopOodler = true;
                         
                         childStateMachine.ChangeState(boss.swingHand);

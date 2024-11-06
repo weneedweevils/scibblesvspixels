@@ -39,6 +39,9 @@ public class OodlerGrab : BaseState
     {
         base.FrameUpdate();
         childStateMachine.currentChildState.FrameUpdate();  
+        if(childStateMachine.currentChildState==boss.emptyChildState){
+            oodlerStateMachine.ChangeState(boss.oodlerSlam);
+        }
 
 
         // // if the delay is over

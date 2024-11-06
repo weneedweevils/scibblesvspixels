@@ -17,16 +17,14 @@ public class Rise : ChildBaseState
     public override void EnterState()
     {
         base.EnterState();
+        boss.MoveShadowToHand();
         boss.ShowShadow();
         boss.SetBossVulnerability(false);
         boss.EnableAreaHitbox(false);
         boss.ChangeSpriteSortingOrder(8);
         airPosition = boss.transform.position;
         airPosition.y = airPosition.y + 12f;
-        Debug.Log("entered rise state");
-        Debug.Log(parentStateMachine.currentOodlerState);
-        bossTimer = new BossTimer(4f);
-
+        bossTimer = new BossTimer(0f);
         if(boss.IsCaught()){
             boss.EnableGlichColliders(false);
             boss.playerScript.animator.SetTrigger("Grabbed");
@@ -54,7 +52,7 @@ public class Rise : ChildBaseState
                      boss.ControlAllies(boss.dropZoneObject, true);
                      childStateMachine.ChangeState(boss.carryGlich);
                  }else{
-                     childStateMachine.ChangeState(boss.chase);
+                     childStateMachine.ChangeState(boss.emptyChildState);
                  }
             }
 

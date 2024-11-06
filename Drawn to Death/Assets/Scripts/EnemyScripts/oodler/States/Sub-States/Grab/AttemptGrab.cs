@@ -57,7 +57,7 @@ public class AttemptGrab : ChildBaseState
         }
         // This if statement is for when the fist comes down
         if(!reachedTarget && isGrabFrame){
-            boss.Slam(100f);
+            boss.Slam(50f);
             if(!grabWasActivated && boss.CloseToTarget()){
                 boss.EnableAttackHitbox(true);
                 grabWasActivated = true;

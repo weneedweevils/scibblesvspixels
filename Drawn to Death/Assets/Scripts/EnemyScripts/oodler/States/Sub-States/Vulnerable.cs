@@ -14,8 +14,8 @@ public class Vulnerable : ChildBaseState
 
     public override void EnterState()
     {
+        Debug.Log("Entered vulnerable state");
         base.EnterState();
-        Debug.Log("Entering Empty  State");
         boss.EnableAreaHitbox(true);
         boss.EnableAttackHitbox(false);
         //boss.SetSlamCooldown(true); // set to true so that the oodler does not hurt anyone on the ground
@@ -23,7 +23,7 @@ public class Vulnerable : ChildBaseState
         boss.SetBossVulnerability(true);
         boss.animator.SetTrigger("Idle");
         boss.GetShadow().SetTrigger("Idle");
-        vulnerableTimer = new BossTimer(0f);
+        vulnerableTimer = new BossTimer(5f);
        
     }
 

@@ -52,6 +52,9 @@ public class OodlerSlam : BaseState
     {
        
         childStateMachine.currentChildState.FrameUpdate();  
+        if(childStateMachine.currentChildState == boss.emptyChildState){
+            childStateMachine.ChangeState(boss.chase);
+        }
     }
 
   
