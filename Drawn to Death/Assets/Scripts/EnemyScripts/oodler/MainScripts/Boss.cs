@@ -63,6 +63,9 @@ public class Boss : MonoBehaviour
     private Color shadowColor = new Color(0f,0f,0f,0.25f);
     private Color shadowChargingColor = new Color(1f,0f,0f,0.5f);
     private Color shadowChargedColor = new Color(255f, 0f, 0f, 1f);
+    public GameObject smalldOodlers;
+
+    private Array smallOodlerList;
    
 
 
@@ -119,6 +122,7 @@ public class Boss : MonoBehaviour
 
 
 
+
     // Sub-States
     public GoToRunPosition goToRunPosition{get;set;}
     public Land land{get;set;}
@@ -132,6 +136,7 @@ public class Boss : MonoBehaviour
     public PrepareGrab prepareGrab{get;set;}
     public AttemptGrab attemptGrab{get;set;}
     public CarryGlich carryGlich{get;set;}
+    public OodlerSplit oodlerSplit{get;set;}
 
 
 
@@ -198,17 +203,15 @@ public class Boss : MonoBehaviour
         rise = new Rise(this,childStateMachine,stateMachine);
         attemptGrab = new AttemptGrab(this,childStateMachine,stateMachine);
         carryGlich = new CarryGlich(this,childStateMachine,stateMachine);
+        oodlerSplit = new OodlerSplit(this,childStateMachine,stateMachine);
 
     }
 
 
     void Start()
     {
-
-        
-
         childStateMachine.Initialize(emptyChildState);
-        stateMachine.Initialize(oodlerRun);
+        stateMachine.Initialize(oodlerGrab);
        
 
         CurrentHealth = MaxHealth;
@@ -229,11 +232,9 @@ public class Boss : MonoBehaviour
         dropZoneCorrected = new Vector3(dropZoneObject.transform.position.x, dropZoneObject.transform.position.y + 10f, 0);
         dropZone = new Vector3(dropZoneObject.transform.position.x, dropZoneObject.transform.position.y, 0);
 
-        // Debug.Log("My Rigidbody is" + oodlerRB);
-        // Debug.Log("my shadow is" + shadowAnimator);
-        // Debug.Log("My shadow sprite is" + oodlerShadow);
-
         points = new List<Vector3>();
+
+        smallOodlerList = GameObject.FindGameObjectsWithTag("SmallOodler");
     }
 
     // Damage Function will damage the oodler and check if they are dead
@@ -327,7 +328,20 @@ public class Boss : MonoBehaviour
      public void ChangeSpriteSortingOrder(int sortingLayer){
         oodlerSprite.sortingOrder = sortingLayer;
     }
+
+    public void HideSprite(){
+        oodlerSprite.color = new Color(255f,255f,255f,0f);
+    }
+
+    public void ShowSprite(){
+        oodlerSprite.color = new Color(255f,255f,255f,1f);
+    }
     
+    public void Split(){
+        HideSprite();
+        smalldOodlers.SetActive(true);
+
+    }
 
     
 
@@ -336,21 +350,25 @@ public class Boss : MonoBehaviour
      // this function will increase the alpha value slowly and reveal the outline of where the hand will slam
     private float elapsedTime = 0f;
     private float chargeTime = 2f;
-    public bool RevealAttack()
+    public bool RevealAttack(bool attackCharged)
     {
-
-        if (elapsedTime < chargeTime)
-        {
-           
-            elapsedTime += Time.deltaTime;
-            Color newAlpha = Color.Lerp(shadowColor,shadowChargingColor,elapsedTime/chargeTime);
-            oodlerShadow.color = newAlpha;
-            return false;
+        if(!attackCharged){
+            if (elapsedTime < chargeTime)
+            {
+            
+                elapsedTime += Time.deltaTime;
+                Color newAlpha = Color.Lerp(shadowColor,shadowChargingColor,elapsedTime/chargeTime);
+                oodlerShadow.color = newAlpha;
+                return false;
+            }
+            else
+            {
+                elapsedTime = 0f;
+                ShowAttack();
+                return true;
+            }
         }
-        else
-        {
-            elapsedTime = 0f;
-            ShowAttack();
+        else{
             return true;
         }
       
@@ -465,8 +483,10 @@ public class Boss : MonoBehaviour
     #region Moving Methods
     // MOVING METHODS //
 
-    public void Circleglich( float speed, float radius){
+  
 
+    public void Circleglich( float speed, float radius){
+        
 
         var step = speed * Time.deltaTime;
        
@@ -481,6 +501,7 @@ public class Boss : MonoBehaviour
         angle = angle + speed*Time.deltaTime;
         Debug.Log("angle is "+ angle);
         MoveShadowSprite();
+
         Vector3 circlePosition = new Vector3(x,y,0);
 
 
@@ -489,6 +510,44 @@ public class Boss : MonoBehaviour
 
         oodlerRB.MovePosition(circlePosition);
     }
+
+
+    private float angle1 = 0f;
+    private float angle2 = 90f * (Mathf.PI/180);
+    private float angle3 = 180f * (Mathf.PI/180);
+    private float angle4 = 270f * (Mathf.PI/180);
+
+
+    public void SmallCircleglich( float speed, float radius){
+        
+
+        var step = speed * Time.deltaTime;
+       
+        Debug.Log("My angle is "+ angle);
+
+        playerOffSet = glich.transform.localPosition;
+        playerOffSet.y = playerOffSet.y + 10f;
+
+        foreach(GameObject gameobject in smallOodlerList){
+            
+
+        }
+
+        float x = playerOffSet.x + (Mathf.Cos(angle)*radius);
+        float y = playerOffSet.y + (Mathf.Sin(angle)*radius);
+        angle = angle + speed*Time.deltaTime;
+        Debug.Log("angle is "+ angle);
+        MoveShadowSprite();
+        
+        Vector3 circlePosition = new Vector3(x,y,0);
+
+
+        //transform.position = circlePosition;
+        //points.Add(circlePosition);
+    }
+
+
+    
 
     // void OnDrawGizmos(){
     //     Gizmos.color = Color.magenta;
@@ -571,6 +630,7 @@ public class Boss : MonoBehaviour
         MoveShadowSprite();
     }
 
+   
 
     // This function will move the oodler off the ground
     // public void MoveUp(float speed = 20)

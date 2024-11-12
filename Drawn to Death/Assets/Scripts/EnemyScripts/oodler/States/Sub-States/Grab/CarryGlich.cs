@@ -23,7 +23,7 @@ public class CarryGlich : ChildBaseState
         base.EnterState();
         Debug.Log("Carrying Glich");
         reachedDropZone = false;
-        bossTimer = new BossTimer(15f);
+        bossTimer = new BossTimer(2f);
     }
 
     public override void ExitState()
@@ -33,11 +33,10 @@ public class CarryGlich : ChildBaseState
         boss.EnableGlichColliders(true);
         boss.SetBossCaught(false);
         boss.playerScript.animator.SetTrigger("Dropped");
+         boss.animator.SetTrigger("Idle");
         Debug.Log("exiting Empty state");
         boss.ControlAllies(boss.glich, false);
         boss.playerScript.PausePlayerInput(false);
-
-
     }
 
     public override void FrameUpdate()
@@ -52,7 +51,7 @@ public class CarryGlich : ChildBaseState
                 
                 if(bossTimer.Update()){
                     if(boss.DropGlich()){
-                        childStateMachine.ChangeState(boss.chase);
+                        childStateMachine.ChangeState(boss.emptyChildState);
                     }
                 }
             }

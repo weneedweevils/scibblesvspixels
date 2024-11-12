@@ -26,8 +26,6 @@ public class OodlerGrab : BaseState
         base.EnterState();
         boss.SetBossCaught(false);
         childStateMachine.ChangeState(boss.chase);
- 
-
     }
 
     public override void ExitState()
@@ -38,9 +36,8 @@ public class OodlerGrab : BaseState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        childStateMachine.currentChildState.FrameUpdate();  
         if(childStateMachine.currentChildState==boss.emptyChildState){
-            oodlerStateMachine.ChangeState(boss.oodlerSlam);
+            oodlerStateMachine.ChangeState(boss.oodlerGrab);
         }
 
 

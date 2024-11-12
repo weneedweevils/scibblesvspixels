@@ -74,13 +74,15 @@ public class AttemptGrab : ChildBaseState
                     Debug.Log("GO to the state where we are holding glich");
                     boss.animator.SetTrigger("Caught");
                     boss.shadowAnimator.SetTrigger("Caught");
+                    childStateMachine.ChangeState(boss.rise);
                 }
                 else{
                      boss.SetBossCaught(false);
                      boss.animator.SetTrigger("Idle");
                      boss.shadowAnimator.SetTrigger("idle");
+                     childStateMachine.ChangeState(boss.vulnerableState);
                 }
-                childStateMachine.ChangeState(boss.rise);
+                
                 //childStateMachine.ChangeState(boss.vulnerableState);
         }
     }

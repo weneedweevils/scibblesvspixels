@@ -24,7 +24,9 @@ public class BaseState
 
     public virtual void ExitState() { } 
 
-    public virtual void FrameUpdate() { }
+    public virtual void FrameUpdate() {
+        childStateMachine.currentChildState.FrameUpdate();
+     }
 
     public virtual void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType) {
     

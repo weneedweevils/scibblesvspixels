@@ -45,6 +45,7 @@ public class Chase : ChildBaseState
             if(reachedTarget){
                 if(bossTimer.Update()){
                     if(parentStateMachine.currentOodlerState == boss.oodlerRun){
+                        //childStateMachine.ChangeState(boss.oodlerSplit);
                         childStateMachine.ChangeState(boss.goToRunPosition);
                     }
                     else if(parentStateMachine.currentOodlerState == boss.oodlerSlam){

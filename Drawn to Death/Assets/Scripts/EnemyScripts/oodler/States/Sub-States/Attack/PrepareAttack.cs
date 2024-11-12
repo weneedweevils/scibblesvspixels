@@ -36,7 +36,7 @@ public class PrepareAttack : ChildBaseState
         if(!stopOodler){ // This logic here seems flawed
             reachedTarget = boss.Stalk(reachedTarget, 100f);
             if(reachedTarget){
-                attackCharged = boss.RevealAttack();
+                attackCharged = boss.RevealAttack(attackCharged);
                 if(attackCharged){
                     if(bossTimer.Update()){
                         //boss.ShowAttack();

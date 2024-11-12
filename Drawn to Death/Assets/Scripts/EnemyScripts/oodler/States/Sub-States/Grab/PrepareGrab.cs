@@ -38,7 +38,7 @@ public class PrepareGrab : ChildBaseState
         if(!stopOodler){
             reachedTarget = boss.Stalk(reachedTarget, 100f);
             if(reachedTarget){
-                attackCharged = boss.RevealAttack();
+                attackCharged = boss.RevealAttack(attackCharged);
                 if(attackCharged){
                     Debug.Log("attack is charged");
                     if(bossTimer.Update()){

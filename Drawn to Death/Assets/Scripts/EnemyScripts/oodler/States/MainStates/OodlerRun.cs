@@ -32,7 +32,6 @@ public class OodlerRun : BaseState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        childStateMachine.currentChildState.FrameUpdate();  
     }
 
 
