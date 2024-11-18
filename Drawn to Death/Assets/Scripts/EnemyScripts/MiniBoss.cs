@@ -12,6 +12,7 @@ public class MiniBoss : OodleKnight
     public float boostCooldown;
     [HideInInspector] public float baseSpeed;
     public CooldownTimer boostTimer;
+    public HealthBar secondHpBar;
 
     override protected void Start()
     {
@@ -27,14 +28,17 @@ public class MiniBoss : OodleKnight
         if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
         {
             //Enable/Disable bossHPBar
-            if (state == State.chase || state == State.attack || team == Team.player)
+            if (bossHPBar != null)
             {
-                bossHPBar.SetActive(true);
-                hpInfo.text = string.Format("{0} / {1}", Mathf.CeilToInt(health), Mathf.CeilToInt(maxHealth));
-            }
-            else
-            {
-                bossHPBar.SetActive(false);
+                if (state == State.chase || state == State.attack)
+                {
+                    bossHPBar.SetActive(true);
+                    hpInfo.text = string.Format("{0} / {1}", Mathf.CeilToInt(health), Mathf.CeilToInt(maxHealth));
+                }
+                else
+                {
+                    bossHPBar.SetActive(false);
+                }
             }
 
             //Boost Ability
@@ -74,6 +78,8 @@ public class MiniBoss : OodleKnight
             attackTimer.SetCooldown(attackCooldown);
 
             //Fix HP bar
+            healthBar = secondHpBar;
+            secondHpBar.gameObject.SetActive(true);
             healthBar.SetHealth(health, maxHealth);
 
             //Adjust the scale
@@ -99,10 +105,7 @@ public class MiniBoss : OodleKnight
     public override void Kill()
     {
         base.Kill();
-        if (team == Team.player)
-        {
-            Destroy(bossHPBar);
-        }
+        if (bossHPBar != null) Destroy(bossHPBar);
     }
 
     public IEnumerator AdjustScale(Vector3 newScale, float duration)
