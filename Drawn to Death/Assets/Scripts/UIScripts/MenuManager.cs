@@ -19,6 +19,7 @@ public enum Scene {
     Level_3, 
     Level_4,
     Level_5,
+    Demo_End
 }
 public class MenuManager : MonoBehaviour, IDataPersistence
 {
