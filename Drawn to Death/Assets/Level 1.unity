@@ -33526,7 +33526,7 @@ PrefabInstance:
     - target: {fileID: 6356419222414121670, guid: 72657c078df370a4484073cbdab47a57,
         type: 3}
       propertyPath: nextScene
-      value: 4
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6356419222414121670, guid: 72657c078df370a4484073cbdab47a57,
         type: 3}
@@ -34645,6 +34645,11 @@ PrefabInstance:
       propertyPath: playerInput
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8633192108032533708, guid: 948ee7c037099fe4981ad914a8af4671,
+        type: 3}
+      propertyPath: transition
+      value: 
+      objectReference: {fileID: 1411105161}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 948ee7c037099fe4981ad914a8af4671, type: 3}
 --- !u!1 &762693304
@@ -38671,6 +38676,12 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 1
+--- !u!95 &1411105161 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5046299027551140634, guid: 402aaaedf2a9a3141928747a407a5eb7,
+    type: 3}
+  m_PrefabInstance: {fileID: 892512471}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1414591739 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
@@ -39592,7 +39603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: data.game
-  scene: 3
+  scene: 7
   cutsceneObject: {fileID: 994535790}
   hud: {fileID: 338816385}
   tutorialObject: {fileID: 56218361}
@@ -39601,8 +39612,8 @@ MonoBehaviour:
   newGame: 0
   loadGame: 1
   saveGame: 1
-  skipCutsceneOnLoad: 0
-  skipTutorialOnLoad: 0
+  skipCutsceneOnLoad: 1
+  skipTutorialOnLoad: 1
   SkipCutscene:
     m_PersistentCalls:
       m_Calls: []

@@ -5988,7 +5988,7 @@ PrefabInstance:
     - target: {fileID: 6356419222414121670, guid: 72657c078df370a4484073cbdab47a57,
         type: 3}
       propertyPath: nextScene
-      value: 6
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6356419222414121670, guid: 72657c078df370a4484073cbdab47a57,
         type: 3}
@@ -13343,6 +13343,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas - Pause Menu
       objectReference: {fileID: 0}
+    - target: {fileID: 8633192108032533708, guid: 948ee7c037099fe4981ad914a8af4671,
+        type: 3}
+      propertyPath: transition
+      value: 
+      objectReference: {fileID: 1428868189}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 948ee7c037099fe4981ad914a8af4671, type: 3}
 --- !u!1001 &869152729
@@ -15027,7 +15032,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: data.game
-  scene: 4
+  scene: 9
   cutsceneObject: {fileID: 1288129286}
   hud: {fileID: 2106967940}
   tutorialObject: {fileID: 0}
@@ -67678,6 +67683,12 @@ PrefabInstance:
 --- !u!95 &1428868188 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 1513891687068356343, guid: 402aaaedf2a9a3141928747a407a5eb7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1428868187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1428868189 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5046299027551140634, guid: 402aaaedf2a9a3141928747a407a5eb7,
     type: 3}
   m_PrefabInstance: {fileID: 1428868187}
   m_PrefabAsset: {fileID: 0}
