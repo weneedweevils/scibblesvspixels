@@ -19,6 +19,7 @@ public class MiniBoss : OodleKnight
         base.Start();
         baseSpeed = speed;
         boostTimer = new CooldownTimer(boostCooldown, boostDuration);
+        healthBar.SetHealth(health, maxHealth);
     }
 
     override protected void FixedUpdate()
