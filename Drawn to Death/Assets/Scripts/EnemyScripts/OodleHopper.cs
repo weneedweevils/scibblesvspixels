@@ -10,10 +10,13 @@ public class OodleHopper : EnemyAI
     public bool cutscene = false;
     private float hopInterval = 120f / 60f;
     private float hopDuration = 47f / 60f;
+    private float fleeHopInterval = 10f / 60f;
+    private float fleeDuration = 300f / 60f;
+    private float fleeInterval = 180 / 60f;
     private CooldownTimer hopCooldown;
+    private CooldownTimer fleeTimer;
     [HideInInspector] public SpriteRenderer healImage;
     public float passiveHealAmount = 1f;
-    public float abilityHealAmount = 2f;
 
     override protected void Start()
     {
@@ -24,6 +27,7 @@ public class OodleHopper : EnemyAI
 
         //Create timers
         hopCooldown = new CooldownTimer(hopInterval, hopDuration);
+        fleeTimer = new CooldownTimer(fleeInterval, fleeDuration);
 
         healImage = this.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>();
         healImage.transform.localScale *= attackDistance * 11f;
@@ -60,6 +64,7 @@ public class OodleHopper : EnemyAI
             slowedTimer.Update();
             buffTimer.Update();
             invincibilityTimerOodler.Update();
+            fleeTimer.Update();
 
             //Fix color after hurt
             if ((invincibilityTimer.IsOnCooldown() && !invincibilityTimer2.IsActive()) ||
@@ -103,9 +108,10 @@ public class OodleHopper : EnemyAI
             // Check if being lifestolen
             if (lifestealing)
             {
-                if (!slowed && team == Team.oddle) // Only slow enemy Oodles
+                if (!slowed && team == Team.oddle) // Only slow enemy Oodles (Also Reduce passive healing for hopper)
                 {
                     speed /= slowdownFactor;
+                    passiveHealAmount /= slowdownFactor;
                     attackTimer.SetCooldown(attackCooldown * 1.5f);
                     slowed = true;
                 }
@@ -129,12 +135,13 @@ public class OodleHopper : EnemyAI
             {
                 slowed = false;
                 speed *= slowdownFactor;
+                passiveHealAmount *= slowdownFactor;
                 attackTimer.SetCooldown(attackCooldown);
                 selfImage.color = team == Team.player ? allyCol : Color.white;
             }
 
-            // Constant Slow Passive Heals
-            if (!lifestealing && state != State.dying && state != State.dead) 
+            // Constant Slow Passive Heals only when an enemy
+            if (!lifestealing && state != State.dying && state != State.dead && team == Team.oddle) 
             {
                 Heal(passiveHealAmount * Time.deltaTime);
             }
@@ -178,25 +185,28 @@ public class OodleHopper : EnemyAI
                     {
                         //Activate Attack behaviour
                         //Activates healing for whatever team the oodle hopper is on
-                        Attack();
-                        if (!attackTimer.IsActive() && !hopCooldown.IsActive())
+                        if (!hopCooldown.IsActive())
                         {
-                            Debug.Log("Attack Over");
-                            animator.SetBool("hopping", false);
-                            animator.SetBool("idle", true);
-                            if (team == Team.player)
+                            Attack();
+                            if (!attackTimer.IsActive())
                             {
-                                state = State.follow;
-                                Debug.Log("Follow");
+                                Debug.Log("Attack Over");
+                                animator.SetBool("hopping", false);
+                                animator.SetBool("idle", true);
+                                if (team == Team.player)
+                                {
+                                    state = State.follow;
+                                    Debug.Log("Follow");
+                                }
+                                else if (team == Team.oddle)
+                                {
+                                    state = State.chase;
+                                    Debug.Log("Chase");
+                                }
+                                attackSFXInstance.stop(0);
+                                healImage.enabled = false;
+                                return;
                             }
-                            else if (team == Team.oddle)
-                            {
-                                state = State.chase;
-                                Debug.Log("Chase");
-                            }
-                            attackSFXInstance.stop(0);
-                            healImage.enabled = false;
-                            return;
                         }
                     }
                     break;
@@ -206,6 +216,7 @@ public class OodleHopper : EnemyAI
                     // If attack sfx is playing, stop it
                     attackSFXInstance.stop(0);
                     healImage.enabled = false;
+                    hopCooldown.SetCooldown(hopInterval);
 
                     //dying Behaviour
                     animationTimer += Time.deltaTime;
@@ -259,6 +270,30 @@ public class OodleHopper : EnemyAI
                         if (PathLength() <= attackDistance && attackTimer.IsUseable())
                         {
                             state = State.attack;
+                        }
+                        else
+                        {
+                            MoveEnemy();
+                        }
+                    }
+                    break;
+                }
+            case State.flee: // Only runs when an enemy
+                {
+                    if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
+                    {
+                        if (fleeTimer.IsUseable())
+                        {
+                            // If attack sfx is playing, stop it
+                            attackSFXInstance.stop(0);
+                            healImage.enabled = false;
+                            hopCooldown.SetCooldown(fleeHopInterval);
+                            fleeTimer.StartTimer();
+                        }
+                        else if (fleeTimer.IsOnCooldown())
+                        {
+                            hopCooldown.SetCooldown(hopInterval);
+                            state = State.chase;
                         }
                         else
                         {
@@ -359,7 +394,7 @@ public class OodleHopper : EnemyAI
 
     override protected void Attack() // Heal Ring
     {
-        if (target != null && attackTimer.IsUseable() && !hopCooldown.IsActive())
+        if (target != null && attackTimer.IsUseable())
         {
             //Start the Attack Timer
             attackTimer.StartTimer();
@@ -379,14 +414,14 @@ public class OodleHopper : EnemyAI
             {
                 if (CustomDist(healImage.transform.position, enemy.transform.position + 4f * Vector3.down) <= attackDistance && enemy.team == team) // Heal oodles on the same team
                 {
-                    enemy.Heal(abilityHealAmount * Time.deltaTime);
+                    enemy.Heal(damage * Time.deltaTime); // damage is used as the amount to heal by
                 }
             }
         }
 
         if (CustomDist(healImage.transform.position, player.transform.position + 4f * Vector3.down) <= attackDistance && team == Team.player) // Heal player if ally
         {
-            player.GetComponent<PlayerMovement>().Heal(abilityHealAmount * Time.deltaTime);
+            player.GetComponent<PlayerMovement>().Heal(damage * Time.deltaTime);
         }
 
         if (attackTimer.IsOnCooldown())
@@ -409,8 +444,16 @@ public class OodleHopper : EnemyAI
             return;
         }
 
-        //Calculate direction to travel to the next waypoint
-        Vector2 direction = ((Vector2)targetPath.vectorPath[currentWaypoint] - rb.position + pathOffset).normalized;
+        Vector2 direction = Vector2.zero;
+        //Calculate direction to travel to the next waypoint, if in flee mode randomize direction vector
+        if (state == State.flee)
+        {
+            direction = Random.insideUnitCircle.normalized;
+        }
+        else
+        {
+            direction = ((Vector2)targetPath.vectorPath[currentWaypoint] - rb.position + pathOffset).normalized;
+        }
 
         if (hopCooldown.IsUseable())
         {
@@ -455,12 +498,14 @@ public class OodleHopper : EnemyAI
         base.Kill();
     }
 
-    public override void Stun()
+    public override void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f, bool lifeSteal = false)
     {
-        //Set Animation variables
-        animator.SetBool("hopping", false);
-        animator.SetBool("idle", true);
-        base.Stun();
+        //Go into the flee state if enemy
+        if (team == Team.oddle && fleeTimer.IsUseable())
+        {
+            state = State.flee;
+        }
+        base.Damage(damageTaken, makeInvincible, animateHurt, knockbackDir, knockbackPower, lifeSteal);
     }
 }
 

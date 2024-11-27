@@ -53,6 +53,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public float allyBuffDuration;
     public float crabSpdModifier;
     public float crabAtkSpdModifier;
+    public float hopperStrModifier;
 
     [SerializeField] private SpriteRenderer pencil;
     private GameObject[] enemies;
@@ -443,7 +444,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
         else
         {
-               return DialogueManager.Instance.dialogueActive;
+            return DialogueManager.Instance.dialogueActive;
         }
     }
 
@@ -563,7 +564,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                     enemy.transform.position = transform.position + total;
                     enemyai.Heal(enemyai.maxHealth * allyHealPercentage);
                     enemyai.buffed = true;
-                    enemyai.damage *= allyStrModifier;
+                    if (enemyai.type == Type.hopper)
+                    {
+                        enemyai.damage *= hopperStrModifier;
+                    }
+                    else
+                    {
+                        enemyai.damage *= allyStrModifier;
+                    }
                     if (enemyai.type == Type.crab)
                     {
                         enemyai.speed *= crabSpdModifier;

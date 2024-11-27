@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 // Used this video for most of the script https://www.youtube.com/watch?v=jvtFUfJ6CP8a
 // if you want to use this in FSM inherit from EnemybaseState class
 public enum Team {player, neutral, oddle};
-public enum State {idle, chase, follow, attack, dying, dead, reviving };
+public enum State {idle, chase, follow, attack, dying, dead, reviving, flee };
 public enum Type { crab, cubie, knight, hopper, bars, general };
 public abstract class EnemyAI : MonoBehaviour
 {
