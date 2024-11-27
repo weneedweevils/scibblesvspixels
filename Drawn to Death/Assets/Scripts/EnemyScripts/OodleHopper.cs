@@ -12,6 +12,8 @@ public class OodleHopper : EnemyAI
     private float hopDuration = 47f / 60f;
     private CooldownTimer hopCooldown;
     [HideInInspector] public SpriteRenderer healImage;
+    public float passiveHealAmount = 1f;
+    public float abilityHealAmount = 2f;
 
     override protected void Start()
     {
@@ -24,7 +26,7 @@ public class OodleHopper : EnemyAI
         hopCooldown = new CooldownTimer(hopInterval, hopDuration);
 
         healImage = this.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>();
-        healImage.transform.localScale *= attackDistance * 10.45f;
+        healImage.transform.localScale *= attackDistance * 11f;
 
         base.Start();
 
@@ -130,6 +132,12 @@ public class OodleHopper : EnemyAI
                 attackTimer.SetCooldown(attackCooldown);
                 selfImage.color = team == Team.player ? allyCol : Color.white;
             }
+
+            // Constant Slow Passive Heals
+            if (!lifestealing && state != State.dying && state != State.dead) 
+            {
+                Heal(passiveHealAmount * Time.deltaTime);
+            }
         }
         //State Manager
         switch (state)
@@ -171,7 +179,7 @@ public class OodleHopper : EnemyAI
                         //Activate Attack behaviour
                         //Activates healing for whatever team the oodle hopper is on
                         Attack();
-                        if (!attackTimer.IsActive())
+                        if (!attackTimer.IsActive() && !hopCooldown.IsActive())
                         {
                             Debug.Log("Attack Over");
                             animator.SetBool("hopping", false);
@@ -363,14 +371,35 @@ public class OodleHopper : EnemyAI
             attackSFXInstance.start();
         }
 
-        //Lunge at the target
-        //Vector2 direction = ((Vector2)target.position - rb.position).normalized;
-        //rb.AddForce(direction * lungeForce * Time.deltaTime);
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            EnemyAI enemy = obj.GetComponent<EnemyAI>();
+            //LineRenderer line = enemy.GetComponent<LineRenderer>();
+            if (enemy != null)
+            {
+                if (CustomDist(healImage.transform.position, enemy.transform.position + 4f * Vector3.down) <= attackDistance && enemy.team == team) // Heal oodles on the same team
+                {
+                    enemy.Heal(abilityHealAmount * Time.deltaTime);
+                }
+            }
+        }
+
+        if (CustomDist(healImage.transform.position, player.transform.position + 4f * Vector3.down) <= attackDistance && team == Team.player) // Heal player if ally
+        {
+            player.GetComponent<PlayerMovement>().Heal(abilityHealAmount * Time.deltaTime);
+        }
 
         if (attackTimer.IsOnCooldown())
         {
             healImage.enabled = false;
         }
+    }
+
+    private float CustomDist(Vector3 a, Vector3 b)
+    {
+        float xScale = 1f;
+        float yScale = 0.5f;
+        return Mathf.Sqrt(Mathf.Pow(((a.x - b.x) / xScale), 2) + Mathf.Pow(((a.y - b.y) / yScale), 2));
     }
 
     protected override void MoveEnemy()
@@ -432,84 +461,6 @@ public class OodleHopper : EnemyAI
         animator.SetBool("hopping", false);
         animator.SetBool("idle", true);
         base.Stun();
-    }
-
-    protected void OnTriggerStay2D(Collider2D collision)
-    {
-        if (health > 0)
-        {
-            switch (collision.gameObject.tag)
-            {
-                case "Player":
-                    {
-
-                        //Get a reference to the player
-                        PlayerMovement player = collision.gameObject.GetComponent<PlayerMovement>();
-                        if (attackTimer.IsActive() && team == Team.oddle && player.invincibilityTimer.IsUseable())
-                        {
-                            //Damage player
-                            player.Damage(damage);
-                        }
-                        break;
-                    }
-                case "Enemy":
-                    {
-                        //Get a reference to the enemy
-                        EnemyAI otherAI = collision.gameObject.GetComponent<EnemyAI>();
-                        HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
-                        Boss oodler = collision.gameObject.GetComponent<Boss>();
-
-
-                        if (otherAI != null)
-                        {
-                            if (attackTimer.IsActive() && otherAI != null && team != otherAI.team && otherAI.team != Team.neutral && otherAI.invincibilityTimer2.IsUseable())
-                            {
-                                Debug.Log(string.Format("{0} Hut {1} for {2} damage", name, otherAI.name, damage));
-                                //Damage enemy
-                                otherAI.Damage(damage, false, true);
-
-                                //Start enemies secondary invincibility timer
-                                otherAI.invincibilityTimer2.StartTimer();
-                                otherAI.Stun();
-                            }
-                        }
-
-                        else if (crystal != null)
-                        {
-
-                            //Debug.Log(otherAI.invincibilityTimer2.IsUseable());
-
-                            if (attackTimer.IsActive() && crystal != null && crystal.invincibilityTimer.IsUseable())
-                            {
-                                //Damage crystal
-                                crystal.CrystalDamage(damage, true);
-                            }
-                        }
-
-
-                        else if (oodler != null)
-                        {
-                            if (attackTimer.IsActive() && oodler != null && oodler.BossIsDamageable() && !invincibilityTimerOodler.IsActive())//!oodler.invincibilityTimer.IsActive())
-                            {
-
-                                //Damage enemy
-                                oodler.Damage(damage);
-                                invincibilityTimerOodler.StartTimer();
-
-                            }
-
-                        }
-
-                        break;
-
-
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
-        }
     }
 }
 

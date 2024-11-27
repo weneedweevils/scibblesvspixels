@@ -625,7 +625,8 @@ public abstract class EnemyAI : MonoBehaviour
         if (!attackTimer.IsOnCooldown())
         {
             attackTimer.StartCooldown(attackCooldown * stunCooldownRatio);
-        } else
+        } 
+        else
         {
             attackTimer.StartCooldown(Mathf.Min(attackTimer.timer, attackCooldown * stunCooldownRatio));
         }
