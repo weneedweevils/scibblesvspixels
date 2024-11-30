@@ -236,7 +236,7 @@ public abstract class EnemyAI : MonoBehaviour
                 {
                     if (blocker.isDead())
                     {
-                        isolated = false;
+                        BlockerActivation();
                         break;
                     }
                 }
@@ -440,6 +440,12 @@ public abstract class EnemyAI : MonoBehaviour
                     break;
                 }
         }
+    }
+
+    //Usually called when the blocker that is isolating this enemy is destroyed
+    virtual protected void BlockerActivation()
+    {
+        isolated = false;
     }
 
     //Make an attempt at finding a new target

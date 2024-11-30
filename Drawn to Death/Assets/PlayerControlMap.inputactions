@@ -103,6 +103,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SkipCutscene",
+                    "type": "Value",
+                    "id": "d7f4896c-61f1-496f-9fc3-14afd277d3a7",
+                    "expectedControlType": "Analog",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -135,6 +144,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Playstation",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "567ec14f-a68b-4f50-8948-87d2a2379695",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox",
                     "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -174,6 +194,17 @@
                 },
                 {
                     "name": "",
+                    "id": "aa4cfae0-82da-4055-b382-2b40c0bea1da",
+                    "path": "<XInputController>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox",
+                    "action": "Rally",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "11ea0db0-1f7b-415d-8c1f-5ca2185f9843",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
@@ -207,6 +238,17 @@
                 },
                 {
                     "name": "",
+                    "id": "1139baaa-94a0-4936-9e11-9272b2523c91",
+                    "path": "<XInputController>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "eb376edb-6c1a-4065-a663-fece45f65130",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
@@ -223,6 +265,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Playstation",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "548367d3-6f1c-4ad5-900c-66399b63a74c",
+                    "path": "<XInputController>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox",
                     "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -262,6 +315,17 @@
                 },
                 {
                     "name": "",
+                    "id": "68cce4fc-6c3c-40e2-8ca6-2e629bc81f12",
+                    "path": "<XInputController>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox",
+                    "action": "LifeSteal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "e64a50b7-cb70-492c-a344-3e620f4c3245",
                     "path": "<Keyboard>/r",
                     "interactions": "",
@@ -289,6 +353,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Playstation",
+                    "action": "Revive",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c56cb7aa-3f3f-4258-a70b-b35c9cc74c56",
+                    "path": "<XInputController>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox",
                     "action": "Revive",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -328,6 +403,17 @@
                 },
                 {
                     "name": "",
+                    "id": "5cb2d02a-4815-49cd-8c3f-618f2a4ebcdf",
+                    "path": "<XInputController>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox",
+                    "action": "Escape",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "237767b6-ccfd-434b-8282-74859e7cccd2",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
@@ -343,7 +429,7 @@
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "ProController;Playstation;Gamepad",
+                    "groups": "Playstation;Gamepad;Xbox",
                     "action": "SkipText",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -353,7 +439,7 @@
                     "id": "e4158f13-b7a0-4005-adad-3fe51bc054fc",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "StickDeadzone(min=0.04)",
                     "groups": "Gamepad",
                     "action": "Move",
                     "isComposite": false,
@@ -419,8 +505,19 @@
                     "id": "ad1ffe1e-c04f-444a-aa87-7cfbd50cddaa",
                     "path": "<DualShockGamepad>/leftStick",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "StickDeadzone(min=0.04)",
                     "groups": "Playstation",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5daa1468-167d-4e28-9ae3-70a1c14df7f2",
+                    "path": "<XInputController>/leftStick",
+                    "interactions": "",
+                    "processors": "StickDeadzone(min=0.04)",
+                    "groups": "Xbox",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -444,6 +541,28 @@
                     "processors": "",
                     "groups": "KBM",
                     "action": "PreviousDialogue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2bc2d5d6-5d8f-44e0-bf6c-a159a3f778b7",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KBM",
+                    "action": "SkipCutscene",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7c453af0-9a4e-442b-bde9-0ba77e27801a",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad;Playstation;Xbox",
+                    "action": "SkipCutscene",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -535,6 +654,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "LeftClick",
+                    "type": "PassThrough",
+                    "id": "60e8180c-820c-4430-b583-792ed0647d53",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "TrackedDevicePosition",
                     "type": "PassThrough",
                     "id": "41e749f9-7458-4a4c-9c3d-e36e4c694525",
@@ -580,7 +708,7 @@
                     "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad;Playstation",
+                    "groups": "Gamepad;Playstation;Xbox",
                     "action": "Escape",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -602,7 +730,7 @@
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Playstation;Gamepad",
+                    "groups": "Playstation;Gamepad;Xbox",
                     "action": "Escape",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -624,7 +752,7 @@
                     "path": "<Gamepad>/leftStick/up",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad;Playstation",
+                    "groups": "Gamepad;Playstation;Xbox",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -635,7 +763,7 @@
                     "path": "<Gamepad>/rightStick/up",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad;Playstation",
+                    "groups": "Gamepad;Playstation;Xbox",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -646,7 +774,7 @@
                     "path": "<Gamepad>/leftStick/down",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad;Playstation",
+                    "groups": "Gamepad;Playstation;Xbox",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -657,7 +785,7 @@
                     "path": "<Gamepad>/rightStick/down",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad;Playstation",
+                    "groups": "Gamepad;Playstation;Xbox",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -668,7 +796,7 @@
                     "path": "<Gamepad>/leftStick/left",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad;Playstation",
+                    "groups": "Gamepad;Playstation;Xbox",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -679,7 +807,7 @@
                     "path": "<Gamepad>/rightStick/left",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad;Playstation",
+                    "groups": "Gamepad;Playstation;Xbox",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -690,7 +818,7 @@
                     "path": "<Gamepad>/leftStick/right",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad;Playstation",
+                    "groups": "Gamepad;Playstation;Xbox",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -701,7 +829,7 @@
                     "path": "<Gamepad>/rightStick/right",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad;Playstation",
+                    "groups": "Gamepad;Playstation;Xbox",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -712,7 +840,7 @@
                     "path": "<Gamepad>/dpad",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad;Playstation",
+                    "groups": "Gamepad;Playstation;Xbox",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -877,7 +1005,7 @@
                     "path": "*/{Submit}",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad;KBM;Playstation",
+                    "groups": "Gamepad;KBM;Playstation;Xbox",
                     "action": "Submit",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -1031,7 +1159,7 @@
                     "path": "<Gamepad>/leftStick/down",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad;ProController;Playstation",
+                    "groups": "Gamepad;Playstation;Xbox",
                     "action": "ScrollFaster",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -1053,8 +1181,19 @@
                     "path": "<Gamepad>/rightStick/down",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad;ProController;Playstation",
+                    "groups": "Gamepad;Playstation;Xbox",
                     "action": "ScrollFaster",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "44538357-1517-49f8-ad0f-d63e386b6ea5",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -1090,22 +1229,22 @@
             ]
         },
         {
-            "name": "ProController",
-            "bindingGroup": "ProController",
+            "name": "Playstation",
+            "bindingGroup": "Playstation",
             "devices": [
                 {
-                    "devicePath": "<SwitchProControllerHID>",
+                    "devicePath": "<DualSenseGamepadHID>",
                     "isOptional": false,
                     "isOR": false
                 }
             ]
         },
         {
-            "name": "Playstation",
-            "bindingGroup": "Playstation",
+            "name": "Xbox",
+            "bindingGroup": "Xbox",
             "devices": [
                 {
-                    "devicePath": "<DualSenseGamepadHID>",
+                    "devicePath": "<XInputController>",
                     "isOptional": false,
                     "isOR": false
                 }

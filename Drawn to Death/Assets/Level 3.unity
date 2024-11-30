@@ -37787,6 +37787,31 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5000368671683615414, guid: 34d9b55fa170a444bb86050513388636,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5000368671683615414, guid: 34d9b55fa170a444bb86050513388636,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5000368671683615414, guid: 34d9b55fa170a444bb86050513388636,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5000368671683615414, guid: 34d9b55fa170a444bb86050513388636,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5000368671683615414, guid: 34d9b55fa170a444bb86050513388636,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5300414203979525616, guid: 34d9b55fa170a444bb86050513388636,
         type: 3}
       propertyPath: m_fontColor.b
@@ -38883,6 +38908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08b2a887a25f04cf6b365136066acd2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  persistent: 0
   masterVol: 1
   musicVol: 1
   sfxVol: 1
@@ -40487,7 +40513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: data.game
-  scene: 5
+  scene: 11
   cutsceneObject: {fileID: 546651206}
   hud: {fileID: 541503753}
   tutorialObject: {fileID: 0}
@@ -40498,6 +40524,9 @@ MonoBehaviour:
   saveGame: 1
   skipCutsceneOnLoad: 1
   skipTutorialOnLoad: 1
+  SkipCutscene:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1534733130
 PrefabInstance:
   m_ObjectHideFlags: 0

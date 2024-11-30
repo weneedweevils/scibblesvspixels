@@ -14,7 +14,7 @@ public class ControlScreenState : MenuBaseState
         Debug.Log("Entered Control Screen");
         base.EnterState();
         pauseMenuManager.ControlScreen.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(pauseMenuManager.ControlsFirstButton);
+        pauseMenuManager.SetCurrentButton(pauseMenuManager.ControlsFirstButton);
     }
 
     public override void ExitState()

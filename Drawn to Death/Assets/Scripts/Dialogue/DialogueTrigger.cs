@@ -11,60 +11,68 @@ public class DialogueTrigger : MonoBehaviour
         OnDisable,
         OnTriggerEnter,
         OnTriggerExit,
+        OnEnemyDeath,
     }
 
     public TriggerMode activationMethod;
     public DialogueSequence dialogueSequence;
+    public EnemyAI enemy;
+
     public bool activeTrigger = true;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        if (activationMethod == TriggerMode.OnStart && activeTrigger)
+        if (activeTrigger && activationMethod == TriggerMode.OnStart)
         {
-            DialogueManager.Instance.StartDialogue(dialogueSequence);
-            activeTrigger = false;
-            gameObject.SetActive(false);
+            TriggerDialogue();
         }
+    }
+
+    private void FixedUpdate()
+    {
+        if (activeTrigger && activationMethod == TriggerMode.OnEnemyDeath && enemy?.state == State.dead)
+        {
+            TriggerDialogue();
+        }
+    }
+
+    public void TriggerDialogue()
+    {
+        DialogueManager.instance.StartDialogue(dialogueSequence);
+        activeTrigger = false;
+        gameObject.SetActive(false);
     }
 
     private void OnEnable()
     {
-        if (activationMethod == TriggerMode.OnEnable && activeTrigger)
+        if (activeTrigger && activationMethod == TriggerMode.OnEnable)
         {
-            DialogueManager.Instance.StartDialogue(dialogueSequence);
-            activeTrigger = false;
-            gameObject.SetActive(false);
+            TriggerDialogue();
         }
     }
 
     private void OnDisable()
     {
-        if (activationMethod == TriggerMode.OnDisable && activeTrigger)
+        if (activeTrigger && activationMethod == TriggerMode.OnDisable)
         {
-            DialogueManager.Instance.StartDialogue(dialogueSequence);
-            activeTrigger = false;
-            gameObject.SetActive(false);
+            TriggerDialogue();
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player" && activationMethod == TriggerMode.OnTriggerEnter && activeTrigger)
+        if (activeTrigger && activationMethod == TriggerMode.OnTriggerEnter && collision.gameObject.tag == "Player")
         {
-            DialogueManager.Instance.StartDialogue(dialogueSequence);
-            activeTrigger = false;
-            gameObject.SetActive(false);
+            TriggerDialogue();
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player" && activationMethod == TriggerMode.OnTriggerExit && activeTrigger)
+        if (activeTrigger && activationMethod == TriggerMode.OnTriggerExit && collision.gameObject.tag == "Player")
         {
-            DialogueManager.Instance.StartDialogue(dialogueSequence);
-            activeTrigger = false;
-            gameObject.SetActive(false);
+            TriggerDialogue();
         }
     }
 }

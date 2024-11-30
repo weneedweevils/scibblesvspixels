@@ -89,8 +89,8 @@ public class Attack : MonoBehaviour
     public int isHit;
 
 
-    // herearaer
-
+    // Getting Input Handler //
+    public GameObject inputHandler;
     private PlayerInput playerInput;
 
 
@@ -128,12 +128,11 @@ public class Attack : MonoBehaviour
         // Get a reference to the script that controls the lifestealFMOD event
         lifestealFmod = FMODUnity.RuntimeManager.CreateInstance(lifestealSfx);
         isHit = 0;
+    }
 
-
-        playerInput = playerMovement.GetComponent<PlayerInput>();
-        
-
-
+    public void Start()
+    {
+        playerInput = CustomInput.instance.playerInput;
     }
 
     // Update is called once per frame

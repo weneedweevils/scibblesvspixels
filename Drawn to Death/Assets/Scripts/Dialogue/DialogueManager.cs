@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,10 +19,9 @@ public enum DialogueSFX
     GlichMad
 }
 
-public class DialogueManager : MonoBehaviour
+public class DialogueManager : Singleton<DialogueManager>
 {
-    //Singleton instance
-    public static DialogueManager Instance { get; private set; }
+    public static bool fancyFont;
 
     public Transform dialogueParentContainer;
     public int dialogueID = 0;
@@ -33,7 +32,7 @@ public class DialogueManager : MonoBehaviour
     private DialogueBox currentDialogue = null;
     private DialogueEntry currentEntry;
 
-    public GameObject player;
+    [HideInInspector]
     public PlayerInput playerInput;
 
     private Dictionary<DialogueSFX, string> sfx = new Dictionary<DialogueSFX, string>()
@@ -53,23 +52,19 @@ public class DialogueManager : MonoBehaviour
         { DialogueSFX.GlichMad, "event:/GlichDialogueMad"}
     };
 
-    private void Awake()
+    protected override void Awake()
     {
-        // Ensure only one instance of InputManager exists
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        base.Awake();
 
         if (dialogueParentContainer == null)
             Debug.LogError("Error in DialogueManager - dialogueParentContainer is null");
 
-        playerInput = player.GetComponent<PlayerInput>();
-        
+        fancyFont = (PlayerPrefs.GetInt("fancyFont", 1) != 0);
+    }
+
+    public void Start()
+    {
+        playerInput = CustomInput.instance.playerInput;
     }
 
     public void StartDialogue(DialogueSequence dialogueSequence)
@@ -135,5 +130,15 @@ public class DialogueManager : MonoBehaviour
     public string DialogueSFXEventPath(DialogueSFX dialogueSFX)
     {
         return sfx[dialogueSFX];
+    }
+
+    public DialogueBox GetCurrentDialogue()
+    {
+        return currentDialogue;
+    }
+
+    public void SetCurrentDialogueNull()
+    {
+        currentDialogue = null;
     }
 }

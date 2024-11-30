@@ -56,4 +56,10 @@ public class CooldownBarBehaviour
         //    cooldownBar.fillRect.GetComponentInChildren<Image>().color = Color.Lerp(low, high, cooldownBar.normalizedValue);
         //}
     }
+
+    public void UpdateCooldown(float value)
+    {
+        maxValue = value;
+        cooldownBar.value = maxValue;
+    }
 }

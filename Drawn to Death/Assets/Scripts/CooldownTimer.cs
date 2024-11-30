@@ -95,6 +95,7 @@ public class CooldownTimer
     public void SetCooldown(float cooldownValue)
     {
         cooldownDuration = cooldownValue;
+        cooldownBar?.UpdateCooldown(cooldownValue);
     }
 
     public void SetDuration(float durationValue)

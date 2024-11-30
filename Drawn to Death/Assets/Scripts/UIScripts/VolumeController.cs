@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Made using this tutorial for help: https://www.youtube.com/watch?v=_D-OZaCH8os&ab_channel=ScottGameSounds
-public class VolumeController : MonoBehaviour {
+public class VolumeController : Singleton<VolumeController> 
+{
     private FMOD.Studio.VCA masterVca, musicVca, sfxVca, dialogueVca;
     public float masterVol, musicVol, sfxVol, dialogueVol;
     public float cutsceneReduction;
@@ -67,7 +68,7 @@ public class VolumeController : MonoBehaviour {
         sfxVol = volume;
         dialogueVol = volume;
         PlayerPrefs.SetFloat("SFXVolume", volume);
-        PlaySFXSample();
+        //PlaySFXSample();
     }
 
     public void PlaySFXSample(){
