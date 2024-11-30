@@ -58,7 +58,7 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
             map.upgrade.ApplyUpgrade(map.level);
         }
         PlayerMovement.instance.RefreshCooldownBars();
-        PlayerMovement.instance.weapon.RefreshCooldownBars();
+        PlayerMovement.instance.weapon?.RefreshCooldownBars();
     }
 
     public void SetTextbox(string content = null)
