@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -42809,12 +42809,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 402aaaedf2a9a3141928747a407a5eb7, type: 3}
---- !u!95 &1428868188 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5046299027551140634, guid: 402aaaedf2a9a3141928747a407a5eb7,
-    type: 3}
-  m_PrefabInstance: {fileID: 1428868187}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1453488057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43119,6 +43113,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 396583164}
     m_Modifications:
+    - target: {fileID: 3675139206520164842, guid: c620ed06c2126fe44a05d4db30dce7b6,
+        type: 3}
+      propertyPath: m_ControlsChangedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1957964601}
+    - target: {fileID: 3675139206520164842, guid: c620ed06c2126fe44a05d4db30dce7b6,
+        type: 3}
+      propertyPath: m_ControlsChangedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDeviceChanged
+      objectReference: {fileID: 0}
     - target: {fileID: 3675139206520164843, guid: c620ed06c2126fe44a05d4db30dce7b6,
         type: 3}
       propertyPath: m_RootOrder
@@ -74008,6 +74012,18 @@ PrefabInstance:
       objectReference: {fileID: 684245802}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5e11bc1681c3b844b34bab6fe8ab682, type: 3}
+--- !u!114 &1957964601 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+    type: 3}
+  m_PrefabInstance: {fileID: 1957964600}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957964606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6baaa0ff94d98049aeaaadf5d9999b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &1957964602 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 3807721213283246982, guid: f5e11bc1681c3b844b34bab6fe8ab682,
