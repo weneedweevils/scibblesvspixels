@@ -435,12 +435,6 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
     }
 
-    public void RefreshCooldownBars()
-    {
-        dashCooldownBar?.UpdateCooldown(dashCooldown);
-        recallCooldownBar?.UpdateCooldown(recallCooldown);
-    }
-
     public void StopMovement()
     {
         velocity = Vector2.zero;
