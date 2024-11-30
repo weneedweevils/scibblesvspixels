@@ -582,6 +582,9 @@ public abstract class EnemyAI : MonoBehaviour
     // Function to run when enemies/allies takes damage
     virtual public void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f, bool lifeSteal = false)
     {
+        if (isolated)
+            return;
+
         // Don't hit dead bodies or buffed knights
         if (state == State.dead || state == State.dying || (team == Team.player && playerAttack.reviveTimer.IsActive() && !lifeSteal) || (type == Type.knight && buffed))
         {
