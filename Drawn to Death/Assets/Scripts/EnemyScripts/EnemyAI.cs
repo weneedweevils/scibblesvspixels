@@ -7,8 +7,8 @@ using UnityEngine.UIElements;
 // Used this video for most of the script https://www.youtube.com/watch?v=jvtFUfJ6CP8a
 // if you want to use this in FSM inherit from EnemybaseState class
 public enum Team {player, neutral, oddle};
-public enum State {idle, chase, follow, attack, dying, dead, reviving };
-public enum Type { crab, cubie, knight, bars, general };
+public enum State {idle, chase, follow, attack, dying, dead, reviving, flee };
+public enum Type { crab, cubie, knight, hopper, bars, general };
 public abstract class EnemyAI : MonoBehaviour
 {
 
@@ -160,9 +160,12 @@ public abstract class EnemyAI : MonoBehaviour
 
         //Update path to Player
         float inrange = Vector2.Distance(rb.position - pathOffset, player.transform.position - (Vector3)pathOffset);
-        if (playerSeeker.IsDone() && inrange < seekDistance)
+        if (type != Type.hopper || team == Team.player)
         {
-            playerSeeker.StartPath(rb.position - pathOffset, player.transform.position - (Vector3)pathOffset, OnPlayerPathComplete);
+            if (playerSeeker.IsDone() && inrange < seekDistance)
+            {
+                playerSeeker.StartPath(rb.position - pathOffset, player.transform.position - (Vector3)pathOffset, OnPlayerPathComplete);
+            }
         }
 
         //Make an attempt at finding a new target
@@ -172,7 +175,7 @@ public abstract class EnemyAI : MonoBehaviour
         }
 
         //Check if the target is not the player
-        if (!targetIsPlayer)
+        if (!targetIsPlayer && target != null)
         {
             //Update path to target
             inrange = Vector2.Distance(rb.position - pathOffset, target.position - (Vector3)pathOffset);
@@ -579,6 +582,9 @@ public abstract class EnemyAI : MonoBehaviour
     // Function to run when enemies/allies takes damage
     virtual public void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f, bool lifeSteal = false)
     {
+        if (isolated)
+            return;
+
         // Don't hit dead bodies or buffed knights
         if (state == State.dead || state == State.dying || (team == Team.player && playerAttack.reviveTimer.IsActive() && !lifeSteal) || (type == Type.knight && buffed))
         {
@@ -628,7 +634,8 @@ public abstract class EnemyAI : MonoBehaviour
         if (!attackTimer.IsOnCooldown())
         {
             attackTimer.StartCooldown(attackCooldown * stunCooldownRatio);
-        } else
+        } 
+        else
         {
             attackTimer.StartCooldown(Mathf.Min(attackTimer.timer, attackCooldown * stunCooldownRatio));
         }
