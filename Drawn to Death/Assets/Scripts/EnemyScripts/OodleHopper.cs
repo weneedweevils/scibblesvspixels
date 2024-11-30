@@ -15,6 +15,7 @@ public class OodleHopper : EnemyAI
     private float fleeInterval = 180 / 60f;
     private CooldownTimer hopCooldown;
     private CooldownTimer fleeTimer;
+    private Color allyHealColor;
     [HideInInspector] public SpriteRenderer healImage;
     public float passiveHealAmount = 1f;
 
@@ -25,7 +26,7 @@ public class OodleHopper : EnemyAI
         invincibilityDuration = 20f / 60f;
         type = Type.hopper;
 
-        //Create timers
+        // Create timers
         hopCooldown = new CooldownTimer(hopInterval, hopDuration);
         fleeTimer = new CooldownTimer(fleeInterval, fleeDuration);
 
@@ -37,6 +38,10 @@ public class OodleHopper : EnemyAI
         // Override target defaults
         target = null;
         targetIsPlayer = false;
+
+        // Create diffrent heal ring color for ally hoppers
+        allyHealColor = Color.green;
+        allyHealColor.a = 0.2f;
     }
 
     override protected void FixedUpdate()
@@ -400,6 +405,11 @@ public class OodleHopper : EnemyAI
             attackTimer.StartTimer();
             animator.SetBool("hopping", false);
             animator.SetBool("idle", true);
+
+            if (team == Team.player)
+            {
+                healImage.color = allyHealColor;
+            }
             healImage.enabled = true;
 
             // play the attack sfx
