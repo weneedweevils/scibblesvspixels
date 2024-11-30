@@ -388,6 +388,12 @@ public class Attack : MonoBehaviour
         }
     }
 
+    public void RefreshCooldownBars()
+    {
+        reviveCooldownBar.UpdateCooldown(reviveCooldown);
+        lifestealCooldownBar.UpdateCooldown(lifestealCooldown);
+    }
+
     public float CustomDist(Vector3 a, Vector3 b)
     {
         float xScale = 1f;
