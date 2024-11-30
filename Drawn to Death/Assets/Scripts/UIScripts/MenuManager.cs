@@ -1,11 +1,25 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public enum Scene {Splash_Screen, Menu, Intructions, Level_1, Level_2, Level_3, Level_4, Ded, End, Credits}
+public enum Scene {
+    Splash_Screen, 
+    Menu,
+    Settings,
+    Credits,
+    Intructions,
+    Ded, 
+    End, 
+    Level_1, 
+    Level_2, 
+    Level_3, 
+    Level_4,
+    Level_5,
+}
 public class MenuManager : MonoBehaviour, IDataPersistence
 {
     [Header("Next Scene")]
@@ -48,8 +62,9 @@ public class MenuManager : MonoBehaviour, IDataPersistence
         {
             transition.gameObject.SetActive(true);
             transition.SetTrigger("Start");
-            yield return new WaitForSeconds(transitionTime);
+            yield return new WaitForSecondsRealtime(transitionTime);
         }
+        Time.timeScale = 1;
         SceneManager.LoadScene((int)scene);
     }
 
@@ -75,13 +90,12 @@ public class MenuManager : MonoBehaviour, IDataPersistence
 
     public void OnHovered()
     {
-        text.color = new Color(255,255,255,0.50f);
         FMODUnity.RuntimeManager.PlayOneShot("event:/UIHover");
     }
 
     public void OnHoveredExit()
     {
-        text.color = new Color(255, 255, 255, 1f);
+        return;
     }
 
     public void PlayAcceptSound()
@@ -98,5 +112,4 @@ public class MenuManager : MonoBehaviour, IDataPersistence
     {
         FMODUnity.RuntimeManager.PlayOneShot("event:/UIBack");
     }
-
 }
