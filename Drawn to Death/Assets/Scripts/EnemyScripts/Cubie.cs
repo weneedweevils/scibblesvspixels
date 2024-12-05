@@ -8,6 +8,8 @@ public class Cubie : EnemyAI
     [Header("Cubie Specific References")]
     public GameObject ProjectileObject;
     public GameObject DarkProjectileObject;
+    public float maxRallyBullets = 20f;
+    private float currentBullets = 0f;
 
     private bool createdProjectile = true;
     private float windupDuration = 40f / 60f;
@@ -25,6 +27,7 @@ public class Cubie : EnemyAI
         deathDuration = 40f / 60f;
         attackDuration = 60f / 60f;
         invincibilityDuration = 20f / 60f;
+        type = Type.cubie;
 
         //Create a windup timer
         windupTimer = new CooldownTimer(0f, windupDuration);
@@ -49,6 +52,7 @@ public class Cubie : EnemyAI
             if (cutscene)
             {
                 cutscene = false;
+                base.healthBar.Enable();
                 base.healthBar.SetHealth(base.health, base.maxHealth);
             }
         }
@@ -90,7 +94,16 @@ public class Cubie : EnemyAI
         //End of windup -> Fire Projectile
         if (!createdProjectile && !windupTimer.IsActive())
         {
-            createdProjectile = true;
+            // Fire multiple projectiles if buffed
+            if (!buffed || currentBullets >= maxRallyBullets)
+            {
+                createdProjectile = true;
+                currentBullets = 0;
+            }
+            else
+            {
+                currentBullets++;
+            }
 
             //Create a projectile
 

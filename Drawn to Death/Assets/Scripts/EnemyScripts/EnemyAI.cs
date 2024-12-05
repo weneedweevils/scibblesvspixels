@@ -7,7 +7,8 @@ using UnityEngine.UIElements;
 // Used this video for most of the script https://www.youtube.com/watch?v=jvtFUfJ6CP8a
 // if you want to use this in FSM inherit from EnemybaseState class
 public enum Team {player, neutral, oddle};
-public enum State {idle, chase, follow, attack, dying, dead, reviving };
+public enum State {idle, chase, follow, attack, dying, dead, reviving, flee };
+public enum Type { crab, cubie, knight, hopper, bars, general };
 public abstract class EnemyAI : MonoBehaviour
 {
 
@@ -16,7 +17,9 @@ public abstract class EnemyAI : MonoBehaviour
     [Header("State")]
     public Team team = Team.oddle;
     public State state = State.chase;
+    public Type type = Type.general;
     public bool isolated = false;
+    public bool revivable = true;
 
     [Header("Stats")]
     public float health;
@@ -26,6 +29,9 @@ public abstract class EnemyAI : MonoBehaviour
     public float attackCooldown;
     public float attackDistance;
     public float slowdownFactor = 3f;
+    public float stunCooldownRatio = 0.7f;
+    public float knockbackRatio = 1f;
+    [Min(0)] public int killReward = 1;
 
     [Header("Pathfinding")]
     public bool moving = true;
@@ -51,7 +57,7 @@ public abstract class EnemyAI : MonoBehaviour
 
     [Header("References")]
     public Collider2D movementCollider;
-    public EnemyHealthBarBehaviour healthBar;
+    public HealthBar healthBar;
     public Transform enemygraphics;
     public Color hurtCol = Color.red;
     public Color reviveCol = Color.green;
@@ -131,11 +137,16 @@ public abstract class EnemyAI : MonoBehaviour
         if (moving)
         { 
             InvokeRepeating("CheckState", 0f, 0.5f); //Update the path every half second if not a movable object
-
         }
         if (blockers.Length != 0)
         {
             isolated = true;
+        }
+
+        // Ensure enemy type is defined
+        if (type == Type.general)
+        {
+            Debug.Log("Enemy type is defined as general. Please define the enemy type in the child script for the enemy.");
         }
     }
 
@@ -149,19 +160,22 @@ public abstract class EnemyAI : MonoBehaviour
 
         //Update path to Player
         float inrange = Vector2.Distance(rb.position - pathOffset, player.transform.position - (Vector3)pathOffset);
-        if (playerSeeker.IsDone() && inrange < seekDistance)
+        if (type != Type.hopper || team == Team.player)
         {
-            playerSeeker.StartPath(rb.position - pathOffset, player.transform.position - (Vector3)pathOffset, OnPlayerPathComplete);
+            if (playerSeeker.IsDone() && inrange < seekDistance)
+            {
+                playerSeeker.StartPath(rb.position - pathOffset, player.transform.position - (Vector3)pathOffset, OnPlayerPathComplete);
+            }
         }
 
         //Make an attempt at finding a new target
-        if (target == null || (PathLength() > seekDistance * 0.1 && team == Team.oddle))
+        if (target == null || (PathLength() > attackDistance && team == Team.oddle))
         {
             FindTarget();
         }
 
         //Check if the target is not the player
-        if (!targetIsPlayer)
+        if (!targetIsPlayer && target != null)
         {
             //Update path to target
             inrange = Vector2.Distance(rb.position - pathOffset, target.position - (Vector3)pathOffset);
@@ -222,7 +236,7 @@ public abstract class EnemyAI : MonoBehaviour
                 {
                     if (blocker.isDead())
                     {
-                        isolated = false;
+                        BlockerActivation();
                         break;
                     }
                 }
@@ -256,7 +270,14 @@ public abstract class EnemyAI : MonoBehaviour
                 if (buffTimer.IsOnCooldown())
                 {
                     buffed = false;
-                    speed /= playerMovement.allySpdModifier;
+                    if (type == Type.crab)
+                    {
+                        speed /= playerMovement.crabSpdModifier;
+                    }
+                    else
+                    {
+                        speed /= playerMovement.allySpdModifier;
+                    }
                     damage /= playerMovement.allyStrModifier;
                     attackTimer.SetCooldown(attackCooldown);
                     selfImage.color = Color.white;
@@ -421,6 +442,12 @@ public abstract class EnemyAI : MonoBehaviour
         }
     }
 
+    //Usually called when the blocker that is isolating this enemy is destroyed
+    virtual protected void BlockerActivation()
+    {
+        isolated = false;
+    }
+
     //Make an attempt at finding a new target
     virtual protected void FindTarget()
     {
@@ -486,6 +513,7 @@ public abstract class EnemyAI : MonoBehaviour
     abstract protected void Attack();
 
     //Kill this entity
+    [ContextMenu("Kill")]
     virtual public void Kill()
     {
         // Play the death sfx
@@ -495,6 +523,9 @@ public abstract class EnemyAI : MonoBehaviour
         if (team == Team.oddle) //First Death
         {
             team = Team.neutral;
+
+            //Spawn Soul Currency
+            UpgradeManager.instance.CreateSoul(transform.position, killReward, 1);
         }
         health = 0;
         state = State.dying;
@@ -551,8 +582,11 @@ public abstract class EnemyAI : MonoBehaviour
     // Function to run when enemies/allies takes damage
     virtual public void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f, bool lifeSteal = false)
     {
-        //Dont hit dead bodies
-        if (state == State.dead || state == State.dying || (team == Team.player && playerAttack.reviveTimer.IsActive() && !lifeSteal))
+        if (isolated)
+            return;
+
+        // Don't hit dead bodies or buffed knights
+        if (state == State.dead || state == State.dying || (team == Team.player && playerAttack.reviveTimer.IsActive() && !lifeSteal) || (type == Type.knight && buffed))
         {
             return;
         }
@@ -571,7 +605,7 @@ public abstract class EnemyAI : MonoBehaviour
         //Apply Knockback
         if (knockbackPower > 0f)
         {
-            rb.velocity = knockbackDir.normalized * knockbackPower;
+            rb.velocity = knockbackDir.normalized * knockbackPower * knockbackRatio;
         }
         
         //Flash hurt color
@@ -585,10 +619,7 @@ public abstract class EnemyAI : MonoBehaviour
         {
             invincibilityTimer.StartTimer();
 
-         
             Stun();
-
-            attackSFXInstance.stop(0);
         }
 
         return;
@@ -602,10 +633,11 @@ public abstract class EnemyAI : MonoBehaviour
 
         if (!attackTimer.IsOnCooldown())
         {
-            attackTimer.StartCooldown(attackCooldown * 0.7f);
-        } else
+            attackTimer.StartCooldown(attackCooldown * stunCooldownRatio);
+        } 
+        else
         {
-            attackTimer.StartCooldown(Mathf.Min(attackTimer.timer, attackCooldown * 0.7f));
+            attackTimer.StartCooldown(Mathf.Min(attackTimer.timer, attackCooldown * stunCooldownRatio));
         }
         animator.SetBool("attacking", false);
         animator.SetBool("chasing", true);

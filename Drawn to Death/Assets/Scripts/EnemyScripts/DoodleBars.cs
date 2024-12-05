@@ -6,12 +6,14 @@ public class DoodleBars : EnemyAI
 {
     [Header("Doodle Bars Specific References")]
     public DoodleBars[] friends;
+    public Color inactiveCol;
 
     override protected void Start()
     {
         deathDuration = 25f / 60f;
         attackDuration = 12f / 60f;
         invincibilityDuration = 20f / 60f;
+        type = Type.bars;
         base.Start();
     }
 
@@ -21,7 +23,17 @@ public class DoodleBars : EnemyAI
         {
             //Continue with the base class implementation of FixedUpdate
             base.FixedUpdate();
+            if (isolated)
+            {
+                selfImage.color = inactiveCol;
+            }
         }
+    }
+
+    override protected void BlockerActivation()
+    {
+        base.BlockerActivation();
+        selfImage.color = Color.white;
     }
 
     override protected void Attack()

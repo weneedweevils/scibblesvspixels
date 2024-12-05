@@ -6,14 +6,22 @@ using UnityEngine.UI;
 public class DoodleCrab : EnemyAI
 {
     [Header("Doodle Crab Specific References")]
-    public float lungeForce = 25000f;
+    public float lungeForce = 30000f;
     public bool cutscene = false;
+    private float windupDuration = 35f / 60f;
+    private CooldownTimer windupTimer;
+    private bool lunged = true;
 
     override protected void Start()
     {
         deathDuration = 25f / 60f;
-        attackDuration = 12f / 60f;
+        attackDuration = 60f / 60f;
         invincibilityDuration = 20f / 60f;
+        type = Type.crab;
+
+        //Create a windup timer
+        windupTimer = new CooldownTimer(0f, windupDuration);
+
         base.Start();
     }
 
@@ -23,9 +31,13 @@ public class DoodleCrab : EnemyAI
         base.FixedUpdate();
         if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
         {
+            //Update the windup timer
+            windupTimer.Update();
+
             if (cutscene)
             {
                 cutscene = false;
+                base.healthBar.Enable();
                 base.healthBar.SetHealth(base.health, base.maxHealth);
             }
         }
@@ -34,23 +46,40 @@ public class DoodleCrab : EnemyAI
             cutscene = true;
             base.healthBar.Disable();
         }
+        else
+        {
+            // Prevents lunge from happening if cutscene interupted attack
+            lunged = true;
+        }
     }
 
     override protected void Attack()
     {
         if (target != null && attackTimer.IsUseable())
         {
+            //Start the Attack and Windup Timers
+            lunged = false;
+            attackTimer.StartTimer();
+            windupTimer.StartTimer();
+            animator.SetBool("attacking", true);
+            animator.SetBool("chasing", false);
+        }
+
+        if (PathLength() > attackDistance)
+        {
+            // Prevents lunge with no animation if player goes out of range
+            lunged = true;
+        }
+
+        if (!lunged && !windupTimer.IsActive())
+        {
             // play the attack sfx
             attackSFXInstance.start();
-            
+
             //Lunge at the target
             Vector2 direction = ((Vector2)target.position - rb.position).normalized;
             rb.AddForce(direction * lungeForce * Time.deltaTime);
-            
-            //Start the Attack Timer
-            attackTimer.StartTimer();
-            animator.SetBool("attacking", true);
-            animator.SetBool("chasing", false);
+            lunged = true;
         }
 
         if (attackTimer.IsOnCooldown())
@@ -58,6 +87,12 @@ public class DoodleCrab : EnemyAI
             animator.SetBool("attacking", false);
             animator.SetBool("chasing", true);
         }
+    }
+
+    override public void Stun()
+    {
+        windupTimer.ResetTimer();
+        base.Stun();
     }
 
     protected void OnTriggerStay2D(Collider2D collision)
@@ -71,7 +106,7 @@ public class DoodleCrab : EnemyAI
       
                         //Get a reference to the player
                         PlayerMovement player = collision.gameObject.GetComponent<PlayerMovement>();
-                        if (attackTimer.IsActive() && team == Team.oddle && player.invincibilityTimer.IsUseable())
+                        if (attackTimer.IsActive() && !windupTimer.IsActive() && team == Team.oddle && player.invincibilityTimer.IsUseable())
                         {
                             //Damage player
                             player.Damage(damage);  
@@ -87,7 +122,7 @@ public class DoodleCrab : EnemyAI
 
 
                         if (otherAI != null) {
-                            if (attackTimer.IsActive() && otherAI != null && team != otherAI.team && otherAI.team != Team.neutral && otherAI.invincibilityTimer2.IsUseable())
+                            if (attackTimer.IsActive() && !windupTimer.IsActive() && otherAI != null && team != otherAI.team && otherAI.team != Team.neutral && otherAI.invincibilityTimer2.IsUseable())
                             {
                                 Debug.Log(string.Format("{0} Hut {1} for {2} damage", name, otherAI.name, damage));
                                 //Damage enemy
@@ -104,7 +139,7 @@ public class DoodleCrab : EnemyAI
                           
                                 //Debug.Log(otherAI.invincibilityTimer2.IsUseable());
 
-                                if (attackTimer.IsActive() && crystal != null && crystal.invincibilityTimer.IsUseable())
+                                if (attackTimer.IsActive() && !windupTimer.IsActive() && crystal != null && crystal.invincibilityTimer.IsUseable())
                                 {
                                     //Damage crystal
                                     crystal.CrystalDamage(damage, true);
@@ -114,7 +149,7 @@ public class DoodleCrab : EnemyAI
 
                         else if (oodler != null)
                         {
-                            if (attackTimer.IsActive() && oodler != null && oodler.BossIsDamageable() && !invincibilityTimerOodler.IsActive())//!oodler.invincibilityTimer.IsActive())
+                            if (attackTimer.IsActive() && !windupTimer.IsActive() && oodler != null && oodler.BossIsDamageable() && !invincibilityTimerOodler.IsActive())//!oodler.invincibilityTimer.IsActive())
                             {
 
                                 //Damage enemy

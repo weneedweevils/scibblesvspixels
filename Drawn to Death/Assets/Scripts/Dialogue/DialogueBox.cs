@@ -23,11 +23,11 @@ public class DialogueBox : MonoBehaviour
 
     private void Update()
     {
-        if (DialogueManager.Instance.playerInput.actions["SkipText"].triggered)
+        if (DialogueManager.instance.playerInput.actions["SkipText"].triggered)
         {
             if (finished)
             {
-                DialogueManager.Instance.NextDialogue();
+                DialogueManager.instance.NextDialogue();
             }
             else
             {
@@ -37,14 +37,14 @@ public class DialogueBox : MonoBehaviour
             }
         }
 
-        if (DialogueManager.Instance.playerInput.actions["ReloadDialogue"].triggered)
+        if (DialogueManager.instance.playerInput.actions["ReloadDialogue"].triggered)
         {
-            DialogueManager.Instance.ResetDialogue();
+            DialogueManager.instance.ResetDialogue();
         }
 
-        if (DialogueManager.Instance.playerInput.actions["PreviousDialogue"].triggered)
+        if (DialogueManager.instance.playerInput.actions["PreviousDialogue"].triggered)
         {
-            DialogueManager.Instance.PrevDialogue();
+            DialogueManager.instance.PrevDialogue();
         }
     }
 
@@ -63,11 +63,27 @@ public class DialogueBox : MonoBehaviour
         //Set the speaker name & style
         speakerName.text = style.speakerName;
         speakerName.color = style.nameColor;
-        speakerName.font = style.nameFont;
+        if (DialogueManager.fancyFont)
+        {
+            speakerName.font = style.nameFont;
+            speakerName.fontSize = style.nameFontSize;
+        }
+        else
+        {
+            speakerName.fontSize = style.nameFontSize * 0.8f;
+        }
 
         //Set the dialogue text & style
         dialogueText.color = style.textColor;
-        dialogueText.font = style.textFont;
+        if (DialogueManager.fancyFont)
+        {
+            dialogueText.font = style.textFont;
+            dialogueText.fontSize = style.textFontSize;
+        }
+        else
+        {
+            dialogueText.fontSize = style.textFontSize * 0.8f;
+        }
         delay = dialogueEntry.writeDelay;
 
         //Set Dialogue Text

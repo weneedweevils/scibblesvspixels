@@ -20,6 +20,7 @@ public class OodleKnight : EnemyAI
         deathDuration = 88f / 60f;
         attackDuration = 44f / 60f;
         invincibilityDuration = 20f / 60f;
+        type = Type.knight;
 
         //Create a windup timer
         windupTimer = new CooldownTimer(attackDuration - windupDuration, windupDuration);
@@ -48,6 +49,7 @@ public class OodleKnight : EnemyAI
             if (cutscene)
             {
                 cutscene = false;
+                base.healthBar.Enable();
                 base.healthBar.SetHealth(base.health, base.maxHealth);
             }
         }

@@ -12,9 +12,11 @@ public class DialogueStyle : ScriptableObject
     [Header("Name")]
     public string speakerName;
     public TMPro.TMP_FontAsset nameFont;
-    public Color nameColor;
+    public float nameFontSize = 40;
+    public Color nameColor = Color.white;
 
     [Header("Content")]
     public TMPro.TMP_FontAsset textFont;
-    public Color textColor;
+    public float textFontSize = 68;
+    public Color textColor = Color.white;
 }

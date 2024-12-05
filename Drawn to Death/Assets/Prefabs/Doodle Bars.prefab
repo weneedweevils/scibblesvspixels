@@ -306,7 +306,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 2
   state: 0
+  type: 4
   isolated: 0
+  revivable: 0
   health: 150
   maxHealth: 150
   speed: 0
@@ -314,6 +316,9 @@ MonoBehaviour:
   attackCooldown: 100
   attackDistance: -1
   slowdownFactor: 3
+  stunCooldownRatio: 0.7
+  knockbackRatio: 1
+  killReward: 0
   moving: 1
   targetSeeker: {fileID: 8639319312470385590}
   playerSeeker: {fileID: 4189887901981635619}
@@ -335,6 +340,7 @@ MonoBehaviour:
   selfImage: {fileID: 6527833784005707279}
   panel: {fileID: 0}
   friends: []
+  inactiveCol: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!50 &6527833785316111112
 Rigidbody2D:
   serializedVersion: 4

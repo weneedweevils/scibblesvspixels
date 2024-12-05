@@ -29,7 +29,11 @@ public class MenuBaseState
             {
                 pauseMenuManager.PlayBackSound();
                 menuStateMachine.GoBackState();
-
+                if (menuStateMachine.currentMenu == pauseMenuManager.pauseState)
+                {
+                    pauseMenuManager.EnemiesObject.SetActive(true);
+                    pauseMenuManager.BlockersObject.SetActive(true);
+                }
             }
         }
     }

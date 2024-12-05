@@ -65,11 +65,11 @@ public class Attack : MonoBehaviour
     private CooldownBarBehaviour lifestealCooldownBar;
     private UnityEngine.UI.Image lifeStealNotifier;
     private bool activatedLsNotifier = false;
-    private float lifestealRatio;
+    [HideInInspector] public float lifestealRatio;
 
     //Misc
     private List<EnemyAI> allies = new List<EnemyAI>();
-    private SpriteRenderer lifestealImage;
+    [HideInInspector] public SpriteRenderer lifestealImage;
     public bool lifestealStart;
     public TextMeshProUGUI uiCounter;
 
@@ -89,8 +89,8 @@ public class Attack : MonoBehaviour
     public int isHit;
 
 
-    // herearaer
-
+    // Getting Input Handler //
+    public GameObject inputHandler;
     private PlayerInput playerInput;
 
 
@@ -128,12 +128,11 @@ public class Attack : MonoBehaviour
         // Get a reference to the script that controls the lifestealFMOD event
         lifestealFmod = FMODUnity.RuntimeManager.CreateInstance(lifestealSfx);
         isHit = 0;
+    }
 
-
-        playerInput = playerMovement.GetComponent<PlayerInput>();
-        
-
-
+    public void Start()
+    {
+        playerInput = CustomInput.instance.playerInput;
     }
 
     // Update is called once per frame
@@ -231,7 +230,7 @@ public class Attack : MonoBehaviour
                 foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
                 {
                     EnemyAI enemy = obj.GetComponent<EnemyAI>();
-                    if (enemy == null || allies.Count >= reviveCap)
+                    if (enemy == null || allies.Count >= reviveCap || !enemy.revivable)
                     {
                         continue;
                     }
@@ -456,9 +455,6 @@ public class Attack : MonoBehaviour
             {
                 continue;
             }
-            
-
-
         }
 
         //Set Allies target & remove dead allies
@@ -476,6 +472,10 @@ public class Attack : MonoBehaviour
             {
                 allies.Remove(ally);
             } 
+            else if (ally.type == Type.hopper) // Allied Oodle Hoppers always follow and heal player
+            {
+                ally.SetTarget(player, true);
+            }
             else if (target != null)  //Found  a target -> go attack target
             {
                 if (ally.state == State.follow)
@@ -511,10 +511,10 @@ public class Attack : MonoBehaviour
 
                     if (enemy != null)
                     {
-                        if (attackTimer.IsActive() && enemy != null && enemy.team == Team.oddle && enemy.invincibilityTimer.IsUseable() && enemy.PathLength(true) <= 15f)
+                        if (attackTimer.IsActive() && enemy != null && enemy.team == Team.oddle && enemy.invincibilityTimer.IsUseable() && PlayerCanHit(enemy))
                         {
                             //Calculate knockback
-                            Vector2 direction = ((Vector2)enemy.transform.position - (Vector2)transform.position).normalized;
+                            Vector2 direction = ((Vector2)enemy.transform.position - (Vector2)transform.position).normalized * enemy.knockbackRatio;
                             //Damage enemy
                             enemy.Damage(damage, true, true, direction, knockback);
                         }
@@ -558,4 +558,27 @@ public class Attack : MonoBehaviour
         lifestealFmod.stop(0);
     }
 
+    public bool PlayerCanHit(EnemyAI enemy)
+    {
+        float delta = 2f;
+        for (float dx = -delta; dx <= delta; dx++)
+        {
+            for (float dy = -delta; dy <= delta; dy++)
+            {
+                Vector2 offset = new Vector2(dx, dy);
+
+                if (Physics2D.Raycast(
+                    enemy.transform.position + (Vector3)offset,
+                    player.transform.position - enemy.transform.position,
+                    Vector2.Distance(enemy.transform.position, player.transform.position),
+                    LayerMask.GetMask("Obstacle")
+                ).collider == null)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }
