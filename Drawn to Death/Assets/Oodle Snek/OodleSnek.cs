@@ -5,20 +5,25 @@ using UnityEngine;
 public class OodleSnek : EnemyAI
 {
     private float windupDuration = 35f / 60f;
-    private CooldownTimer windupTimer;
+    private StateTimer windupTimer;
 
     [Header("Oodle Snek Specific References")]
+    public GameObject ProjectileObject;
     public StatusEffect[] effects;
+
+    //Random walk direction
+    private Vector2 direction = new Vector2(0, 0);
 
     override protected void Start()
     {
         deathDuration = 60f / 60f;
         attackDuration = 60f / 60f;
         invincibilityDuration = 20f / 60f;
-        type = Type.crab;
+        type = Type.snek;
 
         //Create a windup timer
-        windupTimer = new CooldownTimer(0f, windupDuration);
+        windupTimer = new StateTimer(new float[] { windupDuration });
+        windupTimer.Initialize();
 
         base.Start();
     }
@@ -31,91 +36,47 @@ public class OodleSnek : EnemyAI
 
     override protected void Attack()
     {
-        return;
+        //Start the attack
+        if (target != null && attackTimer.IsUseable())
+        {
+            // play the attack sfx
+            attackSFXInstance.start();
+
+            //Setup Timers
+            windupTimer.Start(EndWindup);
+            attackTimer.StartTimer();
+
+            //Handle Animations
+            animator.SetBool("attacking", true);
+            animator.SetBool("chasing", false);
+
+            //Movement
+            direction = new Vector2(Random.value - 0.5f, Random.value - 0.5f).normalized;
+            rb.velocity = Vector2.zero;
+        }
+
+        //Wait for cooldown
+        if (attackTimer.IsOnCooldown())
+        {
+            //Handle Animations
+            animator.SetBool("attacking", false);
+            animator.SetBool("chasing", true);
+
+            //Apply a force in the random walk direction
+            Vector2 force = direction * speed / 2 * Time.deltaTime;
+            rb.AddForce(force);
+        }
     }
 
     override public void Stun()
     {
-        windupTimer.ResetTimer();
+        windupTimer.Stop();
         base.Stun();
     }
 
-    protected void OnTriggerStay2D(Collider2D collision)
+    public void EndWindup()
     {
-        if (health > 0)
-        {
-            switch (collision.gameObject.tag)
-            {
-                case "Player":
-                    {
-
-                        //Get a reference to the player
-                        PlayerMovement player = collision.gameObject.GetComponent<PlayerMovement>();
-                        if (attackTimer.IsActive() && !windupTimer.IsActive() && team == Team.oddle && player.invincibilityTimer.IsUseable())
-                        {
-                            //Damage player
-                            player.Damage(damage);
-                        }
-                        break;
-                    }
-                case "Enemy":
-                    {
-                        //Get a reference to the enemy
-                        EnemyAI otherAI = collision.gameObject.GetComponent<EnemyAI>();
-                        HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
-                        Boss oodler = collision.gameObject.GetComponent<Boss>();
-
-
-                        if (otherAI != null)
-                        {
-                            if (attackTimer.IsActive() && !windupTimer.IsActive() && otherAI != null && team != otherAI.team && otherAI.team != Team.neutral && otherAI.invincibilityTimer2.IsUseable())
-                            {
-                                Debug.Log(string.Format("{0} Hut {1} for {2} damage", name, otherAI.name, damage));
-                                //Damage enemy
-                                otherAI.Damage(damage, false, true);
-
-                                //Start enemies secondary invincibility timer
-                                otherAI.invincibilityTimer2.StartTimer();
-                                otherAI.Stun();
-                            }
-                        }
-
-                        else if (crystal != null)
-                        {
-
-                            //Debug.Log(otherAI.invincibilityTimer2.IsUseable());
-
-                            if (attackTimer.IsActive() && !windupTimer.IsActive() && crystal != null && crystal.invincibilityTimer.IsUseable())
-                            {
-                                //Damage crystal
-                                crystal.CrystalDamage(damage, true);
-                            }
-                        }
-
-
-                        else if (oodler != null)
-                        {
-                            if (attackTimer.IsActive() && !windupTimer.IsActive() && oodler != null && oodler.BossIsDamageable() && !invincibilityTimerOodler.IsActive())//!oodler.invincibilityTimer.IsActive())
-                            {
-
-                                //Damage enemy
-                                oodler.Damage(damage);
-                                invincibilityTimerOodler.StartTimer();
-
-                            }
-
-                        }
-
-                        break;
-
-
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
-        }
+        Instantiate(ProjectileObject, transform);
     }
 
     protected StatusEffect RandomEffect()
@@ -124,6 +85,11 @@ public class OodleSnek : EnemyAI
             return effects[Random.Range(0, effects.Length - 1)];
         else
             return null;
+    }
+
+    public StatusEffect GetEffect()
+    {
+        return RandomEffect();
     }
 
     [ContextMenu("ApplyRandomEffect")]

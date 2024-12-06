@@ -8,13 +8,14 @@ public class Projectile : MonoBehaviour
     public Team team = Team.neutral;
     public Vector2 target = new Vector2(0, 0);
     public float speed = 0f;
-    public float damage = 0f;
-    private Rigidbody2D rbody;
-    private Vector2 velocity = new Vector2(0, 0);
-    private Color allyCol = Color.green;
-    private SpriteRenderer selfImage;
+    [HideInInspector] public float damage = 0f;
+    protected Rigidbody2D rbody;
+    protected Vector2 velocity = new Vector2(0, 0);
+    protected Color allyCol = Color.green;
+    protected SpriteRenderer selfImage;
+    protected bool hit = false;
 
-    private void Start()
+    protected virtual void Start()
     {
         // Get Projectile Sprite
         selfImage = gameObject.transform.GetComponent<SpriteRenderer>();
@@ -45,7 +46,7 @@ public class Projectile : MonoBehaviour
     }
 
     // Update is called once per frame
-    private void Update()
+    protected virtual void Update()
     {
         if (team != Team.neutral)
         {
@@ -70,8 +71,9 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
+        hit = false;
         switch (collision.gameObject.tag)
         {
             case "Enemy":
@@ -85,6 +87,7 @@ public class Projectile : MonoBehaviour
                         enemyai.Damage(damage, true, true, velocity.normalized, 7f);
                         enemyai.Stun();
                         Destroy(gameObject);
+                        hit = true;
                     }
 
                     else if (crystal != null)
@@ -97,6 +100,7 @@ public class Projectile : MonoBehaviour
                             //Damage crystal
                             crystal.CrystalDamage(damage, true);
                             Destroy(gameObject);
+                            hit = true;
                         }
                     }
 
@@ -108,20 +112,29 @@ public class Projectile : MonoBehaviour
                             oodler.Damage(damage);
                             //invincibilityTimerOodler.StartTimer();
                             Destroy(gameObject);
-
+                            hit = true;
                         }
 
+                    }
+                    else
+                    {
+                        return;
                     }
 
                     break;
                 }
             case "Player":
                 {
-                    if (team == Team.oddle)
+                    if (team == Team.oddle && !PlayerMovement.instance.dashTimer.IsActive())
                     {
                         PlayerMovement Player = collision.gameObject.GetComponent<PlayerMovement>();
                         Player.Damage(damage);
                         Destroy(gameObject);
+                        hit = true;
+                    }
+                    else
+                    {
+                        return;
                     }
                     break;
                 }
@@ -129,7 +142,7 @@ public class Projectile : MonoBehaviour
             case "Obstacle":
                 {
                     Destroy(gameObject);
-                    break;
+                    return;
                 }
 
 
@@ -148,21 +161,20 @@ public class Projectile : MonoBehaviour
                     else
                     {
                         Destroy(gameObject);
+                        return;
                     }
 
                     break;
                 }
 
-
-
             default:
                 {
-                    break;
+                    return;
                 }
         }
     }
 
-    private float ProjectileAngle(Vector2 velocity)
+    protected virtual float ProjectileAngle(Vector2 velocity)
     {
         Vector2 dir = velocity.normalized;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
