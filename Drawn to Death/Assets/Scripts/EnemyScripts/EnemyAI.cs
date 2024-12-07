@@ -598,7 +598,6 @@ public abstract class EnemyAI : MonoBehaviour
 
         //Play eraser hit sound
         if (!lifeSteal) {
-            Debug.Log("FMOD: EraserHit event");
             FMODUnity.RuntimeManager.PlayOneShot(eraserHitSfx, this.transform.position);
         }
 
