@@ -8,8 +8,12 @@ public class OodleSnek : EnemyAI
     private StateTimer windupTimer;
 
     [Header("Oodle Snek Specific References")]
-    public GameObject ProjectileObject;
+    public SpriteRenderer attackImage;
+    private Animator attackAnimator;
+    public GameObject projectileObject;
+    private SnekProjectile snekProjectile;
     public StatusEffect[] effects;
+    private StatusEffect currentEffect;
 
     //Random walk direction
     private Vector2 direction = new Vector2(0, 0);
@@ -26,12 +30,15 @@ public class OodleSnek : EnemyAI
         windupTimer.Initialize();
 
         base.Start();
+
+        attackAnimator = attackImage.GetComponent<Animator>();
     }
 
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
         animator.SetBool("moving up", rb.velocity.y > 0);
+        attackAnimator.SetBool("attacking", animator.GetBool("attacking"));
     }
 
     override protected void Attack()
@@ -39,6 +46,10 @@ public class OodleSnek : EnemyAI
         //Start the attack
         if (target != null && attackTimer.IsUseable())
         {
+            // Select an effect
+            currentEffect = RandomEffect();
+            attackImage.color = currentEffect.paintColor;
+
             // play the attack sfx
             attackSFXInstance.start();
 
@@ -48,6 +59,7 @@ public class OodleSnek : EnemyAI
 
             //Handle Animations
             animator.SetBool("attacking", true);
+            attackAnimator.SetBool("attacking", true);
             animator.SetBool("chasing", false);
 
             //Movement
@@ -72,11 +84,12 @@ public class OodleSnek : EnemyAI
     {
         windupTimer.Stop();
         base.Stun();
+        attackAnimator.SetBool("attacking", false);
     }
 
     public void EndWindup()
     {
-        Instantiate(ProjectileObject, transform);
+        Instantiate(projectileObject, transform);
     }
 
     protected StatusEffect RandomEffect()
@@ -89,7 +102,7 @@ public class OodleSnek : EnemyAI
 
     public StatusEffect GetEffect()
     {
-        return RandomEffect();
+        return currentEffect;
     }
 
     [ContextMenu("ApplyRandomEffect")]

@@ -12,6 +12,7 @@ public abstract class StatusEffect : ScriptableObject
     public string effectName;
     [Min(0)] public int priority;
     public ResolutionMethod method = ResolutionMethod.Refresh;
+    public Color paintColor;
 
     [Header("Timers")]
     public bool oneTime = false;

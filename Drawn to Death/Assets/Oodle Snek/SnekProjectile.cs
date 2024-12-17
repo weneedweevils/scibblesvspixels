@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CustomAttributes;
@@ -12,9 +13,21 @@ public class SnekProjectile : Projectile
     private StateTimer lifetimer;
     private float baseDamage = 0f;
 
-    [Header("Growth effect")]
+    [Header("Effects")]
     public bool grow = true;
     [ShowIf("grow", Relation.Equal, true)] public Vector3 maxScale; // Target scale at the end of lifespan
+
+    public Color paintColor
+    {
+        get
+        {
+            return effect.paintColor;
+        }
+        set
+        {
+            throw new AccessViolationException("You are not allowed to change this value");
+        }
+    }
 
     // Start is called before the first frame update
     protected override void Start()
@@ -33,7 +46,9 @@ public class SnekProjectile : Projectile
         ApplyRotationWithFlip(MyUtils.LookAt2D(transform.position, target));
 
         StartCoroutine(Grow());
-        
+
+        allyCol = paintColor;
+        selfImage.color = paintColor;
     }
 
     private void EndOfLife()
