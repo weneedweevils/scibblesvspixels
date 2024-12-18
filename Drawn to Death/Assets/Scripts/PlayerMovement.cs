@@ -177,7 +177,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
     public void OnDeviceChanged(PlayerInput pi)
     {
-        Debug.Log(pi.currentControlScheme.ToString());
+        //Debug.Log(pi.currentControlScheme.ToString());
         if(pi.currentControlScheme.Equals("Gamepad") || pi.currentControlScheme.Equals("Playstation") || pi.currentControlScheme.Equals("Xbox"))
         {
             isGamepad = true;
@@ -553,6 +553,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     //Some abilities can not be used simultaneously - Check to see if any of those are not active
     public bool CanUseAbility()
     {
+        //Debug.Log(dashTimer.IsActive());
         return !(weapon.reviveTimer.IsActive() || dashTimer.IsActive() || recallTimer.IsActive()) &&
                !(inFreezeDialogue() || timelinePlaying);
     }
@@ -700,6 +701,10 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     public PlayerInput getInputSystem()
     {
         return playerInput;
+    }
+
+     public void ChangeSpriteSortingOrder(int sortingLayer){
+        sprite.sortingOrder = sortingLayer;
     }
 
     public SpriteRenderer GetPencil()
