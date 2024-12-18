@@ -9186,6 +9186,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 262653690}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1215642399 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3675139206520164845, guid: c620ed06c2126fe44a05d4db30dce7b6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1497819737}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1215702451
 GameObject:
   m_ObjectHideFlags: 0
@@ -73987,6 +73993,11 @@ PrefabInstance:
       objectReference: {fileID: 1541180952}
     - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
+      propertyPath: inputHandler
+      value: 
+      objectReference: {fileID: 1215642399}
+    - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
       propertyPath: HealthBarReference
       value: 
       objectReference: {fileID: 1138980062}
@@ -74050,7 +74061,8 @@ PrefabInstance:
       propertyPath: lifestealBar
       value: 
       objectReference: {fileID: 684245802}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3549213141545925226, guid: f5e11bc1681c3b844b34bab6fe8ab682, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f5e11bc1681c3b844b34bab6fe8ab682, type: 3}
 --- !u!114 &1957964601 stripped
 MonoBehaviour:

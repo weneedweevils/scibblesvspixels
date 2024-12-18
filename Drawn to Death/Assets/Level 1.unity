@@ -35972,7 +35972,7 @@ MonoBehaviour:
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: 
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -39644,7 +39644,7 @@ MonoBehaviour:
   newGame: 0
   loadGame: 1
   saveGame: 1
-  skipCutsceneOnLoad: 1
+  skipCutsceneOnLoad: 0
   skipTutorialOnLoad: 1
   SkipCutscene:
     m_PersistentCalls:
@@ -72220,6 +72220,12 @@ Animator:
     type: 3}
   m_PrefabInstance: {fileID: 2462823223096369254}
   m_PrefabAsset: {fileID: 0}
+--- !u!212 &17060506650434020 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1894804472619243552, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+    type: 3}
+  m_PrefabInstance: {fileID: 2462823223096369254}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &17060506650434023 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2454788199460616577, guid: f5e11bc1681c3b844b34bab6fe8ab682,
@@ -72437,6 +72443,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2462823222744332875, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: m_Events.m_Events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 17060506650434020}
+    - target: {fileID: 2462823222744332875, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: m_Events.m_Events.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 17060506650434020}
+    - target: {fileID: 2462823222744332875, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: m_Events.m_Events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_flipX
+      objectReference: {fileID: 0}
+    - target: {fileID: 2462823222744332875, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: m_Events.m_Events.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_flipX
       objectReference: {fileID: 0}
     - target: {fileID: 2462823223390369245, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}

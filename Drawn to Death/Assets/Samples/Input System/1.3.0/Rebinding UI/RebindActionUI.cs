@@ -277,11 +277,11 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
             Debug.Log(action);
             // Configure the rebind.
+            //.WithControlsExcluding("<Mouse>/press")
             m_RebindOperation = action.PerformInteractiveRebinding(bindingIndex)
                 .WithControlsExcluding("<Pointer>/position") 
                 .WithControlsExcluding("<Pointer>/delta") 
                 .WithControlsExcluding("<Pointer>/{PrimaryAction}")
-                .WithControlsExcluding("<Mouse>/press")
                 .WithControlsExcluding("<Gamepad>/leftStick")
                 .WithControlsExcluding("<Gamepad>/rightStick")
                 .WithControlsExcluding("<PlaystationController>/leftStick")

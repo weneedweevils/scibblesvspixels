@@ -177,7 +177,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
     public void OnDeviceChanged(PlayerInput pi)
     {
-        Debug.Log(pi.currentControlScheme.ToString());
+        //Debug.Log(pi.currentControlScheme.ToString());
         if(pi.currentControlScheme.Equals("Gamepad") || pi.currentControlScheme.Equals("Playstation") || pi.currentControlScheme.Equals("Xbox"))
         {
             isGamepad = true;
