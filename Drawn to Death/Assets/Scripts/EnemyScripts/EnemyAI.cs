@@ -44,6 +44,7 @@ public abstract class EnemyAI : MonoBehaviour
     [Header("Music and sound")]
     public string deathSfx;
     public string attackSfx;
+    private string eraserHitSfx = "event:/EraserHit";
 
     protected FMOD.Studio.EventInstance attackSFXInstance;
     
@@ -594,6 +595,11 @@ public abstract class EnemyAI : MonoBehaviour
         //Inflict damage
         health -= damageTaken;
         healthBar.SetHealth(health, maxHealth);
+
+        //Play eraser hit sound
+        if (!lifeSteal) {
+            FMODUnity.RuntimeManager.PlayOneShot(eraserHitSfx, this.transform.position);
+        }
 
         //Check death conditions
         if (health <= 0)
