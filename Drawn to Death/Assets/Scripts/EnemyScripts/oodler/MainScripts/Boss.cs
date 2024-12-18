@@ -118,7 +118,7 @@ public class Boss : MonoBehaviour
 
 
     // Sub-States
-    public GoToRunPosition goToRunPosition{get;set;}
+    //public GoToRunPosition goToRunPosition{get;set;}
     public Land land{get;set;}
     public Run run{get;set;}
     public EmptyChildState emptyChildState{get;set;}
@@ -184,7 +184,7 @@ public class Boss : MonoBehaviour
         oodlerInitial = new OodlerInitial(this, stateMachine,childStateMachine);
         oodlerRun = new OodlerRun(this, stateMachine, childStateMachine);
         
-        goToRunPosition = new GoToRunPosition(this,childStateMachine, stateMachine);
+        //goToRunPosition = new GoToRunPosition(this,childStateMachine, stateMachine);
         land = new Land(this,childStateMachine,stateMachine);
         run = new Run(this,childStateMachine,stateMachine);
         emptyChildState = new EmptyChildState(this,childStateMachine,stateMachine);
