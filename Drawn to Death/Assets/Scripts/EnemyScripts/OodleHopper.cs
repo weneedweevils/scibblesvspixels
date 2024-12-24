@@ -156,7 +156,7 @@ public class OodleHopper : EnemyAI
         {
             case State.idle:
                 {
-                    Debug.Log("Idle");
+                    
                     //idle Behaviour
                     if (PathLength() < seekDistance && !playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
                     {
@@ -195,18 +195,18 @@ public class OodleHopper : EnemyAI
                             Attack();
                             if (!attackTimer.IsActive())
                             {
-                                Debug.Log("Attack Over");
+                                
                                 animator.SetBool("hopping", false);
                                 animator.SetBool("idle", true);
                                 if (team == Team.player)
                                 {
                                     state = State.follow;
-                                    Debug.Log("Follow");
+                               
                                 }
                                 else if (team == Team.oddle)
                                 {
                                     state = State.chase;
-                                    Debug.Log("Chase");
+                                
                                 }
                                 attackSFXInstance.stop(0);
                                 healImage.enabled = false;

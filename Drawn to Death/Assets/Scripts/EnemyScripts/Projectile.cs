@@ -30,6 +30,18 @@ public class Projectile : MonoBehaviour
         target = parent.GetTarget().position;
         damage = parent.damage;
 
+        Transform t = parent.GetTarget();
+      
+        if (t != null)
+        {
+            target = t.position;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         //Calculate velocity
         velocity = (target - rbody.position).normalized * speed;
 
