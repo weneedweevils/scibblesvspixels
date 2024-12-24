@@ -8,8 +8,9 @@ public class OodleSnek : EnemyAI
     private StateTimer windupTimer;
 
     [Header("Oodle Snek Specific References")]
-    public SpriteRenderer attackImage;
-    private Animator attackAnimator;
+    public GameObject paintObject;
+    private SpriteRenderer paintRenderer;
+    private Animator paintAnimator;
     public GameObject projectileObject;
     private SnekProjectile snekProjectile;
     public StatusEffect[] effects;
@@ -24,21 +25,28 @@ public class OodleSnek : EnemyAI
         attackDuration = 60f / 60f;
         invincibilityDuration = 20f / 60f;
         type = Type.snek;
-
+        
         //Create a windup timer
         windupTimer = new StateTimer(new float[] { windupDuration });
         windupTimer.Initialize();
 
         base.Start();
 
-        attackAnimator = attackImage.GetComponent<Animator>();
+        paintRenderer = paintObject.GetComponent<SpriteRenderer>();
+        paintAnimator = paintObject.GetComponent<Animator>();
     }
 
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
         animator.SetBool("moving up", rb.velocity.y > 0);
-        attackAnimator.SetBool("attacking", animator.GetBool("attacking"));
+
+        paintAnimator.SetBool("attacking", animator.GetBool("attacking"));
+        paintAnimator.SetBool("chasing", animator.GetBool("chasing"));
+        paintAnimator.SetBool("dying", animator.GetBool("dying"));
+        paintAnimator.SetBool("reviving", animator.GetBool("reviving"));
+        paintAnimator.SetBool("idle", animator.GetBool("idle"));
+        paintAnimator.SetBool("moving up", animator.GetBool("moving up"));
     }
 
     override protected void Attack()
@@ -48,7 +56,7 @@ public class OodleSnek : EnemyAI
         {
             // Select an effect
             currentEffect = RandomEffect();
-            attackImage.color = currentEffect.paintColor;
+            paintRenderer.color = currentEffect.paintColor;
 
             // play the attack sfx
             attackSFXInstance.start();
@@ -59,7 +67,7 @@ public class OodleSnek : EnemyAI
 
             //Handle Animations
             animator.SetBool("attacking", true);
-            attackAnimator.SetBool("attacking", true);
+            paintAnimator.SetBool("attacking", true);
             animator.SetBool("chasing", false);
 
             //Movement
@@ -84,7 +92,7 @@ public class OodleSnek : EnemyAI
     {
         windupTimer.Stop();
         base.Stun();
-        attackAnimator.SetBool("attacking", false);
+        paintAnimator.SetBool("attacking", false);
     }
 
     public void EndWindup()

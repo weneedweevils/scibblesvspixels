@@ -49,6 +49,8 @@ public class SnekProjectile : Projectile
 
         allyCol = paintColor;
         selfImage.color = paintColor;
+
+        GetComponent<Animator>().SetFloat("playbackSpeed", 9f / (lifespan * 60f));
     }
 
     private void EndOfLife()

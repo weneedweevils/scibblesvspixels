@@ -7,6 +7,7 @@ public class Projectile : MonoBehaviour
 {
     public Team team = Team.neutral;
     public Vector2 target = new Vector2(0, 0);
+    
     public float speed = 0f;
     [HideInInspector] public float damage = 0f;
     protected Rigidbody2D rbody;
@@ -14,6 +15,9 @@ public class Projectile : MonoBehaviour
     protected Color allyCol = Color.green;
     protected SpriteRenderer selfImage;
     protected bool hit = false;
+
+    public bool destroyOnHit = true;
+    protected List<GameObject> hitObjects = new List<GameObject>();
 
     protected virtual void Start()
     {
@@ -86,6 +90,11 @@ public class Projectile : MonoBehaviour
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         hit = false;
+        if (hitObjects.Contains(collision.gameObject))
+        {
+            return;
+        }
+
         switch (collision.gameObject.tag)
         {
             case "Enemy":
@@ -98,8 +107,10 @@ public class Projectile : MonoBehaviour
                     {
                         enemyai.Damage(damage, true, true, velocity.normalized, 7f);
                         enemyai.Stun();
-                        Destroy(gameObject);
+                        if (destroyOnHit)
+                            Destroy(gameObject);
                         hit = true;
+                        hitObjects.Add(collision.gameObject);
                     }
 
                     else if (crystal != null)
@@ -111,8 +122,10 @@ public class Projectile : MonoBehaviour
                         {
                             //Damage crystal
                             crystal.CrystalDamage(damage, true);
-                            Destroy(gameObject);
+                            if (destroyOnHit)
+                                Destroy(gameObject);
                             hit = true;
+                            hitObjects.Add(collision.gameObject);
                         }
                     }
 
@@ -123,8 +136,10 @@ public class Projectile : MonoBehaviour
                             //Damage enemy
                             oodler.Damage(damage);
                             //invincibilityTimerOodler.StartTimer();
-                            Destroy(gameObject);
+                            if (destroyOnHit)
+                                Destroy(gameObject);
                             hit = true;
+                            hitObjects.Add(collision.gameObject);
                         }
 
                     }
@@ -141,8 +156,10 @@ public class Projectile : MonoBehaviour
                     {
                         PlayerMovement Player = collision.gameObject.GetComponent<PlayerMovement>();
                         Player.Damage(damage);
-                        Destroy(gameObject);
+                        if (destroyOnHit)
+                            Destroy(gameObject);
                         hit = true;
+                        hitObjects.Add(collision.gameObject);
                     }
                     else
                     {
