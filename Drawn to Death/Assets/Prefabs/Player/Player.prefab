@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 3786005922980315812}
   - component: {fileID: 1894804472619243552}
   - component: {fileID: 944155099456704959}
+  - component: {fileID: 5845660967479541354}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -355,6 +356,7 @@ MonoBehaviour:
   dashBar: {fileID: 0}
   animator: {fileID: 0}
   recallCooldown: 15
+  rallyEffect: {fileID: 11400000, guid: 158190d910fe40244b1890201efacf96, type: 2}
   allyHealPercentage: 0.3
   allyStrModifier: 1.5
   allySpdModifier: 1.5
@@ -576,6 +578,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5845660967479541354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2454788199460616583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0944c93ca4c54f245bfbf752a71d2274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects: []
 --- !u!1 &3966632181802528408
 GameObject:
   m_ObjectHideFlags: 0
