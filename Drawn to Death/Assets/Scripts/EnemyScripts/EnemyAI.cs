@@ -24,7 +24,7 @@ public abstract class EnemyAI : MonoBehaviour
     [Header("Stats")]
     public float health;
     public float maxHealth;
-    public float speed = 200f;
+    public VariableStat speed;
     public VariableStat damage;
     public float attackCooldown;
     public float attackDistance;
@@ -270,15 +270,6 @@ public abstract class EnemyAI : MonoBehaviour
             {
                 if (buffTimer.IsOnCooldown())
                 {
-                    buffed = false;
-                    if (type == Type.crab)
-                    {
-                        speed /= playerMovement.crabSpdModifier;
-                    }
-                    else
-                    {
-                        speed /= playerMovement.allySpdModifier;
-                    }
                     attackTimer.SetCooldown(attackCooldown);
                     selfImage.color = Color.white;
                 }
@@ -294,7 +285,7 @@ public abstract class EnemyAI : MonoBehaviour
             {
                 if (!slowed && team == Team.oddle) // Only slow enemy Oodles
                 {
-                    speed /= slowdownFactor;
+                    speed.multiplier -= slowdownFactor;
                     attackTimer.SetCooldown(attackCooldown * 1.5f);
                     slowed = true;
                 }
@@ -317,7 +308,7 @@ public abstract class EnemyAI : MonoBehaviour
             if (slowedTimer.IsOnCooldown() && !lifestealing && slowed)
             {
                 slowed = false;
-                speed *= slowdownFactor;
+                speed.multiplier += slowdownFactor;
                 attackTimer.SetCooldown(attackCooldown);
                 selfImage.color = team == Team.player ? allyCol : Color.white;
             }
@@ -486,7 +477,7 @@ public abstract class EnemyAI : MonoBehaviour
         Vector2 direction = ((Vector2)targetPath.vectorPath[currentWaypoint] - rb.position + pathOffset).normalized;
 
         //Apply a force in that direction
-        Vector2 force = direction * speed * Time.deltaTime;
+        Vector2 force = direction * speed.value * Time.deltaTime;
         rb.AddForce(force);
 
         //Check distance to the current waypoint
@@ -545,7 +536,7 @@ public abstract class EnemyAI : MonoBehaviour
         if (slowed)
         {
             slowed = false;
-            speed *= 2;
+            speed.multiplier += slowdownFactor;
         }
     }
 
@@ -565,7 +556,7 @@ public abstract class EnemyAI : MonoBehaviour
             //Set Stats
             maxHealth *= percentMaxHP;
             damage.baseValue *= percentDamage;
-            speed *= percentSpeed;
+            speed.baseValue *= percentSpeed;
             health = maxHealth;
             attackTimer.SetCooldown(attackTimer.cooldownDuration * percentAttkSpeed);
 

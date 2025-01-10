@@ -90,15 +90,6 @@ public class OodleHopper : EnemyAI
             {
                 if (buffTimer.IsOnCooldown())
                 {
-                    buffed = false;
-                    if (type == Type.crab)
-                    {
-                        speed /= playerMovement.crabSpdModifier;
-                    }
-                    else
-                    {
-                        speed /= playerMovement.allySpdModifier;
-                    }
                     attackTimer.SetCooldown(attackCooldown);
                     selfImage.color = Color.white;
                 }
@@ -114,7 +105,7 @@ public class OodleHopper : EnemyAI
             {
                 if (!slowed && team == Team.oddle) // Only slow enemy Oodles (Also Reduce passive healing for hopper)
                 {
-                    speed /= slowdownFactor;
+                    speed.multiplier -= slowdownFactor;
                     passiveHealAmount /= slowdownFactor;
                     attackTimer.SetCooldown(attackCooldown * 1.5f);
                     slowed = true;
@@ -138,7 +129,7 @@ public class OodleHopper : EnemyAI
             if (slowedTimer.IsOnCooldown() && !lifestealing && slowed)
             {
                 slowed = false;
-                speed *= slowdownFactor;
+                speed.multiplier += slowdownFactor;
                 passiveHealAmount *= slowdownFactor;
                 attackTimer.SetCooldown(attackCooldown);
                 selfImage.color = team == Team.player ? allyCol : Color.white;
@@ -474,7 +465,7 @@ public class OodleHopper : EnemyAI
             attackSFXInstance.start();
 
             //Apply a force in that direction
-            Vector2 force = direction * speed * Time.deltaTime;
+            Vector2 force = direction * speed.value * Time.deltaTime;
             rb.AddForce(force);
         }
 

@@ -8,10 +8,12 @@ public class RallyBuff : StatusEffect
     [Header("General Effects")]
     [Range(0, 1)] public float healPercentage = 0.3f;
     public float strModifier = 0.5f;
-    
+    public float spdModifier = 0.5f;
+
     [Header("Unit Specific Effects")]
     public float hopperStrModifier = 1f;
-    
+    public float crabSpdModifier = 1f;
+
     public override void ApplyEffect(StatusEffectController controller)
     {
         if (controller.enemyAI != null)
@@ -36,6 +38,16 @@ public class RallyBuff : StatusEffect
             {
                 target.damage.multiplier += strModifier;
             }
+
+            //Speed buff
+            if (target.type == Type.crab)
+            {
+                target.speed.multiplier += crabSpdModifier;
+            }
+            else
+            {
+                target.speed.multiplier += spdModifier;
+            }
         }
     }
 
@@ -59,6 +71,16 @@ public class RallyBuff : StatusEffect
             else
             {
                 target.damage.multiplier -= strModifier;
+            }
+
+            //Speed buff
+            if (target.type == Type.crab)
+            {
+                target.speed.multiplier -= crabSpdModifier;
+            }
+            else
+            {
+                target.speed.multiplier -= spdModifier;
             }
         }
     }

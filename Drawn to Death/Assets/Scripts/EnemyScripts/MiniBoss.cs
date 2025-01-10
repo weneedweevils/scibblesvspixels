@@ -17,7 +17,7 @@ public class MiniBoss : OodleKnight
     override protected void Start()
     {
         base.Start();
-        baseSpeed = speed;
+        baseSpeed = speed.baseValue;
         boostTimer = new CooldownTimer(boostCooldown, boostDuration);
     }
 
@@ -49,11 +49,11 @@ public class MiniBoss : OodleKnight
             }
             if (boostTimer.IsActive())
             {
-                speed = baseSpeed * boostSpeedModifier * (buffed ? playerMovement.allySpdModifier : 1f);
+                speed.baseValue = baseSpeed * boostSpeedModifier * (buffed ? playerMovement.allySpdModifier : 1f);
             }
             else if (boostTimer.IsOnCooldown())
             {
-                speed = baseSpeed * (buffed ? playerMovement.allySpdModifier : 1f);
+                speed.baseValue = baseSpeed * (buffed ? playerMovement.allySpdModifier : 1f);
             }
         }
     }
@@ -72,7 +72,7 @@ public class MiniBoss : OodleKnight
             maxHealth = 150;
             health = maxHealth;
             damage.baseValue = 30;
-            speed = 12000;
+            speed.baseValue = 12000;
             baseSpeed = 12000;
             attackCooldown = 2f;
             attackTimer.SetCooldown(attackCooldown);

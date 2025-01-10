@@ -89,7 +89,7 @@ public class OodleKnight : EnemyAI
                 Vector2 direction = ((Vector2)target.position + targetOffset - rb.position).normalized;
 
                 //Apply a force in that direction
-                Vector2 force = direction * speed * 0.8f * Time.deltaTime;
+                Vector2 force = direction * speed.value * 0.8f * Time.deltaTime;
                 rb.AddForce(force);
             }
         }

@@ -83,7 +83,7 @@ public class OodleSnek : EnemyAI
             animator.SetBool("chasing", true);
 
             //Apply a force in the random walk direction
-            Vector2 force = direction * speed / 2 * Time.deltaTime;
+            Vector2 force = direction * speed.value / 2 * Time.deltaTime;
             rb.AddForce(force);
         }
     }

@@ -604,12 +604,10 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
                     if (enemyai.type == Type.crab)
                     {
-                        enemyai.speed *= crabSpdModifier;
                         enemyai.attackTimer.SetCooldown(enemyai.attackCooldown * crabAtkSpdModifier);
                     }
                     else
                     {
-                        enemyai.speed *= allySpdModifier;
                         enemyai.attackTimer.SetCooldown(enemyai.attackCooldown * allyAtkSpdModifier);
                     }
                 }

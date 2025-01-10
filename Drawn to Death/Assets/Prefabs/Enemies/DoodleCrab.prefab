@@ -117,7 +117,13 @@ MonoBehaviour:
   revivable: 1
   health: 45
   maxHealth: 45
-  speed: 500
+  speed:
+    baseValue: 500
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: -3.4028235e+38
+    maxValue: 3.4028235e+38
   damage:
     baseValue: 15
     multiplier: 1
