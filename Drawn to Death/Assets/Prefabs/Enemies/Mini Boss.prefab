@@ -275,7 +275,13 @@ MonoBehaviour:
   health: 250
   maxHealth: 250
   speed: 10000
-  damage: 40
+  damage:
+    baseValue: 40
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: 1
+    maxValue: 500
   attackCooldown: 2
   attackDistance: 18
   slowdownFactor: 1.5

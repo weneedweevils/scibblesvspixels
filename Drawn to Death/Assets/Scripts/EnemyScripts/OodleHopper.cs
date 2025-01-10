@@ -99,7 +99,6 @@ public class OodleHopper : EnemyAI
                     {
                         speed /= playerMovement.allySpdModifier;
                     }
-                    damage /= playerMovement.allyStrModifier;
                     attackTimer.SetCooldown(attackCooldown);
                     selfImage.color = Color.white;
                 }
@@ -424,14 +423,14 @@ public class OodleHopper : EnemyAI
             {
                 if (CustomDist(healImage.transform.position, enemy.transform.position + 4f * Vector3.down) <= attackDistance && enemy.team == team) // Heal oodles on the same team
                 {
-                    enemy.Heal(damage * Time.deltaTime); // damage is used as the amount to heal by
+                    enemy.Heal(damage.value * Time.deltaTime); // damage is used as the amount to heal by
                 }
             }
         }
 
         if (CustomDist(healImage.transform.position, player.transform.position + 4f * Vector3.down) <= attackDistance && team == Team.player) // Heal player if ally
         {
-            player.GetComponent<PlayerMovement>().Heal(damage * Time.deltaTime);
+            player.GetComponent<PlayerMovement>().Heal(damage.value * Time.deltaTime);
         }
 
         if (attackTimer.IsOnCooldown())

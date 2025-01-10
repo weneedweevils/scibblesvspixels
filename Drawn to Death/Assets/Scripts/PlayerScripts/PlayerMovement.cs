@@ -47,6 +47,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     [Header("Recall")]
     private float recallDuration = 115f/60f; 
     public float recallCooldown;
+    public RallyBuff rallyEffect;
     [Range(0, 1)] public float allyHealPercentage;
     public float allyStrModifier;
     public float allySpdModifier;
@@ -591,16 +592,16 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
                 if (enemyai.team == Team.player)
                 {
                     enemy.transform.position = transform.position + total;
+
+                    StatusEffectController effectController = enemy.GetComponent<StatusEffectController>();
+                    if (effectController != null && rallyEffect != null)
+                    {
+                        effectController.AddStatusEffect(rallyEffect);
+                    }
+
                     enemyai.Heal(enemyai.maxHealth * allyHealPercentage);
                     enemyai.buffed = true;
-                    if (enemyai.type == Type.hopper)
-                    {
-                        enemyai.damage *= hopperStrModifier;
-                    }
-                    else
-                    {
-                        enemyai.damage *= allyStrModifier;
-                    }
+
                     if (enemyai.type == Type.crab)
                     {
                         enemyai.speed *= crabSpdModifier;

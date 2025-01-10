@@ -25,7 +25,7 @@ public abstract class EnemyAI : MonoBehaviour
     public float health;
     public float maxHealth;
     public float speed = 200f;
-    public float damage;
+    public VariableStat damage;
     public float attackCooldown;
     public float attackDistance;
     public float slowdownFactor = 3f;
@@ -279,7 +279,6 @@ public abstract class EnemyAI : MonoBehaviour
                     {
                         speed /= playerMovement.allySpdModifier;
                     }
-                    damage /= playerMovement.allyStrModifier;
                     attackTimer.SetCooldown(attackCooldown);
                     selfImage.color = Color.white;
                 }
@@ -565,7 +564,7 @@ public abstract class EnemyAI : MonoBehaviour
 
             //Set Stats
             maxHealth *= percentMaxHP;
-            damage *= percentDamage;
+            damage.baseValue *= percentDamage;
             speed *= percentSpeed;
             health = maxHealth;
             attackTimer.SetCooldown(attackTimer.cooldownDuration * percentAttkSpeed);

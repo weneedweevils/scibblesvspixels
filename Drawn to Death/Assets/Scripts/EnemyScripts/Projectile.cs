@@ -32,7 +32,7 @@ public class Projectile : MonoBehaviour
         if (parent == null) { Debug.LogError("Error - projectile parent not set to instance of EnemyAI"); Destroy(gameObject); }
         team = parent.team;
         target = parent.GetTarget().position;
-        damage = parent.damage;
+        damage = parent.damage.value;
 
         Transform t = parent.GetTarget();
       

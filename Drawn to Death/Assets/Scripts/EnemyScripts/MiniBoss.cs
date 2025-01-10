@@ -71,7 +71,7 @@ public class MiniBoss : OodleKnight
             //Override base.Revive Set Stats
             maxHealth = 150;
             health = maxHealth;
-            damage = 30;
+            damage.baseValue = 30;
             speed = 12000;
             baseSpeed = 12000;
             attackCooldown = 2f;

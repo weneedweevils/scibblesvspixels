@@ -111,16 +111,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 2
   state: 0
+  type: 6
   isolated: 0
+  revivable: 1
   health: 45
   maxHealth: 45
   speed: 500
-  damage: 15
+  damage:
+    baseValue: 15
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: 1
+    maxValue: 500
   attackCooldown: 2
   attackDistance: 20
   slowdownFactor: 3
   stunCooldownRatio: 0.7
   knockbackRatio: 1
+  killReward: 1
   moving: 1
   targetSeeker: {fileID: 6020304625581923037}
   playerSeeker: {fileID: 3692553448427789816}

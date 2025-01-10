@@ -144,7 +144,7 @@ public class OodleKnight : EnemyAI
                                 Vector2 direction = ((Vector2)player.transform.position - (Vector2)transform.position).normalized;
 
                                 //Damage player
-                                player.Damage(damage, direction, knockback);
+                                player.Damage(damage.value, direction, knockback);
                             }
                             break;
                         }
@@ -158,7 +158,7 @@ public class OodleKnight : EnemyAI
                                 Vector2 direction = ((Vector2)otherAI.transform.position - (Vector2)transform.position).normalized;
 
                                 //Damage enemy
-                                otherAI.Damage(damage, false, true, direction, knockback);
+                                otherAI.Damage(damage.value, false, true, direction, knockback);
                                 Debug.LogFormat("{0} Hit {1} for {2} Damage", name, otherAI.name, damage);
 
                                 //Start enemies secondary invincibility timer
