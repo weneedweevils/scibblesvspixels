@@ -74,8 +74,8 @@ public class MiniBoss : OodleKnight
             damage.baseValue = 30;
             speed.baseValue = 12000;
             baseSpeed = 12000;
-            attackCooldown = 2f;
-            attackTimer.SetCooldown(attackCooldown);
+            attackCooldown.baseValue = 2f;
+            attackTimer.SetCooldown(attackCooldown.value);
 
             //Fix HP bar
             healthBar = secondHpBar;

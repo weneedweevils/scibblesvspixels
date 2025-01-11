@@ -131,7 +131,13 @@ MonoBehaviour:
     flatIncrease: 0
     minValue: 1
     maxValue: 500
-  attackCooldown: 2
+  attackCooldown:
+    baseValue: 2
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: 0.1
+    maxValue: 3.4028235e+38
   attackDistance: 20
   slowdownFactor: 3
   stunCooldownRatio: 0.7

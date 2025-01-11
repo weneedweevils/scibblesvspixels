@@ -90,7 +90,6 @@ public class OodleHopper : EnemyAI
             {
                 if (buffTimer.IsOnCooldown())
                 {
-                    attackTimer.SetCooldown(attackCooldown);
                     selfImage.color = Color.white;
                 }
                 if (buffTimer.IsUseable())
@@ -107,7 +106,8 @@ public class OodleHopper : EnemyAI
                 {
                     speed.multiplier -= slowdownFactor;
                     passiveHealAmount /= slowdownFactor;
-                    attackTimer.SetCooldown(attackCooldown * 1.5f);
+                    attackCooldown.multiplier += 0.5f;
+                    attackTimer.SetCooldown(attackCooldown.value);
                     slowed = true;
                 }
                 selfImage.color = Color.red;
@@ -131,7 +131,8 @@ public class OodleHopper : EnemyAI
                 slowed = false;
                 speed.multiplier += slowdownFactor;
                 passiveHealAmount *= slowdownFactor;
-                attackTimer.SetCooldown(attackCooldown);
+                attackCooldown.multiplier -= 0.5f;
+                attackTimer.SetCooldown(attackCooldown.value);
                 selfImage.color = team == Team.player ? allyCol : Color.white;
             }
 

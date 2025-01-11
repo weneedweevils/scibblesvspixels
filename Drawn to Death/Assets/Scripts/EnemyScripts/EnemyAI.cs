@@ -26,7 +26,7 @@ public abstract class EnemyAI : MonoBehaviour
     public float maxHealth;
     public VariableStat speed;
     public VariableStat damage;
-    public float attackCooldown;
+    public VariableStat attackCooldown;
     public float attackDistance;
     public float slowdownFactor = 3f;
     public float stunCooldownRatio = 0.7f;
@@ -127,7 +127,7 @@ public abstract class EnemyAI : MonoBehaviour
         //Create Timers
         invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
         invincibilityTimer2 = new CooldownTimer(0f, invincibilityDuration);
-        attackTimer = new CooldownTimer(attackCooldown, attackDuration);
+        attackTimer = new CooldownTimer(attackCooldown.value, attackDuration);
         slowedTimer = new CooldownTimer(0.1f, slowDuration);
         buffTimer = new CooldownTimer(0.1f, playerMovement.allyBuffDuration);
         invincibilityTimerOodler = new CooldownTimer(oodlerInvincibilityDuration * 0.5f, oodlerInvincibilityDuration * 0.5f);
@@ -270,7 +270,6 @@ public abstract class EnemyAI : MonoBehaviour
             {
                 if (buffTimer.IsOnCooldown())
                 {
-                    attackTimer.SetCooldown(attackCooldown);
                     selfImage.color = Color.white;
                 }
                 if (buffTimer.IsUseable())
@@ -286,7 +285,8 @@ public abstract class EnemyAI : MonoBehaviour
                 if (!slowed && team == Team.oddle) // Only slow enemy Oodles
                 {
                     speed.multiplier -= slowdownFactor;
-                    attackTimer.SetCooldown(attackCooldown * 1.5f);
+                    attackCooldown.multiplier += 0.5f;
+                    attackTimer.SetCooldown(attackCooldown.value);
                     slowed = true;
                 }
                 selfImage.color = Color.red;
@@ -309,7 +309,8 @@ public abstract class EnemyAI : MonoBehaviour
             {
                 slowed = false;
                 speed.multiplier += slowdownFactor;
-                attackTimer.SetCooldown(attackCooldown);
+                attackCooldown.multiplier -= 0.5f;
+                attackTimer.SetCooldown(attackCooldown.value);
                 selfImage.color = team == Team.player ? allyCol : Color.white;
             }
         }
@@ -558,7 +559,9 @@ public abstract class EnemyAI : MonoBehaviour
             damage.baseValue *= percentDamage;
             speed.baseValue *= percentSpeed;
             health = maxHealth;
-            attackTimer.SetCooldown(attackTimer.cooldownDuration * percentAttkSpeed);
+
+            attackCooldown.baseValue *= percentAttkSpeed;
+            attackTimer.SetCooldown(attackCooldown.value);
 
             //Re-enable collisions
             movementCollider.enabled = true;
@@ -629,11 +632,11 @@ public abstract class EnemyAI : MonoBehaviour
 
         if (!attackTimer.IsOnCooldown())
         {
-            attackTimer.StartCooldown(attackCooldown * stunCooldownRatio);
+            attackTimer.StartCooldown(attackCooldown.value * stunCooldownRatio);
         } 
         else
         {
-            attackTimer.StartCooldown(Mathf.Min(attackTimer.timer, attackCooldown * stunCooldownRatio));
+            attackTimer.StartCooldown(Mathf.Min(attackTimer.timer, attackCooldown.value * stunCooldownRatio));
         }
         animator.SetBool("attacking", false);
         animator.SetBool("chasing", true);

@@ -174,6 +174,7 @@ GameObject:
   - component: {fileID: 7607703619587661514}
   - component: {fileID: 44644866695787682}
   - component: {fileID: 7354424645337016077}
+  - component: {fileID: -1040406510956106207}
   m_Layer: 0
   m_Name: Mini Boss
   m_TagString: Enemy
@@ -288,7 +289,13 @@ MonoBehaviour:
     flatIncrease: 0
     minValue: 1
     maxValue: 500
-  attackCooldown: 2
+  attackCooldown:
+    baseValue: 2
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: 0.1
+    maxValue: 3.4028235e+38
   attackDistance: 18
   slowdownFactor: 1.5
   stunCooldownRatio: 0
@@ -495,6 +502,19 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &-1040406510956106207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6533997305229305210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0944c93ca4c54f245bfbf752a71d2274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects: []
 --- !u!1 &6533997305596891203
 GameObject:
   m_ObjectHideFlags: 0

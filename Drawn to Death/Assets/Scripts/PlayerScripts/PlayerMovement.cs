@@ -598,18 +598,6 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
                     {
                         effectController.AddStatusEffect(rallyEffect);
                     }
-
-                    enemyai.Heal(enemyai.maxHealth * allyHealPercentage);
-                    enemyai.buffed = true;
-
-                    if (enemyai.type == Type.crab)
-                    {
-                        enemyai.attackTimer.SetCooldown(enemyai.attackCooldown * crabAtkSpdModifier);
-                    }
-                    else
-                    {
-                        enemyai.attackTimer.SetCooldown(enemyai.attackCooldown * allyAtkSpdModifier);
-                    }
                 }
             }
         }

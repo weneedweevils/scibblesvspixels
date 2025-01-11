@@ -9,10 +9,12 @@ public class RallyBuff : StatusEffect
     [Range(0, 1)] public float healPercentage = 0.3f;
     public float strModifier = 0.5f;
     public float spdModifier = 0.5f;
+    public float atkSpdModifier = 0.5f;
 
     [Header("Unit Specific Effects")]
     public float hopperStrModifier = 1f;
     public float crabSpdModifier = 1f;
+    public float crabAtkSpdModifier = 0.8f;
 
     public override void ApplyEffect(StatusEffectController controller)
     {
@@ -48,6 +50,18 @@ public class RallyBuff : StatusEffect
             {
                 target.speed.multiplier += spdModifier;
             }
+
+            //Attack Cooldown Buff
+            if (target.type == Type.crab)
+            {
+                target.attackCooldown.multiplier -= crabAtkSpdModifier;
+            }
+            else
+            {
+                target.attackCooldown.multiplier -= atkSpdModifier;
+            }
+
+            target.attackTimer.SetCooldown(target.attackCooldown.value);
         }
     }
 
@@ -82,6 +96,18 @@ public class RallyBuff : StatusEffect
             {
                 target.speed.multiplier -= spdModifier;
             }
+
+            //Attack Cooldown Buff
+            if (target.type == Type.crab)
+            {
+                target.attackCooldown.multiplier += crabAtkSpdModifier;
+            }
+            else
+            {
+                target.attackCooldown.multiplier += atkSpdModifier;
+            }
+
+            target.attackTimer.SetCooldown(target.attackCooldown.value);
         }
     }
 }
