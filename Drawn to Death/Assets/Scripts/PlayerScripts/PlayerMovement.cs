@@ -48,14 +48,6 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     private float recallDuration = 115f/60f; 
     public float recallCooldown;
     public RallyBuff rallyEffect;
-    [Range(0, 1)] public float allyHealPercentage;
-    public float allyStrModifier;
-    public float allySpdModifier;
-    public float allyAtkSpdModifier;
-    public float allyBuffDuration;
-    public float crabSpdModifier;
-    public float crabAtkSpdModifier;
-    public float hopperStrModifier;
 
     [SerializeField] private SpriteRenderer pencil;
     private GameObject[] enemies;

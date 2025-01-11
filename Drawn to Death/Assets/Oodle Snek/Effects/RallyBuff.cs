@@ -106,8 +106,10 @@ public class RallyBuff : StatusEffect
             {
                 target.attackCooldown.multiplier += atkSpdModifier;
             }
-
             target.attackTimer.SetCooldown(target.attackCooldown.value);
+
+            //Reset color
+            target.selfImage.color = Color.white;
         }
     }
 }

@@ -49,11 +49,11 @@ public class MiniBoss : OodleKnight
             }
             if (boostTimer.IsActive())
             {
-                speed.baseValue = baseSpeed * boostSpeedModifier * (buffed ? playerMovement.allySpdModifier : 1f);
+                //speed.baseValue = baseSpeed * boostSpeedModifier * (buffed ? playerMovement.allySpdModifier : 1f);
             }
             else if (boostTimer.IsOnCooldown())
             {
-                speed.baseValue = baseSpeed * (buffed ? playerMovement.allySpdModifier : 1f);
+                //speed.baseValue = baseSpeed * (buffed ? playerMovement.allySpdModifier : 1f);
             }
         }
     }

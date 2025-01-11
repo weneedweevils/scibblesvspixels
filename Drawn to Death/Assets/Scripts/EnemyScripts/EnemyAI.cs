@@ -129,7 +129,6 @@ public abstract class EnemyAI : MonoBehaviour
         invincibilityTimer2 = new CooldownTimer(0f, invincibilityDuration);
         attackTimer = new CooldownTimer(attackCooldown.value, attackDuration);
         slowedTimer = new CooldownTimer(0.1f, slowDuration);
-        buffTimer = new CooldownTimer(0.1f, playerMovement.allyBuffDuration);
         invincibilityTimerOodler = new CooldownTimer(oodlerInvincibilityDuration * 0.5f, oodlerInvincibilityDuration * 0.5f);
 
 
@@ -248,7 +247,6 @@ public abstract class EnemyAI : MonoBehaviour
             invincibilityTimer2.Update();
             attackTimer.Update();
             slowedTimer.Update();
-            buffTimer.Update();
             invincibilityTimerOodler.Update();
 
             //Fix color after hurt
@@ -268,14 +266,6 @@ public abstract class EnemyAI : MonoBehaviour
             // Check if buffed
             if (buffed)
             {
-                if (buffTimer.IsOnCooldown())
-                {
-                    selfImage.color = Color.white;
-                }
-                if (buffTimer.IsUseable())
-                {
-                    buffTimer.StartTimer();
-                }
                 selfImage.color = Color.magenta;
             }
 
