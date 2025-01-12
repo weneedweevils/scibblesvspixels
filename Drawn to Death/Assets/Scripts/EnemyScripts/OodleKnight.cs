@@ -83,7 +83,6 @@ public class OodleKnight : EnemyAI
             if (target != null)
             {
                 targetOffset.Set(((target.position.x > transform.position.x) ? -1 : 1) * 3f, -1f);
-                Debug.LogFormat("targetOffset: {0}", targetOffset);
 
                 //Calculate direction to travel to the next waypoint
                 Vector2 direction = ((Vector2)target.position + targetOffset - rb.position).normalized;

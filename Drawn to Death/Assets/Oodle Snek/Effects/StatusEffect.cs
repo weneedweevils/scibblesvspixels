@@ -83,8 +83,6 @@ public abstract class StatusEffect : ScriptableObject
 
         // Notify Observers that the effect has ended
         endEffectNotifier.NotifyObservers(this);
-
-        Debug.LogFormat("End of {0}", effectName);
     }
 
     // Abstract methods to implement specific effects

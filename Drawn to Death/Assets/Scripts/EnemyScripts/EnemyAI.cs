@@ -51,10 +51,9 @@ public abstract class EnemyAI : MonoBehaviour
     [Header("Effects")]
     public bool slowed = false;
     public bool lifestealing = false;
-    public CooldownTimer slowedTimer;
-    public CooldownTimer buffTimer;
-    public float slowDuration;
     public bool buffed = false;
+    public StatusEffectController effectController { get; private set; }
+    public LifestealEffect lifestealEffect;
 
     [Header("References")]
     public Collider2D movementCollider;
@@ -115,6 +114,7 @@ public abstract class EnemyAI : MonoBehaviour
         playerAttack = player.GetComponentInChildren<Attack>();
         musicmanager = GameObject.Find("Music");
         musicscript = musicmanager.GetComponent<BasicMusicScript>();
+        effectController = GetComponent<StatusEffectController>();
 
         //Initialize
         target = player.transform;
@@ -128,7 +128,6 @@ public abstract class EnemyAI : MonoBehaviour
         invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
         invincibilityTimer2 = new CooldownTimer(0f, invincibilityDuration);
         attackTimer = new CooldownTimer(attackCooldown.value, attackDuration);
-        slowedTimer = new CooldownTimer(0.1f, slowDuration);
         invincibilityTimerOodler = new CooldownTimer(oodlerInvincibilityDuration * 0.5f, oodlerInvincibilityDuration * 0.5f);
 
 
@@ -246,7 +245,6 @@ public abstract class EnemyAI : MonoBehaviour
             invincibilityTimer.Update();
             invincibilityTimer2.Update();
             attackTimer.Update();
-            slowedTimer.Update();
             invincibilityTimerOodler.Update();
 
             //Fix color after hurt
@@ -272,36 +270,18 @@ public abstract class EnemyAI : MonoBehaviour
             // Check if being lifestolen
             if (lifestealing)
             {
-                if (!slowed && team == Team.oddle) // Only slow enemy Oodles
+                // Only slow enemy Oodles
+                if (team == Team.oddle) 
                 {
-                    speed.multiplier -= slowdownFactor;
-                    attackCooldown.multiplier += 0.5f;
-                    attackTimer.SetCooldown(attackCooldown.value);
-                    slowed = true;
+                    effectController.AddStatusEffect(lifestealEffect);
                 }
                 selfImage.color = Color.red;
             }
 
-            // Start timer to end slow if not in lifesteal zone anymore but still slowed
-            if (!lifestealing && slowed && slowedTimer.IsUseable())
-            {
-                slowedTimer.StartTimer();
-            }
-
             // Change color if slowed but not being lifestolen
-            if (slowedTimer.IsActive() && !lifestealing)
+            if (slowed && !lifestealing)
             {
                 selfImage.color = Color.yellow;
-            }
-
-            // End slow if timer is done
-            if (slowedTimer.IsOnCooldown() && !lifestealing && slowed)
-            {
-                slowed = false;
-                speed.multiplier += slowdownFactor;
-                attackCooldown.multiplier -= 0.5f;
-                attackTimer.SetCooldown(attackCooldown.value);
-                selfImage.color = team == Team.player ? allyCol : Color.white;
             }
         }
         //State Manager
@@ -522,13 +502,6 @@ public abstract class EnemyAI : MonoBehaviour
         animator.SetBool("attacking", false);
         animator.SetBool("chasing", false);
         animator.SetBool("dying", true);
-
-        // Remove slow if on at death
-        if (slowed)
-        {
-            slowed = false;
-            speed.multiplier += slowdownFactor;
-        }
     }
 
     //Revive this entity as an ally to the player

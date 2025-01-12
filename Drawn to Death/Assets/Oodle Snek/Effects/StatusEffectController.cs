@@ -126,7 +126,6 @@ public class StatusEffectController : MonoBehaviour
     {
         // Remove the effect
         effect.EndEffect(this);
-        Debug.LogFormat("Removing {0}", effect.effectName);
         effects.Remove(effect);
 
         // Stop observing the effect

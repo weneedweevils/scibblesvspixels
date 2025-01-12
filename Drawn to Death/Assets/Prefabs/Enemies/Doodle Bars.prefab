@@ -325,7 +325,13 @@ MonoBehaviour:
     flatIncrease: 0
     minValue: 0
     maxValue: 0
-  attackCooldown: 100
+  attackCooldown:
+    baseValue: 0
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: -3.4028235e+38
+    maxValue: 3.4028235e+38
   attackDistance: -1
   slowdownFactor: 3
   stunCooldownRatio: 0.7
@@ -341,8 +347,8 @@ MonoBehaviour:
   attackSfx: event:/CrabAttack
   slowed: 0
   lifestealing: 0
-  slowDuration: 0
   buffed: 0
+  lifestealEffect: {fileID: 11400000, guid: 939c4c0ff2257244b9939dba1abada13, type: 2}
   movementCollider: {fileID: 756136004653378014}
   healthBar: {fileID: 1438910299221223785}
   enemygraphics: {fileID: 6527833784005707315}
