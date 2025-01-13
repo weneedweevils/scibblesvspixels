@@ -66,11 +66,4 @@ public class Chase : ChildBaseState
     {
         base.AnimationTriggerEvent(triggerType);
     }
-
-
-
-    
-
-    
-
 }

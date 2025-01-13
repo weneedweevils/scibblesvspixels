@@ -122,7 +122,6 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
     //additional scripts
     [Header("New input system")]
-    public GameObject inputHandler;
     private PlayerArms playerarms;
     public GameObject eraserObject;
     public GameObject armsObject;
@@ -686,17 +685,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     }
 
     // function that pauses player input
-    public void PausePlayerInput(bool pause)
-    {
-        if (pause)
-        {
-            pauseInput = true;
-        }
-        else
-        {
-            pauseInput = false;
-        }
-    }
+    
 
     public PlayerInput getInputSystem()
     {
@@ -710,5 +699,22 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     public SpriteRenderer GetPencil()
     {
         return pencil;
+    }
+
+    public void DisableInput()
+    {
+        playerInput.actions.FindAction("Move").Disable();
+        playerInput.actions.FindAction("Dash").Disable();
+        playerInput.actions.FindAction("LifeSteal").Disable();
+        playerInput.actions.FindAction("Revive").Disable();
+        playerInput.actions.FindAction("Rally").Disable();
+        playerInput.actions.FindAction("Attack").Disable();
+        playerInput.actions.FindAction("Aim").Disable();
+
+    }
+
+    public void EnableInput()
+    {
+        playerInput.ActivateInput();
     }
 }
