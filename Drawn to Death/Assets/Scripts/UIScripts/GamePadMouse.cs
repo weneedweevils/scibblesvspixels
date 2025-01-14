@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.Users;
 using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
 using MouseButton = UnityEngine.InputSystem.LowLevel.MouseButton;
 
 
@@ -20,6 +21,8 @@ public class GamePadMouse : MonoBehaviour
     private RectTransform canvasRectTransform;
     [SerializeField]
     private float cursorSpeed = 100f;
+    [SerializeField]
+    private float padding = 30f;
 
     private Camera m_Camera;
     private Mouse virtualMouse;
@@ -30,6 +33,28 @@ public class GamePadMouse : MonoBehaviour
     {
         m_Camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
+
+    // WORK OUT LOGIC WHEN DEVICE IS CHANGED //
+    public void OnDeviceChanged(PlayerInput pi)
+    {
+        //Debug.Log(pi.currentControlScheme.ToString());
+        //if (playerInput.currentControlScheme.Equals("Gamepad") && gameObject.activeSelf == true)
+        //{
+        //    cursorTransform.gameObject.SetActive(true);
+        //    Cursor.visible = false;
+        //}
+        //else
+        //{
+        //    cursorTransform.gameObject.SetActive(false);
+        //    Cursor.visible = true;
+        //}
+    }
+
+    public void HideMouse()
+    {
+
+    }
+
 
     private void OnEnable() {
 
@@ -50,9 +75,6 @@ public class GamePadMouse : MonoBehaviour
         }
 
         InputSystem.onAfterUpdate += UpdateMotion;
-
-        
-
     }
 
     private void OnDisable()
@@ -69,16 +91,24 @@ public class GamePadMouse : MonoBehaviour
         }
 
         Vector2 stickValue = Gamepad.current.leftStick.ReadValue();
-        stickValue *= cursorSpeed * Time.deltaTime;
+     
+
+
+        stickValue *= cursorSpeed * Time.unscaledDeltaTime; // unscaled deltatime since we pause timescale
+
+        Debug.Log(stickValue);
+        
 
         Vector2 currentPosition = virtualMouse.position.ReadValue();
         Vector2 newPos = currentPosition + stickValue;
 
-        Debug.Log(stickValue);
+     
+        Debug.Log(Gamepad.current);
+       
 
         // Makes sure the cursor does not go outside the screen
-        newPos.x = Mathf.Clamp(newPos.x, 0f,Screen.width);
-        newPos.y = Mathf.Clamp(newPos.x, 0f, Screen.height);
+        newPos.x = Mathf.Clamp(newPos.x, 0f+padding,Screen.width-padding);
+        newPos.y = Mathf.Clamp(newPos.y, 0f+padding, Screen.height-padding);
 
         InputState.Change(virtualMouse.position, newPos);
         InputState.Change(virtualMouse.delta, stickValue);
@@ -100,12 +130,9 @@ public class GamePadMouse : MonoBehaviour
 
     private void AnchorCursor(Vector2 position)
     {
-
-        
         Vector2 anchoredPosition;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRectTransform, position, null, out anchoredPosition); //canvas.renderMode != RenderMode.ScreenSpaceOverlay ? null : m_Camera, out anchoredPosition);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRectTransform, position, canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : m_Camera, out anchoredPosition);
         cursorTransform.anchoredPosition = anchoredPosition;
-        
     }
 
 
