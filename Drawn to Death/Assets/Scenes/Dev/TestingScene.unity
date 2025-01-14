@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1172,12 +1172,17 @@ PrefabInstance:
     - target: {fileID: 1952797982550923791, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3692553448427789813, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
         type: 3}
       propertyPath: m_Name
       value: DoodleCrab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3692553448427789813, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3692553448427789817, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
         type: 3}
@@ -1187,7 +1192,7 @@ PrefabInstance:
     - target: {fileID: 3692553448427789817, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -66.495316
+      value: -21.53678
       objectReference: {fileID: 0}
     - target: {fileID: 3692553448427789817, guid: fd54e1c3cb8ef9846bab82e3adc73fc9,
         type: 3}
@@ -1500,6 +1505,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: OodleHopper
       objectReference: {fileID: 0}
+    - target: {fileID: 6559998363662152832, guid: 722efe9439a238c41a0281c119876266,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6559998363662152844, guid: 722efe9439a238c41a0281c119876266,
         type: 3}
       propertyPath: m_RootOrder
@@ -1508,7 +1518,7 @@ PrefabInstance:
     - target: {fileID: 6559998363662152844, guid: 722efe9439a238c41a0281c119876266,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -62.648537
+      value: -17.69
       objectReference: {fileID: 0}
     - target: {fileID: 6559998363662152844, guid: 722efe9439a238c41a0281c119876266,
         type: 3}
@@ -1558,7 +1568,7 @@ PrefabInstance:
     - target: {fileID: 8299823390791529338, guid: 722efe9439a238c41a0281c119876266,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 722efe9439a238c41a0281c119876266, type: 3}
@@ -6042,7 +6052,7 @@ PrefabInstance:
     - target: {fileID: 3572655234519199139, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4562456546076731575, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
         type: 3}
@@ -6052,7 +6062,7 @@ PrefabInstance:
     - target: {fileID: 4562456546076731575, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -63.712536
+      value: -18.754
       objectReference: {fileID: 0}
     - target: {fileID: 4562456546076731575, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
         type: 3}
@@ -6103,6 +6113,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cubie
+      objectReference: {fileID: 0}
+    - target: {fileID: 4562456546076731579, guid: d2e9b0e41df38304b8ca3e7a37394d8a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2e9b0e41df38304b8ca3e7a37394d8a, type: 3}
@@ -51741,12 +51756,17 @@ PrefabInstance:
     - target: {fileID: 5487786179998244489, guid: e69406390f7ab134bb39dd6dfcc3f453,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7210164956526106995, guid: e69406390f7ab134bb39dd6dfcc3f453,
         type: 3}
       propertyPath: m_Name
       value: Oodle Knight
+      objectReference: {fileID: 0}
+    - target: {fileID: 7210164956526106995, guid: e69406390f7ab134bb39dd6dfcc3f453,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7210164956526107007, guid: e69406390f7ab134bb39dd6dfcc3f453,
         type: 3}
@@ -51756,7 +51776,7 @@ PrefabInstance:
     - target: {fileID: 7210164956526107007, guid: e69406390f7ab134bb39dd6dfcc3f453,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -54.463886
+      value: -9.50535
       objectReference: {fileID: 0}
     - target: {fileID: 7210164956526107007, guid: e69406390f7ab134bb39dd6dfcc3f453,
         type: 3}
@@ -51822,6 +51842,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Oodle Snek
       objectReference: {fileID: 0}
+    - target: {fileID: 1857627134101002733, guid: f49984e02484d7f42ae56b618393081a,
+        type: 3}
+      propertyPath: effects.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ba76c0c36a2e76946acec836fb4680e6,
+        type: 2}
     - target: {fileID: 1857627134101002734, guid: f49984e02484d7f42ae56b618393081a,
         type: 3}
       propertyPath: m_RootOrder
@@ -51830,7 +51856,7 @@ PrefabInstance:
     - target: {fileID: 1857627134101002734, guid: f49984e02484d7f42ae56b618393081a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -54.76
+      value: -62.03
       objectReference: {fileID: 0}
     - target: {fileID: 1857627134101002734, guid: f49984e02484d7f42ae56b618393081a,
         type: 3}

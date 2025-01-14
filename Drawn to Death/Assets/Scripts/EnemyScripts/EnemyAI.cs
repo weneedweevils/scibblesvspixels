@@ -27,6 +27,7 @@ public abstract class EnemyAI : MonoBehaviour
     public VariableStat speed;
     public VariableStat damage;
     public VariableStat attackCooldown;
+    [HideInInspector] public VariableStat incomingDamage;
     public float attackDistance;
     public float slowdownFactor = 3f;
     public float stunCooldownRatio = 0.7f;
@@ -54,6 +55,7 @@ public abstract class EnemyAI : MonoBehaviour
     public bool buffed = false;
     public StatusEffectController effectController { get; private set; }
     public LifestealEffect lifestealEffect;
+    public bool canHeal = true;
 
     [Header("References")]
     public Collider2D movementCollider;
@@ -122,7 +124,7 @@ public abstract class EnemyAI : MonoBehaviour
         healthBar.SetHealth(health, maxHealth);
         attackSFXInstance = FMODUnity.RuntimeManager.CreateInstance(attackSfx);
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(attackSFXInstance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
-      
+        incomingDamage.Set(0, 1, 0, 0, 0, maxHealth);
 
         //Create Timers
         invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
@@ -549,7 +551,11 @@ public abstract class EnemyAI : MonoBehaviour
         }
 
         //Inflict damage
-        health -= damageTaken;
+        if (lifeSteal)
+            health -= damageTaken;
+        else
+            health -= incomingDamage.Calculate(damageTaken);
+
         healthBar.SetHealth(health, maxHealth);
 
         //Play eraser hit sound
@@ -608,6 +614,9 @@ public abstract class EnemyAI : MonoBehaviour
     // Function to run when enemies/allies heal
     virtual public void Heal(float healthRestored)
     {
+        if (!canHeal)
+            return;
+
         if (health < maxHealth)
         {
             health += healthRestored;
