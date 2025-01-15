@@ -516,7 +516,7 @@ public class Attack : MonoBehaviour
                             //Calculate knockback
                             Vector2 direction = ((Vector2)enemy.transform.position - (Vector2)transform.position).normalized * enemy.knockbackRatio;
                             //Damage enemy
-                            enemy.Damage(damage, true, true, direction, knockback);
+                            enemy.Damage(damage, true, true, direction, knockback, fromPlayer: true);
                         }
                     }
                   
