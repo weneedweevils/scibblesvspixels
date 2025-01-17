@@ -15,7 +15,10 @@ public class Weakness : StatusEffect
     {
         if (controller.isPlayer)
         {
-            //TODO: Apply slow effect to Player
+            //Apply Effects
+            controller.playerAttack.damage.baseIncrease -= damageReduction;
+            controller.player.incomingDamage.baseIncrease += damageTaken;
+            controller.player.canHeal = false;
         }
 
         if (controller.enemyAI != null)
@@ -34,7 +37,10 @@ public class Weakness : StatusEffect
     {
         if (controller.isPlayer)
         {
-            //TODO: Remove slow effect from Player
+            //Remove Effects
+            controller.playerAttack.damage.baseIncrease += damageReduction;
+            controller.player.incomingDamage.baseIncrease -= damageTaken;
+            controller.player.canHeal = true;
         }
 
         if (controller.enemyAI != null)

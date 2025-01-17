@@ -346,8 +346,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   persistent: 0
-  accelerationCoefficient: 75
-  maxVelocity: 15
+  accelerationCoefficient:
+    baseValue: 75
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: -3.4028235e+38
+    setSign: 0
+    maxValue: 3.4028235e+38
+  maxVelocity:
+    baseValue: 15
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: -3.4028235e+38
+    setSign: 0
+    maxValue: 3.4028235e+38
   friction: 75
   speedModifier: 1
   dashEnabled: 1
@@ -357,14 +371,6 @@ MonoBehaviour:
   animator: {fileID: 0}
   recallCooldown: 15
   rallyEffect: {fileID: 11400000, guid: 158190d910fe40244b1890201efacf96, type: 2}
-  allyHealPercentage: 0.3
-  allyStrModifier: 1.5
-  allySpdModifier: 1.5
-  allyAtkSpdModifier: 0.5
-  allyBuffDuration: 5
-  crabSpdModifier: 2
-  crabAtkSpdModifier: 0.2
-  hopperStrModifier: 2
   pencil: {fileID: 3034122452498883460}
   recallBar: {fileID: 0}
   animationDone: 1
@@ -374,6 +380,15 @@ MonoBehaviour:
   invincibilityDuration: 1
   healthBar: {fileID: 0}
   abilityDamageReduction: 0.4
+  incomingDamage:
+    baseValue: 0
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: -3.4028235e+38
+    setSign: 0
+    maxValue: 3.4028235e+38
+  canHeal: 1
   hud: {fileID: 0}
   pauseUi: {fileID: 0}
   volumeControllerObject: {fileID: 0}
@@ -482,7 +497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632ae7eb1d4ce49d38a1e38ee7efe7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guid: f09dd5568e81969e-3e3a71ba39a06b85
+  guid: 197316db544214fd-1f34c27297cd8175
 --- !u!61 &3786005922980315812
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -740,9 +755,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2454788199460616583}
-  damage: 15
+  damage:
+    baseValue: 15
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: 1
+    setSign: 0
+    maxValue: 3.4028235e+38
+  attackCooldown:
+    baseValue: 0.5
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: 0.01
+    setSign: 1
+    maxValue: 3.4028235e+38
   knockback: 15
-  attackCooldown: 0.5
   reviveRadius: 10
   reviveCap: 50
   reviveCooldown: 7

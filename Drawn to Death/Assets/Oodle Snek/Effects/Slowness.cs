@@ -6,6 +6,7 @@ using UnityEngine;
 public class Slowness : StatusEffect
 {
     [Header("Effects")]
+    public float playerSlowdownFactor;
     public float slowdownFactor;
     public float atkSlowdownFactor;
 
@@ -13,7 +14,8 @@ public class Slowness : StatusEffect
     {
         if (controller.isPlayer)
         {
-            //TODO: Apply slow effect to Player
+            //Apply Effects
+            controller.player.maxVelocity.multiplier -= playerSlowdownFactor;
         }
 
         if (controller.enemyAI != null)
@@ -32,7 +34,8 @@ public class Slowness : StatusEffect
     {
         if (controller.isPlayer)
         {
-            //TODO: Remove slow effect from Player
+            //Remove Effects
+            controller.player.maxVelocity.multiplier += playerSlowdownFactor;
         }
 
         if (controller.enemyAI != null)

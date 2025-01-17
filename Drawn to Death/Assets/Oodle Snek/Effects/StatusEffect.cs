@@ -15,11 +15,7 @@ public abstract class StatusEffect : ScriptableObject
     public Color paintColor;
 
     [Header("Timers")]
-    public bool oneTime = false;
-
-    [ShowIf("oneTime", Relation.Equal, false)]
     [Min(0)] public float duration;
-    [ShowIf("oneTime", Relation.Equal, false)]
     [Min(0)] public float applicationInterval;
 
     public StateTimer durationTimer { get; private set; }
@@ -37,7 +33,7 @@ public abstract class StatusEffect : ScriptableObject
         ApplyEffect(controller);
 
         // Setup timers
-        if (!oneTime)
+        if (duration > 0)
         {
             // Create Notifiers
             applyEffectNotifier = new Notifier<StatusEffect>();
@@ -59,7 +55,7 @@ public abstract class StatusEffect : ScriptableObject
     }
     public virtual void Destroy()
     {
-        if (!oneTime)
+        if (duration > 0)
         {
             // Destroy the timers
             applicationTimer.Destroy();

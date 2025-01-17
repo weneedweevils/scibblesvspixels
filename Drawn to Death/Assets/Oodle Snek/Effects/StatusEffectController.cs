@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Linq;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +12,7 @@ public class StatusEffectController : MonoBehaviour
     public List<Attack> attacks { get; private set; }
     public EnemyAI enemyAI { get; private set; }
     public PlayerMovement player { get; private set; }
+    public Attack playerAttack { get; private set; }
 
     public bool isPlayer { get; private set; } = false;
 
@@ -25,7 +25,16 @@ public class StatusEffectController : MonoBehaviour
         if (enemyAI == null)
         {
             player = GetComponent<PlayerMovement>();
-            isPlayer = true;
+            playerAttack = GetComponentInChildren<Attack>();
+
+            if (player != null && playerAttack != null)
+            {
+                isPlayer = true;
+            }
+            else
+            {
+                throw new ArgumentNullException("Error - StatusEffectController could not find a reference to enemyAI nor player");
+            }
         }
 
         // Initialize Observers
@@ -37,7 +46,7 @@ public class StatusEffectController : MonoBehaviour
     public void AddStatusEffect(StatusEffect effect)
     {
         if (effect == null) return;
-        if (effect.oneTime)
+        if (effect.duration == 0)
         {
             StackStatusEffect(effect);
             return;
@@ -91,7 +100,7 @@ public class StatusEffectController : MonoBehaviour
         StatusEffect effectClone = Instantiate(effect);
         effectClone.Init(this);
 
-        if (!effectClone.oneTime)
+        if (effectClone.duration > 0)
         {
             //Track the effect
             effects.Add(effectClone);

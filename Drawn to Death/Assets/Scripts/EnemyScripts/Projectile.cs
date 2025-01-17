@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -31,7 +31,16 @@ public class Projectile : MonoBehaviour
         //Assign variables
         if (parent == null) { Debug.LogError("Error - projectile parent not set to instance of EnemyAI"); Destroy(gameObject); }
         team = parent.team;
-        target = parent.GetTarget().position;
+        try
+        {
+            target = parent.GetTarget().position;
+        }
+        catch (NullReferenceException)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
         damage = parent.damage.value;
 
         Transform t = parent.GetTarget();
@@ -56,8 +65,8 @@ public class Projectile : MonoBehaviour
         // Add spread to projectiles if buffed
         if (parent.buffed)
         {
-            velocity.x *= Random.Range(0.5f, 1f);
-            velocity.y *= Random.Range(0.5f, 1f);
+            velocity.x *= UnityEngine.Random.Range(0.5f, 1f);
+            velocity.y *= UnityEngine.Random.Range(0.5f, 1f);
         }
     }
 

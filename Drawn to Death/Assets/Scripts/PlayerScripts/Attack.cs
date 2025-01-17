@@ -24,9 +24,9 @@ public class Attack : MonoBehaviour
 
     [Header("Attack Info")]
     //Stats
-    public float damage = 100;
+    public VariableStat damage;
+    public VariableStat attackCooldown;
     public float knockback = 3;
-    public float attackCooldown = 0f;
     public CooldownTimer attackTimer;
     private float attackDuration = 30f/60f;
     private bool attacking;
@@ -516,7 +516,7 @@ public class Attack : MonoBehaviour
                             //Calculate knockback
                             Vector2 direction = ((Vector2)enemy.transform.position - (Vector2)transform.position).normalized * enemy.knockbackRatio;
                             //Damage enemy
-                            enemy.Damage(damage, true, true, direction, knockback);
+                            enemy.Damage(damage.value, true, true, direction, knockback);
                         }
                     }
                   
@@ -526,7 +526,7 @@ public class Attack : MonoBehaviour
                         if (attackTimer.IsActive() && crystal != null && crystal.invincibilityTimer.IsUseable())
                         {
                             //Damage enemy
-                            crystal.CrystalDamage(damage, true);
+                            crystal.CrystalDamage(damage.value, true);
                         }
                     }
                     
@@ -536,7 +536,7 @@ public class Attack : MonoBehaviour
                         if (attackTimer.IsActive() && oodler != null && oodler.BossIsDamageable() && !oodler.invincibilityTimer.IsActive())
                         {
                             //Damage enemy
-                            oodler.Damage(damage);
+                            oodler.Damage(damage.value);
 
                         }
 

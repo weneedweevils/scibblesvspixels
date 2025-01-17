@@ -9,7 +9,8 @@ public class Confusion : StatusEffect
     {
         if (controller.isPlayer)
         {
-            //TODO: Apply Confusion effect to Player
+            //Apply Effect
+            controller.player.accelerationCoefficient.setSign = VariableStat.Sign.Negative;
         }
 
         if (controller.enemyAI != null)
@@ -17,7 +18,7 @@ public class Confusion : StatusEffect
             //Get target EnemyAI referfence
             EnemyAI target = controller.enemyAI;
 
-            //Apply Effects
+            //Apply Effect
             if (Random.Range(0f, 1f) > 0.3f)
                 target.speed.setSign = VariableStat.Sign.Positive;
             else
@@ -29,7 +30,8 @@ public class Confusion : StatusEffect
     {
         if (controller.isPlayer)
         {
-            //TODO: Remove Confusion effect from Player
+            //Remove Effect
+            controller.player.accelerationCoefficient.setSign = VariableStat.Sign.Neutral;
         }
 
         if (controller.enemyAI != null)
@@ -37,6 +39,7 @@ public class Confusion : StatusEffect
             //Get target EnemyAI referfence
             EnemyAI target = controller.enemyAI;
 
+            //Remove Effect
             target.speed.setSign = VariableStat.Sign.Neutral;
         }
     }

@@ -22,8 +22,8 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 {
     //Movement Checks
     [Header("Physics")]
-    public float accelerationCoefficient;   //how quickly it speeds up
-    public float maxVelocity;               //how fast it can go horizontally
+    public VariableStat accelerationCoefficient;   //how quickly it speeds up
+    public VariableStat maxVelocity;               //how fast it can go horizontally
     public float friction;                  //how quickly it slows down
     public float speedModifier;             //modifiers applied to the player (affects maxVelocity)
 
@@ -86,6 +86,8 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     public HealthBarBehaviour healthBar;
     [Range(0, 1)]
     public float abilityDamageReduction = 0.1f;
+    [HideInInspector] public VariableStat incomingDamage;
+    public bool canHeal = true;
 
     [Header("Other")]
     [SerializeField] private GameObject hud;
@@ -166,6 +168,8 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         //playerInput = GetComponent<PlayerInput>();
 
         playerarms = new PlayerArms(eraserObject, gameObject, armsObject, playerInput, this);
+
+        incomingDamage.Set(0, 1, 0, 0, 0, maxHealth);
     }
 
     public void OnDeviceChanged(PlayerInput pi)
@@ -184,7 +188,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     // Update is called once per frame
     void Update()
     {
-        acceleration = playerInput.actions["Move"].ReadValue<Vector2>()*accelerationCoefficient;
+        acceleration = playerInput.actions["Move"].ReadValue<Vector2>()*accelerationCoefficient.value;
         aimDirection = playerInput.actions["Aim"].ReadValue<Vector2>();
 
         playerarms.FrameUpdate(aimDirection);
@@ -376,10 +380,10 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         //  v = Velocity
 
         //Accelerate
-        if (Mathf.Abs(a) > 0f && Mathf.Abs(v) <= maxVelocity * modifier)
+        if (Mathf.Abs(a) > 0f && Mathf.Abs(v) <= maxVelocity.value * modifier)
         {
             v += a * modifier * Time.deltaTime;
-            v = Mathf.Clamp(v, -maxVelocity * modifier, maxVelocity * modifier);
+            v = Mathf.Clamp(v, -maxVelocity.value * modifier, maxVelocity.value * modifier);
         }
         //Account for friction
         else if (Mathf.Abs(v) > 0f)
@@ -459,19 +463,13 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         HealthBarReference.SetTrigger("HealthBarShake");
         CameraReference.SetTrigger("Shake");
 
-        Debug.Log(health);
-
-        Debug.Log(maxHealth);
-
-       
-
         if (UsingAbility())
         {
-            health -= (damageTaken * (1 - abilityDamageReduction));
+            health -= incomingDamage.Calculate(damageTaken * (1 - abilityDamageReduction));
         }
         else
         {
-            health -= damageTaken;
+            health -= incomingDamage.Calculate(damageTaken);
         }
         invincibilityTimer.StartTimer();
         healthBar.SetHealth(health, maxHealth);
@@ -532,6 +530,9 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     // Function to run when player heals
     public void Heal(float healthRestored)
     {
+        if (!canHeal)
+            return;
+
         if (health < maxHealth)
         {
             health += healthRestored;
