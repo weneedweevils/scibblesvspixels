@@ -45,6 +45,7 @@ public abstract class EnemyAI : MonoBehaviour
     public string deathSfx;
     public string attackSfx;
     private string eraserHitSfx = "event:/EraserHit";
+    private string otherHitSfx = "event:/OtherHit";
 
     protected FMOD.Studio.EventInstance attackSFXInstance;
     
@@ -581,7 +582,7 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     // Function to run when enemies/allies takes damage
-    virtual public void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f, bool lifeSteal = false)
+    virtual public void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f, bool lifeSteal = false, bool fromPlayer = false, bool noSound = false)
     {
         if (isolated)
             return;
@@ -596,10 +597,19 @@ public abstract class EnemyAI : MonoBehaviour
         health -= damageTaken;
         healthBar.SetHealth(health, maxHealth);
 
-        //Play eraser hit sound
-        if (!lifeSteal) {
-            FMODUnity.RuntimeManager.PlayOneShot(eraserHitSfx, this.transform.position);
-        }
+        //Play eraser hit sound if from player and not lifesteal. Else play regular hit noise
+        if (!lifeSteal && !noSound) 
+        {
+            if (fromPlayer)
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(eraserHitSfx, this.transform.position);
+            }
+            else 
+            {
+                Debug.Log("other hit");
+                FMODUnity.RuntimeManager.PlayOneShot(otherHitSfx, this.transform.position);
+            }
+        } 
 
         //Check death conditions
         if (health <= 0)

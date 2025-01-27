@@ -59,7 +59,7 @@ public class DoodleBars : EnemyAI
         {
             if (!friend.isDead())
             {
-                friend.Damage(friend.health);
+                friend.Damage(friend.health, noSound: true);
             }
         }
     }
