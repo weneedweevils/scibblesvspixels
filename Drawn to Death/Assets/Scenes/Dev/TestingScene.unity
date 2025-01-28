@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -4478,6 +4478,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CameraReference
       objectReference: {fileID: 0}
+    - target: {fileID: 1242120185601121689, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: prewarm
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1761505635879665622, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
       propertyPath: m_RootOrder
@@ -5092,6 +5097,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8808174955221774548, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4254201177166698280, guid: f5e11bc1681c3b844b34bab6fe8ab682, type: 3}
@@ -51866,7 +51876,7 @@ PrefabInstance:
         type: 3}
       propertyPath: effects.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: ba76c0c36a2e76946acec836fb4680e6,
+      objectReference: {fileID: 11400000, guid: 07ae354aded26b6468068827b8d4fe98,
         type: 2}
     - target: {fileID: 1857627134101002734, guid: f49984e02484d7f42ae56b618393081a,
         type: 3}

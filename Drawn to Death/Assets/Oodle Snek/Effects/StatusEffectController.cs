@@ -5,6 +5,8 @@ using UnityEngine;
 public class StatusEffectController : MonoBehaviour
 {
     public List<StatusEffect> effects = new List<StatusEffect>();
+    public ParticleSystem particleEffectSystem;
+    private Queue<ParticleSystem> particleSystemPool = new Queue<ParticleSystem>();
 
     public Observer<StatusEffect> applicationEffectObserver;
     public Observer<StatusEffect> endEffectObserver;
@@ -15,6 +17,8 @@ public class StatusEffectController : MonoBehaviour
     public Attack playerAttack { get; private set; }
 
     public bool isPlayer { get; private set; } = false;
+
+    private Dictionary<string, ParticleSystem> particleSystems = new Dictionary<string, ParticleSystem>();
 
     // Start is called before the first frame update
     private void Awake()
@@ -102,8 +106,11 @@ public class StatusEffectController : MonoBehaviour
 
         if (effectClone.duration > 0)
         {
-            //Track the effect
+            // Track the effect
             effects.Add(effectClone);
+
+            // Try to start a particle system
+            StartParticles(effect);
 
             // Start Observing the effect
             applicationEffectObserver.StartObservation(effectClone.applyEffectNotifier);
@@ -125,6 +132,42 @@ public class StatusEffectController : MonoBehaviour
         StackStatusEffect(newEeffect);
     }
 
+    // Particles
+    private void StartParticles(StatusEffect effect)
+    {
+        if (!particleSystems.ContainsKey(effect.name))
+        {
+            ParticleSystem newSystem;
+
+            if (particleSystemPool.Count > 0)
+            {
+                newSystem = particleSystemPool.Dequeue();
+                newSystem.gameObject.SetActive(true);
+            }
+            else
+            {
+                newSystem = Instantiate(particleEffectSystem, transform);
+            }
+
+            var main = newSystem.main;
+            main.startColor = effect.paintColor;
+
+            particleSystems[effect.effectName] = newSystem;
+        }
+    }
+    private void StopParticles(StatusEffect effect)
+    {
+        string key = effect.effectName;
+
+        if (particleSystems.ContainsKey(key))
+        {
+            ParticleSystem systemToStop = particleSystems[key];
+            particleSystems.Remove(key);
+            systemToStop.gameObject.SetActive(false);
+            particleSystemPool.Enqueue(systemToStop);
+        }
+    }
+
     // Observer Callbacks
     private void OnEffectApplied(StatusEffect effect)
     {
@@ -136,6 +179,9 @@ public class StatusEffectController : MonoBehaviour
         // Remove the effect
         effect.EndEffect(this);
         effects.Remove(effect);
+
+        // Try to stop a particle system
+        StopParticles(effect);
 
         // Stop observing the effect
         applicationEffectObserver.StopObservation(effect.applyEffectNotifier);
