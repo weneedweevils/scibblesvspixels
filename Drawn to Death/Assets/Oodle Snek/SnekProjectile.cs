@@ -48,7 +48,8 @@ public class SnekProjectile : Projectile
         StartCoroutine(Grow());
 
         allyCol = paintColor;
-        selfImage.color = paintColor;
+        selfImage.material.SetColor("_Color", paintColor);
+        //selfImage.color = paintColor;
 
         GetComponent<Animator>().SetFloat("playbackSpeed", 9f / (lifespan * 60f));
     }
