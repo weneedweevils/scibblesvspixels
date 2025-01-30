@@ -236,6 +236,7 @@ MonoBehaviour:
     baseIncrease: 0
     flatIncrease: 0
     minValue: -3.4028235e+38
+    setSign: 0
     maxValue: 3.4028235e+38
   damage:
     baseValue: 9
@@ -243,6 +244,7 @@ MonoBehaviour:
     baseIncrease: 0
     flatIncrease: 0
     minValue: 1
+    setSign: 0
     maxValue: 500
   attackCooldown:
     baseValue: 3
@@ -250,6 +252,15 @@ MonoBehaviour:
     baseIncrease: 0
     flatIncrease: 0
     minValue: 0.1
+    setSign: 0
+    maxValue: 3.4028235e+38
+  incomingDamage:
+    baseValue: 0
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: -3.4028235e+38
+    setSign: 0
     maxValue: 3.4028235e+38
   attackDistance: 40
   slowdownFactor: 3
@@ -268,6 +279,7 @@ MonoBehaviour:
   lifestealing: 0
   buffed: 0
   lifestealEffect: {fileID: 11400000, guid: 939c4c0ff2257244b9939dba1abada13, type: 2}
+  canHeal: 1
   movementCollider: {fileID: 896092914398761739}
   healthBar: {fileID: 7080362902095066479}
   enemygraphics: {fileID: 4562456546076731575}
@@ -454,6 +466,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effects: []
+  particleEffectSystem: {fileID: 8031358735011800035, guid: 5b20b611336a4734b90a1b5fb4f9e07c,
+    type: 3}
 --- !u!1 &5718789329031143119
 GameObject:
   m_ObjectHideFlags: 0

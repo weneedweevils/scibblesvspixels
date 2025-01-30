@@ -135,7 +135,7 @@ public class StatusEffectController : MonoBehaviour
     // Particles
     private void StartParticles(StatusEffect effect)
     {
-        if (!particleSystems.ContainsKey(effect.name))
+        if (effect.hasParticles && particleEffectSystem != null && !particleSystems.ContainsKey(effect.name))
         {
             ParticleSystem newSystem;
 
@@ -159,7 +159,7 @@ public class StatusEffectController : MonoBehaviour
     {
         string key = effect.effectName;
 
-        if (particleSystems.ContainsKey(key))
+        if (effect.hasParticles && particleEffectSystem != null && particleSystems.ContainsKey(key))
         {
             ParticleSystem systemToStop = particleSystems[key];
             particleSystems.Remove(key);

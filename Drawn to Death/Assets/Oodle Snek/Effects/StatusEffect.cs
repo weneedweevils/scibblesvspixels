@@ -13,7 +13,7 @@ public abstract class StatusEffect : ScriptableObject
     [Min(0)] public int priority;
     public ResolutionMethod method = ResolutionMethod.Refresh;
     public Color paintColor;
-    public bool particles = false;
+    public bool hasParticles = false;
 
     [Header("Timers")]
     [Min(0)] public float duration;
