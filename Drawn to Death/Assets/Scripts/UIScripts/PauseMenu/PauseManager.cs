@@ -31,6 +31,8 @@ namespace Pause
             Pause(false);
         }
 
+       
+
         public void Update()
         {
             if (playerInput.actions["Escape"].triggered)
@@ -47,6 +49,8 @@ namespace Pause
                 }
             }
         }
+
+        
 
         public static void PlaySound(Sound sound)
         {

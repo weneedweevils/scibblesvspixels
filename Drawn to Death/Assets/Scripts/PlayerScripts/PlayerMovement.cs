@@ -17,6 +17,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Threading;
 using UnityEngine.InputSystem;
 using System.Xml.Serialization;
+using Cursor = UnityEngine.Cursor;
 
 public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 {
@@ -172,18 +173,25 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         //playerInput = GetComponent<PlayerInput>();
 
         playerarms = new PlayerArms(eraserObject, gameObject, armsObject, playerInput, this);
+
+
+        playerInput.onControlsChanged += OnDeviceChanged; // If the object is ever disabled we must unsubscribe to this event
     }
 
     public void OnDeviceChanged(PlayerInput pi)
     {
         //Debug.Log(pi.currentControlScheme.ToString());
-        if(pi.currentControlScheme.Equals("Gamepad") || pi.currentControlScheme.Equals("Playstation") || pi.currentControlScheme.Equals("Xbox"))
+        if(pi.currentControlScheme.Equals("Gamepad") )
         {
             isGamepad = true;
+            Cursor.visible = false;
+            //cursorTransform.gameObject.SetActive(true);
         }
-        else
+        else if (pi.currentControlScheme.Equals("KBM"))
         {
             isGamepad = false;
+            Cursor.visible = true;
+            //cursorTransform.gameObject.SetActive(false);
         }
     }
 

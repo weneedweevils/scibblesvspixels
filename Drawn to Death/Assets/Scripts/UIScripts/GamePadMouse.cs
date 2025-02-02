@@ -7,14 +7,15 @@ using Cursor = UnityEngine.Cursor;
 using MouseButton = UnityEngine.InputSystem.LowLevel.MouseButton;
 
 
-// Followed this tutorial for this script https://www.youtube.com/watch?v=Y3WNwl1ObC8
+// Followed this tutorial for most of this script https://www.youtube.com/watch?v=Y3WNwl1ObC8
 
 public class GamePadMouse : MonoBehaviour
 {
-    [SerializeField]
     private PlayerInput playerInput;
     [SerializeField]
     private RectTransform cursorTransform;
+    [SerializeField]
+    private GameObject cursorObject;
     [SerializeField]
     private Canvas canvas;
     [SerializeField]
@@ -26,61 +27,76 @@ public class GamePadMouse : MonoBehaviour
 
     private Camera m_Camera;
     private Mouse virtualMouse;
+    private Mouse currentMouse;
     private bool previousMouseState;
+    private Vector2 lastVirtualMousePosition;
 
 
     private void Awake()
     {
         m_Camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-    }
-
-    // WORK OUT LOGIC WHEN DEVICE IS CHANGED //
-    public void OnDeviceChanged(PlayerInput pi)
-    {
-        //Debug.Log(pi.currentControlScheme.ToString());
-        //if (playerInput.currentControlScheme.Equals("Gamepad") && gameObject.activeSelf == true)
-        //{
-        //    cursorTransform.gameObject.SetActive(true);
-        //    Cursor.visible = false;
-        //}
-        //else
-        //{
-        //    cursorTransform.gameObject.SetActive(false);
-        //    Cursor.visible = true;
-        //}
-    }
-
-    public void HideMouse()
-    {
-
+        playerInput = CustomInput.instance.playerInput;
+        lastVirtualMousePosition = cursorTransform.position;
     }
 
 
+    
     private void OnEnable() {
 
+        
+
+
+        currentMouse = Mouse.current;
         // This will add a virtual mouse component on starting this script if it already exists but not added we add the existing one
         if (virtualMouse == null)
             virtualMouse = (Mouse)InputSystem.AddDevice("VirtualMouse");
+
         else if (!virtualMouse.added)
             InputSystem.AddDevice(virtualMouse);
 
         // Pairs device to user playerinput
         InputUser.PerformPairingWithDevice(virtualMouse, playerInput.user);
-      
-        // When starting the script we will retrive the position of the cursor
+
+        //When starting the script we will retrive the position of the cursor
         if (cursorTransform != null)
         {
-            Vector2 position = cursorTransform.position;
-            InputState.Change(virtualMouse.position, position);
+
+            // Function will save spawn the cursor where the cursor was last depending on if a gamepad or mouse was used
+       
+            if (lastVirtualMousePosition != null)
+            {
+                InputState.Change(virtualMouse.position, lastVirtualMousePosition);
+            }
         }
 
         InputSystem.onAfterUpdate += UpdateMotion;
+  
+
+        // May need to put under another function to enable when event is called
+        Cursor.visible = false;
+        AnchorCursor(currentMouse.position.ReadValue());
+
     }
+
+  
 
     private void OnDisable()
     {
-        InputSystem.RemoveDevice(virtualMouse);
+
+       
+        lastVirtualMousePosition = virtualMouse.position.ReadValue();
+        
+       
+        currentMouse.WarpCursorPosition(virtualMouse.position.ReadValue());
+        Cursor.visible = true;
+       
+
+        if (virtualMouse!=null && virtualMouse.added)
+        {
+            InputSystem.RemoveDevice(virtualMouse);
+        }
         InputSystem.onAfterUpdate -= UpdateMotion;
+
     }
 
     private void UpdateMotion()
@@ -96,27 +112,22 @@ public class GamePadMouse : MonoBehaviour
 
         stickValue *= cursorSpeed * Time.unscaledDeltaTime; // unscaled deltatime since we pause timescale
 
-        Debug.Log(stickValue);
         
 
         Vector2 currentPosition = virtualMouse.position.ReadValue();
         Vector2 newPos = currentPosition + stickValue;
 
      
-        Debug.Log(Gamepad.current);
-       
-
         // Makes sure the cursor does not go outside the screen
-        newPos.x = Mathf.Clamp(newPos.x, 0f+padding,Screen.width-padding);
-        newPos.y = Mathf.Clamp(newPos.y, 0f+padding, Screen.height-padding);
+        newPos.x = Mathf.Clamp(newPos.x, padding,Screen.width-padding);
+        newPos.y = Mathf.Clamp(newPos.y, padding, Screen.height-padding);
 
         InputState.Change(virtualMouse.position, newPos);
         InputState.Change(virtualMouse.delta, stickValue);
 
         
-
+        // Used to detect if we clicked a UI button
         bool leftClickPressed = Gamepad.current.buttonSouth.isPressed;
-
         if (previousMouseState != leftClickPressed)
         {
             virtualMouse.CopyState<MouseState>(out var mouseState);
@@ -135,6 +146,5 @@ public class GamePadMouse : MonoBehaviour
         cursorTransform.anchoredPosition = anchoredPosition;
     }
 
-
-
+  
 }
