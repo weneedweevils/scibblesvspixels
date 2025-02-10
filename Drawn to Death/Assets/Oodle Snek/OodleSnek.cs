@@ -13,8 +13,9 @@ public class OodleSnek : EnemyAI
     private Animator paintAnimator;
     public GameObject projectileObject;
     private SnekProjectile snekProjectile;
-    public StatusEffect[] effects;
-    private StatusEffect currentEffect;
+    public StatusEffect defaultEffect;
+    public StatusEffect rallyEffect;
+    public StatusEffect currentEffect { get; private set; }
 
     //Random walk direction
     private Vector2 direction = new Vector2(0, 0);
@@ -34,6 +35,8 @@ public class OodleSnek : EnemyAI
 
         paintRenderer = paintObject.GetComponent<SpriteRenderer>();
         paintAnimator = paintObject.GetComponent<Animator>();
+
+        SetEffect(defaultEffect);
     }
 
     protected override void FixedUpdate()
@@ -54,10 +57,6 @@ public class OodleSnek : EnemyAI
         //Start the attack
         if (target != null && attackTimer.IsUseable())
         {
-            // Select an effect
-            currentEffect = RandomEffect();
-            paintRenderer.color = currentEffect.paintColor;
-
             // play the attack sfx
             attackSFXInstance.start();
 
@@ -100,27 +99,9 @@ public class OodleSnek : EnemyAI
         Instantiate(projectileObject, transform);
     }
 
-    protected StatusEffect RandomEffect()
+    public void SetEffect(StatusEffect newEffect)
     {
-        if (effects.Length > 0)
-            return effects[Random.Range(0, effects.Length - 1)];
-        else
-            return null;
-    }
-
-    public StatusEffect GetEffect()
-    {
-        return currentEffect;
-    }
-
-    [ContextMenu("ApplyRandomEffect")]
-    public void ApplyRandomEffect()
-    {
-        Debug.Log("Getting StatusEffectController");
-        StatusEffectController controller = player.GetComponent<StatusEffectController>();
-        Debug.Log("Getting StatusEffect");
-        StatusEffect effect = RandomEffect();
-        Debug.LogFormat("Applying {0} to {1}", effect.effectName, controller.name);
-        controller?.AddStatusEffect(effect);
+        currentEffect = newEffect;
+        paintRenderer.color = currentEffect.paintColor;
     }
 }

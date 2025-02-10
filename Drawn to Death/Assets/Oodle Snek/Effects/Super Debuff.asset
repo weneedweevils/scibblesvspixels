@@ -9,16 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd6e7af0438cdbd48a36426ee7ac2cf2, type: 3}
-  m_Name: Slowness
+  m_Script: {fileID: 11500000, guid: 5e9e64e0048d1f64eab0e138d9721296, type: 3}
+  m_Name: Super Debuff
   m_EditorClassIdentifier: 
-  effectName: Slowness
+  effectName: Super Debuff
   priority: 0
   method: 1
-  paintColor: {r: 0.13725488, g: 0.39607844, b: 0.9254902, a: 1}
+  paintColor: {r: 0.7587352, g: 0, b: 1, a: 1}
   hasParticles: 1
   duration: 5
-  applicationInterval: 0
+  applicationInterval: 1
+  firstTime: 1
   playerSlowdownFactor: 0.7
   slowdownFactor: 0.5
   atkSlowdownFactor: 0.25
+  damageReduction: 5
+  damageTaken: 5

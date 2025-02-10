@@ -62,6 +62,13 @@ public class RallyBuff : StatusEffect
             }
 
             target.attackTimer.SetCooldown(target.attackCooldown.value);
+
+            //Special - Snake
+            if (target.type == Type.snek)
+            {
+                OodleSnek snek = (OodleSnek)target;
+                snek.SetEffect(snek.rallyEffect);
+            }
         }
     }
 
@@ -110,6 +117,13 @@ public class RallyBuff : StatusEffect
 
             //Reset color
             target.selfImage.color = Color.white;
+
+            //Special - Snake
+            if (target.type == Type.snek)
+            {
+                OodleSnek snek = (OodleSnek)target;
+                snek.SetEffect(snek.defaultEffect);
+            }
         }
     }
 }

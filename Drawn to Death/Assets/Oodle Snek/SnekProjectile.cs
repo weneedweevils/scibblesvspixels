@@ -33,7 +33,7 @@ public class SnekProjectile : Projectile
     protected override void Start()
     {
         OodleSnek parent = transform.GetComponentInParent<OodleSnek>();
-        effect = parent?.GetEffect();
+        effect = parent?.currentEffect;
         
         base.Start();
 
