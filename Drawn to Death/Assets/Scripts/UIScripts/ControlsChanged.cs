@@ -21,7 +21,7 @@ public class ControlsChanged : MonoBehaviour
         }
         else if (pi.currentControlScheme.Equals("Gamepad"))
         {
-            if (gamePadMouse != null)
+            if (gamePadMouse != null && !gamePadMouse.activeSelf)
             {
                 gamePadMouse.SetActive(true);
             }
@@ -30,7 +30,7 @@ public class ControlsChanged : MonoBehaviour
 
     public void Awake()
     {
-        
+       
         playerInput = CustomInput.instance.playerInput;
        
     }

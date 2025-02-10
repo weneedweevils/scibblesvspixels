@@ -23,7 +23,8 @@ public class GamePadMouse : MonoBehaviour
     [SerializeField]
     private float cursorSpeed = 100f;
     [SerializeField]
-    private float padding = 30f;
+    private float horizontalPadding = 30f;
+    private float verticalPadding = 1.0f;
 
     private Camera m_Camera;
     private Mouse virtualMouse;
@@ -37,6 +38,7 @@ public class GamePadMouse : MonoBehaviour
         m_Camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         playerInput = CustomInput.instance.playerInput;
         lastVirtualMousePosition = cursorTransform.position;
+        
     }
 
 
@@ -47,6 +49,7 @@ public class GamePadMouse : MonoBehaviour
 
 
         currentMouse = Mouse.current;
+        
         // This will add a virtual mouse component on starting this script if it already exists but not added we add the existing one
         if (virtualMouse == null)
             virtualMouse = (Mouse)InputSystem.AddDevice("VirtualMouse");
@@ -110,17 +113,22 @@ public class GamePadMouse : MonoBehaviour
      
 
 
-        stickValue *= cursorSpeed * Time.unscaledDeltaTime; // unscaled deltatime since we pause timescale
+        stickValue *= cursorSpeed * Time.unscaledDeltaTime * Screen.width; // unscaled deltatime since we pause timescale
 
         
 
         Vector2 currentPosition = virtualMouse.position.ReadValue();
         Vector2 newPos = currentPosition + stickValue;
 
-     
+
+        horizontalPadding = Screen.width * 0.02f;
+        verticalPadding = Screen.height * 0.05f;
+
         // Makes sure the cursor does not go outside the screen
-        newPos.x = Mathf.Clamp(newPos.x, padding,Screen.width-padding);
-        newPos.y = Mathf.Clamp(newPos.y, padding, Screen.height-padding);
+        newPos.x = Mathf.Clamp(newPos.x, horizontalPadding, Screen.width-horizontalPadding);
+        newPos.y = Mathf.Clamp(newPos.y, verticalPadding, Screen.height-verticalPadding);
+        Debug.Log(newPos.x + ", " + newPos.y);
+        Debug.Log("Screen Width: "+Screen.width +" ,Screen Height: "+ Screen.height);
 
         InputState.Change(virtualMouse.position, newPos);
         InputState.Change(virtualMouse.delta, stickValue);
