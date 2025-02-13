@@ -14,7 +14,7 @@ public class AttackUpgrade : Upgrade
         Attack eraser = FindObjectOfType<Attack>();
 
         //Increase attack damage
-        eraser.damage += damageIncrease * level;
+        eraser.damage.baseIncrease += damageIncrease * level;
 
         //Increase knockback force
         eraser.knockback += knockbackIncrease * level;

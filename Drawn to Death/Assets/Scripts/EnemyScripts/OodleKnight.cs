@@ -83,13 +83,12 @@ public class OodleKnight : EnemyAI
             if (target != null)
             {
                 targetOffset.Set(((target.position.x > transform.position.x) ? -1 : 1) * 3f, -1f);
-                Debug.LogFormat("targetOffset: {0}", targetOffset);
 
                 //Calculate direction to travel to the next waypoint
                 Vector2 direction = ((Vector2)target.position + targetOffset - rb.position).normalized;
 
                 //Apply a force in that direction
-                Vector2 force = direction * speed * 0.8f * Time.deltaTime;
+                Vector2 force = direction * speed.value * 0.8f * Time.deltaTime;
                 rb.AddForce(force);
             }
         }
@@ -144,7 +143,7 @@ public class OodleKnight : EnemyAI
                                 Vector2 direction = ((Vector2)player.transform.position - (Vector2)transform.position).normalized;
 
                                 //Damage player
-                                player.Damage(damage, direction, knockback);
+                                player.Damage(damage.value, direction, knockback);
                             }
                             break;
                         }
@@ -158,7 +157,7 @@ public class OodleKnight : EnemyAI
                                 Vector2 direction = ((Vector2)otherAI.transform.position - (Vector2)transform.position).normalized;
 
                                 //Damage enemy
-                                otherAI.Damage(damage, false, true, direction, knockback);
+                                otherAI.Damage(damage.value, false, true, direction, knockback);
                                 Debug.LogFormat("{0} Hit {1} for {2} Damage", name, otherAI.name, damage);
 
                                 //Start enemies secondary invincibility timer
