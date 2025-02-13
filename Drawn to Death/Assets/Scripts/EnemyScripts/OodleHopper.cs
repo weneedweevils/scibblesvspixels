@@ -469,14 +469,14 @@ public class OodleHopper : EnemyAI
         base.Kill();
     }
 
-    public override void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f, bool lifeSteal = false)
+    public override void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f, bool lifeSteal = false, bool fromPlayer = false, bool noSound = false)
     {
         //Go into the flee state if enemy
         if (team == Team.oddle && fleeTimer.IsUseable())
         {
             state = State.flee;
         }
-        base.Damage(damageTaken, makeInvincible, animateHurt, knockbackDir, knockbackPower, lifeSteal);
+        base.Damage(damageTaken, makeInvincible, animateHurt, knockbackDir, knockbackPower, lifeSteal, fromPlayer, noSound);
     }
 }
 
