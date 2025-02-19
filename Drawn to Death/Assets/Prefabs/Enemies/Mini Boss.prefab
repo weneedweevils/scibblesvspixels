@@ -174,6 +174,7 @@ GameObject:
   - component: {fileID: 7607703619587661514}
   - component: {fileID: 44644866695787682}
   - component: {fileID: 7354424645337016077}
+  - component: {fileID: -1040406510956106207}
   m_Layer: 0
   m_Name: Mini Boss
   m_TagString: Enemy
@@ -274,9 +275,38 @@ MonoBehaviour:
   revivable: 1
   health: 250
   maxHealth: 250
-  speed: 10000
-  damage: 40
-  attackCooldown: 2
+  speed:
+    baseValue: 10000
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: -3.4028235e+38
+    setSign: 0
+    maxValue: 3.4028235e+38
+  damage:
+    baseValue: 40
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: 1
+    setSign: 0
+    maxValue: 500
+  attackCooldown:
+    baseValue: 2
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: 0.1
+    setSign: 0
+    maxValue: 3.4028235e+38
+  incomingDamage:
+    baseValue: 0
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: -3.4028235e+38
+    setSign: 0
+    maxValue: 3.4028235e+38
   attackDistance: 18
   slowdownFactor: 1.5
   stunCooldownRatio: 0
@@ -296,8 +326,9 @@ MonoBehaviour:
   attackSfx: event:/OodleKnightAttack
   slowed: 0
   lifestealing: 0
-  slowDuration: 2
   buffed: 0
+  lifestealEffect: {fileID: 11400000, guid: 939c4c0ff2257244b9939dba1abada13, type: 2}
+  canHeal: 1
   movementCollider: {fileID: 7607703619587661514}
   healthBar: {fileID: 0}
   enemygraphics: {fileID: 6533997305596891202}
@@ -309,8 +340,8 @@ MonoBehaviour:
   knockback: 20
   bossHPBar: {fileID: 0}
   hpInfo: {fileID: 0}
-  boostSpeedModifier: 7
-  boostDuration: 0.5
+  boostEffect: {fileID: 11400000, guid: 66ddbb612c4050a4c8d8e202086bbbd9, type: 2}
+  allyBoostEffect: {fileID: 11400000, guid: 2e25b802479a3794f8e20a821ce2a2e1, type: 2}
   boostCooldown: 4
   baseSpeed: 0
   secondHpBar: {fileID: 0}
@@ -483,6 +514,21 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &-1040406510956106207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6533997305229305210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0944c93ca4c54f245bfbf752a71d2274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects: []
+  particleEffectSystem: {fileID: 7571260516880495191, guid: 13911a35b02d9164db423fe1b85296ee,
+    type: 3}
 --- !u!1 &6533997305596891203
 GameObject:
   m_ObjectHideFlags: 0

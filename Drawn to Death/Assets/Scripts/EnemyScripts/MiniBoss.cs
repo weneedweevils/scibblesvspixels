@@ -5,10 +5,11 @@ using UnityEngine.UI;
 
 public class MiniBoss : OodleKnight
 {
+    [Header("Mini-Boss")]
     public GameObject bossHPBar;
     public TMPro.TextMeshProUGUI hpInfo;
-    public float boostSpeedModifier;
-    public float boostDuration;
+    public SpeedBoost boostEffect;
+    public SpeedBoost allyBoostEffect;
     public float boostCooldown;
     [HideInInspector] public float baseSpeed;
     public CooldownTimer boostTimer;
@@ -17,8 +18,8 @@ public class MiniBoss : OodleKnight
     override protected void Start()
     {
         base.Start();
-        baseSpeed = speed;
-        boostTimer = new CooldownTimer(boostCooldown, boostDuration);
+        baseSpeed = speed.baseValue;
+        boostTimer = new CooldownTimer(boostCooldown, boostEffect.duration);
     }
 
     override protected void FixedUpdate()
@@ -46,21 +47,14 @@ public class MiniBoss : OodleKnight
             if (boostTimer.IsUseable() && (state == State.chase || state == State.attack))
             {
                 boostTimer.StartTimer();
-            }
-            if (boostTimer.IsActive())
-            {
-                speed = baseSpeed * boostSpeedModifier * (buffed ? playerMovement.allySpdModifier : 1f);
-            }
-            else if (boostTimer.IsOnCooldown())
-            {
-                speed = baseSpeed * (buffed ? playerMovement.allySpdModifier : 1f);
+                effectController.AddStatusEffect(team == Team.oddle ? boostEffect : allyBoostEffect);
             }
         }
     }
 
     override public void Stun()
     {
-        //Mini boss is imune to stun
+        //Mini boss is immune to stun
         return;
     }
 
@@ -71,11 +65,11 @@ public class MiniBoss : OodleKnight
             //Override base.Revive Set Stats
             maxHealth = 150;
             health = maxHealth;
-            damage = 30;
-            speed = 12000;
+            damage.baseValue = 30;
+            speed.baseValue = 12000;
             baseSpeed = 12000;
-            attackCooldown = 2f;
-            attackTimer.SetCooldown(attackCooldown);
+            attackCooldown.baseValue = 2f;
+            attackTimer.SetCooldown(attackCooldown.value);
 
             //Fix HP bar
             healthBar = secondHpBar;
@@ -90,11 +84,8 @@ public class MiniBoss : OodleKnight
 
             //Nerf boost ability
             boostCooldown = 5f;
-            boostDuration = 0.4f;
-            boostSpeedModifier = 6f;
-
             boostTimer.SetCooldown(boostCooldown);
-            boostTimer.SetDuration(boostDuration);
+            boostTimer.SetDuration(allyBoostEffect.duration);
 
             return true;
         }

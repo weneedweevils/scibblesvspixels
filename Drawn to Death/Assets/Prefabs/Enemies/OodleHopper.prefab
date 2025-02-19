@@ -280,6 +280,7 @@ GameObject:
   - component: {fileID: 741649043922494594}
   - component: {fileID: 7472749486058796791}
   - component: {fileID: 1305102531886743058}
+  - component: {fileID: 1914613578}
   m_Layer: 0
   m_Name: OodleHopper
   m_TagString: Enemy
@@ -380,9 +381,38 @@ MonoBehaviour:
   revivable: 1
   health: 50
   maxHealth: 50
-  speed: 100000
-  damage: 3
-  attackCooldown: 3
+  speed:
+    baseValue: 100000
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: -3.4028235e+38
+    setSign: 0
+    maxValue: 3.4028235e+38
+  damage:
+    baseValue: 3
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: 1
+    setSign: 0
+    maxValue: 500
+  attackCooldown:
+    baseValue: 3
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: 0.1
+    setSign: 0
+    maxValue: 3.4028235e+38
+  incomingDamage:
+    baseValue: 0
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: -3.4028235e+38
+    setSign: 0
+    maxValue: 3.4028235e+38
   attackDistance: 30
   slowdownFactor: 3
   stunCooldownRatio: 0.7
@@ -398,8 +428,9 @@ MonoBehaviour:
   attackSfx: event:/CrabAttack
   slowed: 0
   lifestealing: 0
-  slowDuration: 5
   buffed: 0
+  lifestealEffect: {fileID: 11400000, guid: 939c4c0ff2257244b9939dba1abada13, type: 2}
+  canHeal: 1
   movementCollider: {fileID: 7509574314351218480}
   healthBar: {fileID: 2375924696179108790}
   enemygraphics: {fileID: 6559998363662152844}
@@ -590,6 +621,21 @@ MonoBehaviour:
       Data3: -535311979
       Data4: 1333973189
     Path: event:/CrabWalk
+--- !u!114 &1914613578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6559998363662152832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0944c93ca4c54f245bfbf752a71d2274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects: []
+  particleEffectSystem: {fileID: 5581705693810515852, guid: adc2bd9cadf7a9549a07ee8d97bc9ee9,
+    type: 3}
 --- !u!1001 &6750700947176794169
 PrefabInstance:
   m_ObjectHideFlags: 0

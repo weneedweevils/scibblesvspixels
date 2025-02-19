@@ -109,10 +109,8 @@ public class Cubie : EnemyAI
 
             if (sceneName == "Level 3" || sceneName == "Level 4"){
                 Instantiate(DarkProjectileObject, transform);
-                Debug.Log("dark projectile");
             }
             else{
-                Debug.Log("light projectile");
                 Instantiate(ProjectileObject, transform);
             }
         }
@@ -123,7 +121,7 @@ public class Cubie : EnemyAI
             animator.SetBool("chasing", true);
 
             //Apply a force in that direction
-            Vector2 force = direction * speed / 2 * Time.deltaTime;
+            Vector2 force = direction * speed.value / 2 * Time.deltaTime;
             rb.AddForce(force);
         }
     }
