@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Pause;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.Users;
@@ -9,7 +10,7 @@ using MouseButton = UnityEngine.InputSystem.LowLevel.MouseButton;
 
 // Followed this tutorial for most of this script https://www.youtube.com/watch?v=Y3WNwl1ObC8
 
-public class GamePadMouse : MonoBehaviour
+public class GamePadMouse : Singleton<GamePadMouse>
 {
     private PlayerInput playerInput;
     [SerializeField]
@@ -21,7 +22,7 @@ public class GamePadMouse : MonoBehaviour
     [SerializeField]
     private RectTransform canvasRectTransform;
     [SerializeField]
-    private float cursorSpeed = 100f;
+    private float cursorSpeed = 1f;
     [SerializeField]
     private float horizontalPadding = 30f;
     private float verticalPadding = 1.0f;
@@ -45,9 +46,9 @@ public class GamePadMouse : MonoBehaviour
     
     private void OnEnable() {
 
-        
 
 
+        cursorSpeed = PlayerPrefs.GetFloat("mouseSensitivity", 1f);
         currentMouse = Mouse.current;
         
         // This will add a virtual mouse component on starting this script if it already exists but not added we add the existing one
@@ -73,6 +74,7 @@ public class GamePadMouse : MonoBehaviour
         }
 
         InputSystem.onAfterUpdate += UpdateMotion;
+        SettingsUI.SensitivityChanged += UpdateSensitivity;
   
 
         // May need to put under another function to enable when event is called
@@ -99,6 +101,7 @@ public class GamePadMouse : MonoBehaviour
             InputSystem.RemoveDevice(virtualMouse);
         }
         InputSystem.onAfterUpdate -= UpdateMotion;
+        SettingsUI.SensitivityChanged -= UpdateSensitivity;
 
     }
 
@@ -113,7 +116,7 @@ public class GamePadMouse : MonoBehaviour
      
 
 
-        stickValue *= cursorSpeed * Time.unscaledDeltaTime * Screen.width; // unscaled deltatime since we pause timescale
+        stickValue *= cursorSpeed * Time.fixedUnscaledDeltaTime * Screen.width ; // unscaled deltatime since we pause timescale
 
         
 
@@ -152,6 +155,11 @@ public class GamePadMouse : MonoBehaviour
         Vector2 anchoredPosition;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRectTransform, position, canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : m_Camera, out anchoredPosition);
         cursorTransform.anchoredPosition = anchoredPosition;
+    }
+
+    public void UpdateSensitivity()
+    {
+        cursorSpeed = PlayerPrefs.GetFloat("mouseSensitivity", 1f);
     }
 
   

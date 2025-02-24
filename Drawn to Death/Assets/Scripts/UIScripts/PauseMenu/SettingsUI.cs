@@ -1,14 +1,17 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
+using System;
 
 namespace Pause
 {
     public class SettingsUI : MonoBehaviour
     {
+        public static event Action SensitivityChanged;
         private VolumeController volumeController;
-        [SerializeField] private Slider masterVolSlider, musicVolSlider, sfxVolSlider;
+        private GamePadMouse gamePadMouse;
+        [SerializeField] private Slider masterVolSlider, musicVolSlider, sfxVolSlider, mouseSensitivitySlider;
         [SerializeField] private Toggle fancyFontToggle;
         private bool setup = false;
 
@@ -30,6 +33,7 @@ namespace Pause
             SetVolume(Volume.SFX, volumeController.sfxVol);
 
             fancyFontToggle.isOn = DialogueManager.fancyFont;
+            PlayerPrefs.SetFloat("mouseSensitivity", mouseSensitivitySlider.value);
 
             setup = true;
         }
@@ -79,11 +83,18 @@ namespace Pause
             if (setup)
                 volumeController?.SetSFXVolume(sfxVolSlider.value);
         }
-
+        
         public void FancyFontChange()
         {
             PlayerPrefs.SetInt("fancyFont", (fancyFontToggle.isOn ? 1 : 0));
             DialogueManager.fancyFont = fancyFontToggle.isOn;
+        }
+
+        public void MouseSensitivityChange()
+        {
+            PlayerPrefs.SetFloat("mouseSensitivity", mouseSensitivitySlider.value);
+            SensitivityChanged?.Invoke();
+
         }
     }
 }

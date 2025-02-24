@@ -415,12 +415,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!4 &321074237 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7093292854509280109, guid: 629fa0d65e63ee94499ccf1100a6edad,
-    type: 3}
-  m_PrefabInstance: {fileID: 503314621}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &329919784
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5373,6 +5367,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4403957088906440217, guid: 629fa0d65e63ee94499ccf1100a6edad,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4403957088906440217, guid: 629fa0d65e63ee94499ccf1100a6edad,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6763516227798467977, guid: 629fa0d65e63ee94499ccf1100a6edad,
         type: 3}
       propertyPath: canvas
@@ -5554,7 +5558,7 @@ RectTransform:
   - {fileID: 142770836}
   - {fileID: 1311470153}
   - {fileID: 1979075929}
-  - {fileID: 321074237}
+  - {fileID: 1072053383}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6449,6 +6453,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c212deca1603845b584c22bf98d3a249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &1072053383 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4403957088906440217, guid: 629fa0d65e63ee94499ccf1100a6edad,
+    type: 3}
+  m_PrefabInstance: {fileID: 503314621}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1080271773 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2332840559798622195, guid: c0933b6f0a5e5964a9411d11f885eb50,
