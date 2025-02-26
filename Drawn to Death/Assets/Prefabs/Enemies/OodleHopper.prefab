@@ -279,8 +279,8 @@ GameObject:
   - component: {fileID: 7509574314351218480}
   - component: {fileID: 741649043922494594}
   - component: {fileID: 7472749486058796791}
-  - component: {fileID: 1305102531886743058}
   - component: {fileID: 1914613578}
+  - component: {fileID: 4528466051510592957}
   m_Layer: 0
   m_Name: OodleHopper
   m_TagString: Enemy
@@ -433,11 +433,11 @@ MonoBehaviour:
     Path: event:/Enemies/OodleHopper/HopperDeath
   attackSfx:
     Guid:
-      Data1: 618534753
-      Data2: 1171983527
-      Data3: -664575553
-      Data4: 1633250282
-    Path: event:/Enemies/CrabOodle/CrabAttack
+      Data1: -306600069
+      Data2: 1144377671
+      Data3: 1775029942
+      Data4: 1203415544
+    Path: event:/Enemies/OodleHopper/HopperJump
   eraserHitSfx:
     Guid:
       Data1: -587712097
@@ -469,6 +469,7 @@ MonoBehaviour:
   cutscene: 0
   healImage: {fileID: 0}
   passiveHealAmount: 1
+  isHopping: 0
 --- !u!50 &6559998363662152835
 Rigidbody2D:
   serializedVersion: 4
@@ -628,25 +629,6 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!114 &1305102531886743058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6559998363662152832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2a12638a6a2c48ae8778a97ad3a8234, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fmodEvent:
-    Guid:
-      Data1: 303504757
-      Data2: 1146050523
-      Data3: -535311979
-      Data4: 1333973189
-    Path: event:/CrabWalk
 --- !u!114 &1914613578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -662,6 +644,25 @@ MonoBehaviour:
   effects: []
   particleEffectSystem: {fileID: 5581705693810515852, guid: adc2bd9cadf7a9549a07ee8d97bc9ee9,
     type: 3}
+--- !u!114 &4528466051510592957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6559998363662152832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84159d76f81ce6b4f959494df047ff90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idleSFX:
+    Guid:
+      Data1: 256917905
+      Data2: 1189627200
+      Data3: 1279477685
+      Data4: -1245285256
+    Path: event:/Enemies/OodleHopper/HopperIdle
 --- !u!1001 &6750700947176794169
 PrefabInstance:
   m_ObjectHideFlags: 0

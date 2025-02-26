@@ -9,8 +9,6 @@ public class CrabWalkSFX : MonoBehaviour {
     public FMODUnity.EventReference fmodEvent;
     private FMOD.Studio.PLAYBACK_STATE playbackState;
 
-    private bool crabDead = false;
-
     private EnemyAI enemyAI;
 
     void Start()
