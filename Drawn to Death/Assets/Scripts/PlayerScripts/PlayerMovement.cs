@@ -102,6 +102,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
     public Animator CameraReference;
     public Animator HealthBarReference;
+    private PlayerSFX playerSFX;
 
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
@@ -140,6 +141,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         rbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
+        playerSFX = GetComponent<PlayerSFX>();
         weapon = GetComponentInChildren<Attack>();
         eraser = transform.GetChild(0).GetChild(0).gameObject.GetComponent<SpriteRenderer>();
         lifestealOrb = transform.GetChild(4).gameObject;
@@ -289,7 +291,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             pencil.enabled = false;
             sprite.color = new Color(255, 255, 255, 0.50f);
             dashTimer.StartTimer();
-            FMODUnity.RuntimeManager.PlayOneShot("event:/DashAbility");
+            playerSFX.PlayDashSFX();
         }
         else if (dashTimer.IsOnCooldown())
         {
@@ -348,7 +350,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             recallTimer.StartTimer();
             pencil.enabled = false;
             StopMovement();
-            FMODUnity.RuntimeManager.PlayOneShot("event:/RallyAbility");
+            playerSFX.PlayRallySFX();
             animationDone = false;
             animator.SetBool("New Bool", true);
         }

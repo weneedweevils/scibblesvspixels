@@ -39,6 +39,12 @@ public class MenuManager : MonoBehaviour, IDataPersistence
         Application.Quit();
     }
 
+    [Header("FMOD Events")]
+    public FMODUnity.EventReference hoverSFX;
+    public FMODUnity.EventReference acceptSFX;
+    public FMODUnity.EventReference loadSFX;
+    public FMODUnity.EventReference backSFX;
+
     public void GotoScene()
     {
         if (newGame)
@@ -90,7 +96,7 @@ public class MenuManager : MonoBehaviour, IDataPersistence
 
     public void OnHovered()
     {
-        FMODUnity.RuntimeManager.PlayOneShot("event:/UIHover");
+        FMODUnity.RuntimeManager.PlayOneShot(hoverSFX);
     }
 
     public void OnHoveredExit()
@@ -100,16 +106,16 @@ public class MenuManager : MonoBehaviour, IDataPersistence
 
     public void PlayAcceptSound()
     {
-        FMODUnity.RuntimeManager.PlayOneShot("event:/UIAccept");
+        FMODUnity.RuntimeManager.PlayOneShot(acceptSFX);
     }
 
     public void PlayLoadSound()
     {
-        FMODUnity.RuntimeManager.PlayOneShot("event:/UILoad");
+        FMODUnity.RuntimeManager.PlayOneShot(loadSFX);
     }
 
     public void PlayBackSound()
     {
-        FMODUnity.RuntimeManager.PlayOneShot("event:/UIBack");
+        FMODUnity.RuntimeManager.PlayOneShot(backSFX);
     }
 }

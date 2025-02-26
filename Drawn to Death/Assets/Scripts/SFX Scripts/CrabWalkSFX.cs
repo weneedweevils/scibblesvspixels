@@ -21,8 +21,8 @@ public class CrabWalkSFX : MonoBehaviour {
         instance.start();
     }
 
-    void Update(){
-
+    void Update()
+    {
         instance.getPlaybackState(out playbackState);
 
         // Check if the enemy is dead or not, then play/stop the sound effect as required
@@ -40,7 +40,8 @@ public class CrabWalkSFX : MonoBehaviour {
         }
     }
 
-    void OnDestroy() {
+    void OnDestroy()
+    {
         instance.stop(0);
     }
 

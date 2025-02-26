@@ -38,6 +38,9 @@ public class Spawner : MonoBehaviour
     private GameObject enemy;
     private bool spawnTime;
 
+    [Header("FMOD Events")]
+    public FMODUnity.EventReference spawnerSFX;
+
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
@@ -101,7 +104,7 @@ public class Spawner : MonoBehaviour
                     animationPosition.y += 2.3f;
                     spawnAnimation.transform.position += animationPosition;
                     spawnAnimation.SetActive(true);
-                    FMODUnity.RuntimeManager.PlayOneShot("event:/Spawner", this.transform.position);
+                    FMODUnity.RuntimeManager.PlayOneShot(spawnerSFX, this.transform.position);
                     animationTimer.StartTimer();
                     spawnTime = true;
                 }

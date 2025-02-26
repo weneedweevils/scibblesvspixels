@@ -114,6 +114,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469aba1e1af2c48c3ac92e2bdfee22ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cubieSwishSFX:
+    Guid:
+      Data1: 2114814394
+      Data2: 1292438169
+      Data3: 1220270997
+      Data4: -1308684798
+    Path: event:/Enemies/CubieOodle/CubieSwish
+  cubieSwooshSFX:
+    Guid:
+      Data1: -527277019
+      Data2: 1243307168
+      Data3: 585086394
+      Data4: 1469961074
+    Path: event:/Enemies/CubieOodle/CubieSwoosh
 --- !u!1 &4562456546076731579
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,8 +287,34 @@ MonoBehaviour:
   seekDistance: 150
   nextWaypointDistance: 100
   blockers: []
-  deathSfx: event:/CubieDeath
-  attackSfx: event:/CubieAttack
+  deathSfx:
+    Guid:
+      Data1: -1748057880
+      Data2: 1317637005
+      Data3: 1539942034
+      Data4: 170170985
+    Path: event:/Enemies/CubieOodle/CubieDeath
+  attackSfx:
+    Guid:
+      Data1: 1788446257
+      Data2: 1340595051
+      Data3: -1154478947
+      Data4: -275982537
+    Path: event:/Enemies/CubieOodle/CubieAttack
+  eraserHitSfx:
+    Guid:
+      Data1: -587712097
+      Data2: 1263961119
+      Data3: 530745531
+      Data4: -1790498162
+    Path: event:/Abilities/EraserHit
+  otherHitSfx:
+    Guid:
+      Data1: 209010693
+      Data2: 1245378177
+      Data3: 1893760959
+      Data4: 1748220007
+    Path: event:/Misc/OtherHit
   slowed: 0
   lifestealing: 0
   buffed: 0
