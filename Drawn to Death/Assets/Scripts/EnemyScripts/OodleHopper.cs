@@ -375,9 +375,6 @@ public class OodleHopper : EnemyAI
                 healImage.color = allyHealColor;
             }
             healImage.enabled = true;
-
-            // play the attack sfx
-            attackSFXInstance.start();
         }
 
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
@@ -437,6 +434,7 @@ public class OodleHopper : EnemyAI
             animator.SetBool("idle", false);
 
             // play the attack sfx
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(attackSFXInstance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
             attackSFXInstance.start();
 
             //Apply a force in that direction

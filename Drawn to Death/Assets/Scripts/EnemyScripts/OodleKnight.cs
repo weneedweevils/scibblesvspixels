@@ -120,6 +120,7 @@ public class OodleKnight : EnemyAI
             if (target != null && state == State.attack && attackTimer.IsUseable() && collision.gameObject.transform == target)
             {
                 // start the attack sfx
+                FMODUnity.RuntimeManager.AttachInstanceToGameObject(attackSFXInstance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
                 attackSFXInstance.start();
 
                 windupTimer.StartTimer();
