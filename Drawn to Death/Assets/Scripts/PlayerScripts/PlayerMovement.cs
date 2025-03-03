@@ -287,7 +287,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             velocity += acceleration.normalized * dashBoost;
             animator.SetBool("dashing", true);
             pencil.enabled = false;
-            sprite.color = new Color(255, 255, 255, 0.50f);
+            //sprite.color = new Color(255, 255, 255, 0.50f);
             dashTimer.StartTimer();
             FMODUnity.RuntimeManager.PlayOneShot("event:/DashAbility");
         }
@@ -297,7 +297,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             {
                 pencil.enabled = true;
                 animator.SetBool("dashing", false);
-                sprite.color = new Color(255, 255, 255, 1f);
+                //sprite.color = new Color(255, 255, 255, 1f);
             }
         }
 
