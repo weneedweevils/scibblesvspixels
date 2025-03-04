@@ -35,10 +35,13 @@ namespace Pause
         public void PlaySoundHover()
         {
             PauseManager.PlaySound(hoverSound);
+
+
         }
         public void PlaySoundSelect()
         {
             PauseManager.PlaySound(selectSound);
+            
         }
 
       
