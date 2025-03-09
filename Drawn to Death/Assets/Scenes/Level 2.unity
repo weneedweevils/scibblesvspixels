@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -6090,7 +6090,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af91999ce485f25408677d3b4d25eb9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shop: {fileID: 1599578616}
+  shop: {fileID: 1140698540}
   playerInput: {fileID: 0}
 --- !u!61 &331108976
 BoxCollider2D:
@@ -9043,6 +9043,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72657c078df370a4484073cbdab47a57, type: 3}
+--- !u!1 &1140698540 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6828740081639146778, guid: 72657c078df370a4484073cbdab47a57,
+    type: 3}
+  m_PrefabInstance: {fileID: 1140698539}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1148640868 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 298818435672052379, guid: 1f29e8fe6d29241df9ffc1f2ec236541,
@@ -43645,12 +43651,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c932fa87f30ea9b4280588e1b6d504ce, type: 3}
---- !u!1 &1599578616 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8676575815809815275, guid: 72657c078df370a4484073cbdab47a57,
-    type: 3}
-  m_PrefabInstance: {fileID: 1140698539}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1623816508 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
