@@ -114,6 +114,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469aba1e1af2c48c3ac92e2bdfee22ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cubieSwishSFX:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  cubieSwooshSFX:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!1 &1857627134101002722
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,8 +288,34 @@ MonoBehaviour:
   seekDistance: 100
   nextWaypointDistance: 100
   blockers: []
-  deathSfx: event:/CubieDeath
-  attackSfx: event:/CubieAttack
+  deathSfx:
+    Guid:
+      Data1: -1951618631
+      Data2: 1291685719
+      Data3: 373126844
+      Data4: 698796403
+    Path: event:/Enemies/OodleSnek/SnekDeath
+  attackSfx:
+    Guid:
+      Data1: -782415505
+      Data2: 1215954734
+      Data3: 1885396620
+      Data4: 580350767
+    Path: event:/Enemies/OodleSnek/SnekAttack
+  eraserHitSfx:
+    Guid:
+      Data1: -587712097
+      Data2: 1263961119
+      Data3: 530745531
+      Data4: -1790498162
+    Path: event:/Abilities/EraserHit
+  otherHitSfx:
+    Guid:
+      Data1: 209010693
+      Data2: 1245378177
+      Data3: 1893760959
+      Data4: 1748220007
+    Path: event:/Misc/OtherHit
   slowed: 0
   lifestealing: 0
   buffed: 0
@@ -294,7 +334,6 @@ MonoBehaviour:
     type: 3}
   defaultEffect: {fileID: 11400000, guid: 07ae354aded26b6468068827b8d4fe98, type: 2}
   rallyEffect: {fileID: 11400000, guid: 3f4a4a54ecdb90341985093d8da90cfd, type: 2}
-  currentEffect: {fileID: 0}
 --- !u!50 &1857627134101002721
 Rigidbody2D:
   serializedVersion: 4
@@ -583,6 +622,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469aba1e1af2c48c3ac92e2bdfee22ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cubieSwishSFX:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  cubieSwooshSFX:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!1 &7623394187203489686
 GameObject:
   m_ObjectHideFlags: 0

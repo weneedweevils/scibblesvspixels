@@ -10,7 +10,7 @@ public class HealthBarBehaviour : HealthBar
 
     public override void SetHealth(float health, float maxHealth)
     {
-        if (glichHurtSFX.Path.Length > 0 && health < healthBar.value)
+        if (health < healthBar.value)
         {
             // Play the FMOD event 
             FMODUnity.RuntimeManager.PlayOneShot(glichHurtSFX);
