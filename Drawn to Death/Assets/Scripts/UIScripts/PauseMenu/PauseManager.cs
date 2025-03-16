@@ -16,6 +16,7 @@ namespace Pause
         private static MenuButton backButton = null;
         public static bool paused = false;
         private PlayerInput playerInput;
+        public GameObject shopUI;
 
         private static Dictionary<Sound, string> SFXMap = new Dictionary<Sound, string>()
         {
@@ -29,13 +30,15 @@ namespace Pause
         {
             playerInput = CustomInput.instance.playerInput;
             Pause(false);
+           
+            
         }
 
        
 
         public void Update()
         {
-            if (playerInput.actions["Escape"].triggered)
+            if (playerInput.actions["Escape"].triggered && shopUI.activeSelf == false)
             {
                 if (paused)
                 {

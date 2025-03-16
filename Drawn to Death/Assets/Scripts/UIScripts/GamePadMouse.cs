@@ -17,9 +17,7 @@ public class GamePadMouse : Singleton<GamePadMouse>
     private RectTransform cursorTransform;
     [SerializeField]
     private GameObject cursorObject;
-    [SerializeField]
     private Canvas canvas;
-    [SerializeField]
     private RectTransform canvasRectTransform;
     [SerializeField]
     private float cursorSpeed = 1f;
@@ -36,6 +34,8 @@ public class GamePadMouse : Singleton<GamePadMouse>
 
     private void Awake()
     {
+        canvas = GetComponentInParent<Canvas>();
+        canvasRectTransform = canvas.GetComponent<RectTransform>();
         m_Camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         playerInput = CustomInput.instance.playerInput;
         lastVirtualMousePosition = cursorTransform.position;
