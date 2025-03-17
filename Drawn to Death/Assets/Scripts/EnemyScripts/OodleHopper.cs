@@ -18,6 +18,7 @@ public class OodleHopper : EnemyAI
     private Color allyHealColor;
     [HideInInspector] public SpriteRenderer healImage;
     public float passiveHealAmount = 1f;
+    [HideInInspector] public bool isHopping = false;
 
     override protected void Start()
     {
@@ -156,7 +157,7 @@ public class OodleHopper : EnemyAI
                             Attack();
                             if (!attackTimer.IsActive())
                             {
-                                
+                                isHopping = false;
                                 animator.SetBool("hopping", false);
                                 animator.SetBool("idle", true);
                                 if (team == Team.player)
@@ -291,6 +292,7 @@ public class OodleHopper : EnemyAI
         {
             rb.velocity = Vector2.zero;
             rb.angularVelocity = 0f;
+            isHopping = false;
             animator.SetBool("hopping", false);
             animator.SetBool("idle", true);
         }
@@ -364,6 +366,7 @@ public class OodleHopper : EnemyAI
         {
             //Start the Attack Timer
             attackTimer.StartTimer();
+            isHopping = false;
             animator.SetBool("hopping", false);
             animator.SetBool("idle", true);
 
@@ -372,9 +375,6 @@ public class OodleHopper : EnemyAI
                 healImage.color = allyHealColor;
             }
             healImage.enabled = true;
-
-            // play the attack sfx
-            attackSFXInstance.start();
         }
 
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
@@ -429,10 +429,12 @@ public class OodleHopper : EnemyAI
         if (hopCooldown.IsUseable())
         {
             hopCooldown.StartTimer();
+            isHopping = true;
             animator.SetBool("hopping", true);
             animator.SetBool("idle", false);
 
-            // play the attack sfx TODO: REPLACE EVENTUALLY
+            // play the attack sfx
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(attackSFXInstance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
             attackSFXInstance.start();
 
             //Apply a force in that direction

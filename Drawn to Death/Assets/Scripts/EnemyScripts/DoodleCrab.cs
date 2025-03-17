@@ -74,6 +74,7 @@ public class DoodleCrab : EnemyAI
         if (!lunged && !windupTimer.IsActive())
         {
             // play the attack sfx
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(attackSFXInstance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
             attackSFXInstance.start();
 
             //Lunge at the target

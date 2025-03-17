@@ -40,16 +40,16 @@ public class DialogueManager : Singleton<DialogueManager>
         { DialogueSFX.None, null},
 
         //Oodler
-        { DialogueSFX.OodleGeneral, "event:/OodleDialogueGeneral"},
-        { DialogueSFX.OodleQuestion, "event:/OodlerDialogueQuestion"},
-        { DialogueSFX.OodleConfused, "event:/OodlerDialogueConfused"},
+        { DialogueSFX.OodleGeneral, "event:/Oodler/OodlerDialogueGeneral"},
+        { DialogueSFX.OodleQuestion, "event:/Oodler/OodlerDialogueQuestion"},
+        { DialogueSFX.OodleConfused, "event:/Oodler/OodlerDialogueConfused"},
         { DialogueSFX.OodleMad_NOTIMPLEMENTED, null},
 
         //Glich
-        { DialogueSFX.GlichGeneral, "event:/GlichDialogueGeneral"},
+        { DialogueSFX.GlichGeneral, "event:/Glich/GlichDialogueGeneral"},
         { DialogueSFX.GlichQuestion_NOTIMPLEMENTED, null},
-        { DialogueSFX.GlichConfused, "event:/GlichDialogueConfused"},
-        { DialogueSFX.GlichMad, "event:/GlichDialogueMad"}
+        { DialogueSFX.GlichConfused, "event:/Glich/GlichDialogueConfused"},
+        { DialogueSFX.GlichMad, "event:/Glich/GlichDialogueMad"}
     };
 
     protected override void Awake()

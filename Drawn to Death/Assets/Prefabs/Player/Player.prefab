@@ -484,7 +484,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5724f9fd52a64244949ec31c8383386, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sfx: event:/GlichFootsteps
+  footstepSFX:
+    Guid:
+      Data1: 1573623179
+      Data2: 1295417537
+      Data3: -1546442865
+      Data4: -782598825
+    Path: event:/Glich/GlichFootsteps
+  dashSFX:
+    Guid:
+      Data1: -1891867660
+      Data2: 1261785641
+      Data3: -1000101714
+      Data4: 69249008
+    Path: event:/Abilities/DashAbility
+  eraserSFX:
+    Guid:
+      Data1: 486645710
+      Data2: 1337635111
+      Data3: 1250925995
+      Data4: -1494841432
+    Path: event:/Abilities/Eraser
+  eraserHitSFX:
+    Guid:
+      Data1: -587712097
+      Data2: 1263961119
+      Data3: 530745531
+      Data4: -1790498162
+    Path: event:/Abilities/EraserHit
+  lifestealSFX:
+    Guid:
+      Data1: 185662461
+      Data2: 1314066250
+      Data3: 783591817
+      Data4: 1941709118
+    Path: event:/Abilities/LifestealAbility
+  rallySFX:
+    Guid:
+      Data1: 309744987
+      Data2: 1197408698
+      Data3: 447619740
+      Data4: 1942790570
+    Path: event:/Abilities/RallyAbility
+  reviveSFX:
+    Guid:
+      Data1: 801495474
+      Data2: 1137399332
+      Data3: -518288471
+      Data4: -557130828
+    Path: event:/Abilities/ReviveAbility
 --- !u!114 &17060506650434024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -497,7 +545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632ae7eb1d4ce49d38a1e38ee7efe7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guid: e395a4e1c36dd0f8-6c88d1c3fb394be9
+  guid: 34ccedf3906e284b-a9bd4555e1f3490e
 --- !u!61 &3786005922980315812
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -652,7 +700,6 @@ GameObject:
   - component: {fileID: 8611841601722810238}
   - component: {fileID: 5085683033935389857}
   - component: {fileID: 120045952777875683}
-  - component: {fileID: 2884418801694870297}
   - component: {fileID: 2462823223390369245}
   m_Layer: 10
   m_Name: Eraser
@@ -792,16 +839,6 @@ MonoBehaviour:
   lifestealStart: 0
   uiCounter: {fileID: 0}
   animator: {fileID: 0}
-  eraserSfx: event:/Eraser
-  reviveSfx: event:/ReviveAbility
-  lifestealSfx:
-    Guid:
-      Data1: 185662461
-      Data2: 1314066250
-      Data3: 783591817
-      Data4: 1941709118
-    Path: event:/LifestealAbility
-  isHit: 0
   inputHandler: {fileID: 0}
 --- !u!60 &120045952777875683
 PolygonCollider2D:
@@ -832,26 +869,6 @@ PolygonCollider2D:
       - {x: 4.6, y: -2.2}
       - {x: 0, y: 0}
       - {x: 4.5, y: 3}
---- !u!114 &2884418801694870297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4163747329736801976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c556574ebaee9495484a75af9d5d24f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fmodEvent:
-    Guid:
-      Data1: 486645710
-      Data2: 1337635111
-      Data3: 1250925995
-      Data4: -1494841432
-    Path: event:/Eraser
-  isHit: 0
 --- !u!114 &2462823223390369245
 MonoBehaviour:
   m_ObjectHideFlags: 0

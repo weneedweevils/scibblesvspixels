@@ -6,13 +6,14 @@ using UnityEngine.UI;
 public class HealthBarBehaviour : HealthBar
 {
     // FMOD Glich Hurt event
-    public string sfx;
+    public FMODUnity.EventReference glichHurtSFX;
 
     public override void SetHealth(float health, float maxHealth)
     {
-        if (sfx != null && !sfx.Equals("") && health < healthBar.value){
+        if (health < healthBar.value)
+        {
             // Play the FMOD event 
-            FMODUnity.RuntimeManager.PlayOneShot(sfx);
+            FMODUnity.RuntimeManager.PlayOneShot(glichHurtSFX);
         }
 
         healthBar.value = health;

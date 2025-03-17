@@ -160,8 +160,34 @@ MonoBehaviour:
   seekDistance: 100
   nextWaypointDistance: 100
   blockers: []
-  deathSfx: event:/CrabDeath
-  attackSfx: event:/CrabAttack
+  deathSfx:
+    Guid:
+      Data1: 374530013
+      Data2: 1174619194
+      Data3: -1116270431
+      Data4: 1047796506
+    Path: event:/Enemies/CrabOodle/CrabDeath
+  attackSfx:
+    Guid:
+      Data1: 618534753
+      Data2: 1171983527
+      Data3: -664575553
+      Data4: 1633250282
+    Path: event:/Enemies/CrabOodle/CrabAttack
+  eraserHitSfx:
+    Guid:
+      Data1: -587712097
+      Data2: 1263961119
+      Data3: 530745531
+      Data4: -1790498162
+    Path: event:/Abilities/EraserHit
+  otherHitSfx:
+    Guid:
+      Data1: 209010693
+      Data2: 1245378177
+      Data3: 1893760959
+      Data4: 1748220007
+    Path: event:/Misc/OtherHit
   slowed: 0
   lifestealing: 0
   buffed: 0
@@ -354,7 +380,7 @@ MonoBehaviour:
       Data2: 1146050523
       Data3: -535311979
       Data4: 1333973189
-    Path: event:/CrabWalk
+    Path: event:/Enemies/CrabOodle/CrabWalk
 --- !u!114 &368383225
 MonoBehaviour:
   m_ObjectHideFlags: 0

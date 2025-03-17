@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -5469,6 +5469,7 @@ GameObject:
   - component: {fileID: 1455685230}
   - component: {fileID: 1455685229}
   - component: {fileID: 1455685232}
+  - component: {fileID: 1455685233}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5554,6 +5555,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attenuationObject: {fileID: 0}
+--- !u!114 &1455685233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455685228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &1691555134
 GameObject:
   m_ObjectHideFlags: 0
@@ -5657,6 +5689,34 @@ MonoBehaviour:
   transitionTime: 1
   text: {fileID: 2087282997}
   transition: {fileID: 1247335812}
+  hoverSFX:
+    Guid:
+      Data1: -663804838
+      Data2: 1201051050
+      Data3: -596953720
+      Data4: 884630744
+    Path: event:/UI/UIHover
+  acceptSFX:
+    Guid:
+      Data1: 857443919
+      Data2: 1158806723
+      Data3: -1763506005
+      Data4: 1590024529
+    Path: event:/UI/UIAccept
+  loadSFX:
+    Guid:
+      Data1: 704931920
+      Data2: 1175138264
+      Data3: 1718641587
+      Data4: -1331874170
+    Path: event:/UI/UILoad
+  backSFX:
+    Guid:
+      Data1: -382981655
+      Data2: 1138408353
+      Data3: -1230348634
+      Data4: -2071209865
+    Path: event:/UI/UIBack
 --- !u!114 &1691555138
 MonoBehaviour:
   m_ObjectHideFlags: 0

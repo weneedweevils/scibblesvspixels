@@ -43,10 +43,10 @@ public abstract class EnemyAI : MonoBehaviour
     public EnemyAI[] blockers;
 
     [Header("Music and sound")]
-    public string deathSfx;
-    public string attackSfx;
-    private string eraserHitSfx = "event:/EraserHit";
-    private string otherHitSfx = "event:/OtherHit";
+    public FMODUnity.EventReference deathSfx;
+    public FMODUnity.EventReference attackSfx;
+    public FMODUnity.EventReference eraserHitSfx;
+    public FMODUnity.EventReference otherHitSfx;
 
     protected FMOD.Studio.EventInstance attackSFXInstance;
     
@@ -124,7 +124,6 @@ public abstract class EnemyAI : MonoBehaviour
         health = maxHealth;
         healthBar.SetHealth(health, maxHealth);
         attackSFXInstance = FMODUnity.RuntimeManager.CreateInstance(attackSfx);
-        FMODUnity.RuntimeManager.AttachInstanceToGameObject(attackSFXInstance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
         incomingDamage.Set(0, 1, 0, 0, 0, maxHealth);
 
         //Create Timers
@@ -568,7 +567,6 @@ public abstract class EnemyAI : MonoBehaviour
             }
             else 
             {
-                Debug.Log("other hit");
                 FMODUnity.RuntimeManager.PlayOneShot(otherHitSfx, this.transform.position);
             }
         } 

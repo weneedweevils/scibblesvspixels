@@ -15,6 +15,8 @@ public class BuyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     private int price;
     private UpgradeOption parent;
     private string description;
+    public FMODUnity.EventReference upgradeSound;
+    public FMODUnity.EventReference hoverSound;
 
     public void Init(BuyState _state, UpgradeOption _parent, int _price, string _description)
     {
@@ -46,7 +48,7 @@ public class BuyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         {
             parent.displayDescription = false;
             UpgradeManager.instance.SetTextbox(description);
-            FMODUnity.RuntimeManager.PlayOneShot("event:/UIHover");
+            FMODUnity.RuntimeManager.PlayOneShot(hoverSound);
         }
     }
 
@@ -61,7 +63,7 @@ public class BuyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         if (state == BuyState.Buyable && UpgradeManager.instance.currency >= price)
         {
             Buy();
-            FMODUnity.RuntimeManager.PlayOneShot("event:/UIAccept");
+            FMODUnity.RuntimeManager.PlayOneShot(upgradeSound);
         }
     }
 }
