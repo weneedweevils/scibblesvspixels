@@ -24,4 +24,16 @@ public static class MyUtils
             renderer.color = color;
         }
     }
+
+    public static Quaternion LookAt2D(Vector2 origin, Vector2 destination)
+    {
+        // Calculate the direction vector from origin to destination
+        Vector2 direction = destination - origin;
+
+        // Calculate the angle in degrees from the direction vector
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        // Create a Quaternion with the calculated angle (2D rotation is around the Z-axis)
+        return Quaternion.Euler(0, 0, angle);
+    }
 }

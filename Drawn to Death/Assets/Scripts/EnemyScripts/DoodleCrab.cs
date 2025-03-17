@@ -74,6 +74,7 @@ public class DoodleCrab : EnemyAI
         if (!lunged && !windupTimer.IsActive())
         {
             // play the attack sfx
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(attackSFXInstance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
             attackSFXInstance.start();
 
             //Lunge at the target
@@ -109,7 +110,7 @@ public class DoodleCrab : EnemyAI
                         if (attackTimer.IsActive() && !windupTimer.IsActive() && team == Team.oddle && player.invincibilityTimer.IsUseable())
                         {
                             //Damage player
-                            player.Damage(damage);  
+                            player.Damage(damage.value);  
                         }
                         break;
                     }
@@ -124,9 +125,8 @@ public class DoodleCrab : EnemyAI
                         if (otherAI != null) {
                             if (attackTimer.IsActive() && !windupTimer.IsActive() && otherAI != null && team != otherAI.team && otherAI.team != Team.neutral && otherAI.invincibilityTimer2.IsUseable())
                             {
-                                Debug.Log(string.Format("{0} Hut {1} for {2} damage", name, otherAI.name, damage));
                                 //Damage enemy
-                                otherAI.Damage(damage, false, true);
+                                otherAI.Damage(damage.value, false, true);
 
                                 //Start enemies secondary invincibility timer
                                 otherAI.invincibilityTimer2.StartTimer();
@@ -142,7 +142,7 @@ public class DoodleCrab : EnemyAI
                                 if (attackTimer.IsActive() && !windupTimer.IsActive() && crystal != null && crystal.invincibilityTimer.IsUseable())
                                 {
                                     //Damage crystal
-                                    crystal.CrystalDamage(damage, true);
+                                    crystal.CrystalDamage(damage.value, true);
                                 }
                             }
 
@@ -153,7 +153,7 @@ public class DoodleCrab : EnemyAI
                             {
 
                                 //Damage enemy
-                                oodler.Damage(damage);
+                                oodler.Damage(damage.value);
                                 invincibilityTimerOodler.StartTimer();
 
                             }

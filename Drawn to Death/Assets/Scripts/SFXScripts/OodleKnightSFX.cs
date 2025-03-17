@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class OodleKnightSFX : MonoBehaviour
 {
+    [Header("FMOD Events")]
+    public FMODUnity.EventReference oodleKnightWalkSFX;
+    public FMODUnity.EventReference oodleKnightAttackSFX;
 
-    void PlaySound(){
-        FMODUnity.RuntimeManager.PlayOneShot("event:/OodleKnightWalk", this.transform.position);
+    void PlaySound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot(oodleKnightWalkSFX, this.transform.position);
     }
 
-    void PlayAttack(){
-        FMODUnity.RuntimeManager.PlayOneShot("event:/OodleKnightAttack", this.transform.position);
+    void PlayAttack()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot(oodleKnightAttackSFX, this.transform.position);
     }
 }

@@ -18,6 +18,7 @@ public class OodleHopper : EnemyAI
     private Color allyHealColor;
     [HideInInspector] public SpriteRenderer healImage;
     public float passiveHealAmount = 1f;
+    [HideInInspector] public bool isHopping = false;
 
     override protected void Start()
     {
@@ -66,8 +67,6 @@ public class OodleHopper : EnemyAI
             invincibilityTimer.Update();
             invincibilityTimer2.Update();
             attackTimer.Update();
-            slowedTimer.Update();
-            buffTimer.Update();
             invincibilityTimerOodler.Update();
             fleeTimer.Update();
 
@@ -88,61 +87,24 @@ public class OodleHopper : EnemyAI
             // Check if buffed
             if (buffed)
             {
-                if (buffTimer.IsOnCooldown())
-                {
-                    buffed = false;
-                    if (type == Type.crab)
-                    {
-                        speed /= playerMovement.crabSpdModifier;
-                    }
-                    else
-                    {
-                        speed /= playerMovement.allySpdModifier;
-                    }
-                    damage /= playerMovement.allyStrModifier;
-                    attackTimer.SetCooldown(attackCooldown);
-                    selfImage.color = Color.white;
-                }
-                if (buffTimer.IsUseable())
-                {
-                    buffTimer.StartTimer();
-                }
                 selfImage.color = Color.magenta;
             }
 
             // Check if being lifestolen
             if (lifestealing)
             {
-                if (!slowed && team == Team.oddle) // Only slow enemy Oodles (Also Reduce passive healing for hopper)
+                // Only slow enemy Oodles
+                if (team == Team.oddle)
                 {
-                    speed /= slowdownFactor;
-                    passiveHealAmount /= slowdownFactor;
-                    attackTimer.SetCooldown(attackCooldown * 1.5f);
-                    slowed = true;
+                    effectController.AddStatusEffect(lifestealEffect);
                 }
                 selfImage.color = Color.red;
             }
 
-            // Start timer to end slow if not in lifesteal zone anymore but still slowed
-            if (!lifestealing && slowed && slowedTimer.IsUseable())
-            {
-                slowedTimer.StartTimer();
-            }
-
             // Change color if slowed but not being lifestolen
-            if (slowedTimer.IsActive() && !lifestealing)
+            if (slowed && !lifestealing)
             {
                 selfImage.color = Color.yellow;
-            }
-
-            // End slow if timer is done
-            if (slowedTimer.IsOnCooldown() && !lifestealing && slowed)
-            {
-                slowed = false;
-                speed *= slowdownFactor;
-                passiveHealAmount *= slowdownFactor;
-                attackTimer.SetCooldown(attackCooldown);
-                selfImage.color = team == Team.player ? allyCol : Color.white;
             }
 
             // Constant Slow Passive Heals only when an enemy
@@ -195,7 +157,7 @@ public class OodleHopper : EnemyAI
                             Attack();
                             if (!attackTimer.IsActive())
                             {
-                                
+                                isHopping = false;
                                 animator.SetBool("hopping", false);
                                 animator.SetBool("idle", true);
                                 if (team == Team.player)
@@ -330,6 +292,7 @@ public class OodleHopper : EnemyAI
         {
             rb.velocity = Vector2.zero;
             rb.angularVelocity = 0f;
+            isHopping = false;
             animator.SetBool("hopping", false);
             animator.SetBool("idle", true);
         }
@@ -403,6 +366,7 @@ public class OodleHopper : EnemyAI
         {
             //Start the Attack Timer
             attackTimer.StartTimer();
+            isHopping = false;
             animator.SetBool("hopping", false);
             animator.SetBool("idle", true);
 
@@ -411,9 +375,6 @@ public class OodleHopper : EnemyAI
                 healImage.color = allyHealColor;
             }
             healImage.enabled = true;
-
-            // play the attack sfx
-            attackSFXInstance.start();
         }
 
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
@@ -424,14 +385,14 @@ public class OodleHopper : EnemyAI
             {
                 if (CustomDist(healImage.transform.position, enemy.transform.position + 4f * Vector3.down) <= attackDistance && enemy.team == team) // Heal oodles on the same team
                 {
-                    enemy.Heal(damage * Time.deltaTime); // damage is used as the amount to heal by
+                    enemy.Heal(damage.value * Time.deltaTime); // damage is used as the amount to heal by
                 }
             }
         }
 
         if (CustomDist(healImage.transform.position, player.transform.position + 4f * Vector3.down) <= attackDistance && team == Team.player) // Heal player if ally
         {
-            player.GetComponent<PlayerMovement>().Heal(damage * Time.deltaTime);
+            player.GetComponent<PlayerMovement>().Heal(damage.value * Time.deltaTime);
         }
 
         if (attackTimer.IsOnCooldown())
@@ -468,14 +429,16 @@ public class OodleHopper : EnemyAI
         if (hopCooldown.IsUseable())
         {
             hopCooldown.StartTimer();
+            isHopping = true;
             animator.SetBool("hopping", true);
             animator.SetBool("idle", false);
 
-            // play the attack sfx TODO: REPLACE EVENTUALLY
+            // play the attack sfx
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(attackSFXInstance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
             attackSFXInstance.start();
 
             //Apply a force in that direction
-            Vector2 force = direction * speed * Time.deltaTime;
+            Vector2 force = direction * speed.value * Time.deltaTime;
             rb.AddForce(force);
         }
 
