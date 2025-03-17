@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Pause
 {
@@ -15,8 +16,10 @@ namespace Pause
         public void OnEnable()
         {
             if (backButton == this)
-                PauseManager.SetBackButton(this);
+                PauseManager.SetBackButton(this); 
         }
+
+      
 
         public void Select()
         {
@@ -32,10 +35,15 @@ namespace Pause
         public void PlaySoundHover()
         {
             PauseManager.PlaySound(hoverSound);
+
+
         }
         public void PlaySoundSelect()
         {
             PauseManager.PlaySound(selectSound);
+            
         }
+
+      
     }
 }

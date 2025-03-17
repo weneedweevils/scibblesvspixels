@@ -20,7 +20,15 @@ public class GrabHitbox:MonoBehaviour
 
             case "Player":
                 {
-                    oodlerScript.SetBossCaught(true);
+                    if (oodlerScript.IsCaught())
+                    {
+
+                    }
+                    else
+                    {
+                        oodlerScript.SetBossCaught(true);
+                    }
+
                     Debug.Log("CAUGHT GLICH");
                 }
                 break;

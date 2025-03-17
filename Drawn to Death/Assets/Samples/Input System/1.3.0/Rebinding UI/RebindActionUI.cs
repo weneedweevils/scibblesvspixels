@@ -23,13 +23,17 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         /// </summary>
         public InputActionReference actionReference
         {
-            get => m_Action;
+            get{
+                return m_Action;
+                }
             set
             {
                 m_Action = value;
                 UpdateActionLabel();
                 UpdateBindingDisplay();
             }
+
+            
         }
 
         /// <summary>
@@ -213,7 +217,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
             // Set on label (if any).
             if (m_BindingText != null)
-                m_BindingText.text = displayString;
+                m_BindingText.text = displayString; // CHANGED THIS TO ONLY INCLUDE CONTROL PATH
 
             // Give listeners a chance to configure UI in response.
             m_UpdateBindingUIEvent?.Invoke(this, displayString, deviceLayoutName, controlPath);
@@ -275,6 +279,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             //disable action
             action.Disable();
 
+            Debug.Log(bindingText);
             Debug.Log(action);
             // Configure the rebind.
             //.WithControlsExcluding("<Mouse>/press")
@@ -284,16 +289,20 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 .WithControlsExcluding("<Pointer>/{PrimaryAction}")
                 .WithControlsExcluding("<Gamepad>/leftStick")
                 .WithControlsExcluding("<Gamepad>/rightStick")
-                .WithControlsExcluding("<PlaystationController>/leftStick")
-                .WithControlsExcluding("<PlaystationController>/rightStick")
-                .WithControlsExcluding("<XboxController>/leftStick")
-                .WithControlsExcluding("<XboxController>/rightStick")
+                .WithControlsExcluding("<Gamepad>/systemButton")
+                .WithControlsExcluding("<Gamepad>/touchpadButton")
+                .WithCancelingThrough("<Gamepad>/start")
+                .WithCancelingThrough("<Gamepad>/select")
                 .WithCancelingThrough("<Keyboard>/escape")
-
+                //.WithCancelingThrough("<Gamepad>/start")
+                //.WithCancelingThrough("<Gamepad>/select")
+                //.WithCancelingThrough("<Gamepad>/systemButton")
+                //.WithCancelingThrough("<Gamepad>/touchpadButton")
 
                 .OnCancel(
                     operation =>
                     {
+                        Debug.Log(action);
                         action.Enable();
                         m_RebindStopEvent?.Invoke(this, operation);
                         m_RebindOverlay?.SetActive(false);

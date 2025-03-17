@@ -25,7 +25,6 @@ public class OodlerRecover : BaseState
     
         if (boss.IsCaught())
         {
-            boss.playerScript.PausePlayerInput(true);
             boss.EnableGlichColliders(false);
         }
     }

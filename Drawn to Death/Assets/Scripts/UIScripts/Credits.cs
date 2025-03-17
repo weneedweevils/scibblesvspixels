@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 public class Credits : MonoBehaviour
 {
     public GameObject credits;
-    private float scrollSpeed = 1.5f; // Speed for credits from menu (Speed on credits from end cutscene = 80)
+    public float scrollSpeed = 1.5f; // Speed for credits from menu (Speed on credits from end cutscene = 80)
     public UnityEngine.UI.Button menuButton;
     PlayerInput playerInput;
 
@@ -33,6 +33,7 @@ public class Credits : MonoBehaviour
         credits.transform.position += scrollSpeed * Vector3.up * Time.deltaTime;
         if (playerInput.actions["ScrollFaster"].IsPressed())
         {
+            Debug.Log("BUTTON PRESSED");
             credits.transform.position += scrollSpeed * 3 * Vector3.up * Time.deltaTime;
         }
     }

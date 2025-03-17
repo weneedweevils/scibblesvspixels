@@ -71,7 +71,7 @@ public class DoodleCrab : EnemyAI
             lunged = true;
         }
 
-        if (!lunged && !windupTimer.IsActive())
+        if (!lunged && !windupTimer.IsActive() && target!=null) // May have to add this null check on all other ai scripts
         {
             // play the attack sfx
             FMODUnity.RuntimeManager.AttachInstanceToGameObject(attackSFXInstance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
