@@ -14,6 +14,9 @@ public class ConditionalWall : MonoBehaviour
 
     public GameObject explosion;
 
+    [Header("FMOD Events")]
+    public FMODUnity.EventReference cellWallBreakSFX;
+
     public void Start(){
         spriteRenderer = GetComponent<SpriteRenderer>();
         polygonCollider2D = GetComponent<PolygonCollider2D>();
@@ -42,6 +45,6 @@ public class ConditionalWall : MonoBehaviour
         spriteRenderer.sprite = destroyedSprite;
         polygonCollider2D.enabled = false;
         Instantiate(explosion, transform.position, Quaternion.identity);
-        FMODUnity.RuntimeManager.PlayOneShot("event:/CellWallBreak", this.transform.position);
+        FMODUnity.RuntimeManager.PlayOneShot(cellWallBreakSFX, this.transform.position);
     }
 }

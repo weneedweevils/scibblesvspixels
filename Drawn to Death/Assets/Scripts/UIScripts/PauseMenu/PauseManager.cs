@@ -20,10 +20,10 @@ namespace Pause
 
         private static Dictionary<Sound, string> SFXMap = new Dictionary<Sound, string>()
         {
-            { Sound.Hover, "event:/UIHover"},
-            { Sound.Accept, "event:/UIAccept"},
-            { Sound.Back, "event:/UIBack"},
-            { Sound.Load, "event:/UILoad"},
+            { Sound.Hover, "event:/UI/UIHover"},
+            { Sound.Accept, "event:/UI/UIAccept"},
+            { Sound.Back, "event:/UI/UIBack"},
+            { Sound.Load, "event:/UI/UILoad"},
         };
 
         public void Start()

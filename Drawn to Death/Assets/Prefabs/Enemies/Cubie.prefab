@@ -114,6 +114,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469aba1e1af2c48c3ac92e2bdfee22ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cubieSwishSFX:
+    Guid:
+      Data1: 2114814394
+      Data2: 1292438169
+      Data3: 1220270997
+      Data4: -1308684798
+    Path: event:/Enemies/CubieOodle/CubieSwish
+  cubieSwooshSFX:
+    Guid:
+      Data1: -527277019
+      Data2: 1243307168
+      Data3: 585086394
+      Data4: 1469961074
+    Path: event:/Enemies/CubieOodle/CubieSwoosh
 --- !u!1 &4562456546076731579
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,6 +144,7 @@ GameObject:
   - component: {fileID: 896092914398761739}
   - component: {fileID: 7931415291470608569}
   - component: {fileID: 282701892389350092}
+  - component: {fileID: 1568192082}
   m_Layer: 0
   m_Name: Cubie
   m_TagString: Enemy
@@ -224,26 +239,87 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 2
   state: 0
+  type: 6
   isolated: 0
+  revivable: 1
   health: 30
   maxHealth: 30
-  speed: 200
-  damage: 9
-  attackCooldown: 3
+  speed:
+    baseValue: 200
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: -3.4028235e+38
+    setSign: 0
+    maxValue: 3.4028235e+38
+  damage:
+    baseValue: 9
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: 1
+    setSign: 0
+    maxValue: 500
+  attackCooldown:
+    baseValue: 3
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: 0.1
+    setSign: 0
+    maxValue: 3.4028235e+38
+  incomingDamage:
+    baseValue: 0
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: -3.4028235e+38
+    setSign: 0
+    maxValue: 3.4028235e+38
   attackDistance: 40
   slowdownFactor: 3
+  stunCooldownRatio: 0.7
+  knockbackRatio: 1
+  killReward: 1
   moving: 1
   targetSeeker: {fileID: 6909617949889408915}
   playerSeeker: {fileID: 4562456546076731574}
   seekDistance: 150
   nextWaypointDistance: 100
   blockers: []
-  deathSfx: event:/CubieDeath
-  attackSfx: event:/CubieAttack
+  deathSfx:
+    Guid:
+      Data1: -1748057880
+      Data2: 1317637005
+      Data3: 1539942034
+      Data4: 170170985
+    Path: event:/Enemies/CubieOodle/CubieDeath
+  attackSfx:
+    Guid:
+      Data1: 1788446257
+      Data2: 1340595051
+      Data3: -1154478947
+      Data4: -275982537
+    Path: event:/Enemies/CubieOodle/CubieAttack
+  eraserHitSfx:
+    Guid:
+      Data1: -587712097
+      Data2: 1263961119
+      Data3: 530745531
+      Data4: -1790498162
+    Path: event:/Abilities/EraserHit
+  otherHitSfx:
+    Guid:
+      Data1: 209010693
+      Data2: 1245378177
+      Data3: 1893760959
+      Data4: 1748220007
+    Path: event:/Misc/OtherHit
   slowed: 0
   lifestealing: 0
-  slowDuration: 5
   buffed: 0
+  lifestealEffect: {fileID: 11400000, guid: 939c4c0ff2257244b9939dba1abada13, type: 2}
+  canHeal: 1
   movementCollider: {fileID: 896092914398761739}
   healthBar: {fileID: 7080362902095066479}
   enemygraphics: {fileID: 4562456546076731575}
@@ -417,6 +493,21 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &1568192082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4562456546076731579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0944c93ca4c54f245bfbf752a71d2274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects: []
+  particleEffectSystem: {fileID: 8031358735011800035, guid: 5b20b611336a4734b90a1b5fb4f9e07c,
+    type: 3}
 --- !u!1 &5718789329031143119
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,9 +24,9 @@ public class Attack : MonoBehaviour
 
     [Header("Attack Info")]
     //Stats
-    public float damage = 100;
+    public VariableStat damage;
+    public VariableStat attackCooldown;
     public float knockback = 3;
-    public float attackCooldown = 0f;
     public CooldownTimer attackTimer;
     private float attackDuration = 30f/60f;
     private bool attacking;
@@ -79,14 +79,7 @@ public class Attack : MonoBehaviour
     //Animation
     [HideInInspector] public Animator animator;
     private SpriteRenderer sprite;
-
-    // FMOD sound event paths
-    public string eraserSfx;
-    public string reviveSfx;
-    public FMODUnity.EventReference lifestealSfx;
-    private FMOD.Studio.EventInstance lifestealFmod;
-    // Condition for playing hit version of eraserSfx
-    public int isHit;
+    private PlayerSFX playerSFX;
 
 
     // Getting Input Handler //
@@ -105,6 +98,7 @@ public class Attack : MonoBehaviour
         hitbox = GetComponent<PolygonCollider2D>();
         lifestealImage = player.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>();
         lifestealImage.transform.localScale *= lifestealRadius * 10.45f;
+        playerSFX = player.GetComponent<PlayerSFX>();
 
         //Setup Timers and cooldown bars
         reviveTimer = new CooldownTimer(reviveCooldown, reviveDuration);
@@ -124,10 +118,6 @@ public class Attack : MonoBehaviour
 
         lifeStealNotifier = lifestealBar.transform.parent.GetChild(1).GetComponent<UnityEngine.UI.Image>();
         reviveNotifier = reviveBar.transform.parent.GetChild(1).GetComponent<UnityEngine.UI.Image>();
-
-        // Get a reference to the script that controls the lifestealFMOD event
-        lifestealFmod = FMODUnity.RuntimeManager.CreateInstance(lifestealSfx);
-        isHit = 0;
     }
 
     public void Start()
@@ -169,13 +159,7 @@ public class Attack : MonoBehaviour
             //Attack
             if (attackTimer.IsUseable() && playerMovement.CanUseAbility() && playerInput.actions["Attack"].IsPressed() && !playerMovement.pauseInput)
             {
-
-                // FMODUnity.RuntimeManager.PlayOneShot(eraserSfx, isHit);
-                var instance = FMODUnity.RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToGUID(eraserSfx));
-                instance.setParameterByName("IsHit", isHit);
-                instance.start();
-                instance.release();
-                isHit = 0;
+                playerSFX.PlayEraserSFX();
 
                 animator.SetBool("attacking", true);
                 attacking = true;
@@ -245,7 +229,7 @@ public class Attack : MonoBehaviour
                             playerMovement.animator.SetBool("reviving", true);
                             sprite.enabled = false;
                             playerMovement.animationDone = false;
-                            FMODUnity.RuntimeManager.PlayOneShot(reviveSfx);
+                            playerSFX.PlayReviveSFX();
                         }
                     }
                 }
@@ -300,7 +284,7 @@ public class Attack : MonoBehaviour
             }
             lifestealStartTimer.StartTimer();
             animator.SetBool("lifestealstart", true);
-            lifestealFmod.start();
+            playerSFX.StartLifestealSFX();
             lifestealStart = true;
         }
         if (lifestealStartTimer.IsUseable() && lifestealStart)
@@ -375,7 +359,7 @@ public class Attack : MonoBehaviour
         }
         if (lifestealTimer.IsOnCooldown())
         {
-            lifestealFmod.stop(0);
+            playerSFX.StopLifestealSFX();
             lifestealImage.enabled = false;
             foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
             {
@@ -516,7 +500,7 @@ public class Attack : MonoBehaviour
                             //Calculate knockback
                             Vector2 direction = ((Vector2)enemy.transform.position - (Vector2)transform.position).normalized * enemy.knockbackRatio;
                             //Damage enemy
-                            enemy.Damage(damage, true, true, direction, knockback);
+                            enemy.Damage(damage.value, true, true, direction, knockback, fromPlayer: true);
                         }
                     }
                   
@@ -526,7 +510,7 @@ public class Attack : MonoBehaviour
                         if (attackTimer.IsActive() && crystal != null && crystal.invincibilityTimer.IsUseable())
                         {
                             //Damage enemy
-                            crystal.CrystalDamage(damage, true);
+                            crystal.CrystalDamage(damage.value, true);
                         }
                     }
                     
@@ -536,7 +520,7 @@ public class Attack : MonoBehaviour
                         if (attackTimer.IsActive() && oodler != null && oodler.BossIsDamageable() && !oodler.invincibilityTimer.IsActive())
                         {
                             //Damage enemy
-                            oodler.Damage(damage);
+                            oodler.Damage(damage.value);
 
                         }
 
@@ -551,11 +535,6 @@ public class Attack : MonoBehaviour
                     break;
                 }
         }
-    }
-
-    private void OnDestroy()
-    {
-        lifestealFmod.stop(0);
     }
 
     public bool PlayerCanHit(EnemyAI enemy)

@@ -10,6 +10,7 @@ public class VolumeController : Singleton<VolumeController>
     public float cutsceneReduction;
     private float volumeReduction;
     public bool inCutscene;
+    public FMODUnity.EventReference sfxSample;
 
     void Start()
     {
@@ -54,24 +55,27 @@ public class VolumeController : Singleton<VolumeController>
         
     }
 
-    public void SetMasterVolume(float volume){
+    public void SetMasterVolume(float volume)
+    {
         masterVol = volume;
         PlayerPrefs.SetFloat("MasterVolume", volume);
     }
     
-    public void SetMusicVolume(float volume){
+    public void SetMusicVolume(float volume)
+    {
         musicVol = volume;
         PlayerPrefs.SetFloat("MusicVolume", volume);
     }
 
-    public void SetSFXVolume(float volume){
+    public void SetSFXVolume(float volume)
+    {
         sfxVol = volume;
         dialogueVol = volume;
         PlayerPrefs.SetFloat("SFXVolume", volume);
-        //PlaySFXSample();
     }
 
-    public void PlaySFXSample(){
-        FMODUnity.RuntimeManager.PlayOneShot("event:/UIAccept");
+    public void PlaySFXSample()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot(sfxSample);
     }
 }

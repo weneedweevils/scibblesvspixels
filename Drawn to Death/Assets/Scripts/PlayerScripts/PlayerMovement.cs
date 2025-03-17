@@ -23,8 +23,8 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 {
     //Movement Checks
     [Header("Physics")]
-    public float accelerationCoefficient;   //how quickly it speeds up
-    public float maxVelocity;               //how fast it can go horizontally
+    public VariableStat accelerationCoefficient;   //how quickly it speeds up
+    public VariableStat maxVelocity;               //how fast it can go horizontally
     public float friction;                  //how quickly it slows down
     public float speedModifier;             //modifiers applied to the player (affects maxVelocity)
 
@@ -48,14 +48,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     [Header("Recall")]
     private float recallDuration = 115f/60f; 
     public float recallCooldown;
-    [Range(0, 1)] public float allyHealPercentage;
-    public float allyStrModifier;
-    public float allySpdModifier;
-    public float allyAtkSpdModifier;
-    public float allyBuffDuration;
-    public float crabSpdModifier;
-    public float crabAtkSpdModifier;
-    public float hopperStrModifier;
+    public RallyBuff rallyEffect;
 
     [SerializeField] private SpriteRenderer pencil;
     private GameObject[] enemies;
@@ -94,6 +87,8 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     public HealthBarBehaviour healthBar;
     [Range(0, 1)]
     public float abilityDamageReduction = 0.1f;
+    [HideInInspector] public VariableStat incomingDamage;
+    public bool canHeal = true;
 
     [Header("Other")]
     [SerializeField] private GameObject hud;
@@ -108,6 +103,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
     public Animator CameraReference;
     public Animator HealthBarReference;
+    private PlayerSFX playerSFX;
 
     //Invincibility Frames
     public CooldownTimer invincibilityTimer;
@@ -145,6 +141,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         rbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
+        playerSFX = GetComponent<PlayerSFX>();
         weapon = GetComponentInChildren<Attack>();
         eraser = transform.GetChild(0).GetChild(0).gameObject.GetComponent<SpriteRenderer>();
         lifestealOrb = transform.GetChild(4).gameObject;
@@ -176,6 +173,8 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
 
         playerInput.onControlsChanged += OnDeviceChanged; // If the object is ever disabled we must unsubscribe to this event
+
+        incomingDamage.Set(0, 1, 0, 0, 0, maxHealth);
     }
 
     public void OnDeviceChanged(PlayerInput pi)
@@ -198,7 +197,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     // Update is called once per frame
     void Update()
     {
-        acceleration = playerInput.actions["Move"].ReadValue<Vector2>()*accelerationCoefficient;
+        acceleration = playerInput.actions["Move"].ReadValue<Vector2>()*accelerationCoefficient.value;
         aimDirection = playerInput.actions["Aim"].ReadValue<Vector2>();
 
         playerarms.FrameUpdate(aimDirection);
@@ -299,7 +298,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             pencil.enabled = false;
             sprite.color = new Color(255, 255, 255, 0.50f);
             dashTimer.StartTimer();
-            FMODUnity.RuntimeManager.PlayOneShot("event:/DashAbility");
+            playerSFX.PlayDashSFX();
         }
         else if (dashTimer.IsOnCooldown())
         {
@@ -358,7 +357,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             recallTimer.StartTimer();
             pencil.enabled = false;
             StopMovement();
-            FMODUnity.RuntimeManager.PlayOneShot("event:/RallyAbility");
+            playerSFX.PlayRallySFX();
             animationDone = false;
             animator.SetBool("New Bool", true);
         }
@@ -390,10 +389,10 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         //  v = Velocity
 
         //Accelerate
-        if (Mathf.Abs(a) > 0f && Mathf.Abs(v) <= maxVelocity * modifier)
+        if (Mathf.Abs(a) > 0f && Mathf.Abs(v) <= maxVelocity.value * modifier)
         {
             v += a * modifier * Time.deltaTime;
-            v = Mathf.Clamp(v, -maxVelocity * modifier, maxVelocity * modifier);
+            v = Mathf.Clamp(v, -maxVelocity.value * modifier, maxVelocity.value * modifier);
         }
         //Account for friction
         else if (Mathf.Abs(v) > 0f)
@@ -473,19 +472,13 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         HealthBarReference.SetTrigger("HealthBarShake");
         CameraReference.SetTrigger("Shake");
 
-        Debug.Log(health);
-
-        Debug.Log(maxHealth);
-
-       
-
         if (UsingAbility())
         {
-            health -= (damageTaken * (1 - abilityDamageReduction));
+            health -= incomingDamage.Calculate(damageTaken * (1 - abilityDamageReduction));
         }
         else
         {
-            health -= damageTaken;
+            health -= incomingDamage.Calculate(damageTaken);
         }
         invincibilityTimer.StartTimer();
         healthBar.SetHealth(health, maxHealth);
@@ -546,6 +539,9 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     // Function to run when player heals
     public void Heal(float healthRestored)
     {
+        if (!canHeal)
+            return;
+
         if (health < maxHealth)
         {
             health += healthRestored;
@@ -598,25 +594,11 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
                 if (enemyai.team == Team.player)
                 {
                     enemy.transform.position = transform.position + total;
-                    enemyai.Heal(enemyai.maxHealth * allyHealPercentage);
-                    enemyai.buffed = true;
-                    if (enemyai.type == Type.hopper)
+
+                    StatusEffectController effectController = enemy.GetComponent<StatusEffectController>();
+                    if (effectController != null && rallyEffect != null)
                     {
-                        enemyai.damage *= hopperStrModifier;
-                    }
-                    else
-                    {
-                        enemyai.damage *= allyStrModifier;
-                    }
-                    if (enemyai.type == Type.crab)
-                    {
-                        enemyai.speed *= crabSpdModifier;
-                        enemyai.attackTimer.SetCooldown(enemyai.attackCooldown * crabAtkSpdModifier);
-                    }
-                    else
-                    {
-                        enemyai.speed *= allySpdModifier;
-                        enemyai.attackTimer.SetCooldown(enemyai.attackCooldown * allyAtkSpdModifier);
+                        effectController.AddStatusEffect(rallyEffect);
                     }
                 }
             }

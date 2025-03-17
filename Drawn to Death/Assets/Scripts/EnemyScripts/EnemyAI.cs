@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 // if you want to use this in FSM inherit from EnemybaseState class
 public enum Team {player, neutral, oddle};
 public enum State {idle, chase, follow, attack, dying, dead, reviving, flee };
-public enum Type { crab, cubie, knight, hopper, bars, general };
+public enum Type { crab, cubie, knight, hopper, bars, snek, general };
 public abstract class EnemyAI : MonoBehaviour
 {
 
@@ -24,9 +24,10 @@ public abstract class EnemyAI : MonoBehaviour
     [Header("Stats")]
     public float health;
     public float maxHealth;
-    public float speed = 200f;
-    public float damage;
-    public float attackCooldown;
+    public VariableStat speed;
+    public VariableStat damage;
+    public VariableStat attackCooldown;
+    [HideInInspector] public VariableStat incomingDamage;
     public float attackDistance;
     public float slowdownFactor = 3f;
     public float stunCooldownRatio = 0.7f;
@@ -42,19 +43,20 @@ public abstract class EnemyAI : MonoBehaviour
     public EnemyAI[] blockers;
 
     [Header("Music and sound")]
-    public string deathSfx;
-    public string attackSfx;
-    private string eraserHitSfx = "event:/EraserHit";
+    public FMODUnity.EventReference deathSfx;
+    public FMODUnity.EventReference attackSfx;
+    public FMODUnity.EventReference eraserHitSfx;
+    public FMODUnity.EventReference otherHitSfx;
 
     protected FMOD.Studio.EventInstance attackSFXInstance;
     
     [Header("Effects")]
     public bool slowed = false;
     public bool lifestealing = false;
-    public CooldownTimer slowedTimer;
-    public CooldownTimer buffTimer;
-    public float slowDuration;
     public bool buffed = false;
+    public StatusEffectController effectController { get; private set; }
+    public LifestealEffect lifestealEffect;
+    public bool canHeal = true;
 
     [Header("References")]
     public Collider2D movementCollider;
@@ -115,21 +117,19 @@ public abstract class EnemyAI : MonoBehaviour
         playerAttack = player.GetComponentInChildren<Attack>();
         musicmanager = GameObject.Find("Music");
         musicscript = musicmanager.GetComponent<BasicMusicScript>();
+        effectController = GetComponent<StatusEffectController>();
 
         //Initialize
         target = player.transform;
         health = maxHealth;
         healthBar.SetHealth(health, maxHealth);
         attackSFXInstance = FMODUnity.RuntimeManager.CreateInstance(attackSfx);
-        FMODUnity.RuntimeManager.AttachInstanceToGameObject(attackSFXInstance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
-      
+        incomingDamage.Set(0, 1, 0, 0, 0, maxHealth);
 
         //Create Timers
         invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
         invincibilityTimer2 = new CooldownTimer(0f, invincibilityDuration);
-        attackTimer = new CooldownTimer(attackCooldown, attackDuration);
-        slowedTimer = new CooldownTimer(0.1f, slowDuration);
-        buffTimer = new CooldownTimer(0.1f, playerMovement.allyBuffDuration);
+        attackTimer = new CooldownTimer(attackCooldown.value, attackDuration);
         invincibilityTimerOodler = new CooldownTimer(oodlerInvincibilityDuration * 0.5f, oodlerInvincibilityDuration * 0.5f);
 
 
@@ -247,8 +247,6 @@ public abstract class EnemyAI : MonoBehaviour
             invincibilityTimer.Update();
             invincibilityTimer2.Update();
             attackTimer.Update();
-            slowedTimer.Update();
-            buffTimer.Update();
             invincibilityTimerOodler.Update();
 
             //Fix color after hurt
@@ -268,59 +266,24 @@ public abstract class EnemyAI : MonoBehaviour
             // Check if buffed
             if (buffed)
             {
-                if (buffTimer.IsOnCooldown())
-                {
-                    buffed = false;
-                    if (type == Type.crab)
-                    {
-                        speed /= playerMovement.crabSpdModifier;
-                    }
-                    else
-                    {
-                        speed /= playerMovement.allySpdModifier;
-                    }
-                    damage /= playerMovement.allyStrModifier;
-                    attackTimer.SetCooldown(attackCooldown);
-                    selfImage.color = Color.white;
-                }
-                if (buffTimer.IsUseable())
-                {
-                    buffTimer.StartTimer();
-                }
                 selfImage.color = Color.magenta;
             }
 
             // Check if being lifestolen
             if (lifestealing)
             {
-                if (!slowed && team == Team.oddle) // Only slow enemy Oodles
+                // Only slow enemy Oodles
+                if (team == Team.oddle) 
                 {
-                    speed /= slowdownFactor;
-                    attackTimer.SetCooldown(attackCooldown * 1.5f);
-                    slowed = true;
+                    effectController.AddStatusEffect(lifestealEffect);
                 }
                 selfImage.color = Color.red;
             }
 
-            // Start timer to end slow if not in lifesteal zone anymore but still slowed
-            if (!lifestealing && slowed && slowedTimer.IsUseable())
-            {
-                slowedTimer.StartTimer();
-            }
-
             // Change color if slowed but not being lifestolen
-            if (slowedTimer.IsActive() && !lifestealing)
+            if (slowed && !lifestealing)
             {
                 selfImage.color = Color.yellow;
-            }
-
-            // End slow if timer is done
-            if (slowedTimer.IsOnCooldown() && !lifestealing && slowed)
-            {
-                slowed = false;
-                speed *= slowdownFactor;
-                attackTimer.SetCooldown(attackCooldown);
-                selfImage.color = team == Team.player ? allyCol : Color.white;
             }
         }
         //State Manager
@@ -487,7 +450,7 @@ public abstract class EnemyAI : MonoBehaviour
         Vector2 direction = ((Vector2)targetPath.vectorPath[currentWaypoint] - rb.position + pathOffset).normalized;
 
         //Apply a force in that direction
-        Vector2 force = direction * speed * Time.deltaTime;
+        Vector2 force = direction * speed.value * Time.deltaTime;
         rb.AddForce(force);
 
         //Check distance to the current waypoint
@@ -541,13 +504,6 @@ public abstract class EnemyAI : MonoBehaviour
         animator.SetBool("attacking", false);
         animator.SetBool("chasing", false);
         animator.SetBool("dying", true);
-
-        // Remove slow if on at death
-        if (slowed)
-        {
-            slowed = false;
-            speed *= 2;
-        }
     }
 
     //Revive this entity as an ally to the player
@@ -565,10 +521,12 @@ public abstract class EnemyAI : MonoBehaviour
 
             //Set Stats
             maxHealth *= percentMaxHP;
-            damage *= percentDamage;
-            speed *= percentSpeed;
+            damage.baseValue *= percentDamage;
+            speed.baseValue *= percentSpeed;
             health = maxHealth;
-            attackTimer.SetCooldown(attackTimer.cooldownDuration * percentAttkSpeed);
+
+            attackCooldown.baseValue *= percentAttkSpeed;
+            attackTimer.SetCooldown(attackCooldown.value);
 
             //Re-enable collisions
             movementCollider.enabled = true;
@@ -581,7 +539,7 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     // Function to run when enemies/allies takes damage
-    virtual public void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f, bool lifeSteal = false)
+    virtual public void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f, bool lifeSteal = false, bool fromPlayer = false, bool noSound = false)
     {
         if (isolated)
             return;
@@ -593,13 +551,25 @@ public abstract class EnemyAI : MonoBehaviour
         }
 
         //Inflict damage
-        health -= damageTaken;
+        if (lifeSteal)
+            health -= damageTaken;
+        else
+            health -= incomingDamage.Calculate(damageTaken);
+
         healthBar.SetHealth(health, maxHealth);
 
-        //Play eraser hit sound
-        if (!lifeSteal) {
-            FMODUnity.RuntimeManager.PlayOneShot(eraserHitSfx, this.transform.position);
-        }
+        //Play eraser hit sound if from player and not lifesteal. Else play regular hit noise
+        if (!lifeSteal && !noSound) 
+        {
+            if (fromPlayer)
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(eraserHitSfx, this.transform.position);
+            }
+            else 
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(otherHitSfx, this.transform.position);
+            }
+        } 
 
         //Check death conditions
         if (health <= 0)
@@ -639,11 +609,11 @@ public abstract class EnemyAI : MonoBehaviour
 
         if (!attackTimer.IsOnCooldown())
         {
-            attackTimer.StartCooldown(attackCooldown * stunCooldownRatio);
+            attackTimer.StartCooldown(attackCooldown.value * stunCooldownRatio);
         } 
         else
         {
-            attackTimer.StartCooldown(Mathf.Min(attackTimer.timer, attackCooldown * stunCooldownRatio));
+            attackTimer.StartCooldown(Mathf.Min(attackTimer.timer, attackCooldown.value * stunCooldownRatio));
         }
         animator.SetBool("attacking", false);
         animator.SetBool("chasing", true);
@@ -652,6 +622,9 @@ public abstract class EnemyAI : MonoBehaviour
     // Function to run when enemies/allies heal
     virtual public void Heal(float healthRestored)
     {
+        if (!canHeal)
+            return;
+
         if (health < maxHealth)
         {
             health += healthRestored;

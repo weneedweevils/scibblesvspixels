@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7096973642769452535}
   - component: {fileID: -8105401679918981246}
   - component: {fileID: 8803404619746449255}
+  - component: {fileID: 368383225}
   m_Layer: 0
   m_Name: DoodleCrab
   m_TagString: Enemy
@@ -111,28 +112,87 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 2
   state: 0
+  type: 6
   isolated: 0
+  revivable: 1
   health: 45
   maxHealth: 45
-  speed: 500
-  damage: 15
-  attackCooldown: 2
+  speed:
+    baseValue: 500
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: -3.4028235e+38
+    setSign: 0
+    maxValue: 3.4028235e+38
+  damage:
+    baseValue: 15
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: 1
+    setSign: 0
+    maxValue: 500
+  attackCooldown:
+    baseValue: 2
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: 0.1
+    setSign: 0
+    maxValue: 3.4028235e+38
+  incomingDamage:
+    baseValue: 0
+    multiplier: 1
+    baseIncrease: 0
+    flatIncrease: 0
+    minValue: -3.4028235e+38
+    setSign: 0
+    maxValue: 3.4028235e+38
   attackDistance: 20
   slowdownFactor: 3
   stunCooldownRatio: 0.7
   knockbackRatio: 1
+  killReward: 1
   moving: 1
   targetSeeker: {fileID: 6020304625581923037}
   playerSeeker: {fileID: 3692553448427789816}
   seekDistance: 100
   nextWaypointDistance: 100
   blockers: []
-  deathSfx: event:/CrabDeath
-  attackSfx: event:/CrabAttack
+  deathSfx:
+    Guid:
+      Data1: 374530013
+      Data2: 1174619194
+      Data3: -1116270431
+      Data4: 1047796506
+    Path: event:/Enemies/CrabOodle/CrabDeath
+  attackSfx:
+    Guid:
+      Data1: 618534753
+      Data2: 1171983527
+      Data3: -664575553
+      Data4: 1633250282
+    Path: event:/Enemies/CrabOodle/CrabAttack
+  eraserHitSfx:
+    Guid:
+      Data1: -587712097
+      Data2: 1263961119
+      Data3: 530745531
+      Data4: -1790498162
+    Path: event:/Abilities/EraserHit
+  otherHitSfx:
+    Guid:
+      Data1: 209010693
+      Data2: 1245378177
+      Data3: 1893760959
+      Data4: 1748220007
+    Path: event:/Misc/OtherHit
   slowed: 0
   lifestealing: 0
-  slowDuration: 5
   buffed: 0
+  lifestealEffect: {fileID: 11400000, guid: 939c4c0ff2257244b9939dba1abada13, type: 2}
+  canHeal: 1
   movementCollider: {fileID: 1406805573}
   healthBar: {fileID: 5246593378094809795}
   enemygraphics: {fileID: 3692553448427789817}
@@ -320,7 +380,22 @@ MonoBehaviour:
       Data2: 1146050523
       Data3: -535311979
       Data4: 1333973189
-    Path: event:/CrabWalk
+    Path: event:/Enemies/CrabOodle/CrabWalk
+--- !u!114 &368383225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3692553448427789813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0944c93ca4c54f245bfbf752a71d2274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects: []
+  particleEffectSystem: {fileID: 5070969290404163832, guid: 54372ed5392b06d4f91b9e1af82e2a52,
+    type: 3}
 --- !u!1 &3692553449529256140
 GameObject:
   m_ObjectHideFlags: 0
