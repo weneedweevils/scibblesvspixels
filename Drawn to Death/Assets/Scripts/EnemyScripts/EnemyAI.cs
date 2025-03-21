@@ -282,7 +282,7 @@ public abstract class EnemyAI : MonoBehaviour
             }
 
             // Change color if slowed but not being lifestolen
-            if (slowed && !lifestealing)
+            if (slowed && !lifestealing && !(this is DoodleBars))
             {
                 selfImage.color = Color.yellow;
             }
