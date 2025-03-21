@@ -17,7 +17,7 @@ public class Cubie : EnemyAI
     public bool cutscene = false;
 
     //Random walk direction
-    private Vector2 direction = new Vector2(0, 0);
+    private Vector2 dir = new Vector2(0, 0);
     private UnityEngine.SceneManagement.Scene currentScene;
     private string sceneName;
 
@@ -82,7 +82,7 @@ public class Cubie : EnemyAI
             attackTimer.StartTimer();
             animator.SetBool("attacking", true);
             animator.SetBool("chasing", false);
-            direction = new Vector2(Random.value - 0.5f, Random.value - 0.5f).normalized;
+            dir = new Vector2(Random.value - 0.5f, Random.value - 0.5f).normalized;
             rb.velocity = Vector2.zero;
         }
 
@@ -122,7 +122,7 @@ public class Cubie : EnemyAI
             animator.SetBool("chasing", true);
 
             //Apply a force in that direction
-            Vector2 force = direction * speed.value / 2 * Time.deltaTime;
+            Vector2 force = dir * speed.value / 2 * Time.deltaTime;
             rb.AddForce(force);
         }
     }

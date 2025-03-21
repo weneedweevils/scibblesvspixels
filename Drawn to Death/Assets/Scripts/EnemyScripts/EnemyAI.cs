@@ -96,6 +96,7 @@ public abstract class EnemyAI : MonoBehaviour
     protected Rigidbody2D rb;
     protected Vector2 pathOffset = new Vector2(0, 1.5f);
     protected bool targetIsDropZone = false;
+    protected Vector2 direction;
 
     //Misc
     protected GameObject player;
@@ -327,7 +328,7 @@ public abstract class EnemyAI : MonoBehaviour
                         //Activate Attack behaviour
                         Attack();
 
-                        if (PathLength() > attackDistance)
+                        if (PathLength() > attackDistance && !attackTimer.IsActive())
                         {
                             animator.SetBool("attacking", false);
                             animator.SetBool("chasing", true);
@@ -447,7 +448,7 @@ public abstract class EnemyAI : MonoBehaviour
         }
 
         //Calculate direction to travel to the next waypoint
-        Vector2 direction = ((Vector2)targetPath.vectorPath[currentWaypoint] - rb.position + pathOffset).normalized;
+        direction = ((Vector2)targetPath.vectorPath[currentWaypoint] - rb.position + pathOffset).normalized;
 
         //Apply a force in that direction
         Vector2 force = direction * speed.value * Time.deltaTime;
