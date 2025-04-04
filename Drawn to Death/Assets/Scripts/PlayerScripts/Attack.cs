@@ -462,7 +462,7 @@ public class Attack : MonoBehaviour
             }
             else if (target != null)  //Found  a target -> go attack target
             {
-                if (ally.state == State.follow)
+                if (ally.state == State.follow || ally.state == State.idle)
                 {
                     ally.state = State.chase;
                 }
@@ -471,8 +471,12 @@ public class Attack : MonoBehaviour
             } 
             else  //No target and ally is not dead -> follow player
             {
-                ally.state = State.follow;
                 ally.SetTarget(player, true);
+
+                if (ally.PathLength() < 10f)
+                    ally.state = State.idle;
+                else
+                    ally.state = State.follow;
             }
         }
     }

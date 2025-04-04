@@ -293,7 +293,16 @@ public abstract class EnemyAI : MonoBehaviour
             case State.idle:
                 {
                     //idle Behaviour
-                    if (PathLength() < seekDistance && !playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
+                    animator.SetBool("attacking", false);
+                    animator.SetBool("chasing", false);
+                    animator.SetBool("idle", true);
+
+                    if (rb.velocity.magnitude < 0.05f)
+                        rb.velocity = Vector2.zero;
+                    else
+                        rb.velocity *= 0.9f;
+
+                    if (PathLength() < seekDistance && !playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying && team != Team.player)
                     {
                         state = State.chase;
                     }
@@ -303,6 +312,7 @@ public abstract class EnemyAI : MonoBehaviour
                 {
                     if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
                     {
+                        animator.SetBool("idle", false);
                         animator.SetBool("attacking", false);
                         animator.SetBool("chasing", true);
                         //chase Behaviour
@@ -330,6 +340,7 @@ public abstract class EnemyAI : MonoBehaviour
 
                         if (PathLength() > attackDistance && !attackTimer.IsActive())
                         {
+                            animator.SetBool("idle", false);
                             animator.SetBool("attacking", false);
                             animator.SetBool("chasing", true);
                             state = State.chase;
@@ -400,6 +411,7 @@ public abstract class EnemyAI : MonoBehaviour
                         //follow Behaviour
                         animator.SetBool("attacking", false);
                         animator.SetBool("chasing", true);
+                        animator.SetBool("idle", false);
                         MoveEnemy();
                     }
                     break;
