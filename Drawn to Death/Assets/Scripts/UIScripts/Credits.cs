@@ -25,7 +25,7 @@ public class Credits : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (credits.gameObject.transform.GetChild(0).transform.position.y >= 0)
+        if (credits.gameObject.transform.GetChild(0).transform.position.y >= 150)
         {
             scrollSpeed = 0;
             return;

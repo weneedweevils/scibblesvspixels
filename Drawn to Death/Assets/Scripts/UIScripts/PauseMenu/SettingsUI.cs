@@ -31,9 +31,11 @@ namespace Pause
             SetVolume(Volume.Master, volumeController.masterVol);
             SetVolume(Volume.Music, volumeController.musicVol);
             SetVolume(Volume.SFX, volumeController.sfxVol);
-
+            SetSensitivity(PlayerPrefs.GetFloat("mouseSensitivity", 1f));
             fancyFontToggle.isOn = DialogueManager.fancyFont;
-            PlayerPrefs.SetFloat("mouseSensitivity", mouseSensitivitySlider.value);
+
+            
+           
 
             setup = true;
         }
@@ -66,6 +68,12 @@ namespace Pause
             }
         }
 
+        public void SetSensitivity(float value)
+        {
+            mouseSensitivitySlider.value = value;
+            PlayerPrefs.SetFloat("mouseSensitivity", value);
+        }
+
         public void MasterSliderChange()
         {
             if (setup)
@@ -92,8 +100,9 @@ namespace Pause
 
         public void MouseSensitivityChange()
         {
-            PlayerPrefs.SetFloat("mouseSensitivity", mouseSensitivitySlider.value);
-            SensitivityChanged?.Invoke();
+            if (setup)
+                SetSensitivity(mouseSensitivitySlider.value);
+                SensitivityChanged?.Invoke();
 
         }
     }
