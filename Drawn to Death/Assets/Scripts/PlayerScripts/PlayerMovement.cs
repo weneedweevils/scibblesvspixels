@@ -17,6 +17,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Threading;
 using UnityEngine.InputSystem;
 using System.Xml.Serialization;
+using Cursor = UnityEngine.Cursor;
 
 public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 {
@@ -118,7 +119,6 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
     //additional scripts
     [Header("New input system")]
-    public GameObject inputHandler;
     private PlayerArms playerarms;
     public GameObject eraserObject;
     public GameObject armsObject;
@@ -171,19 +171,26 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
         playerarms = new PlayerArms(eraserObject, gameObject, armsObject, playerInput, this);
 
+
+        playerInput.onControlsChanged += OnDeviceChanged; // If the object is ever disabled we must unsubscribe to this event
+
         incomingDamage.Set(0, 1, 0, 0, 0, maxHealth);
     }
 
     public void OnDeviceChanged(PlayerInput pi)
     {
         //Debug.Log(pi.currentControlScheme.ToString());
-        if(pi.currentControlScheme.Equals("Gamepad") || pi.currentControlScheme.Equals("Playstation") || pi.currentControlScheme.Equals("Xbox"))
+        if(pi.currentControlScheme.Equals("Gamepad") )
         {
             isGamepad = true;
+            Cursor.visible = false;
+            //cursorTransform.gameObject.SetActive(true);
         }
-        else
+        else if (pi.currentControlScheme.Equals("KBM"))
         {
             isGamepad = false;
+            Cursor.visible = true;
+            //cursorTransform.gameObject.SetActive(false);
         }
     }
 
@@ -668,17 +675,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     }
 
     // function that pauses player input
-    public void PausePlayerInput(bool pause)
-    {
-        if (pause)
-        {
-            pauseInput = true;
-        }
-        else
-        {
-            pauseInput = false;
-        }
-    }
+    
 
     public PlayerInput getInputSystem()
     {
@@ -692,5 +689,22 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     public SpriteRenderer GetPencil()
     {
         return pencil;
+    }
+
+    public void DisableInput()
+    {
+        playerInput.actions.FindAction("Move").Disable();
+        playerInput.actions.FindAction("Dash").Disable();
+        playerInput.actions.FindAction("LifeSteal").Disable();
+        playerInput.actions.FindAction("Revive").Disable();
+        playerInput.actions.FindAction("Rally").Disable();
+        playerInput.actions.FindAction("Attack").Disable();
+        playerInput.actions.FindAction("Aim").Disable();
+
+    }
+
+    public void EnableInput()
+    {
+        playerInput.ActivateInput();
     }
 }

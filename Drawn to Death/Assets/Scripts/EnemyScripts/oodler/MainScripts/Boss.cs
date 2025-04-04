@@ -488,29 +488,46 @@ public class Boss : MonoBehaviour
 
     // }
 
-  
-  
 
 
-    
+
+
+
 
 
     // This function moves the oodler to the drop zone where they drop glich
-    public void MoveToDropZone(float speed = 20)
+    public bool MoveToDropZone(float speed = 20)
     {
         var step = speed * Time.deltaTime;
         oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, dropZoneCorrected, step));
         MoveShadowSprite();
+        MoveGlichWithOodler();
+        if (Vector3.Distance(transform.position, dropZoneCorrected) < 0.3f)
+        {
+            oodlerRB.MovePosition(dropZoneCorrected);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 
     // This function drops glich to the drop zone 
-    public void DropGlich(float speed = 10)
+    public bool DropGlich(float speed = 10)
     {
         var step = speed * Time.deltaTime;
         glich.transform.position = Vector3.MoveTowards(glich.transform.position, dropZone, step); // CHANGE THIS LATER TO RIGIDBODY
-
-        
+        if (Vector3.Distance(glich.transform.position, dropZone) < 0.3f)
+        {
+            glich.transform.position = dropZone;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 
@@ -523,7 +540,7 @@ public class Boss : MonoBehaviour
     //}
 
 
-    
+
 
     // This function will make the oodler come down and strike the players last known location
     public void Slam(float speed = 200f)
