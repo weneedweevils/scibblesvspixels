@@ -163,8 +163,11 @@ public class StatusEffectController : MonoBehaviour
         {
             ParticleSystem systemToStop = particleSystems[key];
             particleSystems.Remove(key);
-            systemToStop.gameObject.SetActive(false);
-            particleSystemPool.Enqueue(systemToStop);
+            if (systemToStop != null)
+            {
+                systemToStop.gameObject?.SetActive(false);
+                particleSystemPool.Enqueue(systemToStop);
+            }
         }
     }
 
