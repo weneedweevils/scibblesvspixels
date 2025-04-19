@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public enum Scene {
     Splash_Screen, 
@@ -32,6 +33,8 @@ public class MenuManager : MonoBehaviour, IDataPersistence
     [Header("References")]
     public TextMeshProUGUI text;
     public Animator transition;
+
+    
 
     public void QuitGame()
     {
@@ -64,6 +67,9 @@ public class MenuManager : MonoBehaviour, IDataPersistence
 
     public static IEnumerator LoadScene(Scene scene, Animator transition = null, float transitionTime = 0f)
     {
+        PlayerInput playerInput = CustomInput.instance.playerInput;
+        playerInput.DeactivateInput();
+
         if (transition != null)
         {
             transition.gameObject.SetActive(true);
@@ -80,6 +86,8 @@ public class MenuManager : MonoBehaviour, IDataPersistence
         {
             nextScene = data.scene;
         }
+        PlayerInput playerInput = CustomInput.instance.playerInput;
+        playerInput.ActivateInput();
         return;
     }
 

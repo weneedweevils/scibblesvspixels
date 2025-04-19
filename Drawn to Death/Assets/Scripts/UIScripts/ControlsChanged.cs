@@ -32,8 +32,9 @@ public class ControlsChanged : MonoBehaviour
     {
        
         playerInput = CustomInput.instance.playerInput;
-       
-    }
+        gamePadMouse.SetActive(false); // Game will throw an assertion error if this object is active in the scene before this script can run
+
+}
 
     private void OnEnable() { 
     
