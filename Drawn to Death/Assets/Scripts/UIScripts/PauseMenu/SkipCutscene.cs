@@ -95,7 +95,9 @@ public class SkipCutscene : MonoBehaviour
 
     public void HandleSkipCutscene()
     {
-        Destroy(dialogueManager.GetCurrentDialogue().gameObject);
+        GameObject dialogueBox = dialogueManager.GetCurrentDialogue().gameObject;
+        if (dialogueBox != null)
+            Destroy(dialogueManager.GetCurrentDialogue().gameObject);
         dialogueManager.SetCurrentDialogueNull();
         dialogueManager.dialogueActive = false;
         player.SetTimelineActive(false);

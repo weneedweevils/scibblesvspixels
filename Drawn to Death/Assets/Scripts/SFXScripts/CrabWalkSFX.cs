@@ -24,14 +24,14 @@ public class CrabWalkSFX : MonoBehaviour {
         instance.getPlaybackState(out playbackState);
 
         // Check if the enemy is dead or not, then play/stop the sound effect as required
-        if (!enemyAI.isDead() && 
+        if (!enemyAI.isDead() && enemyAI.state != State.idle &&
             playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED){
             // start the sfx playback again if it has stopped
             // We have to attach the instance again here too
             FMODUnity.RuntimeManager.AttachInstanceToGameObject(instance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
             instance.start();
         }
-        if (enemyAI.isDead() &&
+        if ((enemyAI.isDead() || enemyAI.state == State.idle) &&
             playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING){
             // stop the sfx if the enemy is dead
             instance.stop(0);

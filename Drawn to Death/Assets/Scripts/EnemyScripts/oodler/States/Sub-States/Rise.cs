@@ -28,8 +28,9 @@ public class Rise : ChildBaseState
         bossTimer = new BossTimer(4f);
 
         if(boss.IsCaught()){
+            boss.EnableGlichColliders(false);
             boss.playerScript.animator.SetTrigger("Grabbed");
-            boss.playerScript.ChangeSpriteSortingOrder(9);
+            boss.playerScript.ChangeSpriteSortingOrder(7);
         }
 
       
@@ -49,11 +50,15 @@ public class Rise : ChildBaseState
         if(bossTimer.Update()){
             if(RiseOodler()){
                 // // Check if we have caught glich and we are in the grab parent state
-                if(parentStateMachine.currentOodlerState == boss.oodlerGrab && boss.IsCaught())
-                     childStateMachine.ChangeState(boss.carryGlich);
-                 else{
-                     childStateMachine.ChangeState(boss.chase);
-                 }
+                if (parentStateMachine.currentOodlerState == boss.oodlerGrab && boss.IsCaught())
+                {
+                    boss.ControlAllies(boss.dropZoneObject, true);
+                    childStateMachine.ChangeState(boss.carryGlich);
+                }
+                else
+                {
+                    childStateMachine.ChangeState(boss.chase);
+                }
             }
 
         }

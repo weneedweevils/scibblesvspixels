@@ -18,7 +18,7 @@ public class OodleSnek : EnemyAI
     public StatusEffect currentEffect { get; private set; }
 
     //Random walk direction
-    private Vector2 direction = new Vector2(0, 0);
+    private Vector2 dir = new Vector2(0, 0);
 
     override protected void Start()
     {
@@ -42,7 +42,8 @@ public class OodleSnek : EnemyAI
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-        animator.SetBool("moving up", rb.velocity.y > 0);
+        if (!attackTimer.IsOnCooldown())
+            animator.SetBool("moving up", direction.y > 0);
 
         paintAnimator.SetBool("attacking", animator.GetBool("attacking"));
         paintAnimator.SetBool("chasing", animator.GetBool("chasing"));
@@ -70,7 +71,7 @@ public class OodleSnek : EnemyAI
             animator.SetBool("chasing", false);
 
             //Movement
-            direction = new Vector2(Random.value - 0.5f, Random.value - 0.5f).normalized;
+            dir = new Vector2(Random.value - 0.5f, Random.value - 0.5f).normalized;
             rb.velocity = Vector2.zero;
         }
 
@@ -82,8 +83,9 @@ public class OodleSnek : EnemyAI
             animator.SetBool("chasing", true);
 
             //Apply a force in the random walk direction
-            Vector2 force = direction * speed.value / 2 * Time.deltaTime;
+            Vector2 force = dir * speed.value / 2 * Time.deltaTime;
             rb.AddForce(force);
+            animator.SetBool("moving up", dir.y > 0);
         }
     }
 

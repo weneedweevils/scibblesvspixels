@@ -61,7 +61,8 @@ public class OodlerDrop : BaseState
                     Debug.Log("have eached drop zone");
                     boss.EnableGlichColliders(true);
                     boss.ControlAllies(boss.glich, false);
-                    boss.playerScript.PausePlayerInput(false);
+                    boss.playerScript.EnableInput();
+                   
                     oodlerStateMachine.ChangeState(boss.oodlerIdle);
                 }
             }

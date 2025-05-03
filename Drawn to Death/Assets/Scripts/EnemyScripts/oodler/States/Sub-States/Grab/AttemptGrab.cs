@@ -72,6 +72,7 @@ public class AttemptGrab : ChildBaseState
         else if(isGrabFrame && grabWasActivated){
                 if(boss.IsCaught()){
                     Debug.Log("GO to the state where we are holding glich");
+                    boss.playerScript.DisableInput();
                     boss.animator.SetTrigger("Caught");
                     boss.shadowAnimator.SetTrigger("Caught");
                 }

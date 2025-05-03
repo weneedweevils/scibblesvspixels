@@ -96,8 +96,16 @@ public class OodleKnight : EnemyAI
 
     override public void Stun()
     {
+        return;
+        /*
         windupTimer.ResetTimer();
         base.Stun();
+        */
+    }
+
+    public override void Damage(float damageTaken, bool makeInvincible = true, bool animateHurt = false, Vector2 knockbackDir = default, float knockbackPower = 0, bool lifeSteal = false, bool fromPlayer = false, bool noSound = false)
+    {
+        base.Damage(damageTaken, makeInvincible, animateHurt, knockbackDir, 0, lifeSteal, fromPlayer, noSound);
     }
 
     override public float PathLength(bool toPlayer = false)

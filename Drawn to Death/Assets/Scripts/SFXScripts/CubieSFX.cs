@@ -4,17 +4,28 @@ using UnityEngine;
 
 public class CubieSFX : MonoBehaviour
 {
+    private EnemyAI selfAI;
+
     [Header("FMOD Events")]
     public FMODUnity.EventReference cubieSwishSFX;
     public FMODUnity.EventReference cubieSwooshSFX;
 
+    void Start()
+    {
+        selfAI = GetComponent<EnemyAI>();
+        if (selfAI == null)
+            selfAI = GetComponentInParent<EnemyAI>();
+    }
+
     void PlaySwish()
     {
-        FMODUnity.RuntimeManager.PlayOneShot(cubieSwishSFX, this.transform.position);
+        if (selfAI != null && selfAI.state != State.idle && !selfAI.isDead() && selfAI.state != State.reviving)
+            FMODUnity.RuntimeManager.PlayOneShot(cubieSwishSFX, this.transform.position);
     }
 
     void PlaySwoosh()
     {
-        FMODUnity.RuntimeManager.PlayOneShot(cubieSwooshSFX, this.transform.position);
+        if (selfAI != null && selfAI.state != State.idle && !selfAI.isDead() && selfAI.state != State.reviving)
+            FMODUnity.RuntimeManager.PlayOneShot(cubieSwooshSFX, this.transform.position);
     }
 }

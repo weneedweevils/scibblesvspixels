@@ -96,6 +96,7 @@ public abstract class EnemyAI : MonoBehaviour
     protected Rigidbody2D rb;
     protected Vector2 pathOffset = new Vector2(0, 1.5f);
     protected bool targetIsDropZone = false;
+    protected Vector2 direction;
 
     //Misc
     protected GameObject player;
@@ -281,7 +282,7 @@ public abstract class EnemyAI : MonoBehaviour
             }
 
             // Change color if slowed but not being lifestolen
-            if (slowed && !lifestealing)
+            if (slowed && !lifestealing && !(this is DoodleBars))
             {
                 selfImage.color = Color.yellow;
             }
@@ -292,7 +293,16 @@ public abstract class EnemyAI : MonoBehaviour
             case State.idle:
                 {
                     //idle Behaviour
-                    if (PathLength() < seekDistance && !playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
+                    animator.SetBool("attacking", false);
+                    animator.SetBool("chasing", false);
+                    animator.SetBool("idle", true);
+
+                    if (rb.velocity.magnitude < 0.05f)
+                        rb.velocity = Vector2.zero;
+                    else
+                        rb.velocity *= 0.9f;
+
+                    if (PathLength() < seekDistance && !playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying && team != Team.player)
                     {
                         state = State.chase;
                     }
@@ -302,6 +312,7 @@ public abstract class EnemyAI : MonoBehaviour
                 {
                     if (!playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
                     {
+                        animator.SetBool("idle", false);
                         animator.SetBool("attacking", false);
                         animator.SetBool("chasing", true);
                         //chase Behaviour
@@ -327,8 +338,9 @@ public abstract class EnemyAI : MonoBehaviour
                         //Activate Attack behaviour
                         Attack();
 
-                        if (PathLength() > attackDistance)
+                        if (PathLength() > attackDistance && !attackTimer.IsActive())
                         {
+                            animator.SetBool("idle", false);
                             animator.SetBool("attacking", false);
                             animator.SetBool("chasing", true);
                             state = State.chase;
@@ -399,6 +411,7 @@ public abstract class EnemyAI : MonoBehaviour
                         //follow Behaviour
                         animator.SetBool("attacking", false);
                         animator.SetBool("chasing", true);
+                        animator.SetBool("idle", false);
                         MoveEnemy();
                     }
                     break;
@@ -447,7 +460,7 @@ public abstract class EnemyAI : MonoBehaviour
         }
 
         //Calculate direction to travel to the next waypoint
-        Vector2 direction = ((Vector2)targetPath.vectorPath[currentWaypoint] - rb.position + pathOffset).normalized;
+        direction = ((Vector2)targetPath.vectorPath[currentWaypoint] - rb.position + pathOffset).normalized;
 
         //Apply a force in that direction
         Vector2 force = direction * speed.value * Time.deltaTime;
