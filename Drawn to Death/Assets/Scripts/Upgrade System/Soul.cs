@@ -15,6 +15,8 @@ public class Soul : MonoBehaviour
     private PlayerMovement player;
     private Animator animator;
 
+    private SoulSFX soulSFX;
+
     public void Start()
     {
         //Generate a random direction with a positive y-component
@@ -28,6 +30,8 @@ public class Soul : MonoBehaviour
 
         // Get animator component
         animator = GetComponent<Animator>();
+
+        soulSFX = GetComponent<SoulSFX>();
     }
 
     //Update is called once per frame
@@ -88,6 +92,7 @@ public class Soul : MonoBehaviour
     private void CollectSoul()
     {
         UpgradeManager.instance.currency += value;
+        soulSFX.PlaySound(UpgradeManager.instance.currency);
         Destroy(gameObject);
     }
 }

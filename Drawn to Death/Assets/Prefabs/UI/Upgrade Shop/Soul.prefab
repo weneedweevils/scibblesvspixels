@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1786028382650205022}
   - component: {fileID: 1786028382650205023}
   - component: {fileID: 8054706523448195836}
+  - component: {fileID: 7211718033716840299}
   m_Layer: 0
   m_Name: Soul
   m_TagString: Untagged
@@ -117,3 +118,30 @@ MonoBehaviour:
   attractDistance: 5
   collectDistance: 0.5
   value: 0
+--- !u!114 &7211718033716840299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786028382650205016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f93c165e7af9d4c1080a346694c96e99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoulCollectSFX_1:
+    Guid:
+      Data1: 1011391565
+      Data2: 1289296034
+      Data3: -249791305
+      Data4: -1124113907
+    Path: event:/Misc/SoulCollect1
+  SoulCollectSFX_2:
+    Guid:
+      Data1: -1593275411
+      Data2: 1227369097
+      Data3: 1171813802
+      Data4: -1845721095
+    Path: event:/Misc/SoulCollect2
+  soulTier: 5
