@@ -49,9 +49,10 @@ public class Boss : MonoBehaviour
 
     // ENUMS
     public enum AttackType {Grab,Slam}
+    public AttackType attackType;
     public enum Phase {P1,P2,P3}
     public Phase phase = Phase.P1;
-    public AttackType attackType = AttackType.Slam;
+    
 
     
 
@@ -170,6 +171,7 @@ public class Boss : MonoBehaviour
     private List<Vector3> points;
 
    
+   
 
     private void Awake()
     {
@@ -204,10 +206,21 @@ public class Boss : MonoBehaviour
     {
 
         
-
-        childStateMachine.Initialize(emptyChildState);
-        stateMachine.Initialize(oodlerGrab);
        
+        childStateMachine.Initialize(emptyChildState);
+
+        // For DEBUGGING
+        if (attackType == AttackType.Grab)
+        {
+            stateMachine.Initialize(oodlerGrab);
+        }
+        if (attackType == AttackType.Slam)
+        {
+            stateMachine.Initialize(oodlerSlam);
+        }
+
+
+
 
         CurrentHealth = MaxHealth;
         currentHealthUI.text = CurrentHealth.ToString();

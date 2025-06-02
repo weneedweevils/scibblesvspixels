@@ -16,7 +16,9 @@ public class ChildBaseState
     }
 
 
-    public virtual void EnterState() { }
+    public virtual void EnterState() {
+        Debug.Log(childStateMachine.currentChildState);
+    }
 
     public virtual void ExitState() { } 
 

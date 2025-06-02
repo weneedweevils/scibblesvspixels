@@ -43,15 +43,14 @@ public class CarryGlich : ChildBaseState
             if (reachedDropZone || boss.MoveToDropZone())
             {
                 reachedDropZone = true;
-
                 if (bossTimer.Update())
                 {
+                    boss.animator.SetTrigger("Idle");
+                    boss.shadowAnimator.SetTrigger("idle");
                     if (boss.DropGlich())
                     {
                         
                         boss.playerScript.animator.SetTrigger("Dropped");
-                        boss.animator.SetTrigger("Idle");
-                        boss.shadowAnimator.SetTrigger("idle");
                         boss.playerScript.EnableInput();
                         childStateMachine.ChangeState(boss.chase);
                     }

@@ -77,10 +77,12 @@ public class AttemptGrab : ChildBaseState
                     boss.shadowAnimator.SetTrigger("Caught");
                 }
                 else{
+                Debug.Log("something went wrong with the grab!");
                      boss.SetBossCaught(false);
                      boss.animator.SetTrigger("Idle");
                      boss.shadowAnimator.SetTrigger("idle");
-                }
+                     boss.EnableGrabHitbox(false);
+            }
                 childStateMachine.ChangeState(boss.rise);
                 //childStateMachine.ChangeState(boss.vulnerableState);
         }
