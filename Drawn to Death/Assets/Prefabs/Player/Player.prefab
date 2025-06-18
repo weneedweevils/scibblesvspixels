@@ -347,7 +347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   persistent: 0
   accelerationCoefficient:
-    baseValue: 75
+    baseValue: 150
     multiplier: 1
     baseIncrease: 0
     flatIncrease: 0
@@ -355,17 +355,17 @@ MonoBehaviour:
     setSign: 0
     maxValue: 3.4028235e+38
   maxVelocity:
-    baseValue: 15
+    baseValue: 20
     multiplier: 1
     baseIncrease: 0
     flatIncrease: 0
     minValue: -3.4028235e+38
     setSign: 0
     maxValue: 3.4028235e+38
-  friction: 75
+  friction: 150
   speedModifier: 1
   dashEnabled: 1
-  dashBoost: 48
+  dashBoost: 15
   dashCooldown: 1
   dashBar: {fileID: 0}
   animator: {fileID: 0}
@@ -396,7 +396,6 @@ MonoBehaviour:
   HealthBarReference: {fileID: 0}
   oodlerCooldown: 0
   pauseInput: 0
-  inputHandler: {fileID: 0}
   eraserObject: {fileID: 4163747329736801976}
   armsObject: {fileID: 3966632181802528408}
   isGamepad: 0
@@ -545,7 +544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632ae7eb1d4ce49d38a1e38ee7efe7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guid: 34ccedf3906e284b-a9bd4555e1f3490e
+  guid: 1aca4d7a9693bd54-c341d9a63387e3df
 --- !u!61 &3786005922980315812
 BoxCollider2D:
   m_ObjectHideFlags: 0
