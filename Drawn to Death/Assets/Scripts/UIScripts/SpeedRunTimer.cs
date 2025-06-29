@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System;
 using System.Text;
 
-public class SpeedRunTimer : MonoBehaviour
+public class SpeedRunTimer : Singleton<SpeedRunTimer>
 {
     private TMPro.TextMeshProUGUI textMeshPro;
     private float timer;
@@ -15,13 +15,14 @@ public class SpeedRunTimer : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Awake()
+    protected override void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        base.Awake();
         textMeshPro = GetComponentInChildren<TextMeshProUGUI>();
         timer = 0f;
     }
 
+    
     // Update is called once per frame
     void Update()
     {
