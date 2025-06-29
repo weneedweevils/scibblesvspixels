@@ -26,5 +26,7 @@ public class LevelLoader : MonoBehaviour
         {
             transition.enabled = true;
         }
+
+        SpeedRunTimer.StartTimer();
     }
 }

@@ -55,6 +55,7 @@ public class MenuManager : MonoBehaviour, IDataPersistence
         {
             DataPersistenceManager.instance.NewGame();
             nextScene = Scene.Level_1;
+            SpeedRunTimer.ResetTimer();
         }
         else if (saveGame && nextScene != Scene.End)
         {
@@ -63,6 +64,7 @@ public class MenuManager : MonoBehaviour, IDataPersistence
             data.skipCutscene = false;
             DataPersistenceManager.instance.UpdateGame();
         }
+        SpeedRunTimer.PauseTimer();
         StartCoroutine(LoadScene(nextScene, transition, transitionTime));
     }
 
