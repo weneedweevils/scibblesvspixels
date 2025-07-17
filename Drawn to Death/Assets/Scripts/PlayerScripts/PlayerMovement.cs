@@ -148,7 +148,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         volumeController = volumeControllerObject.GetComponent<VolumeController>();
 
         health = maxHealth;
-        dashTimer = new CooldownTimer(dashCooldown, dashBoost / friction);
+        dashTimer = new CooldownTimer(dashCooldown, 0.8f);
         invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
         recallTimer = new CooldownTimer(recallCooldown, recallDuration);
         lifestealEndTimer = new CooldownTimer(0.1f, 0.532f);
@@ -290,10 +290,12 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         }
 
 
-        if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && playerInput.actions["Dash"].triggered && Mathf.Abs(velocity.magnitude) > 0f && !pauseInput)
+        if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && playerInput.actions["Dash"].triggered && !pauseInput)
         {
             activatedDashNotifier = false;
-            velocity += acceleration.normalized * dashBoost;
+            accelerationCoefficient.baseIncrease += dashBoost * 4f;
+            maxVelocity.baseIncrease += dashBoost;
+            //velocity += acceleration.normalized * dashBoost;
             animator.SetBool("dashing", true);
             pencil.enabled = false;
             //sprite.color = new Color(255, 255, 255, 0.50f);
@@ -306,6 +308,8 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             {
                 pencil.enabled = true;
                 animator.SetBool("dashing", false);
+                accelerationCoefficient.baseIncrease -= dashBoost * 4f;
+                maxVelocity.baseIncrease -= dashBoost;
                 //sprite.color = new Color(255, 255, 255, 1f);
             }
         }
