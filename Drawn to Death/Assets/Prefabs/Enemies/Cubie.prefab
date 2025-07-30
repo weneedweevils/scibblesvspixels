@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4562456545923964351}
   - component: {fileID: 4562456545923964289}
   - component: {fileID: 2095424512619995175}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cubie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 7931415291470608569}
   - component: {fileID: 282701892389350092}
   - component: {fileID: 1568192082}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cubie
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -518,7 +518,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2477106314339813765}
   - component: {fileID: 1155953285105680449}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: gem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -596,6 +596,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4562456546076731575}
     m_Modifications:
+    - target: {fileID: 3094582895695492704, guid: 2ded680a84103e24f959043c5eee6800,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 3351148545964432195, guid: 2ded680a84103e24f959043c5eee6800,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -605,6 +610,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4110491852924464030, guid: 2ded680a84103e24f959043c5eee6800,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6071616255836576843, guid: 2ded680a84103e24f959043c5eee6800,
         type: 3}
@@ -710,6 +720,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8020689766297920360, guid: 2ded680a84103e24f959043c5eee6800,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8061402722407240387, guid: 2ded680a84103e24f959043c5eee6800,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 9030014010041282024, guid: 2ded680a84103e24f959043c5eee6800,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ded680a84103e24f959043c5eee6800, type: 3}

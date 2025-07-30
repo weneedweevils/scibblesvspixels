@@ -148,7 +148,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         volumeController = volumeControllerObject.GetComponent<VolumeController>();
 
         health = maxHealth;
-        dashTimer = new CooldownTimer(dashCooldown, 0.8f);
+        dashTimer = new CooldownTimer(dashCooldown, 0.75f);
         invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
         recallTimer = new CooldownTimer(recallCooldown, recallDuration);
         lifestealEndTimer = new CooldownTimer(0.1f, 0.532f);
@@ -295,12 +295,11 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             activatedDashNotifier = false;
             accelerationCoefficient.baseIncrease += dashBoost * 4f;
             maxVelocity.baseIncrease += dashBoost;
-            //velocity += acceleration.normalized * dashBoost;
             animator.SetBool("dashing", true);
             pencil.enabled = false;
-            //sprite.color = new Color(255, 255, 255, 0.50f);
             dashTimer.StartTimer();
             playerSFX.PlayDashSFX();
+            gameObject.layer = LayerMask.NameToLayer("Player Dodge");
         }
         else if (dashTimer.IsOnCooldown())
         {
@@ -310,7 +309,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
                 animator.SetBool("dashing", false);
                 accelerationCoefficient.baseIncrease -= dashBoost * 4f;
                 maxVelocity.baseIncrease -= dashBoost;
-                //sprite.color = new Color(255, 255, 255, 1f);
+                gameObject.layer = LayerMask.NameToLayer("Player");
             }
         }
 
