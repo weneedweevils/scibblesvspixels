@@ -148,7 +148,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         volumeController = volumeControllerObject.GetComponent<VolumeController>();
 
         health = maxHealth;
-        dashTimer = new CooldownTimer(dashCooldown, 0.75f);
+        dashTimer = new CooldownTimer(dashCooldown, 0.8f);
         invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
         recallTimer = new CooldownTimer(recallCooldown, recallDuration);
         lifestealEndTimer = new CooldownTimer(0.1f, 0.532f);
@@ -293,8 +293,8 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && playerInput.actions["Dash"].triggered && !pauseInput)
         {
             activatedDashNotifier = false;
-            accelerationCoefficient.baseIncrease += dashBoost * 4f;
             maxVelocity.baseIncrease += dashBoost;
+            velocity += acceleration.normalized * dashBoost * 5;
             animator.SetBool("dashing", true);
             pencil.enabled = false;
             dashTimer.StartTimer();
@@ -307,7 +307,6 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             {
                 pencil.enabled = true;
                 animator.SetBool("dashing", false);
-                accelerationCoefficient.baseIncrease -= dashBoost * 4f;
                 maxVelocity.baseIncrease -= dashBoost;
                 gameObject.layer = LayerMask.NameToLayer("Player");
             }
@@ -401,7 +400,10 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         else if (Mathf.Abs(v) > 0f)
         {
             //Reduce our absolute velocity
-            v = Mathf.Sign(v) * Mathf.Max(Mathf.Abs(v) - friction * modifier * Time.deltaTime, 0f);
+            if (Mathf.Abs(v) > maxVelocity.value * modifier)
+                v = Mathf.Sign(v) * Mathf.Max(Mathf.Abs(v) - friction / 5 * modifier * Time.deltaTime, 0f);
+            else
+                v = Mathf.Sign(v) * Mathf.Max(Mathf.Abs(v) - friction * modifier * Time.deltaTime, 0f);
         }
 
         //Return velocity bound by maxVelocity
