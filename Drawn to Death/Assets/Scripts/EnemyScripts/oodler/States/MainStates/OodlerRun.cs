@@ -6,10 +6,10 @@ using UnityEngine;
 /// <summary>
 /// This is an attacking state where the oodler will charge towards glich and damage him
 /// </summary>
-public class OodlerRun : BaseState
+public class OodlerRun : ParentBaseState
 {
 
-    public OodlerRun(Boss boss, StateMachine oodlerStateMachine, ChildStateMachine childStateMachine) : base(boss, oodlerStateMachine, childStateMachine)
+    public OodlerRun(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
     
@@ -32,7 +32,7 @@ public class OodlerRun : BaseState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        childStateMachine.currentChildState.FrameUpdate();  
+        //childStateMachine.currentChildState.FrameUpdate();  
     }
 
 

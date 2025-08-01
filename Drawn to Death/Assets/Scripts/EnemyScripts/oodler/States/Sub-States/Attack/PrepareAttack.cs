@@ -7,7 +7,7 @@ public class PrepareAttack : ChildBaseState
     private bool attackCharged = false;
     private bool stopOodler = false;
 
-    public PrepareAttack(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) : base(boss, childStateMachine, parentStateMachine)
+    public PrepareAttack(Boss boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
     {
     }
 
@@ -20,6 +20,7 @@ public class PrepareAttack : ChildBaseState
         attackCharged = false;
         bossTimer = new BossTimer(0f);
         stopOodler = false;
+        Debug.Log("<color=red> ENTERED PREPARE ATTACK");
     }
 
     public override void ExitState()
@@ -42,7 +43,7 @@ public class PrepareAttack : ChildBaseState
                         boss.ShowAttack();
                         stopOodler = true;
                         
-                        childStateMachine.ChangeState(boss.swingHand);
+                        parentBaseState.NextSubState();
                         // change our state to the actual attack state
                     }
                 }

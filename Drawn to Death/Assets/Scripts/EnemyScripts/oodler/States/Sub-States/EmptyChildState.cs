@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EmptyChildState : ChildBaseState
 {
-    public EmptyChildState(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) : base(boss, childStateMachine, parentStateMachine)
+    public EmptyChildState(Boss boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
     {
     }
 

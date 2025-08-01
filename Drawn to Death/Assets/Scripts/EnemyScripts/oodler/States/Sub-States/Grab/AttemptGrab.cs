@@ -12,7 +12,7 @@ public class AttemptGrab : ChildBaseState
     private AnimationEventNotifier animationEventNotifier;
   
 
-    public AttemptGrab(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) : base(boss, childStateMachine, parentStateMachine)
+    public AttemptGrab(Boss boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
     {
     }
 
@@ -83,7 +83,7 @@ public class AttemptGrab : ChildBaseState
                      boss.shadowAnimator.SetTrigger("idle");
                      boss.EnableGrabHitbox(false);
             }
-                childStateMachine.ChangeState(boss.rise);
+                //childStateMachine.ChangeState(boss.rise);
                 //childStateMachine.ChangeState(boss.vulnerableState);
         }
     }

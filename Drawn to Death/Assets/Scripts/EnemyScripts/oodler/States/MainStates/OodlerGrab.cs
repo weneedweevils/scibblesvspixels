@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class OodlerGrab : BaseState
+public class OodlerGrab : ParentBaseState
 {   
 
 
@@ -12,7 +12,7 @@ public class OodlerGrab : BaseState
     private float timer = 0f;
     private float delayTimer = 0f;
 
-    public OodlerGrab(Boss boss, StateMachine oodlerStateMachine, ChildStateMachine childStateMachine) : base(boss, oodlerStateMachine, childStateMachine)
+    public OodlerGrab(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
 
@@ -25,7 +25,7 @@ public class OodlerGrab : BaseState
     {
         base.EnterState();
         boss.SetBossCaught(false);
-        childStateMachine.ChangeState(boss.chase);
+        //childStateMachine.ChangeState(boss.chase);
  
 
     }
@@ -38,7 +38,7 @@ public class OodlerGrab : BaseState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        childStateMachine.currentChildState.FrameUpdate();  
+        //childStateMachine.currentChildState.FrameUpdate();  
 
 
         // // if the delay is over

@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OodlerDrop : BaseState
+public class OodlerDrop : ParentBaseState
 {
   
     
 
     float delay = 0f;
 
-    public OodlerDrop(Boss boss, StateMachine oodlerStateMachine, ChildStateMachine childStateMachine) : base(boss, oodlerStateMachine, childStateMachine)
+    public OodlerDrop(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
 

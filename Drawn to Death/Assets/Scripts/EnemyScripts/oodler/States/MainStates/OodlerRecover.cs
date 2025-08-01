@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
 
-public class OodlerRecover : BaseState
+public class OodlerRecover : ParentBaseState
 {
     private float timer = 0f;
 
-    public OodlerRecover(Boss boss, StateMachine oodlerStateMachine, ChildStateMachine childStateMachine) : base(boss, oodlerStateMachine, childStateMachine)
+    public OodlerRecover(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
 

@@ -5,25 +5,25 @@ using UnityEngine.Android;
 
 public class StateMachine
 {
-    public BaseState currentOodlerState { get; set; }
+    public ParentBaseState currentState { get; set; }
 
-    public void Initialize(BaseState startingState)
+    public void Initialize(ParentBaseState startingState)
     {
-        currentOodlerState = startingState;
-        currentOodlerState.EnterState();
+        currentState = startingState;
+        currentState.EnterState();
     }
    
 
-    public void ChangeState(BaseState newState)
+    public void ChangeState(ParentBaseState newState)
     {
-        currentOodlerState.ExitState();
-        currentOodlerState = newState;
-        currentOodlerState.EnterState();
+        currentState.ExitState();
+        currentState = newState;
+        currentState.EnterState();
     }
 
 
-    public BaseState GetCurrentState(){
-        return currentOodlerState;
+    public ParentBaseState GetCurrentState(){
+        return currentState;
     }
 
 }

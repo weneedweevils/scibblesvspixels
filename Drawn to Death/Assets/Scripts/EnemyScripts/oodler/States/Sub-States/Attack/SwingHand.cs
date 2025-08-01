@@ -12,7 +12,7 @@ public class SwingHand : ChildBaseState
     private AnimationEventNotifier animationEventNotifier;
   
 
-    public SwingHand(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) : base(boss, childStateMachine, parentStateMachine)
+    public SwingHand(Boss boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
     {
     }
 
@@ -23,6 +23,7 @@ public class SwingHand : ChildBaseState
 
     public override void EnterState()
     {
+        Debug.Log("<color=red> ENTERED SWING");
         base.EnterState();
         slamWasActivated = false;
         reachedTarget = false;
@@ -71,7 +72,7 @@ public class SwingHand : ChildBaseState
 
         // This statment is for after the fist comes down
         else if(isSlamFrame && slamWasActivated){
-                childStateMachine.ChangeState(boss.vulnerableState);
+                parentBaseState.NextSubState();
         }
     }
 

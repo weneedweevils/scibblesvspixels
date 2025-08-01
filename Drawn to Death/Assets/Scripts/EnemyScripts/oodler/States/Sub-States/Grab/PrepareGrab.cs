@@ -7,7 +7,7 @@ public class PrepareGrab : ChildBaseState
     private bool attackCharged = false;
     private bool stopOodler = false;
 
-    public PrepareGrab(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) : base(boss, childStateMachine, parentStateMachine)
+    public PrepareGrab(Boss boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
     {
     }
 
@@ -43,7 +43,7 @@ public class PrepareGrab : ChildBaseState
                     if(bossTimer.Update()){
                         boss.ShowAttack();
                         stopOodler = true;
-                        childStateMachine.ChangeState(boss.attemptGrab);
+                        //childStateMachine.ChangeState(boss.attemptGrab);
                         // change our state to the actual attack state
                     }
                 }

@@ -9,7 +9,7 @@ public class Rise : ChildBaseState
 
     private Vector3 airPosition;
     BossTimer bossTimer;
-    public Rise(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) : base(boss, childStateMachine, parentStateMachine)
+    public Rise(Boss boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
     {
     }
 
@@ -24,7 +24,6 @@ public class Rise : ChildBaseState
         airPosition = boss.transform.position;
         airPosition.y = airPosition.y + 12f;
         Debug.Log("entered rise state");
-        Debug.Log(parentStateMachine.currentOodlerState);
         bossTimer = new BossTimer(4f);
 
         if(boss.IsCaught()){
@@ -50,15 +49,15 @@ public class Rise : ChildBaseState
         if(bossTimer.Update()){
             if(RiseOodler()){
                 // // Check if we have caught glich and we are in the grab parent state
-                if (parentStateMachine.currentOodlerState == boss.oodlerGrab && boss.IsCaught())
-                {
-                    boss.ControlAllies(boss.dropZoneObject, true);
-                    childStateMachine.ChangeState(boss.carryGlich);
-                }
-                else
-                {
-                    childStateMachine.ChangeState(boss.chase);
-                }
+                //if (parentStateMachine.currentOodlerState == boss.oodlerGrab && boss.IsCaught())
+                //{
+                //boss.ControlAllies(boss.dropZoneObject, true);
+                //childStateMachine.ChangeState(boss.carryGlich);
+                //}
+                //else
+                //{
+                parentBaseState.NextSubState();
+                //}
             }
 
         }
@@ -89,9 +88,9 @@ public class Rise : ChildBaseState
     }
 
     public void IfCaught(){
-         if(parentStateMachine.currentOodlerState == boss.oodlerGrab && boss.IsCaught()){
-             boss.MoveGlichWithOodler();
-        }
+         //if(parentStateMachine.currentOodlerState == boss.oodlerGrab && boss.IsCaught()){
+             //boss.MoveGlichWithOodler();
+        //}
 
     }
 }

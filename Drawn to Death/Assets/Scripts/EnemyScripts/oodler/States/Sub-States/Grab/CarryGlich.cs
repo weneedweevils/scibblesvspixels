@@ -7,7 +7,7 @@ public class CarryGlich : ChildBaseState
     private bool reachedDropZone = false;
     private BossTimer bossTimer;
 
-    public CarryGlich(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) : base(boss, childStateMachine, parentStateMachine)
+    public CarryGlich(Boss boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
     {
 
     }
@@ -39,7 +39,7 @@ public class CarryGlich : ChildBaseState
         Debug.Log("Updating...");
         base.FrameUpdate();
         
-        if(parentStateMachine.currentOodlerState == boss.oodlerGrab && boss.IsCaught()){
+        if(parentBaseState == boss.oodlerGrab && boss.IsCaught()){
             if (reachedDropZone || boss.MoveToDropZone())
             {
                 reachedDropZone = true;
@@ -52,7 +52,7 @@ public class CarryGlich : ChildBaseState
                         
                         boss.playerScript.animator.SetTrigger("Dropped");
                         boss.playerScript.EnableInput();
-                        childStateMachine.ChangeState(boss.chase);
+                        //childStateMachine.ChangeState(boss.chase);
                     }
                 }
             }

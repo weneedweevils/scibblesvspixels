@@ -8,14 +8,14 @@ using UnityEngine;
 public class Vulnerable : ChildBaseState
 {
     BossTimer vulnerableTimer;
-    public Vulnerable(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) : base(boss, childStateMachine, parentStateMachine)
+    public Vulnerable(Boss boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
     {
     }
 
     public override void EnterState()
     {
         base.EnterState();
-        Debug.Log("Entering Empty  State");
+        Debug.Log("<color=red> ENTERED CHASE");
         boss.EnableAreaHitbox(true);
         boss.EnableAttackHitbox(false);
         //boss.SetSlamCooldown(true); // set to true so that the oodler does not hurt anyone on the ground
@@ -23,7 +23,7 @@ public class Vulnerable : ChildBaseState
         boss.SetBossVulnerability(true);
         boss.animator.SetTrigger("Idle");
         boss.GetShadow().SetTrigger("Idle");
-        vulnerableTimer = new BossTimer(0f);
+        vulnerableTimer = new BossTimer(5f);
        
     }
 
@@ -37,7 +37,7 @@ public class Vulnerable : ChildBaseState
     public override void FrameUpdate()
     {
         if(vulnerableTimer.Update()){
-            childStateMachine.ChangeState(boss.rise);
+            parentBaseState.NextSubState();
         }
         base.FrameUpdate();
     }

@@ -15,7 +15,7 @@ public class Chase : ChildBaseState
    
 
 
-    public Chase(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) : base(boss, childStateMachine, parentStateMachine)
+    public Chase(Boss boss,  ParentBaseState parentBaseState) : base(boss, parentBaseState)
     {
     }
 
@@ -23,7 +23,7 @@ public class Chase : ChildBaseState
     {
         base.EnterState();
         reachedTarget = false;
-        Debug.Log("Entering Chase State");
+        Debug.Log("<color=red> ENTERED CHASE");
         boss.ShowShadow();
         playerOffSet = boss.glich.transform.localPosition;
         bossTimer = new BossTimer(5f);
@@ -44,14 +44,14 @@ public class Chase : ChildBaseState
             reachedTarget = boss.Stalk(reachedTarget, 100f);
             if(reachedTarget){
                 if(bossTimer.Update()){
-                    if(parentStateMachine.currentOodlerState == boss.oodlerRun){
+                    if(parentBaseState == boss.oodlerRun){
                         //childStateMachine.ChangeState(boss.goToRunPosition);
                     }
-                    else if(parentStateMachine.currentOodlerState == boss.oodlerSlam){
-                        childStateMachine.ChangeState(boss.prepareAttack);
+                    else if(parentBaseState == boss.oodlerSlam){
+                        parentBaseState.NextSubState();
                     }
-                    else if(parentStateMachine.currentOodlerState == boss.oodlerGrab){
-                        childStateMachine.ChangeState(boss.prepareGrab);
+                    else if(parentBaseState == boss.oodlerGrab){
+                        //childStateMachine.ChangeState(boss.prepareGrab);
                     }
                 }   
             }

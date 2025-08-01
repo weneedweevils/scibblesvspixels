@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Run : ChildBaseState
 {
-    public Run(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) : base(boss, childStateMachine, parentStateMachine)
+    public Run(Boss boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
     {
     }
 

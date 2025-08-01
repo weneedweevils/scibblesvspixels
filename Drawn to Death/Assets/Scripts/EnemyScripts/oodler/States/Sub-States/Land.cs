@@ -7,7 +7,7 @@ using Vector3 = UnityEngine.Vector3;
 
 public class Land : ChildBaseState
 {
-    public Land(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) : base(boss, childStateMachine, parentStateMachine)
+    public Land(Boss boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
     {
     }
     private bool reachedPosition = false;
@@ -38,7 +38,7 @@ public class Land : ChildBaseState
         reachedPosition = LandOodler();
         if(reachedPosition){
             boss.ChangeSpriteSortingOrder(5);
-            childStateMachine.ChangeState(boss.run);
+            //childStateMachine.ChangeState(boss.run);
         }
         
     }

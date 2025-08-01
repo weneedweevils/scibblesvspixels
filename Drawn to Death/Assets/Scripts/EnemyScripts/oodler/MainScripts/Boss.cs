@@ -176,38 +176,33 @@ public class Boss : MonoBehaviour
     private void Awake()
     {
         stateMachine = new StateMachine();
-        childStateMachine = new ChildStateMachine();
 
-        oodlerIdle = new OodlerIdle(this, stateMachine, childStateMachine);
-        oodlerSlam = new OodlerSlam(this, stateMachine,childStateMachine);
-        oodlerRecover = new OodlerRecover(this, stateMachine,childStateMachine);
-        oodlerGrab = new OodlerGrab(this, stateMachine,childStateMachine);
-        oodlerDrop = new OodlerDrop(this, stateMachine,childStateMachine);
-        oodlerInitial = new OodlerInitial(this, stateMachine,childStateMachine);
-        oodlerRun = new OodlerRun(this, stateMachine, childStateMachine);
+        oodlerIdle = new OodlerIdle(this, stateMachine);
+        oodlerSlam = new OodlerSlam(this, stateMachine);
+        oodlerRecover = new OodlerRecover(this, stateMachine);
+        oodlerGrab = new OodlerGrab(this, stateMachine);
+        oodlerDrop = new OodlerDrop(this, stateMachine);
+        oodlerInitial = new OodlerInitial(this, stateMachine);
+        oodlerRun = new OodlerRun(this, stateMachine);
         
         //goToRunPosition = new GoToRunPosition(this,childStateMachine, stateMachine);
-        land = new Land(this,childStateMachine,stateMachine);
-        run = new Run(this,childStateMachine,stateMachine);
-        emptyChildState = new EmptyChildState(this,childStateMachine,stateMachine);
-        chase = new Chase(this,childStateMachine,stateMachine);
-        prepareAttack = new PrepareAttack(this, childStateMachine, stateMachine);
-        prepareGrab = new PrepareGrab(this,childStateMachine,stateMachine);
-        swingHand = new SwingHand(this,childStateMachine,stateMachine);
-        vulnerableState = new Vulnerable(this,childStateMachine,stateMachine);
-        rise = new Rise(this,childStateMachine,stateMachine);
-        attemptGrab = new AttemptGrab(this,childStateMachine,stateMachine);
-        carryGlich = new CarryGlich(this,childStateMachine,stateMachine);
+        //land = new Land(this,childStateMachine,stateMachine);
+        //run = new Run(this,childStateMachine,stateMachine);
+        //emptyChildState = new EmptyChildState(this,childStateMachine,stateMachine);
+        //chase = new Chase(this,childStateMachine,stateMachine);
+        //prepareAttack = new PrepareAttack(this, childStateMachine, stateMachine);
+        //prepareGrab = new PrepareGrab(this,childStateMachine,stateMachine);
+        //swingHand = new SwingHand(this,childStateMachine,stateMachine);
+        //vulnerableState = new Vulnerable(this,childStateMachine,stateMachine);
+        //rise = new Rise(this,childStateMachine,stateMachine);
+        //attemptGrab = new AttemptGrab(this,childStateMachine,stateMachine);
+        //carryGlich = new CarryGlich(this,childStateMachine,stateMachine);
 
     }
 
 
     void Start()
     {
-
-        
-       
-        childStateMachine.Initialize(emptyChildState);
 
         // For DEBUGGING
         if (attackType == AttackType.Grab)
@@ -274,7 +269,7 @@ public class Boss : MonoBehaviour
 
     private void AnimationTriggerEvent(AnimationTriggerType triggerType)
     {
-        stateMachine.currentOodlerState.AnimationTriggerEvent(triggerType);
+        stateMachine.currentState.AnimationTriggerEvent(triggerType);
 
     }
 
@@ -299,7 +294,7 @@ public class Boss : MonoBehaviour
     // FixedUpdate to update physics
     private void FixedUpdate()
     {
-        stateMachine.currentOodlerState.FrameUpdate();
+        stateMachine.currentState.FrameUpdate();
         invincibilityTimer.Update();
     }
     #endregion
