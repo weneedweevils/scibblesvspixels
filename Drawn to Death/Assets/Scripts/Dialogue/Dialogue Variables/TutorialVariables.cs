@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
+using TMPro;
 
 public class TutorialVariables : MonoBehaviour
 {
@@ -14,22 +14,12 @@ public class TutorialVariables : MonoBehaviour
     public DialogueVariable revive;
 
     [Space(20)]
-    public IconMap[] iconMap;
-    public Dictionary<string, string> icons;
+    [SerializeField] private TMP_SpriteAsset iconAtlas;
 
     // Start is called before the first frame update
     void Start()
     {
         playerInput = CustomInput.instance.playerInput;
-
-        icons = new Dictionary<string, string>();
-        foreach (IconMap map in iconMap)
-        {
-            if (!icons.ContainsKey(map.keyword))
-            {
-                icons.Add(map.keyword, map.iconName);
-            }
-        }
     }
 
     public void Update()
@@ -45,23 +35,56 @@ public class TutorialVariables : MonoBehaviour
     {
         if (action != null && variable != null)
         {
-            variable.text = TryIcon(action.GetBindingDisplayString().ToUpper());
+            variable.text = TryIcon(action.GetBindingDisplayString().ToUpper(), GetCurrentDevicePrefix());
         }
     }
 
-    public string TryIcon(string key)
+    public string TryIcon(string displayString, string device)
     {
-        if (icons.ContainsKey(key))
+        if (device.Equals("Xbox") || device.Equals("PlayStation"))
         {
-            return string.Format("<sprite name=\"{0}\">", icons[key]);
+            Debug.Log(device);
+            string spriteName = device + "_" + displayString;
+            if (SpriteExists(spriteName))
+            {
+                return string.Format("<sprite name=\"{0}\">", spriteName);
+            }
         }
-        return key;
+        return displayString;
     }
-}
 
-[System.Serializable]
-public class IconMap
-{
-    public string keyword;
-    public string iconName;
+    public bool SpriteExists(string spriteName)
+    {
+        if (iconAtlas == null)
+        {
+            Debug.LogWarningFormat("TMP Sprite Asset {0} is not assigned.", spriteName);
+            return false;
+        }
+
+        int index = iconAtlas.GetSpriteIndexFromName(spriteName);
+        return index != -1;
+    }
+
+    private string GetCurrentDevicePrefix()
+    {
+        string scheme = playerInput.currentControlScheme;
+
+        if (scheme == null) return "Unknown";
+
+        if (scheme.Contains("Gamepad")) return DetectGamepadType();
+        if (scheme.Contains("Keyboard") || scheme.Contains("Mouse")) return "Keyboard&Mouse";
+
+        return "Unknown";
+    }
+
+    private string DetectGamepadType()
+    {
+        foreach (var device in playerInput.devices)
+        {
+            if (device is UnityEngine.InputSystem.XInput.XInputController) return "Xbox";
+            if (device is UnityEngine.InputSystem.DualShock.DualShockGamepad) return "PlayStation";
+            if (device is Gamepad) return "Gamepad";
+        }
+        return "Gamepad";
+    }
 }
