@@ -738,6 +738,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 56218362}
+  - component: {fileID: 56218363}
   m_Layer: 0
   m_Name: Tutorial Objects
   m_TagString: Untagged
@@ -763,6 +764,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &56218363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 56218361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 126871d7b7952754ea719b84725c3f98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dash: {fileID: 11400000, guid: fb048a837c9ee5543b04f8b9d3f2c9a0, type: 2}
+  lifesteal: {fileID: 11400000, guid: f74d6972637d62641ab296f6a84aa86b, type: 2}
+  melee: {fileID: 11400000, guid: ad5c6193430220f478f3f1f8deb253af, type: 2}
+  rally: {fileID: 11400000, guid: c73101f292601d045955f76d0e9dc2e0, type: 2}
+  revive: {fileID: 11400000, guid: 07e75cbd2e16475499b78c4eb0a7d37a, type: 2}
 --- !u!1001 &60053123
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36330,21 +36348,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4552517693583148938, guid: 948ee7c037099fe4981ad914a8af4671,
-        type: 3}
-      propertyPath: m_Spacing
-      value: 120
-      objectReference: {fileID: 0}
-    - target: {fileID: 4552517693583148938, guid: 948ee7c037099fe4981ad914a8af4671,
-        type: 3}
-      propertyPath: m_Padding.m_Top
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4552517693583148938, guid: 948ee7c037099fe4981ad914a8af4671,
-        type: 3}
-      propertyPath: m_Padding.m_Bottom
-      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4561309638245069924, guid: 948ee7c037099fe4981ad914a8af4671,
         type: 3}

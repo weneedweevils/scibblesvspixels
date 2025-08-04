@@ -16,17 +16,21 @@ MonoBehaviour:
   dialogueEntries:
   - Identifier: Line 1 - Glich
     dialogueText: "My speed is inferior to none, so if you wouldn\u2019t mind pressing
-      <color=#71A6E4><b>SPACE</b></color>, I could dodge any attack aimed at me."
+      <color=#71A6E4><b>{0}</b></color>, I could dodge any attack aimed at me."
     writeDelay: 0.05
     dialogueStyle: {fileID: 11400000, guid: 4df0a1014765a71418098e7bdfff82da, type: 2}
     dialogueSFX: 5
+    entryVariables:
+    - {fileID: 11400000, guid: fb048a837c9ee5543b04f8b9d3f2c9a0, type: 2}
   - Identifier: Line 2 - Glich
     dialogueText: Practically invincible!
     writeDelay: 0.05
     dialogueStyle: {fileID: 11400000, guid: 4df0a1014765a71418098e7bdfff82da, type: 2}
     dialogueSFX: 5
+    entryVariables: []
   - Identifier: Line 3 - Glich
     dialogueText: But I. . . can only dash in small bursts. Old bones, you understand?
     writeDelay: 0.05
     dialogueStyle: {fileID: 11400000, guid: 4df0a1014765a71418098e7bdfff82da, type: 2}
     dialogueSFX: 8
+    entryVariables: []
