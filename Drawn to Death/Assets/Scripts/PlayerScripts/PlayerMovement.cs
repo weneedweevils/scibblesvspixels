@@ -401,7 +401,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         {
             //Reduce our absolute velocity
             if (Mathf.Abs(v) > maxVelocity.value * modifier)
-                v = Mathf.Sign(v) * Mathf.Max(Mathf.Abs(v) - friction / 5 * modifier * Time.deltaTime, 0f);
+                v = Mathf.Sign(v) * Mathf.Max(Mathf.Abs(v) - friction / 2 * modifier * Time.deltaTime, 0f);
             else
                 v = Mathf.Sign(v) * Mathf.Max(Mathf.Abs(v) - friction * modifier * Time.deltaTime, 0f);
         }
