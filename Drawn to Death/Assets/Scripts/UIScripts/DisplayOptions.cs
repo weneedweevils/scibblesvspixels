@@ -113,14 +113,11 @@ public class DisplayOptions : MonoBehaviour
 
     private void SetResolution(int index)
     {
-        if (!Screen.fullScreen) // Only allow resolution change if not in fullscreen
+        if (index >= 0 && index < resItems.Count)
         {
-            if (index >= 0 && index < resItems.Count)
-            {
-                resItems[index].SetResolution();
-                PlayerPrefs.SetInt("ResolutionIndex", index);
-                PlayerPrefs.Save();
-            }
+            resItems[index].SetResolution();
+            PlayerPrefs.SetInt("ResolutionIndex", index);
+            PlayerPrefs.Save();
         }
     }
 

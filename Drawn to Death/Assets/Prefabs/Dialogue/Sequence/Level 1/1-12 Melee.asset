@@ -19,14 +19,17 @@ MonoBehaviour:
     writeDelay: 0.05
     dialogueStyle: {fileID: 11400000, guid: 4df0a1014765a71418098e7bdfff82da, type: 2}
     dialogueSFX: 8
+    entryVariables: []
   - Identifier: Line 2 - Glich
     dialogueText: It has been epochs since I have used such a primitive weapon.
     writeDelay: 0.05
     dialogueStyle: {fileID: 11400000, guid: 4df0a1014765a71418098e7bdfff82da, type: 2}
     dialogueSFX: 5
+    entryVariables: []
   - Identifier: Line 3 - Glich
-    dialogueText: "Do me a favour and use the <b>LEFT MOUSE BUTTON</b> to erase these\u2026 
-      \u2018oodles\u2019."
+    dialogueText: "Do me a favour and use the <b>{0}</b> to erase these\u2026  \u2018Oodles\u2019."
     writeDelay: 0.05
     dialogueStyle: {fileID: 11400000, guid: 4df0a1014765a71418098e7bdfff82da, type: 2}
     dialogueSFX: 5
+    entryVariables:
+    - {fileID: 11400000, guid: ad5c6193430220f478f3f1f8deb253af, type: 2}
