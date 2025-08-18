@@ -9,8 +9,23 @@ using UnityEngine;
 public class OodlerRun : ParentBaseState
 {
 
+    private Chase chase { get; set; }
+    private Land land { get; set; }
+    private Run run { get; set; }
+
     public OodlerRun(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
+        chase = new Chase(boss, this);
+        run = new Run(boss, this);
+        land = new Land(boss, this);
+
+        orderedSubStateList = new List<ChildBaseState>
+        {
+            chase,
+            land,
+            run
+        };
+
     }
     
     
@@ -21,7 +36,6 @@ public class OodlerRun : ParentBaseState
     public override void EnterState()
     {
         base.EnterState();
-        boss.childStateMachine.ChangeState(boss.chase);
     }
 
     public override void ExitState()
@@ -32,12 +46,41 @@ public class OodlerRun : ParentBaseState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        //childStateMachine.currentChildState.FrameUpdate();  
+        currentChildState.FrameUpdate();
     }
 
 
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
     {
         base.AnimationTriggerEvent(triggerType);
+    }
+
+
+
+    public override void NextSubState()
+    {
+        base.NextSubState();
+        index = index + 1;
+        if (index < orderedSubStateList.Count)
+        {
+            ChangeChildState(orderedSubStateList[index]);
+        }
+        else // Change to next state in state machine
+        {
+            oodlerStateMachine.ChangeState(boss.oodlerRun);
+        }
+
+    }
+
+    public override void Initialize(ChildBaseState startingState)
+    {
+        base.Initialize(startingState);
+    }
+
+
+    // simple getter
+    public override ChildBaseState GetCurrentChildState()
+    {
+        return base.GetCurrentChildState();
     }
 }

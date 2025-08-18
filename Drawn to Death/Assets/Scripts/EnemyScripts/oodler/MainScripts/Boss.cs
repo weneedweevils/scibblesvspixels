@@ -48,7 +48,7 @@ public class Boss : MonoBehaviour
     private bool caught = false;
 
     // ENUMS
-    public enum AttackType {Grab,Slam}
+    public enum AttackType {Grab,Slam,Run}
     public AttackType attackType;
     public enum Phase {P1,P2,P3}
     public Phase phase = Phase.P1;
@@ -212,6 +212,10 @@ public class Boss : MonoBehaviour
         if (attackType == AttackType.Slam)
         {
             stateMachine.Initialize(oodlerSlam);
+        }
+        if (attackType == AttackType.Run)
+        {
+            stateMachine.Initialize(oodlerRun);
         }
 
 

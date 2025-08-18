@@ -5,6 +5,7 @@ using UnityEngine;
 public class ChildBaseState
 {
     // Instead if using a child state machine we are going to pass in the parent state
+    // PUT A LIST OF THINGS HERE THAT YOU SHOULD ALWAYS DO WHEN EXITING ANY CHILD STATE
 
     protected Boss boss;
     protected ParentBaseState parentBaseState;
