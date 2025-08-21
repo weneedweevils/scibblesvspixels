@@ -29,12 +29,10 @@ public class Pulse : MonoBehaviour
         if (slider.value < 1f && !waiting)
         {
             waiting = true;
-            Debug.LogFormat("{0} waiting", name);
         }
         if (waiting && slider.value >= 1f)
         {
             Activate();
-            Debug.LogFormat("{0} activated", name);
         }
 
         if (active)
