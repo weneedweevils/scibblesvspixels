@@ -150,8 +150,17 @@ public abstract class EnemyAI : MonoBehaviour
         {
             Debug.Log("Enemy type is defined as general. Please define the enemy type in the child script for the enemy.");
         }
-    }
+        PlayerMovement.OnPlayerDeath += ChangeSortingLayer;
 
+    }
+    //private void OnEnable()
+    //{
+    //    PlayerMovement.OnPlayerDeath += ChangeSortingLayer;
+    //}
+    private void OnDisable()
+    {
+        PlayerMovement.OnPlayerDeath -= ChangeSortingLayer;
+    }
     private void CheckState()
     {
         //Dead enemies dont move
@@ -723,5 +732,14 @@ public abstract class EnemyAI : MonoBehaviour
     public CooldownTimer GetCooldownTimer()
     {
         return invincibilityTimer;
+    }
+
+    public void ChangeSortingLayer()
+    {
+        Debug.Log("Changed Sorting Order of ENEMY");
+        if (state == State.chase || state == State.attack || state == State.follow)
+        {
+            selfImage.sortingOrder = 200;
+        }
     }
 }

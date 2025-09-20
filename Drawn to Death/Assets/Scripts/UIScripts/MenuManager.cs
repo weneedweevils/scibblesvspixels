@@ -21,10 +21,13 @@ public enum Scene {
     Level_4,
     Level_5,
 }
+
+
 public class MenuManager : MonoBehaviour, IDataPersistence
 {
     [Header("Next Scene")]
     public Scene nextScene;
+    public Scene currentScene;
     public bool newGame = false;
     public bool loadGame = false;
     public bool saveGame = false;
@@ -48,6 +51,7 @@ public class MenuManager : MonoBehaviour, IDataPersistence
     public FMODUnity.EventReference loadSFX;
     public FMODUnity.EventReference backSFX;
 
+  
     public void GotoScene()
     {
         if (newGame)
@@ -78,6 +82,22 @@ public class MenuManager : MonoBehaviour, IDataPersistence
         }
         Time.timeScale = 1;
         SceneManager.LoadScene((int)scene);
+    }
+
+    public static IEnumerator ReloadScene(Animator transition = null, float transitionTime = 5f)
+    {
+        PlayerInput playerInput = CustomInput.instance.playerInput;
+        playerInput.DeactivateInput();
+
+        //if (transition != null)
+        //{
+        //    transition.gameObject.SetActive(true);
+        //    transition.SetTrigger("Start");
+        //    yield return new WaitForSecondsRealtime(transitionTime);
+        //}
+        yield return new WaitForSecondsRealtime(transitionTime);
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void LoadData(GameData data)
