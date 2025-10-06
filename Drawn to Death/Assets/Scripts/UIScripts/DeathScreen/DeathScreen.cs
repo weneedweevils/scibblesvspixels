@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,8 @@ public class DeathScreen : MonoBehaviour
     Color black = new Color(0, 0, 0, 1);
     private bool dead = false;
     UnityEngine.UI.Image image;
+    private float timer = 0f;
+    public static event Action OnDeathUiActive;
     //private UnityEngine.UI.Image image = panel.GetComponent<UnityEngine.UI.Image>();
 
 
@@ -33,16 +36,22 @@ public class DeathScreen : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (dead && image.color.a < 1f)
+        if (dead && timer > 2f)
         {
-            var temp = image.color;
-            temp.a += 0.5f * Time.deltaTime;
-            image.color = temp;
+            if (image.color.a < 1f)
+            {
+                var temp = image.color;
+                temp.a += 0.5f * Time.deltaTime;
+                image.color = temp;
+            }
+            else if (dead && image.color.a > 0.9f)
+            {
+                buttons.SetActive(true);
+                OnDeathUiActive?.Invoke();
+            }
         }
-        else if(dead && image.color.a > 0.9f)
-        {
-            buttons.SetActive(true);
-        }
+
+        timer += Time.deltaTime;
     }
 
     private void StartDeathScreen()
