@@ -148,7 +148,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         volumeController = volumeControllerObject.GetComponent<VolumeController>();
 
         health = maxHealth;
-        dashTimer = new CooldownTimer(dashCooldown, dashBoost / friction);
+        dashTimer = new CooldownTimer(dashCooldown, 0.8f);
         invincibilityTimer = new CooldownTimer(0f, invincibilityDuration);
         recallTimer = new CooldownTimer(recallCooldown, recallDuration);
         lifestealEndTimer = new CooldownTimer(0.1f, 0.532f);
@@ -290,15 +290,16 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         }
 
 
-        if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && playerInput.actions["Dash"].triggered && Mathf.Abs(velocity.magnitude) > 0f && !pauseInput)
+        if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && playerInput.actions["Dash"].triggered && !pauseInput)
         {
             activatedDashNotifier = false;
-            velocity += acceleration.normalized * dashBoost;
+            maxVelocity.baseIncrease += dashBoost;
+            velocity += acceleration.normalized * dashBoost * 5;
             animator.SetBool("dashing", true);
             pencil.enabled = false;
-            //sprite.color = new Color(255, 255, 255, 0.50f);
             dashTimer.StartTimer();
             playerSFX.PlayDashSFX();
+            gameObject.layer = LayerMask.NameToLayer("Player Dodge");
         }
         else if (dashTimer.IsOnCooldown())
         {
@@ -306,7 +307,8 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             {
                 pencil.enabled = true;
                 animator.SetBool("dashing", false);
-                //sprite.color = new Color(255, 255, 255, 1f);
+                maxVelocity.baseIncrease -= dashBoost;
+                gameObject.layer = LayerMask.NameToLayer("Player");
             }
         }
 
@@ -398,7 +400,10 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         else if (Mathf.Abs(v) > 0f)
         {
             //Reduce our absolute velocity
-            v = Mathf.Sign(v) * Mathf.Max(Mathf.Abs(v) - friction * modifier * Time.deltaTime, 0f);
+            if (Mathf.Abs(v) > maxVelocity.value * modifier)
+                v = Mathf.Sign(v) * Mathf.Max(Mathf.Abs(v) - friction / 2 * modifier * Time.deltaTime, 0f);
+            else
+                v = Mathf.Sign(v) * Mathf.Max(Mathf.Abs(v) - friction * modifier * Time.deltaTime, 0f);
         }
 
         //Return velocity bound by maxVelocity
