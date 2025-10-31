@@ -29,6 +29,9 @@ public class TutorialVariables : MonoBehaviour
         AssignVariable(melee, playerInput.actions["Attack"]);
         AssignVariable(rally, playerInput.actions["Rally"]);
         AssignVariable(revive, playerInput.actions["Revive"]);
+        //Debug.Log(dash.text);
+        //Debug.Log(melee.text);
+
     }
 
     public void AssignVariable(DialogueVariable variable, InputAction action)
@@ -43,12 +46,15 @@ public class TutorialVariables : MonoBehaviour
     {
         if (device.Equals("Xbox") || device.Equals("PlayStation"))
         {
-            Debug.Log(device);
+            //Debug.Log(device);
             string spriteName = device + "_" + displayString;
+            //Debug.Log(spriteName);
             if (SpriteExists(spriteName))
             {
+
                 return string.Format("<sprite name=\"{0}\">", spriteName);
             }
+           
         }
         return displayString;
     }
