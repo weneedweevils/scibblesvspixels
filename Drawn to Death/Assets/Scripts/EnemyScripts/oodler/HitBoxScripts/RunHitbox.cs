@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ public class RunHitbox : MonoBehaviour{
     private Rigidbody2D glichRb;
 
     private PlayerMovement PlayerScript;
+
+    public static event Action CollidedWithObstacle;
 
     public void Start(){
         PlayerScript = Glich.GetComponent<PlayerMovement>();
@@ -74,7 +77,7 @@ public class RunHitbox : MonoBehaviour{
                 break;
             case "Obstacle":
             {
-                oodlerScript.run.OnHitObstacle();
+                    CollidedWithObstacle?.Invoke();
                 break;
             }
 

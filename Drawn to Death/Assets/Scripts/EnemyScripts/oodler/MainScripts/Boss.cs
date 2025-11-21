@@ -120,17 +120,17 @@ public class Boss : MonoBehaviour
 
     // Sub-States
     //public GoToRunPosition goToRunPosition{get;set;}
-    public Land land{get;set;}
-    public Run run{get;set;}
-    public EmptyChildState emptyChildState{get;set;}
-    public Chase chase{get;set;}
-    public PrepareAttack prepareAttack{get;set;}
-    public SwingHand swingHand{get;set;}
-    public Vulnerable vulnerableState{get;set;}
-    public Rise rise{get;set;}
-    public PrepareGrab prepareGrab{get;set;}
-    public AttemptGrab attemptGrab{get;set;}
-    public CarryGlich carryGlich{get;set;}
+    //public Land land{get;set;}
+    //public Run run{get;set;}
+    //public EmptyChildState emptyChildState{get;set;}
+    //public Chase chase{get;set;}
+    //public PrepareAttack prepareAttack{get;set;}
+    //public SwingHand swingHand{get;set;}
+    //public Vulnerable vulnerableState{get;set;}
+    //public Rise rise{get;set;}
+    //public PrepareGrab prepareGrab{get;set;}
+    //public AttemptGrab attemptGrab{get;set;}
+    //public CarryGlich carryGlich{get;set;}
 
 
 
@@ -315,8 +315,12 @@ public class Boss : MonoBehaviour
                oodlerShadow.flipX = false;
         }
     }
+    public void ChangeSpriteSortingOrder(int sortingLayer)
+    {
+        oodlerSprite.sortingOrder = sortingLayer;
+    }
 
-     // This function shows the oodlers shadows
+    // This function shows the oodlers shadows
     public void ShowShadow()
     {
         oodlerShadow.color = new Color(0, 0, 0, 0.25f);
@@ -334,10 +338,7 @@ public class Boss : MonoBehaviour
         oodlerShadow.color = new Color(0, 0, 0, 0f);
     }
 
-     public void ChangeSpriteSortingOrder(int sortingLayer){
-        oodlerSprite.sortingOrder = sortingLayer;
-    }
-    
+
 
      // this function will increase the alpha value slowly and reveal the outline of where the hand will slam
     public bool RevealAttack()

@@ -57,6 +57,11 @@ public class ParentBaseState
         currentChildState.EnterState();
     }
 
+    protected virtual void ExitChildState()
+    {
+        currentChildState.ExitState();
+    }
+
 
     public virtual ChildBaseState GetCurrentChildState()
     {

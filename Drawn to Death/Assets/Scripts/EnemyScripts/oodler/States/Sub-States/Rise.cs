@@ -20,23 +20,25 @@ public class Rise : ChildBaseState
         boss.ShowShadow();
         boss.SetBossVulnerability(false);
         boss.EnableAreaHitbox(false);
-        boss.ChangeSpriteSortingOrder(8);
         airPosition = boss.transform.position;
         airPosition.y = airPosition.y + 12f;
         Debug.Log("entered rise state");
-        bossTimer = new BossTimer(4f);
+        bossTimer = new BossTimer(1f);
 
         if(boss.IsCaught()){
             boss.EnableGlichColliders(false);
             boss.playerScript.animator.SetTrigger("Grabbed");
-            boss.playerScript.ChangeSpriteSortingOrder(7);
+            
         }
+       // boss.playerScript.ChangeSpriteSortingOrder(8);
 
-      
+
     }
 
     public override void ExitState()
     {
+        Debug.Log("Changed sprite order back to 8");
+        boss.ChangeSpriteSortingOrder(8);
         base.ExitState();
         
     }

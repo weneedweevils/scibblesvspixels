@@ -21,8 +21,7 @@ public class Vulnerable : ChildBaseState
         //boss.SetSlamCooldown(true); // set to true so that the oodler does not hurt anyone on the ground
         boss.HideShadow();
         boss.SetBossVulnerability(true);
-        boss.animator.SetTrigger("Idle");
-        boss.GetShadow().SetTrigger("Idle");
+        boss.animator.SetTrigger("Stunned");
         vulnerableTimer = new BossTimer(5f);
        
     }
@@ -32,11 +31,14 @@ public class Vulnerable : ChildBaseState
         base.ExitState();
         boss.SetBossVulnerability(false);
         Debug.Log("exiting Empty state");
+
+        boss.animator.SetTrigger("Idle");
     }
 
     public override void FrameUpdate()
     {
         if(vulnerableTimer.Update()){
+
             parentBaseState.NextSubState();
         }
         base.FrameUpdate();

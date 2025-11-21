@@ -27,6 +27,8 @@ public class Chase : ChildBaseState
         boss.ShowShadow();
         playerOffSet = boss.glich.transform.localPosition;
         bossTimer = new BossTimer(5f);
+       
+
     }
 
     public override void ExitState()
