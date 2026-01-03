@@ -49,9 +49,6 @@ public class Land : ChildBaseState
     {
         var step = speed * Time.deltaTime;
         boss.oodlerRB.MovePosition(Vector3.MoveTowards(boss.transform.position, runGroundPosition, step));
-        Debug.Log(boss.transform.position);
-        Debug.Log(runGroundPosition);
-        Debug.Log(Vector3.Distance(boss.transform.position, runGroundPosition));
         if (Vector3.Distance(boss.transform.position, runGroundPosition) < 0.3f)
         {
             boss.oodlerRB.MovePosition(runGroundPosition);

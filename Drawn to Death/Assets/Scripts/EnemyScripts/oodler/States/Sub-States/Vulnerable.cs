@@ -15,7 +15,7 @@ public class Vulnerable : ChildBaseState
     public override void EnterState()
     {
         base.EnterState();
-        Debug.Log("<color=red> ENTERED CHASE");
+        Debug.Log("<color=red> ENTERED vulnerable");
         boss.EnableAreaHitbox(true);
         boss.EnableAttackHitbox(false);
         //boss.SetSlamCooldown(true); // set to true so that the oodler does not hurt anyone on the ground

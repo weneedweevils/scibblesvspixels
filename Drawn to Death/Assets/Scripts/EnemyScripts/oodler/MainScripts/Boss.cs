@@ -101,6 +101,7 @@ public class Boss : MonoBehaviour
 
     public GameObject grabHitboxCollider;
     public GameObject attackColumnHitboxCollider;
+    public GameObject spriteHitboxCollider;
 
 
     // States
@@ -427,6 +428,19 @@ public class Boss : MonoBehaviour
         else
         {
             grabHitboxCollider.SetActive(false);
+        }
+    }
+
+    public void EnableSpriteHitbox(bool enable)
+    {
+        if (enable)
+        {
+            spriteHitboxCollider.SetActive(true);
+
+        }
+        else
+        {
+            spriteHitboxCollider.SetActive(false);
         }
     }
 

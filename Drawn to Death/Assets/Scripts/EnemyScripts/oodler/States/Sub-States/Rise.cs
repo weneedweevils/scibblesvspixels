@@ -20,6 +20,7 @@ public class Rise : ChildBaseState
         boss.ShowShadow();
         boss.SetBossVulnerability(false);
         boss.EnableAreaHitbox(false);
+        boss.EnableSpriteHitbox(true);
         airPosition = boss.transform.position;
         airPosition.y = airPosition.y + 12f;
         Debug.Log("entered rise state");
@@ -37,6 +38,7 @@ public class Rise : ChildBaseState
 
     public override void ExitState()
     {
+        boss.EnableSpriteHitbox(false);
         Debug.Log("Changed sprite order back to 8");
         boss.ChangeSpriteSortingOrder(8);
         base.ExitState();
