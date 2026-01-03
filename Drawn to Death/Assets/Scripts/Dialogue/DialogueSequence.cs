@@ -18,6 +18,23 @@ public class DialogueEntry
     [Space(10)] public float writeDelay = 0.05f;
     public DialogueStyle dialogueStyle;
     public DialogueSFX dialogueSFX;
+    public DialogueVariable[] entryVariables;
+
+    public string GetText()
+    {
+        if (entryVariables == null || entryVariables.Length == 0)
+        {
+            return dialogueText;
+        }
+
+        List<string> variables = new List<string>();
+        foreach(DialogueVariable var in entryVariables)
+        {
+            variables.Add(var.GetText());
+        }
+        string[] parameters = variables.ToArray();
+        return string.Format(dialogueText, parameters);
+    }
 
     public string SFXEventPath()
     {

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5059973258740028862}
   - component: {fileID: 8381784586574453882}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: gem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8534503230190797587}
   - component: {fileID: 3542322535743400333}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Heal Radius
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 6559998362563822008}
   - component: {fileID: 6559998362563821956}
   - component: {fileID: 6559998362563822010}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: OodleHopper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -281,7 +281,7 @@ GameObject:
   - component: {fileID: 7472749486058796791}
   - component: {fileID: 1914613578}
   - component: {fileID: 4528466051510592957}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: OodleHopper
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -670,6 +670,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6559998363662152844}
     m_Modifications:
+    - target: {fileID: 3094582895695492704, guid: 2ded680a84103e24f959043c5eee6800,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 3351148545964432195, guid: 2ded680a84103e24f959043c5eee6800,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -679,6 +684,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4110491852924464030, guid: 2ded680a84103e24f959043c5eee6800,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6071616255836576843, guid: 2ded680a84103e24f959043c5eee6800,
         type: 3}
@@ -784,6 +794,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8020689766297920360, guid: 2ded680a84103e24f959043c5eee6800,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8061402722407240387, guid: 2ded680a84103e24f959043c5eee6800,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 9030014010041282024, guid: 2ded680a84103e24f959043c5eee6800,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ded680a84103e24f959043c5eee6800, type: 3}

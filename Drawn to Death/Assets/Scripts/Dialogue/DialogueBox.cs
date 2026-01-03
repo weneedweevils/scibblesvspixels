@@ -33,7 +33,7 @@ public class DialogueBox : MonoBehaviour
             {
                 finished = true;
                 StopCoroutine("WriteText");
-                dialogueText.text = dialogueEntry.dialogueText;
+                dialogueText.text = dialogueEntry.GetText();
             }
         }
 
@@ -88,7 +88,7 @@ public class DialogueBox : MonoBehaviour
 
         //Set Dialogue Text
         if (delay > 0) StartCoroutine("WriteText");
-        else dialogueText.text = dialogueEntry.dialogueText;
+        else dialogueText.text = dialogueEntry.GetText();
 
         //Play the correct SFX
         string path = dialogueEntry.SFXEventPath();
@@ -103,7 +103,7 @@ public class DialogueBox : MonoBehaviour
     {
         //Initialize starting conditions
         dialogueText.text = "";
-        string input = dialogueEntry.dialogueText;
+        string input = dialogueEntry.GetText();
         bool writingTag = false;
         string subString = "";
 
