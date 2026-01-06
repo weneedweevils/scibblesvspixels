@@ -46,7 +46,7 @@ public class CarryGlich : ChildBaseState
                 if (bossTimer.Update())
                 {
                     boss.animator.SetTrigger("Idle");
-                    boss.shadowAnimator.SetTrigger("idle");
+                    boss.GetShadow().SetTrigger("idle");
                     if (boss.DropGlich())
                     {
                         

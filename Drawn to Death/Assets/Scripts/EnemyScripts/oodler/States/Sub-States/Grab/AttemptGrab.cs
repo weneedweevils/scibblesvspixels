@@ -33,7 +33,7 @@ public class AttemptGrab : ChildBaseState
         animationEventNotifier.HitBoxActive += ActivateHitbox;
         boss.ChangeSpriteSortingOrder(8);
         boss.animator.SetTrigger("Grab");
-        boss.shadowAnimator.SetTrigger("Grab");
+        boss.GetShadow().SetTrigger("Grab");
         //boss.GetShadow().SetTrigger("Slam"); // the shadow shrinks in its animator when you 
     }
 
@@ -74,13 +74,13 @@ public class AttemptGrab : ChildBaseState
                     Debug.Log("GO to the state where we are holding glich");
                     boss.playerScript.DisableInput();
                     boss.animator.SetTrigger("Caught");
-                    boss.shadowAnimator.SetTrigger("Caught");
+                    boss.GetShadow().SetTrigger("Caught");
                 }
                 else{
                 Debug.Log("something went wrong with the grab!");
                      boss.SetBossCaught(false);
                      boss.animator.SetTrigger("Idle");
-                     boss.shadowAnimator.SetTrigger("idle");
+                     boss.GetShadow().SetTrigger("idle");
                      boss.EnableGrabHitbox(false);
             }
                 //childStateMachine.ChangeState(boss.rise);

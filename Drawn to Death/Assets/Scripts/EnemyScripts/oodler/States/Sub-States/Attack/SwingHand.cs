@@ -36,7 +36,7 @@ public class SwingHand : ChildBaseState
         animationEventNotifier.HitBoxActive += ActivateHitbox;
         boss.ChangeSpriteSortingOrder(5);
         boss.animator.SetTrigger("Slam");
-        boss.GetShadow().SetTrigger("Slam"); // the shadow shrinks in its animator when you 
+        //boss.GetShadow().SetTrigger("Slam"); // the shadow shrinks in its animator when you 
     }
 
     public override void ExitState()

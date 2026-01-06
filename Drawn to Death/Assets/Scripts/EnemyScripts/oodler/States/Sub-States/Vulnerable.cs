@@ -22,7 +22,7 @@ public class Vulnerable : ChildBaseState
         boss.HideShadow();
         boss.SetBossVulnerability(true);
         boss.animator.SetTrigger("Stunned");
-        vulnerableTimer = new BossTimer(5f);
+        vulnerableTimer = new BossTimer(boss.bossVulnerabilityTime);
        
     }
 

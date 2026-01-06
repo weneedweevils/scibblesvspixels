@@ -4,14 +4,13 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class OodlerSlam : ParentBaseState
+public class OodlerQuickSlam : ParentBaseState
 {
 
     // Sub States
     private Chase chase { get; set; }
     private PrepareAttack prepareAttack { get; set; }
     private SwingHand swingHand { get; set; }
-    private Vulnerable vulnerableState { get; set; }
     private Rise rise { get; set; }
 
 
@@ -27,14 +26,13 @@ public class OodlerSlam : ParentBaseState
     private AnimationEventNotifier animationEventNotifier;
     //int index = 0;
 
-    
 
-    public OodlerSlam(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+
+    public OodlerQuickSlam(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
         chase = new Chase(boss, this);
         prepareAttack = new PrepareAttack(boss,this);
         swingHand = new SwingHand(boss, this);
-        vulnerableState = new Vulnerable(boss, this);
         rise = new Rise(boss, this);
         
 
@@ -43,7 +41,6 @@ public class OodlerSlam : ParentBaseState
             chase,
             prepareAttack,
             swingHand,
-            vulnerableState,
             rise
         };
 
@@ -63,7 +60,6 @@ public class OodlerSlam : ParentBaseState
     // parent state 
     public override void EnterState()
     {
-        //UpdateValues(); we want to update the values of the state timings if possible
         Debug.Log("<color=red>ENTERING SLAM STATE");
         base.EnterState();
     }
@@ -80,7 +76,7 @@ public class OodlerSlam : ParentBaseState
 
     public override void FrameUpdate()
     {
-       
+        Debug.Log("IN QUICK SLAM");
         currentChildState.FrameUpdate();  
     }
 

@@ -7,6 +7,7 @@ public class PrepareGrab : ChildBaseState
     private bool attackCharged = false;
     private bool stopOodler = false;
 
+
     public PrepareGrab(Boss boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
     {
     }
@@ -16,7 +17,7 @@ public class PrepareGrab : ChildBaseState
         base.EnterState();
         boss.SetBossCaught(false);
         boss.animator.SetTrigger("GrabWindUp");
-        boss.shadowAnimator.SetTrigger("GrabWindUp");
+        boss.GetShadow().SetTrigger("GrabWindUp");
         //boss.GetShadow().SetTrigger();
         reachedTarget = false;
         attackCharged = false;

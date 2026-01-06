@@ -28,19 +28,23 @@ public class Boss : MonoBehaviour
 
     // Public Parameters
     [Header ("Public float")]
-    private float MaxHealth = 500f;
-    private float CurrentHealth = 500f;
-    public float MovementSpeed { get; set; } = 100f;
+    private float maxHealth = 500f;
+    private float currentHealth = 500f;
+    public float movementSpeed { get; set; } = 100f;
     public float oodlerAttackDamage = 50f;
     private float invincibilityDuration = 40f / 60f;
 
+
      // timings and speeds for boss battle
-    public float bossVulnerabilityTime = 10f; // Time the oodler is vulnerable
+    public float bossVulnerabilityTime = 5f; // Time the oodler is vulnerable
     public float slamWarningTime = 1f; // Time the oodler stops before Slamming player
     public float grabWarningTime = 1.25f; // Time the oodler stops before grabbing player
+    
+
     public float airTime = 5f;
     public int allowedSlams = 1;
     public int SlamNum = 0;
+    
 
     
     [Header("Public bool Parameters")]
@@ -48,7 +52,7 @@ public class Boss : MonoBehaviour
     private bool caught = false;
 
     // ENUMS
-    public enum AttackType {Grab,Slam,Run}
+    public enum AttackType {Grab,Slam,Run, Default}
     public AttackType attackType;
     public enum Phase {P1,P2,P3}
     public Phase phase = Phase.P1;
@@ -58,8 +62,8 @@ public class Boss : MonoBehaviour
 
     [Header ("Shadow Reference")]
     public GameObject oodlerShadowObject;
-    public SpriteRenderer oodlerShadow;
-    public Animator shadowAnimator;
+    private SpriteRenderer oodlerShadow;
+    private Animator shadowAnimator;
    
 
 
@@ -110,12 +114,13 @@ public class Boss : MonoBehaviour
 
 
     public OodlerIdle oodlerIdle { get; set; }
-    public OodlerSlam oodlerSlam { get; set; }
+    public OodlerSlam oodlerSlam { get; set; } //
+    public OodlerQuickSlam oodlerQuickSlam { get; set; } //
     public OodlerRecover oodlerRecover { get; set; }
-    public OodlerGrab oodlerGrab { get; set; }
+    public OodlerGrab oodlerGrab { get; set; } //
     public OodlerDrop oodlerDrop { get; set; }
     public OodlerInitial oodlerInitial{ get; set; }
-    public OodlerRun oodlerRun { get; set; }
+    public OodlerRun oodlerRun { get; set; } //
 
 
 
@@ -185,7 +190,8 @@ public class Boss : MonoBehaviour
         oodlerDrop = new OodlerDrop(this, stateMachine);
         oodlerInitial = new OodlerInitial(this, stateMachine);
         oodlerRun = new OodlerRun(this, stateMachine);
-        
+        oodlerQuickSlam = new OodlerQuickSlam(this, stateMachine);
+
         //goToRunPosition = new GoToRunPosition(this,childStateMachine, stateMachine);
         //land = new Land(this,childStateMachine,stateMachine);
         //run = new Run(this,childStateMachine,stateMachine);
@@ -198,71 +204,112 @@ public class Boss : MonoBehaviour
         //rise = new Rise(this,childStateMachine,stateMachine);
         //attemptGrab = new AttemptGrab(this,childStateMachine,stateMachine);
         //carryGlich = new CarryGlich(this,childStateMachine,stateMachine);
-
+      
     }
 
-
-    void Start()
+    
+    private void Start()
     {
+        InstantiateVariables();
 
-        // For DEBUGGING
+
+
+        // THIS NEEDS TO GO AT BOTTOM AFTER INSTANTIATING VARIABLES
         if (attackType == AttackType.Grab)
         {
             stateMachine.Initialize(oodlerGrab);
         }
-        if (attackType == AttackType.Slam)
+        else if (attackType == AttackType.Slam)
         {
-            stateMachine.Initialize(oodlerSlam);
+            stateMachine.Initialize(oodlerQuickSlam);
         }
-        if (attackType == AttackType.Run)
+        else if (attackType == AttackType.Run)
         {
             stateMachine.Initialize(oodlerRun);
         }
+        else if (attackType == AttackType.Default)
+        {
+            stateMachine.Initialize(oodlerInitial);
+        }
+
+    }
+
+        
 
 
+    private void InstantiateVariables()
+    {
+        Debug.Log("after setting attack type 2");
+        currentHealth = maxHealth;
+        currentHealthUI.text = currentHealth.ToString();
+        maxHealthUI.text = maxHealth.ToString();
 
 
-        CurrentHealth = MaxHealth;
-        currentHealthUI.text = CurrentHealth.ToString();
-        maxHealthUI.text = MaxHealth.ToString();
-
-
+        // Sprite components for oolder and oodler shadow
         animator = GetComponentInChildren<Animator>();
         oodlerSprite = GetComponentInChildren<SpriteRenderer>();
+        oodlerShadow = oodlerShadowObject.GetComponentInChildren<SpriteRenderer>();
+        shadowAnimator = oodlerShadowObject.GetComponentInChildren<Animator>();
+
 
         playerScript = glich.GetComponent<PlayerMovement>();
 
         invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
         healthBarImage = healthBar.GetComponent<UnityEngine.UI.Image>();
         oodlerRB = GetComponent<Rigidbody2D>();
-      
 
+        // values for drop zone in grab attack
         dropZoneCorrected = new Vector3(dropZoneObject.transform.position.x, dropZoneObject.transform.position.y + 10f, 0);
         dropZone = new Vector3(dropZoneObject.transform.position.x, dropZoneObject.transform.position.y, 0);
-
-        // Debug.Log("My Rigidbody is" + oodlerRB);
-        // Debug.Log("my shadow is" + shadowAnimator);
-        // Debug.Log("My shadow sprite is" + oodlerShadow);
-
         points = new List<Vector3>();
     }
+
 
     // Damage Function will damage the oodler and check if they are dead
     public void Damage(float damageTaken)
     {
-        CurrentHealth = CurrentHealth - damageTaken;
+        currentHealth = currentHealth - damageTaken;
         
-        Debug.Log(CurrentHealth);
+        Debug.Log(currentHealth);
         invincibilityTimer.StartTimer();
-        if (CurrentHealth <= 0f)
+        if (currentHealth <= 0f)
         {
             Die();
         }
     }
 
+    // float playerHealth, float oodlerHealth, float playerProximity, int columnsLeft, int phase, quick slam
+    public void pickState()//ParentBaseState pickState()
+    {
+        if(phase == Phase.P1 )
+        {
 
+        }
+        else if(phase == Phase.P2)
+        {
+
+        }
+        else if(phase == Phase.P3)
+        {
+
+        }
+
+            
+
+    }
+
+
+    public void ChangeStateParameters(float slamTime = 2f,  float grabTime = 2f, float vulnerabilityTime = 5f)
+    {
+        slamWarningTime = slamTime;
+        grabWarningTime = grabTime;
+        bossVulnerabilityTime = vulnerabilityTime;
+
+
+    }
     
 
+    
 
     // Die function will be called when the oodler dies
     public void Die()
@@ -289,11 +336,11 @@ public class Boss : MonoBehaviour
     #region Update
     private void Update(){
         //CheckWinCondition();
-        //currentHealthUI.text = Mathf.Ceil(CurrentHealth).ToString();
-        //healthBarImage.fillAmount = CurrentHealth / MaxHealth;
+        //currentHealthUI.text = Mathf.Ceil(currentHealth).ToString();
+        //healthBarImage.fillAmount = currentHealth / maxHealth;
         //CheckPhase();
         
-        //maxHealthUI.text = MaxHealth.ToString();
+        //maxHealthUI.text = maxHealth.ToString();
     }
 
     // FixedUpdate to update physics
@@ -324,6 +371,7 @@ public class Boss : MonoBehaviour
     // This function shows the oodlers shadows
     public void ShowShadow()
     {
+        Debug.Log("Showing shadow");
         oodlerShadow.color = new Color(0, 0, 0, 0.25f);
     }
      
@@ -612,7 +660,7 @@ public class Boss : MonoBehaviour
 
 
     // This function will follow the players position with an offset of 10 units above them if we reached the target in anyway then reached target then it will always return true
-    public bool Stalk(bool reachedTarget, float speed = 20f)
+    public bool Stalk(bool reachedTarget, float speed )
     {
         var step = speed * Time.deltaTime;
         playerOffSet = glich.transform.localPosition;
@@ -785,7 +833,7 @@ public class Boss : MonoBehaviour
         //}
 
 
-        if (CurrentHealth < 0)
+        if (currentHealth < 0)
         {
             Debug.Log("we go to end scene");
             if (nextScene != Scene.End)
@@ -897,15 +945,15 @@ public class Boss : MonoBehaviour
 
     public void heal(float heal_amount)
     {
-        if (CurrentHealth <= MaxHealth)
+        if (currentHealth <= maxHealth)
         {
-            if (CurrentHealth + heal_amount > MaxHealth)
+            if (currentHealth + heal_amount > maxHealth)
             {
-                CurrentHealth = MaxHealth;
+                currentHealth = maxHealth;
             }
             else
             {
-                CurrentHealth += heal_amount;
+                currentHealth += heal_amount;
             }
         }
     }
@@ -926,7 +974,7 @@ public class Boss : MonoBehaviour
     
     public void CheckPhase()
     {
-        if (!enteredPhase2 && MaxHealth / 2f > CurrentHealth)
+        if (!enteredPhase2 && maxHealth / 2f > currentHealth)
         {
             enteredPhase2 = true;
             phase = Phase.P2;
@@ -939,7 +987,7 @@ public class Boss : MonoBehaviour
 
         }
 
-        if (!enteredPhase3 && MaxHealth / 4f > CurrentHealth)
+        if (!enteredPhase3 && maxHealth / 4f > currentHealth)
         {
             enteredPhase3 = true;
             phase = Phase.P3;

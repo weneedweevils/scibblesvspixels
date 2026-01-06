@@ -33,11 +33,13 @@ public class OodlerInitial : ParentBaseState
                 if (blocker.isDead())
                 {
                     boss.healthBarParent.SetActive(true);
-                    oodlerStateMachine.ChangeState(boss.oodlerIdle);
                     boss.HealthCrystal1.SetActive(true);
                     boss.HealthCrystal2.SetActive(true);
                     boss.HealthCrystal3.SetActive(true);
                     boss.HealthCrystal4.SetActive(true);
+
+
+                    oodlerStateMachine.ChangeState(boss.oodlerIdle);
                 }
             }
         }

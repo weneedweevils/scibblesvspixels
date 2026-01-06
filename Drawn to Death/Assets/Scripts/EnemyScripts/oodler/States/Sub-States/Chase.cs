@@ -15,7 +15,7 @@ public class Chase : ChildBaseState
    
 
 
-    public Chase(Boss boss,  ParentBaseState parentBaseState) : base(boss, parentBaseState)
+    public Chase(Boss boss,  ParentBaseState parentBaseState, float chaseSpeed) : base(boss, parentBaseState)
     {
     }
 
@@ -26,7 +26,7 @@ public class Chase : ChildBaseState
         Debug.Log("<color=red> ENTERED CHASE");
         boss.ShowShadow();
         playerOffSet = boss.glich.transform.localPosition;
-        bossTimer = new BossTimer(5f);
+        bossTimer = new BossTimer(2f);
        
 
     }

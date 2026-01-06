@@ -6,6 +6,7 @@ public class PrepareAttack : ChildBaseState
     private bool reachedTarget = false;
     private bool attackCharged = false;
     private bool stopOodler = false;
+    
 
     public PrepareAttack(Boss boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
     {
@@ -18,7 +19,7 @@ public class PrepareAttack : ChildBaseState
         boss.GetShadow().SetTrigger("SlamWindUp");
         reachedTarget = false;
         attackCharged = false;
-        bossTimer = new BossTimer(0f);
+        bossTimer = new BossTimer(boss.slamWarningTime);
         stopOodler = false;
         Debug.Log("<color=red> ENTERED PREPARE ATTACK");
     }

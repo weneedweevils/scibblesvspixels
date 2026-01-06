@@ -10,13 +10,13 @@ public class Run : ChildBaseState
 
     private bool hitObstacle = false;
     private Vector3 oodlerRunDirection;
-   
 
+  
     public override void EnterState()
     {
         hitObstacle = false;
         boss.animator.SetTrigger("Walk");
-        boss.shadowAnimator.SetTrigger("Walk");
+        boss.GetShadow().SetTrigger("Walk");
         oodlerRunDirection = (boss.glich.transform.position - boss.transform.position).normalized;// Mov
         boss.EnableRunHitbox(true);
         RunHitbox.CollidedWithObstacle += OnHitObstacle;
