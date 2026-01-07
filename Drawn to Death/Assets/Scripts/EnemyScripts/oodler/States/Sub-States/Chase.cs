@@ -11,12 +11,14 @@ public class Chase : ChildBaseState
      private bool reachedTarget = false;
      private Vector3 playerOffSet;
      private BossTimer bossTimer;
+     private float chaseSpeed;
      
    
 
 
-    public Chase(Boss boss,  ParentBaseState parentBaseState, float chaseSpeed) : base(boss, parentBaseState)
+    public Chase(Boss boss,  ParentBaseState parentBaseState, float chaseSpeed = 100f) : base(boss, parentBaseState)
     {
+        this.chaseSpeed = chaseSpeed;
     }
 
     public override void EnterState()
@@ -26,7 +28,7 @@ public class Chase : ChildBaseState
         Debug.Log("<color=red> ENTERED CHASE");
         boss.ShowShadow();
         playerOffSet = boss.glich.transform.localPosition;
-        bossTimer = new BossTimer(2f);
+        bossTimer = new BossTimer(2f); //time we continue following glich
        
 
     }
@@ -43,7 +45,7 @@ public class Chase : ChildBaseState
     {
         // If the distance between glich and oodler gets shorter, oodler will quickly snap to glichs posiiton
         if (Vector3.Distance(boss.glich.transform.position, boss.transform.position) < 20f){
-            reachedTarget = boss.Stalk(reachedTarget, 100f);
+            reachedTarget = boss.Stalk(reachedTarget, chaseSpeed);
             if(reachedTarget){
                 if(bossTimer.Update()){
                     if(parentBaseState == boss.oodlerRun){
@@ -60,7 +62,7 @@ public class Chase : ChildBaseState
             }
         }
         else{
-           reachedTarget = boss.Stalk(reachedTarget, 50f);
+           reachedTarget = boss.Stalk(reachedTarget, chaseSpeed/2f);
         }
     }
 

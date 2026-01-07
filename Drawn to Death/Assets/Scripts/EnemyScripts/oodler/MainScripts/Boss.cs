@@ -1,20 +1,22 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using Pathfinding;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Xml.Schema;
-using JetBrains.Annotations;
-using Pathfinding;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using UnityEngine.XR;
+using System.Collections;
+using Random = UnityEngine.Random;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
-using Random = UnityEngine.Random;
-using UnityEngine.Android;
 
 
 
@@ -264,8 +266,9 @@ public class Boss : MonoBehaviour
         points = new List<Vector3>();
     }
 
-
-    // Damage Function will damage the oodler and check if they are dead
+    ///<summary>
+    /// Damage Function will damage the oodler and check if they are dead
+    ///</summary>
     public void Damage(float damageTaken)
     {
         currentHealth = currentHealth - damageTaken;
@@ -278,7 +281,9 @@ public class Boss : MonoBehaviour
         }
     }
 
-    // float playerHealth, float oodlerHealth, float playerProximity, int columnsLeft, int phase, quick slam
+    ///<summary>
+    /// will determine the next state depending on playerHealth, oodlerHealth, playerProximity, columnsLeft, phase
+    ///</summary> 
     public void pickState()//ParentBaseState pickState()
     {
         if(phase == Phase.P1 )
@@ -299,19 +304,14 @@ public class Boss : MonoBehaviour
     }
 
 
-    public void ChangeStateParameters(float slamTime = 2f,  float grabTime = 2f, float vulnerabilityTime = 5f)
-    {
-        slamWarningTime = slamTime;
-        grabWarningTime = grabTime;
-        bossVulnerabilityTime = vulnerabilityTime;
 
 
-    }
-    
 
-    
 
-    // Die function will be called when the oodler dies
+
+    ///<summary>
+    /// logic for when oodler health reaches 0
+    ///</summary> 
     public void Die()
     {
         Debug.Log("oodler is dead :/");
@@ -352,7 +352,13 @@ public class Boss : MonoBehaviour
     #endregion
 
 
+
+
     #region Animation
+
+    ///<summary>
+    /// flips sprite direction of shadow and oodler relative to glich
+    ///</summary> 
     public void CheckSpriteDirection(){
         if(transform.position.x - glich.transform.position.x >= 0){
             oodlerSprite.flipX = true;
@@ -363,33 +369,45 @@ public class Boss : MonoBehaviour
                oodlerShadow.flipX = false;
         }
     }
+
+    ///<summary>
+    /// changes sprite ordering of oodler
+    ///</summary> 
     public void ChangeSpriteSortingOrder(int sortingLayer)
     {
         oodlerSprite.sortingOrder = sortingLayer;
     }
 
-    // This function shows the oodlers shadows
+    ///<summary>
+    /// This function will display the oodlers shadow
+    ///</summary> 
     public void ShowShadow()
     {
         Debug.Log("Showing shadow");
         oodlerShadow.color = new Color(0, 0, 0, 0.25f);
     }
-     
+
+    ///<summary>
+    /// This function changes the colour of the shadow to red
+    ///</summary> 
     // This function shows the attack
     public void ShowAttack()
     {
         oodlerShadow.color = new Color(255, 0, 0, 0.5f);
     }
 
-    // This function hides the oodlers shadow
+    ///<summary>
+    /// This function hides the oodlers shadow
+    ///</summary> 
     public void HideShadow()
     {
         oodlerShadow.color = new Color(0, 0, 0, 0f);
     }
 
 
-
-     // this function will increase the alpha value slowly and reveal the outline of where the hand will slam
+    ///<summary>
+    /// This function will increase the alpha value slowly and reveal the outline of where the hand will slam
+    ///</summary> 
     public bool RevealAttack()
     {
         if (oodlerShadow.color.a < 0.5f)
@@ -425,6 +443,10 @@ public class Boss : MonoBehaviour
 
 
     #region Hitboxes
+
+    ///<summary>
+    /// Enables/Disables oodlers Attack hitbox
+    ///</summary> 
     public void EnableAttackHitbox(bool enable)
     {
         if(enable)
@@ -441,7 +463,9 @@ public class Boss : MonoBehaviour
 
 
 
-    // Enabling/Disabling Areabox
+    ///<summary>
+    /// Enables/Disables oodlers self hitbox for glich to deal damage
+    ///</summary> 
     public void EnableAreaHitbox(bool enable)
     {
         if (enable)
@@ -454,8 +478,10 @@ public class Boss : MonoBehaviour
         }
     }
 
-
-     public void EnableRunHitbox(bool enable)
+    ///<summary>
+    /// Enables/Disables oodlers run hitbox
+    ///</summary> 
+    public void EnableRunHitbox(bool enable)
     {
         if (enable)
         {
@@ -467,7 +493,10 @@ public class Boss : MonoBehaviour
         }
     }
 
-     public void EnableGrabHitbox(bool enable)
+    ///<summary>
+    /// Enables/Disables oodlers grab hitbox
+    ///</summary> 
+    public void EnableGrabHitbox(bool enable)
     {
         if (enable)
         {
@@ -479,6 +508,9 @@ public class Boss : MonoBehaviour
         }
     }
 
+    ///<summary>
+    /// Enables/Disables sprite hitbox
+    ///</summary> 
     public void EnableSpriteHitbox(bool enable)
     {
         if (enable)
@@ -492,10 +524,12 @@ public class Boss : MonoBehaviour
         }
     }
 
-    
 
 
-    // This function enables/disables gliches hitboxes
+
+    ///<summary>
+    /// Enables/Disables gliches hitbox specifically for the grab attack
+    ///</summary> 
     public void EnableGlichColliders(bool enable)
     {
         if (enable)
@@ -510,26 +544,23 @@ public class Boss : MonoBehaviour
         }
     }
 
-     public bool CloseToTarget(){
-         if (Vector3.Distance(transform.position,glichLastPosition)<1.5f)
-        {
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
+
+    
 
 
-   
+
     #endregion
 
-   
+
 
 
     #region Moving Methods
     // MOVING METHODS //
 
+
+    ///<summary>
+    /// this function will circl glich at a constant rate
+    ///</summary> 
     public void Circleglich( float speed, float radius){
 
 
@@ -563,14 +594,19 @@ public class Boss : MonoBehaviour
 
     // }
 
+    //void OnDrawGizmos()
+    //{
+
+    //    Gizmos.color = new Color(1, 0, 0, 0.5f);
+    //    Gizmos.DrawCube(playerOffSet, new Vector3(1, 1, 1));
+    //    Gizmos.DrawCube(transform.position, new Vector3(1, 1, 1));
+    //}
 
 
 
-
-
-
-
-    // This function moves the oodler to the drop zone where they drop glich
+    ///<summary>
+    /// This function the oodler to the "drop zone" where they drop glich
+    ///</summary> 
     public bool MoveToDropZone(float speed = 20)
     {
         var step = speed * Time.deltaTime;
@@ -589,7 +625,9 @@ public class Boss : MonoBehaviour
     }
 
 
-    // This function drops glich to the drop zone 
+    ///<summary>
+    /// This function drops glich in the drop zone
+    ///</summary> 
     public bool DropGlich(float speed = 10)
     {
         var step = speed * Time.deltaTime;
@@ -606,16 +644,7 @@ public class Boss : MonoBehaviour
     }
 
 
-    //void OnDrawGizmos()
-    //{
-
-    //    Gizmos.color = new Color(1, 0, 0, 0.5f);
-    //    Gizmos.DrawCube(playerOffSet, new Vector3(1, 1, 1));
-    //    Gizmos.DrawCube(transform.position, new Vector3(1, 1, 1));
-    //}
-
-
-
+   
 
     // This function will make the oodler come down and strike the players last known location
     public void Slam(float speed = 200f)
@@ -662,26 +691,66 @@ public class Boss : MonoBehaviour
     // This function will follow the players position with an offset of 10 units above them if we reached the target in anyway then reached target then it will always return true
     public bool Stalk(bool reachedTarget, float speed )
     {
+        //var step = speed * Time.deltaTime;
+        //playerOffSet = glich.transform.localPosition;
+        //playerOffSet.y = playerOffSet.y + 10f;
+        //oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, playerOffSet, step));
+        //MoveShadowSprite();
+
+        //if (!reachedTarget)
+        //{
+        //    if (Vector3.Distance(transform.position, playerOffSet) < 1f)
+        //    {
+        //        oodlerRB.MovePosition(playerOffSet);
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        //else
+        //{
+        //    return true;
+        //}
+
+  
         var step = speed * Time.deltaTime;
         playerOffSet = glich.transform.localPosition;
         playerOffSet.y = playerOffSet.y + 10f;
-        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, playerOffSet, step));
-        MoveShadowSprite();
 
-        if(!reachedTarget){
-            if(Vector3.Distance(transform.position, playerOffSet)<1f){
+        if (!reachedTarget)
+        {
+            
+            
+            oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, playerOffSet, step));
+            MoveShadowSprite();
+
+            if (Vector3.Distance(transform.position, playerOffSet) < 1f)
+            {
                 oodlerRB.MovePosition(playerOffSet);
+                Debug.Log("have reached target");
                 return true;
             }
-            else{
+            else
+            {
+                Debug.Log("have not reached target");
                 return false;
             }
+            
         }
 
-        else{
+        else
+        {
+            Debug.Log("now snap to position");
+            oodlerRB.MovePosition(playerOffSet);
+            //transform.position = playerOffSet;
             return true;
         }
     }
+
+  
 
 
 
@@ -801,7 +870,22 @@ public class Boss : MonoBehaviour
         }
     }
 
-   
+    ///<summary>
+    /// Returns true if Oodler is close to target
+    ///</summary> 
+    public bool CloseToTarget()
+    {
+        if (Vector3.Distance(transform.position, glichLastPosition) < 1.5f)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
 
     #endregion
 

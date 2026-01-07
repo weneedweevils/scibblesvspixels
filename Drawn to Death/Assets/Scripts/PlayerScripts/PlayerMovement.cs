@@ -194,8 +194,9 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         }
     }
 
+    // MOVE SOME OF THE STUFF TO A REGULAR UPDATE FUNCTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         acceleration = playerInput.actions["Move"].ReadValue<Vector2>()*accelerationCoefficient.value;
         aimDirection = playerInput.actions["Aim"].ReadValue<Vector2>();

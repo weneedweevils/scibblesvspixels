@@ -31,17 +31,17 @@ public class OodlerQuickSlam : ParentBaseState
     public OodlerQuickSlam(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
         chase = new Chase(boss, this);
-        prepareAttack = new PrepareAttack(boss,this);
-        swingHand = new SwingHand(boss, this);
-        rise = new Rise(boss, this);
+        //prepareAttack = new PrepareAttack(boss,this);
+        //swingHand = new SwingHand(boss, this);
+        //rise = new Rise(boss, this);
         
 
         orderedSubStateList = new List<ChildBaseState>
         {
             chase,
-            prepareAttack,
-            swingHand,
-            rise
+            //prepareAttack,
+            //swingHand,
+            //rise
         };
 
 
