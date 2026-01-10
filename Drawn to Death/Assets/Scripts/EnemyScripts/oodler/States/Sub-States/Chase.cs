@@ -25,7 +25,6 @@ public class Chase : ChildBaseState
     {
         base.EnterState();
         reachedTarget = false;
-        Debug.Log("<color=red> ENTERED CHASE");
         boss.ShowShadow();
         playerOffSet = boss.glich.transform.localPosition;
         bossTimer = new BossTimer(2f); //time we continue following glich
@@ -37,38 +36,38 @@ public class Chase : ChildBaseState
     {
         base.ExitState();
         Debug.Log("exiting Empty state");
-        bossTimer = null;
+        ResetState();
 
     }
 
     public override void FrameUpdate()
     {
-        // If the distance between glich and oodler gets shorter, oodler will quickly snap to glichs posiiton
+        // If the distance between glich and oodler gets shorter oodler speeds up to glich's position
         if (Vector3.Distance(boss.glich.transform.position, boss.transform.position) < 20f){
-            reachedTarget = boss.Stalk(reachedTarget, chaseSpeed);
+            reachedTarget = boss.Stalk(chaseSpeed);
             if(reachedTarget){
                 if(bossTimer.Update()){
-                    if(parentBaseState == boss.oodlerRun){
-                        //childStateMachine.ChangeState(boss.goToRunPosition);
-                        parentBaseState.NextSubState();
-                    }
-                    else if(parentBaseState == boss.oodlerSlam){
-                        parentBaseState.NextSubState();
-                    }
-                    else if(parentBaseState == boss.oodlerGrab){
-                        //childStateMachine.ChangeState(boss.prepareGrab);
-                    }
+                    parentBaseState.NextSubState();
                 }   
             }
         }
         else{
-           reachedTarget = boss.Stalk(reachedTarget, chaseSpeed/2f);
+           reachedTarget = boss.Stalk(chaseSpeed/2f);
         }
     }
 
+    public override void ResetState()
+    {
+        base.ResetState();
+        bossTimer = null;
+        reachedTarget = false;
+        boss.ResetVariables();
+    }
 
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
     {
         base.AnimationTriggerEvent(triggerType);
     }
+
+
 }

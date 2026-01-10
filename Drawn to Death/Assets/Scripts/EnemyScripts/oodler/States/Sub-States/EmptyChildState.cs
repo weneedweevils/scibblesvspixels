@@ -30,4 +30,10 @@ public class EmptyChildState : ChildBaseState
         Debug.Log("Updating...");
         base.FrameUpdate();
     }
+
+    public override void ResetState()
+    {
+        base.ResetState();
+
+    }
 }

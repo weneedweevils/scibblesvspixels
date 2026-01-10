@@ -8,9 +8,14 @@ public class Rise : ChildBaseState
 {
 
     private Vector3 airPosition;
-    BossTimer bossTimer;
-    public Rise(Boss boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
+    BossTimer riseTimer;
+    private float riseSpeed;
+    private float riseDelay;
+
+    public Rise(Boss boss, ParentBaseState parentBaseState, float riseSpeed, float riseDelay) : base(boss, parentBaseState)
     {
+        this.riseSpeed = riseSpeed;
+        riseTimer = new BossTimer(riseDelay);
     }
 
 
@@ -24,7 +29,6 @@ public class Rise : ChildBaseState
         airPosition = boss.transform.position;
         airPosition.y = airPosition.y + 12f;
         Debug.Log("entered rise state");
-        bossTimer = new BossTimer(1f);
 
         if(boss.IsCaught()){
             boss.EnableGlichColliders(false);
@@ -40,7 +44,7 @@ public class Rise : ChildBaseState
     {
         boss.EnableSpriteHitbox(false);
         Debug.Log("Changed sprite order back to 8");
-        boss.ChangeSpriteSortingOrder(8);
+        boss.BringSpriteToForeground();
         base.ExitState();
         
     }
@@ -50,7 +54,7 @@ public class Rise : ChildBaseState
         base.FrameUpdate();
         
         IfCaught();
-        if(bossTimer.Update()){
+        if(riseTimer.Update()){
             if(RiseOodler()){
                 // // Check if we have caught glich and we are in the grab parent state
                 //if (parentStateMachine.currentOodlerState == boss.oodlerGrab && boss.IsCaught())
@@ -74,6 +78,7 @@ public class Rise : ChildBaseState
     }
 
 
+    // MOVE TO BOSS FUNCTION
     public bool RiseOodler(float speed = 10f)
     {
         
@@ -95,6 +100,12 @@ public class Rise : ChildBaseState
          //if(parentStateMachine.currentOodlerState == boss.oodlerGrab && boss.IsCaught()){
              //boss.MoveGlichWithOodler();
         //}
+
+    }
+
+    public override void ResetState()
+    {
+        base.ResetState();
 
     }
 }

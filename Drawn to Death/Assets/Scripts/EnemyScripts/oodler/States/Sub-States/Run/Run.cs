@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class Run : ChildBaseState
 {
-    public Run(Boss boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
+    // NEED TO ADD SOME OF THESE TO BOSS SCRIPT
+
+    private float runSpeed;
+
+
+    public Run(Boss boss, ParentBaseState parentBaseState, float runSpeed) : base(boss, parentBaseState)
     {
     }
 
@@ -54,6 +59,12 @@ public class Run : ChildBaseState
 
     public void OnHitObstacle(){
         hitObstacle = true;
+    }
+
+    public override void ResetState()
+    {
+        base.ResetState();
+
     }
 
 }

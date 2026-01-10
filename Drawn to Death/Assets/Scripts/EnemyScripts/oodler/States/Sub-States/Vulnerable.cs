@@ -8,8 +8,9 @@ using UnityEngine;
 public class Vulnerable : ChildBaseState
 {
     BossTimer vulnerableTimer;
-    public Vulnerable(Boss boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
+    public Vulnerable(Boss boss, ParentBaseState parentBaseState, float vulnerabilityTime = 5f) : base(boss, parentBaseState)
     {
+        vulnerableTimer = new BossTimer(vulnerabilityTime);
     }
 
     public override void EnterState()
@@ -47,6 +48,12 @@ public class Vulnerable : ChildBaseState
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
     {
         base.AnimationTriggerEvent(triggerType);
+    }
+
+    public override void ResetState()
+    {
+        base.ResetState();
+
     }
 }
 

@@ -6,10 +6,12 @@ public class PrepareGrab : ChildBaseState
     private bool reachedTarget = false;
     private bool attackCharged = false;
     private bool stopOodler = false;
+    private float chaseSpeed;
 
 
-    public PrepareGrab(Boss boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
+    public PrepareGrab(Boss boss, ParentBaseState parentBaseState, float chaseSpeed = 100f) : base(boss, parentBaseState)
     {
+        this.chaseSpeed = chaseSpeed;
     }
 
     public override void EnterState()
@@ -37,7 +39,7 @@ public class PrepareGrab : ChildBaseState
 
         // Following if statement will stalk glich, once the redoutline is fully revealed we will stop the oodler for sometime to give the player time to react
         if(!stopOodler){
-            reachedTarget = boss.Stalk(reachedTarget, 100f);
+            reachedTarget = boss.Stalk(chaseSpeed);
             if(reachedTarget){
                 attackCharged = boss.RevealAttack();
                 if(attackCharged){
@@ -56,5 +58,11 @@ public class PrepareGrab : ChildBaseState
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
     {
         base.AnimationTriggerEvent(triggerType);
+    }
+
+    public override void ResetState()
+    {
+        base.ResetState();
+
     }
 }

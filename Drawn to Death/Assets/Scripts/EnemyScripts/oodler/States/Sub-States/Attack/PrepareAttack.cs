@@ -9,7 +9,13 @@ public class PrepareAttack : ChildBaseState
     private float slamWarningTime;
     private float chaseSpeed;
     
-
+   /// <summary>
+   /// This sub-state is the state where the boss shakes its fist above the player before a slam attack
+   /// </summary>
+   /// <param name="boss"></param>
+   /// <param name="parentBaseState"></param>
+   /// <param name="slamWarningTime"></param>
+   /// <param name="chaseSpeed"></param>
     public PrepareAttack(Boss boss, ParentBaseState parentBaseState, float slamWarningTime, float chaseSpeed) : base(boss, parentBaseState)
     {
         this.chaseSpeed = chaseSpeed;
@@ -40,7 +46,7 @@ public class PrepareAttack : ChildBaseState
 
         // Following if statement will stalk glich, once the redoutline is fully revealed we will stop the oodler for sometime to give the player time to react
         if(!stopOodler){
-            reachedTarget = boss.Stalk(reachedTarget, chaseSpeed);
+            reachedTarget = boss.Stalk(chaseSpeed);
             if(reachedTarget){
                 attackCharged = boss.RevealAttack();
                 if(attackCharged){
@@ -55,7 +61,10 @@ public class PrepareAttack : ChildBaseState
         }
     }
 
-
+    public override void ResetState()
+    {
+        
+    }
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
     {
         base.AnimationTriggerEvent(triggerType);

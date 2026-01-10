@@ -6,10 +6,11 @@ public class CarryGlich : ChildBaseState
 {
     private bool reachedDropZone = false;
     private BossTimer bossTimer;
+    private float dropZoneSpeed;
 
-    public CarryGlich(Boss boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
+    public CarryGlich(Boss boss, ParentBaseState parentBaseState, float dropZoneSpeed = 20f) : base(boss, parentBaseState)
     {
-
+        this.dropZoneSpeed = dropZoneSpeed;
     }
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
     {
@@ -40,7 +41,7 @@ public class CarryGlich : ChildBaseState
         base.FrameUpdate();
         
         if(parentBaseState == boss.oodlerGrab && boss.IsCaught()){
-            if (reachedDropZone || boss.MoveToDropZone())
+            if (reachedDropZone || boss.MoveToDropZone(dropZoneSpeed))
             {
                 reachedDropZone = true;
                 if (bossTimer.Update())
@@ -57,5 +58,11 @@ public class CarryGlich : ChildBaseState
                 }
             }
         }
+    }
+
+    public override void ResetState()
+    {
+        base.ResetState();
+       
     }
 }

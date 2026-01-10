@@ -7,7 +7,8 @@ using Vector3 = UnityEngine.Vector3;
 
 public class Land : ChildBaseState
 {
-    public Land(Boss boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
+    private float landSpeed;
+    public Land(Boss boss, ParentBaseState parentBaseState, float landSpeed) : base(boss, parentBaseState)
     {
     }
     private bool reachedPosition = false;
@@ -44,10 +45,11 @@ public class Land : ChildBaseState
         
     }
 
+    // MOVE TO BOSS SCRIPT
     // This method will "Land" the oodler on the ground
     public bool LandOodler(float speed = 15)
     {
-        var step = speed * Time.deltaTime;
+        var step = landSpeed * Time.deltaTime;
         boss.oodlerRB.MovePosition(Vector3.MoveTowards(boss.transform.position, runGroundPosition, step));
         if (Vector3.Distance(boss.transform.position, runGroundPosition) < 0.3f)
         {
@@ -59,5 +61,11 @@ public class Land : ChildBaseState
         {
             return false;
         }
+    }
+
+    public override void ResetState()
+    {
+        base.ResetState();
+
     }
 }

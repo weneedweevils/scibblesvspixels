@@ -30,18 +30,18 @@ public class OodlerQuickSlam : ParentBaseState
 
     public OodlerQuickSlam(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
-        chase = new Chase(boss, this);
-        //prepareAttack = new PrepareAttack(boss,this);
-        //swingHand = new SwingHand(boss, this);
-        //rise = new Rise(boss, this);
+        chase = new Chase(boss, this, chaseSpeed:50f);
+        prepareAttack = new PrepareAttack(boss,this,1,100f);
+        swingHand = new SwingHand(boss, this,chaseSpeed:100f);
+        rise = new Rise(boss, this);
         
 
         orderedSubStateList = new List<ChildBaseState>
         {
             chase,
-            //prepareAttack,
-            //swingHand,
-            //rise
+            prepareAttack,
+            swingHand,
+            rise
         };
 
 
@@ -111,6 +111,7 @@ public class OodlerQuickSlam : ParentBaseState
     {
         return base.GetCurrentChildState();
     }
+
 
    
 

@@ -26,6 +26,7 @@ public class ChildBaseState
     public virtual void EnterState() {
     }
 
+    public virtual void ResetState() { }
     public virtual void ExitState() { } 
 
     public virtual void FrameUpdate() { }

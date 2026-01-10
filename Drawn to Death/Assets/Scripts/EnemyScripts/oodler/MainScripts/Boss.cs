@@ -17,6 +17,7 @@ using System.Collections;
 using Random = UnityEngine.Random;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
+using UnityEngine.Profiling;
 
 
 
@@ -178,6 +179,10 @@ public class Boss : MonoBehaviour
     private float angle = 0f;
     private List<Vector3> points;
 
+
+    // Parameters to track when we reached a target
+    private bool reachedTarget = false;
+
    
    
 
@@ -281,27 +286,7 @@ public class Boss : MonoBehaviour
         }
     }
 
-    ///<summary>
-    /// will determine the next state depending on playerHealth, oodlerHealth, playerProximity, columnsLeft, phase
-    ///</summary> 
-    public void pickState()//ParentBaseState pickState()
-    {
-        if(phase == Phase.P1 )
-        {
-
-        }
-        else if(phase == Phase.P2)
-        {
-
-        }
-        else if(phase == Phase.P3)
-        {
-
-        }
-
-            
-
-    }
+   
 
 
 
@@ -351,8 +336,34 @@ public class Boss : MonoBehaviour
     }
     #endregion
 
+    #region StateMachine
+    ///<summary>
+    /// will determine the next state depending on playerHealth, oodlerHealth, playerProximity, columnsLeft, phase
+    ///</summary> 
+    public void pickState()//ParentBaseState pickState()
+    {
+        if (phase == Phase.P1)
+        {
+
+        }
+        else if (phase == Phase.P2)
+        {
+
+        }
+        else if (phase == Phase.P3)
+        {
+
+        }
 
 
+
+    }
+
+    public void ResetVariables()
+    {
+        reachedTarget = false;
+    }
+    #endregion
 
     #region Animation
 
@@ -376,6 +387,22 @@ public class Boss : MonoBehaviour
     public void ChangeSpriteSortingOrder(int sortingLayer)
     {
         oodlerSprite.sortingOrder = sortingLayer;
+    }
+
+    ///<summary>
+    /// changes sprite ordering of oodler to be in the foreground
+    ///</summary> 
+    public void BringSpriteToForeground()
+    {
+        ChangeSpriteSortingOrder(8);
+    }
+
+    ///<summary>
+    /// changes sprite ordering of oodler to be in the background
+    ///</summary> 
+    public void BringSpriteToBackground()
+    {
+        ChangeSpriteSortingOrder(5);
     }
 
     ///<summary>
@@ -687,70 +714,77 @@ public class Boss : MonoBehaviour
         MoveShadowSprite();
     }
 
-
+   
     // This function will follow the players position with an offset of 10 units above them if we reached the target in anyway then reached target then it will always return true
-    public bool Stalk(bool reachedTarget, float speed )
+    public bool Stalk(float speed)
     {
+
+        //// this version is less redundant and doesn't require the caller to pass the state
+        //Profiler.BeginSample("Stalk function");
         //var step = speed * Time.deltaTime;
         //playerOffSet = glich.transform.localPosition;
         //playerOffSet.y = playerOffSet.y + 10f;
-        //oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, playerOffSet, step));
-        //MoveShadowSprite();
 
-        //if (!reachedTarget)
+        //if (Vector2.Distance(transform.position, playerOffSet) < 1f)
         //{
-        //    if (Vector3.Distance(transform.position, playerOffSet) < 1f)
-        //    {
-        //        oodlerRB.MovePosition(playerOffSet);
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
+        //    oodlerRB.MovePosition(playerOffSet);
+        //    MoveShadowSprite();
+        //    Debug.Log("have reached target");
+        //    return true;
 
+        //}
         //else
         //{
-        //    return true;
+        //    oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, playerOffSet, step));
+        //    MoveShadowSprite();
+        //    Debug.Log("have not reached target");
+        //    return false;
+
+
         //}
 
-  
+
+
+
         var step = speed * Time.deltaTime;
         playerOffSet = glich.transform.localPosition;
         playerOffSet.y = playerOffSet.y + 10f;
-
+        Profiler.BeginSample("Stalk function");
         if (!reachedTarget)
         {
-            
-            
+
+
             oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, playerOffSet, step));
             MoveShadowSprite();
 
             if (Vector3.Distance(transform.position, playerOffSet) < 1f)
             {
                 oodlerRB.MovePosition(playerOffSet);
-                Debug.Log("have reached target");
+                reachedTarget = true;
                 return true;
             }
             else
             {
                 Debug.Log("have not reached target");
+                Profiler.EndSample();
                 return false;
             }
-            
+
         }
 
         else
         {
             Debug.Log("now snap to position");
             oodlerRB.MovePosition(playerOffSet);
-            //transform.position = playerOffSet;
+            MoveShadowSprite();
+            Profiler.EndSample();
             return true;
         }
+
+
     }
 
-  
+    
 
 
 

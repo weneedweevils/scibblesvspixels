@@ -10,10 +10,12 @@ public class AttemptGrab : ChildBaseState
     private bool isGrabFrame = false;
     private bool grabWasActivated = false;
     private AnimationEventNotifier animationEventNotifier;
-  
+    private float chaseSpeed;
 
-    public AttemptGrab(Boss boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
+
+    public AttemptGrab(Boss boss, ParentBaseState parentBaseState, float chaseSpeed) : base(boss, parentBaseState)
     {
+        this.chaseSpeed = chaseSpeed;
     }
 
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
@@ -31,9 +33,9 @@ public class AttemptGrab : ChildBaseState
         animationEventNotifier = boss.GetComponentInChildren<AnimationEventNotifier>(); //get animation event notifier
         animationEventNotifier.GrabNotifier += AnimationOffset;
         animationEventNotifier.HitBoxActive += ActivateHitbox;
-        boss.ChangeSpriteSortingOrder(8);
+        boss.BringSpriteToForeground();
         boss.animator.SetTrigger("Grab");
-        boss.GetShadow().SetTrigger("Grab");
+        //boss.GetShadow().SetTrigger("Grab");
         //boss.GetShadow().SetTrigger("Slam"); // the shadow shrinks in its animator when you 
     }
 
@@ -51,13 +53,13 @@ public class AttemptGrab : ChildBaseState
 
         // This statement makes it so that the oodler will follow glich until its hand commes down
         if(!isGrabFrame){
-            boss.Stalk(false,100f);
+            boss.Stalk(chaseSpeed);
             boss.SetLastPosition(); // sets glich last position
 
         }
         // This if statement is for when the fist comes down
         if(!reachedTarget && isGrabFrame){
-            boss.Slam(100f);
+            boss.Slam(chaseSpeed);
             if(!grabWasActivated && boss.CloseToTarget()){
                 boss.EnableAttackHitbox(true);
                 grabWasActivated = true;
@@ -99,5 +101,10 @@ public class AttemptGrab : ChildBaseState
         Debug.Log("Enabled attack Hitbox");
         boss.EnableGrabHitbox(true);
         grabWasActivated = true;
+    }
+
+    public override void ResetState()
+    {
+        base.ResetState();
     }
 }
