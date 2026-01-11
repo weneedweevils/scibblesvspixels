@@ -257,6 +257,7 @@ public class Boss : MonoBehaviour
         oodlerSprite = GetComponentInChildren<SpriteRenderer>();
         oodlerShadow = oodlerShadowObject.GetComponentInChildren<SpriteRenderer>();
         shadowAnimator = oodlerShadowObject.GetComponentInChildren<Animator>();
+        BringSpriteToForeground();
 
 
         playerScript = glich.GetComponent<PlayerMovement>();
@@ -718,33 +719,6 @@ public class Boss : MonoBehaviour
     // This function will follow the players position with an offset of 10 units above them if we reached the target in anyway then reached target then it will always return true
     public bool Stalk(float speed)
     {
-
-        //// this version is less redundant and doesn't require the caller to pass the state
-        //Profiler.BeginSample("Stalk function");
-        //var step = speed * Time.deltaTime;
-        //playerOffSet = glich.transform.localPosition;
-        //playerOffSet.y = playerOffSet.y + 10f;
-
-        //if (Vector2.Distance(transform.position, playerOffSet) < 1f)
-        //{
-        //    oodlerRB.MovePosition(playerOffSet);
-        //    MoveShadowSprite();
-        //    Debug.Log("have reached target");
-        //    return true;
-
-        //}
-        //else
-        //{
-        //    oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, playerOffSet, step));
-        //    MoveShadowSprite();
-        //    Debug.Log("have not reached target");
-        //    return false;
-
-
-        //}
-
-
-
 
         var step = speed * Time.deltaTime;
         playerOffSet = glich.transform.localPosition;

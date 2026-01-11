@@ -2,16 +2,18 @@
 
 public class PrepareGrab : ChildBaseState
 {
-    private BossTimer bossTimer;
+    private BossTimer grabHoverTimer;
     private bool reachedTarget = false;
     private bool attackCharged = false;
     private bool stopOodler = false;
     private float chaseSpeed;
+    private float grabHoverTime;
 
 
-    public PrepareGrab(Boss boss, ParentBaseState parentBaseState, float chaseSpeed = 100f) : base(boss, parentBaseState)
+    public PrepareGrab(Boss boss, ParentBaseState parentBaseState, float grabHoverTime, float chaseSpeed = 100f) : base(boss, parentBaseState)
     {
         this.chaseSpeed = chaseSpeed;
+        this.grabHoverTime = grabHoverTime;
     }
 
     public override void EnterState()
@@ -23,7 +25,7 @@ public class PrepareGrab : ChildBaseState
         //boss.GetShadow().SetTrigger();
         reachedTarget = false;
         attackCharged = false;
-        bossTimer = new BossTimer(1f);
+        grabHoverTimer = new BossTimer(grabHoverTime);
         stopOodler = false;
     }
 
@@ -43,7 +45,7 @@ public class PrepareGrab : ChildBaseState
             if(reachedTarget){
                 attackCharged = boss.RevealAttack();
                 if(attackCharged){
-                    if(bossTimer.Update()){
+                    if(grabHoverTimer.Update()){
                         boss.ShowAttack();
                         stopOodler = true;
                         //childStateMachine.ChangeState(boss.attemptGrab);

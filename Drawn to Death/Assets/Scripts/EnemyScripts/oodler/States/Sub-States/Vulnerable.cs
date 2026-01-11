@@ -7,10 +7,11 @@ using UnityEngine;
 
 public class Vulnerable : ChildBaseState
 {
-    BossTimer vulnerableTimer;
+    BossTimer vulnerabilityTimer;
+    private float vulnerabilityTime;
     public Vulnerable(Boss boss, ParentBaseState parentBaseState, float vulnerabilityTime = 5f) : base(boss, parentBaseState)
     {
-        vulnerableTimer = new BossTimer(vulnerabilityTime);
+        this.vulnerabilityTime = vulnerabilityTime;
     }
 
     public override void EnterState()
@@ -23,7 +24,7 @@ public class Vulnerable : ChildBaseState
         boss.HideShadow();
         boss.SetBossVulnerability(true);
         boss.animator.SetTrigger("Stunned");
-        vulnerableTimer = new BossTimer(boss.bossVulnerabilityTime);
+        vulnerabilityTimer = new BossTimer(boss.bossVulnerabilityTime);
        
     }
 
@@ -38,7 +39,7 @@ public class Vulnerable : ChildBaseState
 
     public override void FrameUpdate()
     {
-        if(vulnerableTimer.Update()){
+        if(vulnerabilityTimer.Update()){
 
             parentBaseState.NextSubState();
         }
@@ -53,6 +54,7 @@ public class Vulnerable : ChildBaseState
     public override void ResetState()
     {
         base.ResetState();
+        vulnerabilityTimer = null;
 
     }
 }

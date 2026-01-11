@@ -17,11 +17,11 @@ public class OodlerRun : ParentBaseState
 
     public OodlerRun(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
-        chase = new Chase(boss, this);
-        run = new Run(boss, this);
-        land = new Land(boss, this);
+        chase = new Chase(boss, this,2f,100f);
+        run = new Run(boss, this, 20f);
+        land = new Land(boss, this, 10f);
         vulnerableState = new Vulnerable(boss, this);
-        rise = new Rise(boss, this);
+        rise = new Rise(boss, this, 10f, 1f);
 
     orderedSubStateList = new List<ChildBaseState>
         {

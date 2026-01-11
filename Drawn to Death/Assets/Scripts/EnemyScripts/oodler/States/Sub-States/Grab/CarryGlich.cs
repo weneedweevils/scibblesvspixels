@@ -5,12 +5,15 @@ using UnityEngine;
 public class CarryGlich : ChildBaseState
 {
     private bool reachedDropZone = false;
-    private BossTimer bossTimer;
     private float dropZoneSpeed;
+    private float dropZoneHoverTime;
+    private BossTimer dropZoneHoverTimer;
 
-    public CarryGlich(Boss boss, ParentBaseState parentBaseState, float dropZoneSpeed = 20f) : base(boss, parentBaseState)
+    public CarryGlich(Boss boss, ParentBaseState parentBaseState, float dropZoneHoverTime, float dropZoneSpeed = 20f) : base(boss, parentBaseState)
     {
         this.dropZoneSpeed = dropZoneSpeed;
+        this.dropZoneHoverTime = dropZoneHoverTime;
+        
     }
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
     {
@@ -22,7 +25,7 @@ public class CarryGlich : ChildBaseState
         base.EnterState();
         Debug.Log("Carrying Glich");
         reachedDropZone = false;
-        bossTimer = new BossTimer(2f);
+        dropZoneHoverTimer = new BossTimer(dropZoneHoverTime);
     }
 
     public override void ExitState()
@@ -44,7 +47,7 @@ public class CarryGlich : ChildBaseState
             if (reachedDropZone || boss.MoveToDropZone(dropZoneSpeed))
             {
                 reachedDropZone = true;
-                if (bossTimer.Update())
+                if (dropZoneHoverTimer.Update())
                 {
                     boss.animator.SetTrigger("Idle");
                     boss.GetShadow().SetTrigger("idle");
@@ -63,6 +66,7 @@ public class CarryGlich : ChildBaseState
     public override void ResetState()
     {
         base.ResetState();
+        dropZoneHoverTimer = null;
        
     }
 }

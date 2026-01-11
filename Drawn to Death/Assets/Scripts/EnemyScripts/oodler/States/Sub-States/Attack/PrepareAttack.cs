@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PrepareAttack : ChildBaseState
 {
-    private BossTimer bossTimer;
+    private BossTimer slamWarningTimer;
     private bool reachedTarget = false;
     private bool attackCharged = false;
     private bool stopOodler = false;
@@ -29,14 +29,14 @@ public class PrepareAttack : ChildBaseState
         //boss.GetShadow().SetTrigger("SlamWindUp");
         reachedTarget = false;
         attackCharged = false;
-        bossTimer = new BossTimer(slamWarningTime);
+        slamWarningTimer = new BossTimer(slamWarningTime);
         stopOodler = false;
-        Debug.Log("<color=red> ENTERED PREPARE ATTACK");
     }
 
     public override void ExitState()
     {
         base.ExitState();
+        ResetState();
 
     }
 
@@ -50,7 +50,7 @@ public class PrepareAttack : ChildBaseState
             if(reachedTarget){
                 attackCharged = boss.RevealAttack();
                 if(attackCharged){
-                    if(bossTimer.Update()){
+                    if(slamWarningTimer.Update()){
                         boss.ShowAttack();
                         stopOodler = true;
                         parentBaseState.NextSubState();
@@ -63,7 +63,13 @@ public class PrepareAttack : ChildBaseState
 
     public override void ResetState()
     {
-        
+        reachedTarget = false;
+        attackCharged = false;
+        slamWarningTimer = null;
+        stopOodler = false;
+
+        boss.ResetVariables();
+
     }
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
     {

@@ -31,11 +31,11 @@ public class OodlerSlam : ParentBaseState
 
     public OodlerSlam(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
-        chase = new Chase(boss, this, chaseSpeed:5f);
+        chase = new Chase(boss, this,2f, chaseSpeed:5f);
         prepareAttack = new PrepareAttack(boss,this,1f,100f);
         swingHand = new SwingHand(boss, this);
         vulnerableState = new Vulnerable(boss, this);
-        rise = new Rise(boss, this);
+        rise = new Rise(boss, this, 1f, 1f);
         
 
         orderedSubStateList = new List<ChildBaseState>

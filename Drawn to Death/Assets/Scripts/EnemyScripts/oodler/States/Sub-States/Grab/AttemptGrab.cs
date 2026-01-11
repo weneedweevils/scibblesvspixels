@@ -9,9 +9,8 @@ public class AttemptGrab : ChildBaseState
     bool reachedTarget = false;
     private bool isGrabFrame = false;
     private bool grabWasActivated = false;
-    private AnimationEventNotifier animationEventNotifier;
     private float chaseSpeed;
-
+    private AnimationEventNotifier animationEventNotifier;
 
     public AttemptGrab(Boss boss, ParentBaseState parentBaseState, float chaseSpeed) : base(boss, parentBaseState)
     {
@@ -44,6 +43,7 @@ public class AttemptGrab : ChildBaseState
         base.ExitState();
         animationEventNotifier.GrabNotifier -= AnimationOffset;
         animationEventNotifier.HitBoxActive -= ActivateHitbox;
+        ResetState();
     }
 
 
@@ -106,5 +106,8 @@ public class AttemptGrab : ChildBaseState
     public override void ResetState()
     {
         base.ResetState();
+        grabWasActivated = false;
+        reachedTarget = false;
+        isGrabFrame = false;
     }
 }

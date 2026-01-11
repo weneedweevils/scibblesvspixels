@@ -15,7 +15,8 @@ public class Rise : ChildBaseState
     public Rise(Boss boss, ParentBaseState parentBaseState, float riseSpeed, float riseDelay) : base(boss, parentBaseState)
     {
         this.riseSpeed = riseSpeed;
-        riseTimer = new BossTimer(riseDelay);
+        this.riseDelay = riseDelay;
+       
     }
 
 
@@ -29,8 +30,10 @@ public class Rise : ChildBaseState
         airPosition = boss.transform.position;
         airPosition.y = airPosition.y + 12f;
         Debug.Log("entered rise state");
+        riseTimer = new BossTimer(riseDelay);
+        boss.animator.SetTrigger("Idle");
 
-        if(boss.IsCaught()){
+        if (boss.IsCaught()){
             boss.EnableGlichColliders(false);
             boss.playerScript.animator.SetTrigger("Grabbed");
             

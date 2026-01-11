@@ -30,10 +30,10 @@ public class OodlerQuickSlam : ParentBaseState
 
     public OodlerQuickSlam(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
-        chase = new Chase(boss, this, chaseSpeed:50f);
+        chase = new Chase(boss, this,chaseTime:0.5f, chaseSpeed:50f);
         prepareAttack = new PrepareAttack(boss,this,1,100f);
         swingHand = new SwingHand(boss, this,chaseSpeed:100f);
-        rise = new Rise(boss, this);
+        rise = new Rise(boss, this, 1f,1f);
         
 
         orderedSubStateList = new List<ChildBaseState>
@@ -56,6 +56,10 @@ public class OodlerQuickSlam : ParentBaseState
     // 2. slamfist down
     // 3. 
 
+    private void SetSlamNum()
+    {
+
+    }
 
     // parent state 
     public override void EnterState()
@@ -95,7 +99,7 @@ public class OodlerQuickSlam : ParentBaseState
         }
         else
         {
-            oodlerStateMachine.ChangeState(boss.oodlerSlam);
+            oodlerStateMachine.ChangeState(boss.oodlerQuickSlam);
         }
 
     }

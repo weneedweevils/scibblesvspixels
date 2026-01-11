@@ -10,15 +10,17 @@ public class Chase : ChildBaseState
 {
      private bool reachedTarget = false;
      private Vector3 playerOffSet;
-     private BossTimer bossTimer;
+     private BossTimer chaseTimer;
      private float chaseSpeed;
+     private float chaseTime;
      
    
 
 
-    public Chase(Boss boss,  ParentBaseState parentBaseState, float chaseSpeed = 100f) : base(boss, parentBaseState)
+    public Chase(Boss boss,  ParentBaseState parentBaseState, float chaseTime, float chaseSpeed = 100f) : base(boss, parentBaseState)
     {
         this.chaseSpeed = chaseSpeed;
+        this.chaseTime = chaseTime;
     }
 
     public override void EnterState()
@@ -27,8 +29,9 @@ public class Chase : ChildBaseState
         reachedTarget = false;
         boss.ShowShadow();
         playerOffSet = boss.glich.transform.localPosition;
-        bossTimer = new BossTimer(2f); //time we continue following glich
-       
+        chaseTimer = new BossTimer(chaseTime);
+        //time we continue following glich
+
 
     }
 
@@ -46,7 +49,7 @@ public class Chase : ChildBaseState
         if (Vector3.Distance(boss.glich.transform.position, boss.transform.position) < 20f){
             reachedTarget = boss.Stalk(chaseSpeed);
             if(reachedTarget){
-                if(bossTimer.Update()){
+                if(chaseTimer.Update()){
                     parentBaseState.NextSubState();
                 }   
             }
@@ -59,7 +62,7 @@ public class Chase : ChildBaseState
     public override void ResetState()
     {
         base.ResetState();
-        bossTimer = null;
+        chaseTimer = null;
         reachedTarget = false;
         boss.ResetVariables();
     }

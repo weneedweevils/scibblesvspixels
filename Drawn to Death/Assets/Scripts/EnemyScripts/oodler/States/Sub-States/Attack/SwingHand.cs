@@ -12,7 +12,12 @@ public class SwingHand : ChildBaseState
     private AnimationEventNotifier animationEventNotifier;
     private float chaseSpeed;
   
-
+    /// <summary>
+    /// This is the state where the oodler swings its hand down on glich
+    /// </summary>
+    /// <param name="boss"></param>
+    /// <param name="parentBaseState"></param>
+    /// <param name="chaseSpeed"></param>
     public SwingHand(Boss boss, ParentBaseState parentBaseState, float chaseSpeed = 100f) : base(boss, parentBaseState)
     {
         this.chaseSpeed = chaseSpeed;
@@ -46,6 +51,7 @@ public class SwingHand : ChildBaseState
         base.ExitState();
         animationEventNotifier.SlamNotifier -= AnimationOffset;
         animationEventNotifier.HitBoxActive -= ActivateHitbox;
+        ResetState();
     }
 
 
@@ -94,6 +100,10 @@ public class SwingHand : ChildBaseState
 
     public override void ResetState()
     {
-      
+        slamWasActivated = false;
+        reachedTarget = false;
+        isSlamFrame = false;
+
+        boss.ResetVariables();
     }
 }

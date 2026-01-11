@@ -38,7 +38,7 @@ public class Land : ChildBaseState
 
         reachedPosition = LandOodler();
         if(reachedPosition){
-            boss.ChangeSpriteSortingOrder(5);
+            boss.BringSpriteToBackground();
             parentBaseState.NextSubState();
             //childStateMachine.ChangeState(boss.run);
         }
