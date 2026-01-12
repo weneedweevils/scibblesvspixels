@@ -41,7 +41,6 @@ public class SwingHand : ChildBaseState
         animationEventNotifier = boss.GetComponentInChildren<AnimationEventNotifier>(); //get animation event notifier
         animationEventNotifier.SlamNotifier += AnimationOffset;
         animationEventNotifier.HitBoxActive += ActivateHitbox;
-        boss.BringSpriteToBackground();
         boss.animator.SetTrigger("Slam");
         //boss.GetShadow().SetTrigger("Slam"); // the shadow shrinks in its animator when you 
     }
@@ -49,8 +48,7 @@ public class SwingHand : ChildBaseState
     public override void ExitState()
     {
         base.ExitState();
-        animationEventNotifier.SlamNotifier -= AnimationOffset;
-        animationEventNotifier.HitBoxActive -= ActivateHitbox;
+       
         ResetState();
     }
 
@@ -61,7 +59,7 @@ public class SwingHand : ChildBaseState
 
         // This statement makes it so that the oodler will follow glich until its hand commes down
         if(!isSlamFrame){
-            boss.Stalk(chaseSpeed);
+            boss.MoveToGlich(chaseSpeed);
             boss.SetLastPosition(); // sets glich last position
 
         }
@@ -75,12 +73,14 @@ public class SwingHand : ChildBaseState
 
             if(boss.ReachedPlayerReal()){
                 reachedTarget = true;
+                boss.EnableColumnHitbox(true);
             }
         }
 
         // This statment is for after the fist comes down
         else if(isSlamFrame && slamWasActivated){
                 parentBaseState.NextSubState();
+                boss.BringSpriteToBackground();
         }
     }
 
@@ -103,7 +103,10 @@ public class SwingHand : ChildBaseState
         slamWasActivated = false;
         reachedTarget = false;
         isSlamFrame = false;
+        animationEventNotifier.SlamNotifier -= AnimationOffset;
+        animationEventNotifier.HitBoxActive -= ActivateHitbox;
+        boss.EnableAttackHitbox(false);
+        boss.EnableColumnHitbox(false);
 
-        boss.ResetVariables();
     }
 }

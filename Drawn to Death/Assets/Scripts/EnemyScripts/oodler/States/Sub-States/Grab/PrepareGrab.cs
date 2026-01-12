@@ -41,7 +41,7 @@ public class PrepareGrab : ChildBaseState
 
         // Following if statement will stalk glich, once the redoutline is fully revealed we will stop the oodler for sometime to give the player time to react
         if(!stopOodler){
-            reachedTarget = boss.Stalk(chaseSpeed);
+            reachedTarget = boss.MoveToGlich(chaseSpeed);
             if(reachedTarget){
                 attackCharged = boss.RevealAttack();
                 if(attackCharged){

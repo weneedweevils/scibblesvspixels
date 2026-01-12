@@ -22,16 +22,14 @@ public class Vulnerable : ChildBaseState
         boss.EnableAttackHitbox(false);
         //boss.SetSlamCooldown(true); // set to true so that the oodler does not hurt anyone on the ground
         boss.HideShadow();
-        boss.SetBossVulnerability(true);
         boss.animator.SetTrigger("Stunned");
-        vulnerabilityTimer = new BossTimer(boss.bossVulnerabilityTime);
+        vulnerabilityTimer = new BossTimer(vulnerabilityTime);
        
     }
 
     public override void ExitState()
     {
         base.ExitState();
-        boss.SetBossVulnerability(false);
         Debug.Log("exiting Empty state");
 
         boss.animator.SetTrigger("Idle");
@@ -39,6 +37,7 @@ public class Vulnerable : ChildBaseState
 
     public override void FrameUpdate()
     {
+        
         if(vulnerabilityTimer.Update()){
 
             parentBaseState.NextSubState();

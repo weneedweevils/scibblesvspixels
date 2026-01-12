@@ -20,7 +20,6 @@ public class SpriteHitbox : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Collided with something in sprite hitbox" + collision.name);
 
         switch (collision.gameObject.tag)
         {
@@ -36,7 +35,6 @@ public class SpriteHitbox : MonoBehaviour
 
             case "Player":
                 {
-                        Debug.Log("hit glich inside sprite hitbox");
                 }
                 break;
 
@@ -51,7 +49,6 @@ public class SpriteHitbox : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("Collided with something in sprite hitbox" + collision.name);
 
         switch (collision.gameObject.tag)
         {
@@ -67,7 +64,6 @@ public class SpriteHitbox : MonoBehaviour
 
             case "Player":
                 {
-                    Debug.Log("hit glich inside sprite hitbox");
                 }
                 break;
 

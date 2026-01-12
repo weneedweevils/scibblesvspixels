@@ -116,6 +116,7 @@ public class Boss : MonoBehaviour
     public ChildStateMachine childStateMachine{ get; set; }
 
 
+    // Main States
     public OodlerIdle oodlerIdle { get; set; }
     public OodlerSlam oodlerSlam { get; set; } //
     public OodlerQuickSlam oodlerQuickSlam { get; set; } //
@@ -124,6 +125,8 @@ public class Boss : MonoBehaviour
     public OodlerDrop oodlerDrop { get; set; }
     public OodlerInitial oodlerInitial{ get; set; }
     public OodlerRun oodlerRun { get; set; } //
+
+   
 
 
 
@@ -151,7 +154,6 @@ public class Boss : MonoBehaviour
     
     private Vector3 offScreen = new Vector3(220, 130, 0);
     public bool oodlerSlamCooldown = false;
-    public bool vulnerable = false;
     
    
     public CooldownTimer invincibilityTimer;
@@ -179,9 +181,7 @@ public class Boss : MonoBehaviour
     private float angle = 0f;
     private List<Vector3> points;
 
-
-    // Parameters to track when we reached a target
-    private bool reachedTarget = false;
+   
 
    
    
@@ -246,10 +246,9 @@ public class Boss : MonoBehaviour
 
     private void InstantiateVariables()
     {
-        Debug.Log("after setting attack type 2");
-        currentHealth = maxHealth;
-        currentHealthUI.text = currentHealth.ToString();
+        // Health
         maxHealthUI.text = maxHealth.ToString();
+        currentHealthUI.text = currentHealth.ToString();
 
 
         // Sprite components for oolder and oodler shadow
@@ -272,20 +271,9 @@ public class Boss : MonoBehaviour
         points = new List<Vector3>();
     }
 
-    ///<summary>
-    /// Damage Function will damage the oodler and check if they are dead
-    ///</summary>
-    public void Damage(float damageTaken)
-    {
-        currentHealth = currentHealth - damageTaken;
-        
-        Debug.Log(currentHealth);
-        invincibilityTimer.StartTimer();
-        if (currentHealth <= 0f)
-        {
-            Die();
-        }
-    }
+    
+
+   
 
    
 
@@ -295,13 +283,7 @@ public class Boss : MonoBehaviour
 
 
 
-    ///<summary>
-    /// logic for when oodler health reaches 0
-    ///</summary> 
-    public void Die()
-    {
-        Debug.Log("oodler is dead :/");
-    }
+  
 
 
 
@@ -322,8 +304,9 @@ public class Boss : MonoBehaviour
     #region Update
     private void Update(){
         //CheckWinCondition();
+       
         //currentHealthUI.text = Mathf.Ceil(currentHealth).ToString();
-        //healthBarImage.fillAmount = currentHealth / maxHealth;
+        
         //CheckPhase();
         
         //maxHealthUI.text = maxHealth.ToString();
@@ -336,6 +319,60 @@ public class Boss : MonoBehaviour
         invincibilityTimer.Update();
     }
     #endregion
+
+
+    #region Health
+
+    public void Damage(float damageTaken)
+    {
+        currentHealth = currentHealth - damageTaken;
+
+        Debug.Log(currentHealth);
+        invincibilityTimer.StartTimer();
+        if (currentHealth <= 0f)
+        {
+            Die();
+        }
+        UpdateUIHealthBar();
+    }
+
+    public void UpdateUIHealthBar()
+    {
+        currentHealthUI.text = currentHealth.ToString();
+        healthBarImage.fillAmount = currentHealth / maxHealth;
+
+    }
+
+    public void heal(float heal_amount)
+    {
+        if (currentHealth <= maxHealth)
+        {
+            if (currentHealth + heal_amount > maxHealth)
+            {
+                currentHealth = maxHealth;
+            }
+            else
+            {
+                currentHealth += heal_amount;
+            }
+        }
+    }
+
+    public float GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    ///<summary>
+    /// logic for when oodler health reaches 0
+    ///</summary> 
+    public void Die()
+    {
+        Debug.Log("oodler is dead :/");
+    }
+
+    #endregion
+
 
     #region StateMachine
     ///<summary>
@@ -360,10 +397,7 @@ public class Boss : MonoBehaviour
 
     }
 
-    public void ResetVariables()
-    {
-        reachedTarget = false;
-    }
+
     #endregion
 
     #region Animation
@@ -477,16 +511,18 @@ public class Boss : MonoBehaviour
     ///</summary> 
     public void EnableAttackHitbox(bool enable)
     {
-        if(enable)
-        {
-            attackHitboxCollider.SetActive(true);
-            attackColumnHitboxCollider.SetActive(true);
-        }
-        else
-        {
-            attackHitboxCollider.SetActive(false);
-            attackColumnHitboxCollider.SetActive(false);
-        }
+       
+         attackHitboxCollider.SetActive(enable);
+        
+      
+    }
+
+    public void EnableColumnHitbox(bool enable)
+    {
+    
+        attackColumnHitboxCollider.SetActive(enable);
+        
+        
     }
 
 
@@ -496,14 +532,9 @@ public class Boss : MonoBehaviour
     ///</summary> 
     public void EnableAreaHitbox(bool enable)
     {
-        if (enable)
-        {
-            selfHitboxCollider.SetActive(true);
-        }
-        else
-        {
-            selfHitboxCollider.SetActive(false);
-        }
+   
+        selfHitboxCollider.SetActive(enable);
+      
     }
 
     ///<summary>
@@ -511,14 +542,8 @@ public class Boss : MonoBehaviour
     ///</summary> 
     public void EnableRunHitbox(bool enable)
     {
-        if (enable)
-        {
-            runHitboxCollider.SetActive(true);
-        }
-        else
-        {
-            runHitboxCollider.SetActive(false);
-        }
+        runHitboxCollider.SetActive(enable);
+        
     }
 
     ///<summary>
@@ -526,14 +551,9 @@ public class Boss : MonoBehaviour
     ///</summary> 
     public void EnableGrabHitbox(bool enable)
     {
-        if (enable)
-        {
-            grabHitboxCollider.SetActive(true);
-        }
-        else
-        {
-            grabHitboxCollider.SetActive(false);
-        }
+       
+        grabHitboxCollider.SetActive(enable);
+       
     }
 
     ///<summary>
@@ -541,15 +561,10 @@ public class Boss : MonoBehaviour
     ///</summary> 
     public void EnableSpriteHitbox(bool enable)
     {
-        if (enable)
-        {
-            spriteHitboxCollider.SetActive(true);
+        
+        spriteHitboxCollider.SetActive(enable);
 
-        }
-        else
-        {
-            spriteHitboxCollider.SetActive(false);
-        }
+        
     }
 
 
@@ -717,45 +732,36 @@ public class Boss : MonoBehaviour
 
    
     // This function will follow the players position with an offset of 10 units above them if we reached the target in anyway then reached target then it will always return true
-    public bool Stalk(float speed)
+    public bool MoveToGlich(float speed)
     {
 
         var step = speed * Time.deltaTime;
         playerOffSet = glich.transform.localPosition;
         playerOffSet.y = playerOffSet.y + 10f;
         Profiler.BeginSample("Stalk function");
-        if (!reachedTarget)
+        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, playerOffSet, step));
+        MoveShadowSprite();
+
+        if (Vector3.Distance(transform.position, playerOffSet) < 1f)
         {
-
-
-            oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, playerOffSet, step));
-            MoveShadowSprite();
-
-            if (Vector3.Distance(transform.position, playerOffSet) < 1f)
-            {
-                oodlerRB.MovePosition(playerOffSet);
-                reachedTarget = true;
-                return true;
-            }
-            else
-            {
-                Debug.Log("have not reached target");
-                Profiler.EndSample();
-                return false;
-            }
-
-        }
-
-        else
-        {
-            Debug.Log("now snap to position");
             oodlerRB.MovePosition(playerOffSet);
-            MoveShadowSprite();
-            Profiler.EndSample();
             return true;
         }
+        else
+        {
+            Debug.Log("have not reached target");
+            Profiler.EndSample();
+            return false;
+        }
+    }
 
-
+    public bool SnapToGlich()
+    {
+        Debug.Log("now snap to position");
+        oodlerRB.MovePosition(playerOffSet);
+        MoveShadowSprite();
+        Profiler.EndSample();
+        return true;
     }
 
     
@@ -942,7 +948,15 @@ public class Boss : MonoBehaviour
     // This function will check if the boss is vulnerable
     public bool BossIsDamageable()
     {
-        return vulnerable;
+        if (stateMachine.GetCurrentState().GetCurrentChildState() is Vulnerable)
+        {
+            return true;
+
+        }
+        else
+        {
+            return false;
+        }
     }
 
 
@@ -996,14 +1010,6 @@ public class Boss : MonoBehaviour
         }
     }
 
-    public void SetBossVulnerability(bool isVulnerable){
-        if(isVulnerable){
-            vulnerable = true;
-        }
-        else{
-            vulnerable = false;
-        }
-    }
 
     public void SetBossCaught(bool isCaught){
         if(isCaught){
@@ -1035,20 +1041,7 @@ public class Boss : MonoBehaviour
  
 
 
-    public void heal(float heal_amount)
-    {
-        if (currentHealth <= maxHealth)
-        {
-            if (currentHealth + heal_amount > maxHealth)
-            {
-                currentHealth = maxHealth;
-            }
-            else
-            {
-                currentHealth += heal_amount;
-            }
-        }
-    }
+    
 
     public void ControlAllies(GameObject target, bool toDropZone = false)
     {

@@ -384,6 +384,10 @@ public class Attack : MonoBehaviour
         return (CustomDist(transform.position, other.position) <= reviveRadius);
     }
 
+
+    /// <summary>
+    /// This function will control where allies attack
+    /// </summary>
     public void ControlAllies()
     {
         //Find closest enemy target in range
@@ -424,6 +428,7 @@ public class Attack : MonoBehaviour
                 }
             }
 
+            // causes oodles to attack oodler directly when vulnerable
             else if (oodler != null && oodler.BossIsDamageable())
             {
                 float dist = Vector3.Distance(obj.transform.position, player.transform.position);
@@ -495,8 +500,8 @@ public class Attack : MonoBehaviour
                     //Get a reference to the enemy
                     EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
                     HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
-                    Boss oodler = collision.gameObject.GetComponentInParent<Boss>();
-
+                   
+                    Debug.Log("A enemy is being hit");
                     if (enemy != null)
                     {
                         if (attackTimer.IsActive() && enemy != null && enemy.team == Team.oddle && enemy.invincibilityTimer.IsUseable() && PlayerCanHit(enemy))
@@ -519,20 +524,23 @@ public class Attack : MonoBehaviour
                     }
                     
 
-                    else if(oodler != null)
+                    break;
+                    
+                }
+            case "oodlerHitbox":
+                {
+                    Boss oodler = collision.gameObject.GetComponentInParent<Boss>();
+                   
+                    if (attackTimer.IsActive() && oodler != null && oodler.BossIsDamageable() && !oodler.invincibilityTimer.IsActive())
                     {
-                        if (attackTimer.IsActive() && oodler != null && oodler.BossIsDamageable() && !oodler.invincibilityTimer.IsActive())
-                        {
-                            //Damage enemy
-                            oodler.Damage(damage.value);
-
-                        }
-
+                        //Damage enemy
+                        oodler.Damage(damage.value);
+                        Debug.Log("OODLER IS BEING HIT");
+                        Debug.Log("CURRENT OODLER HEALTH IS: " + oodler.GetCurrentHealth());
 
                     }
 
                     break;
-                    
                 }
             default:
                 {

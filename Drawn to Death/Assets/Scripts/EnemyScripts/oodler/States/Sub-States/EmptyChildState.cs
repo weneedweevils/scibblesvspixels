@@ -29,6 +29,7 @@ public class EmptyChildState : ChildBaseState
     {
         Debug.Log("Updating...");
         base.FrameUpdate();
+        parentBaseState.NextSubState();
     }
 
     public override void ResetState()

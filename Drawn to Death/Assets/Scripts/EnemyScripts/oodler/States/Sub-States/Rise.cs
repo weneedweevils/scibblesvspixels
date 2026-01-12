@@ -24,12 +24,10 @@ public class Rise : ChildBaseState
     {
         base.EnterState();
         boss.ShowShadow();
-        boss.SetBossVulnerability(false);
         boss.EnableAreaHitbox(false);
         boss.EnableSpriteHitbox(true);
         airPosition = boss.transform.position;
         airPosition.y = airPosition.y + 12f;
-        Debug.Log("entered rise state");
         riseTimer = new BossTimer(riseDelay);
         boss.animator.SetTrigger("Idle");
 
@@ -38,8 +36,9 @@ public class Rise : ChildBaseState
             boss.playerScript.animator.SetTrigger("Grabbed");
             
         }
-       // boss.playerScript.ChangeSpriteSortingOrder(8);
+        // boss.playerScript.ChangeSpriteSortingOrder(8);
 
+        Debug.Log("Entered Rise State");
 
     }
 

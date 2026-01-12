@@ -12,6 +12,8 @@ public class OodlerQuickSlam : ParentBaseState
     private PrepareAttack prepareAttack { get; set; }
     private SwingHand swingHand { get; set; }
     private Rise rise { get; set; }
+    private Vulnerable vulnerable { get; set; }
+    private EmptyChildState emptyChild { get; set; }
 
 
 
@@ -30,19 +32,7 @@ public class OodlerQuickSlam : ParentBaseState
 
     public OodlerQuickSlam(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
-        chase = new Chase(boss, this,chaseTime:0.5f, chaseSpeed:50f);
-        prepareAttack = new PrepareAttack(boss,this,1,100f);
-        swingHand = new SwingHand(boss, this,chaseSpeed:100f);
-        rise = new Rise(boss, this, 1f,1f);
-        
-
-        orderedSubStateList = new List<ChildBaseState>
-        {
-            chase,
-            prepareAttack,
-            swingHand,
-            rise
-        };
+      
 
 
     }
@@ -65,12 +55,36 @@ public class OodlerQuickSlam : ParentBaseState
     public override void EnterState()
     {
         Debug.Log("<color=red>ENTERING SLAM STATE");
-        base.EnterState();
+        
+        chase = new Chase(boss, this, chaseTime: 3f, chaseSpeed: 50f);
+        prepareAttack = new PrepareAttack(boss, this, 1, 100f);
+        swingHand = new SwingHand(boss, this, chaseSpeed: 100f);
+        rise = new Rise(boss, this, 1f, 1f);
+        vulnerable = new Vulnerable(boss, this, vulnerabilityTime: 8f);
+        emptyChild = new EmptyChildState(boss, this);
+
+
+        orderedSubStateList = new List<ChildBaseState>
+        {
+            chase,
+            prepareAttack,
+            swingHand,
+            vulnerable,
+            rise,
+            emptyChild,
+        };
+
+        base.EnterState(); // always go at the end
     }
 
     public override void ExitState()
     {
-        
+        chase = null;
+        prepareAttack = null;
+        swingHand = null;
+        rise = null;
+        vulnerable = null;
+        emptyChild = null;
 
         base.ExitState();
     
@@ -80,7 +94,7 @@ public class OodlerQuickSlam : ParentBaseState
 
     public override void FrameUpdate()
     {
-        Debug.Log("IN QUICK SLAM");
+   
         currentChildState.FrameUpdate();  
     }
 
@@ -95,10 +109,12 @@ public class OodlerQuickSlam : ParentBaseState
         index = index + 1;
         if (index < orderedSubStateList.Count)
         {
+            Debug.Log("OUR NEXT SUBSTATE WE WILL GO TO IS " + orderedSubStateList[index]);
             ChangeChildState(orderedSubStateList[index]);
         }
         else
         {
+            ExitChildState();
             oodlerStateMachine.ChangeState(boss.oodlerQuickSlam);
         }
 

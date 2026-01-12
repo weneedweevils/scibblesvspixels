@@ -17,7 +17,6 @@ public class OodlerRecover : ParentBaseState
     public override void EnterState()
     {
         boss.ShowShadow();
-        boss.SetBossVulnerability(false);
         timer = 0f;
         boss.EnableAreaHitbox(false);
         boss.ChangeSpriteSortingOrder(8);

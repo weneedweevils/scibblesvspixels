@@ -47,7 +47,7 @@ public class Chase : ChildBaseState
     {
         // If the distance between glich and oodler gets shorter oodler speeds up to glich's position
         if (Vector3.Distance(boss.glich.transform.position, boss.transform.position) < 20f){
-            reachedTarget = boss.Stalk(chaseSpeed);
+            reachedTarget = boss.MoveToGlich(chaseSpeed);
             if(reachedTarget){
                 if(chaseTimer.Update()){
                     parentBaseState.NextSubState();
@@ -55,7 +55,7 @@ public class Chase : ChildBaseState
             }
         }
         else{
-           reachedTarget = boss.Stalk(chaseSpeed/2f);
+           reachedTarget = boss.MoveToGlich(chaseSpeed/2f);
         }
     }
 
@@ -64,7 +64,6 @@ public class Chase : ChildBaseState
         base.ResetState();
         chaseTimer = null;
         reachedTarget = false;
-        boss.ResetVariables();
     }
 
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)

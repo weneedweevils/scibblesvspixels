@@ -53,7 +53,7 @@ public class AttemptGrab : ChildBaseState
 
         // This statement makes it so that the oodler will follow glich until its hand commes down
         if(!isGrabFrame){
-            boss.Stalk(chaseSpeed);
+            boss.MoveToGlich(chaseSpeed);
             boss.SetLastPosition(); // sets glich last position
 
         }
