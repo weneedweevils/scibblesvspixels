@@ -33,10 +33,14 @@ public class SpriteHitbox : MonoBehaviour
                 }
                 break;
 
-            case "Player":
+            case "Column":
                 {
+                    oodlerScript.ChangeSpriteSortingOrder(8);
+                    oodlerScript.EnableSpriteHitbox(false);
+
                 }
                 break;
+
 
 
 
@@ -62,10 +66,14 @@ public class SpriteHitbox : MonoBehaviour
                 }
                 break;
 
-            case "Player":
+            case "Column":
                 {
+                    oodlerScript.ChangeSpriteSortingOrder(8);
+                    oodlerScript.EnableSpriteHitbox(false);
+
                 }
                 break;
+
 
 
 

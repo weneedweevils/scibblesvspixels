@@ -60,7 +60,7 @@ public class OodlerQuickSlam : ParentBaseState
         prepareAttack = new PrepareAttack(boss, this, 1, 100f);
         swingHand = new SwingHand(boss, this, chaseSpeed: 100f);
         rise = new Rise(boss, this, 1f, 1f);
-        vulnerable = new Vulnerable(boss, this, vulnerabilityTime: 8f);
+        vulnerable = new Vulnerable(boss, this, vulnerabilityTime: 1f);
         emptyChild = new EmptyChildState(boss, this);
 
 

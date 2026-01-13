@@ -11,6 +11,7 @@ public class Rise : ChildBaseState
     BossTimer riseTimer;
     private float riseSpeed;
     private float riseDelay;
+    private bool riseStarted;
 
     public Rise(Boss boss, ParentBaseState parentBaseState, float riseSpeed, float riseDelay) : base(boss, parentBaseState)
     {
@@ -23,12 +24,12 @@ public class Rise : ChildBaseState
     public override void EnterState()
     {
         base.EnterState();
-        boss.ShowShadow();
         boss.EnableAreaHitbox(false);
         boss.EnableSpriteHitbox(true);
         airPosition = boss.transform.position;
         airPosition.y = airPosition.y + 12f;
         riseTimer = new BossTimer(riseDelay);
+        riseStarted = false;
         boss.animator.SetTrigger("Idle");
 
         if (boss.IsCaught()){
@@ -57,7 +58,14 @@ public class Rise : ChildBaseState
         
         IfCaught();
         if(riseTimer.Update()){
-            if(RiseOodler()){
+
+            if (!riseStarted)
+            {
+                boss.ShowShadow();
+                riseStarted=true;
+            }
+
+            if (RiseOodler()){
                 // // Check if we have caught glich and we are in the grab parent state
                 //if (parentStateMachine.currentOodlerState == boss.oodlerGrab && boss.IsCaught())
                 //{

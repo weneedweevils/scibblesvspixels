@@ -445,8 +445,7 @@ public class Boss : MonoBehaviour
     ///</summary> 
     public void ShowShadow()
     {
-        Debug.Log("Showing shadow");
-        oodlerShadow.color = new Color(0, 0, 0, 0.25f);
+        shadowAnimator.SetTrigger("Idle");
     }
 
     ///<summary>
@@ -463,7 +462,7 @@ public class Boss : MonoBehaviour
     ///</summary> 
     public void HideShadow()
     {
-        oodlerShadow.color = new Color(0, 0, 0, 0f);
+        shadowAnimator.SetTrigger("Hidden");
     }
 
 
