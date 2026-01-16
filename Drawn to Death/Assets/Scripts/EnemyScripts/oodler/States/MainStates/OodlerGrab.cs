@@ -12,6 +12,14 @@ public class OodlerGrab : ParentBaseState
     private float timer = 0f;
     private float delayTimer = 0f;
 
+    private Chase chase { get; set; }
+    private PrepareGrab prepareGrab { get; set; }
+    private AttemptGrab attemptGrab { get; set; }
+    private Rise rise { get; set; }
+    private Vulnerable vulnerable { get; set; }
+    private CarryGlich carryGlich { get; set; }
+    private EmptyChildState emptyChild { get; set; }
+
     public OodlerGrab(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
@@ -23,85 +31,70 @@ public class OodlerGrab : ParentBaseState
 
     public override void EnterState()
     {
-        base.EnterState();
-        boss.SetBossCaught(false);
-        //childStateMachine.ChangeState(boss.chase);
- 
+        Debug.Log("<color=red>ENTERING SLAM STATE");
+
+        chase = new Chase(boss, this, chaseTime: 3f, chaseSpeed: 50f);
+        prepareGrab = new PrepareGrab(boss, this, grabHoverTime: 1f, chaseSpeed: 100);
+        attemptGrab = new AttemptGrab(boss, this, chaseSpeed: 100);
+        vulnerable = new Vulnerable(boss, this, vulnerabilityTime: 1f);
+        rise = new Rise(boss, this, 1f, 1f);
+        carryGlich = new CarryGlich(boss, this, dropZoneHoverTime: 5f, dropZoneSpeed: 20f);
+        emptyChild = new EmptyChildState(boss, this);
+
+
+        orderedSubStateList = new List<ChildBaseState>
+        {
+            chase,
+            prepareGrab,
+            attemptGrab,
+            vulnerable,
+            rise,
+            //carryGlich,
+            emptyChild,
+        };
+
+        base.EnterState(); // always go at the end
+
 
     }
 
     public override void ExitState()
     {
+        chase = null;
+        prepareGrab = null;
+        attemptGrab = null;
+        vulnerable = null;
+        rise = null;
+        carryGlich = null;
+        emptyChild = null;
+
         base.ExitState();
     }
 
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        //childStateMachine.currentChildState.FrameUpdate();  
+      
+    }
 
+    public override void NextSubState()
+    {
+        base.NextSubState();
+        index = index + 1;
+        if (index < orderedSubStateList.Count)
+        {
+            Debug.Log("OUR NEXT SUBSTATE WE WILL GO TO IS " + orderedSubStateList[index]);
+            ChangeChildState(orderedSubStateList[index]);
+        }
+        else
+        {
+            ExitChildState();
+            oodlerStateMachine.ChangeState(boss.oodlerQuickSlam);
+        }
 
-        // // if the delay is over
-        // if (!delay)
-        // {
-        //     // disable collider once we reach the ground and set reach target to true
-        //     if (!reachedTarget && boss.ReachedPlayerReal())
-        //     {
-        //         reachedTarget = true;
-        //         boss.EnableAttackHitbox(false);
-        //         boss.SetSlamCooldown(true); // set to true so that the oodler does not hurt anyone on the ground
-        //         boss.HideShadow();
-        //         boss.SetBossVulnerability(true);
-        //     }
-
-        //     // This will continue to move the hand down on glich
-        //     if (!reachedTarget)
-        //     {
-        //         boss.Slam();
-        //         // activates the attack hitbox a few units above gliches position
-        //         if (boss.transform.position.y < boss.GetLastPosition().y + 0.01f)
-        //         {
-        //             boss.EnableAttackHitbox(true);
-        //         }
-        //     }
-
-        //     // Logic for once we hit the ground and if we caught them 
-        //     else
-        //     {
-        //         if (boss.IsCaught())
-        //         {
-        //             boss.ControlAllies(boss.dropZoneObject, true); // change this to only occur when caught
-        //             oodlerStateMachine.ChangeState(boss.oodlerRecover);
-                    
-        //         }
-
-          
-        //         // if the oodler has been on the ground for more than 5 seconds get up
-        //         else if (timer > boss.bossVulnerabilityTime)
-        //         {
-        //             oodlerStateMachine.ChangeState(boss.oodlerRecover);
-        //         }
-
-        //         timer += Time.deltaTime;
-        //     }
-
-        // }
-
-        // // a few seconds of delay and a color shift of shadow to give player time to react
-        // else
-        // {
-        //     delayTimer += Time.deltaTime;
-        //     if (delayTimer > boss.grabWarningTime)
-        //     {
-        //         delay = false;
-        //         boss.EnableAreaHitbox(true);
-        //         boss.ChangeSpriteSortingOrder(5);
-
-        //     }
-        // }
     }
 
 
-   
+
 }
 

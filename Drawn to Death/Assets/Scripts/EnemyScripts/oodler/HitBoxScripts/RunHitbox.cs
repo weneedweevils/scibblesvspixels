@@ -32,11 +32,13 @@ public class RunHitbox : MonoBehaviour{
 
                     //if (oodlerSlamCooldown == false && !PlayerScript.dashTimer.IsActive())
 
-                    if (!PlayerScript.dashTimer.IsActive() &&  !PlayerScript.invincibilityTimer.IsActive() && oodlerScript.activateDamage())
+                    if (!PlayerScript.invincibilityTimer.IsActive()) //oodlerScript.activateDamage()
                     {
-                        PlayerScript.Damage(oodlerScript.oodlerAttackDamage);
-                        Debug.Log("hit glich");
-                        glichRb.AddForce(new Vector2(100f,100f));
+                        //if (!PlayerScript.dashTimer.IsActive()) {
+                            PlayerScript.Damage(oodlerScript.oodlerAttackDamage);
+                            Debug.Log("hit glich");
+                            glichRb.AddForce(new Vector2(100f, 100f));
+                        //}
                     }
                    
                 }

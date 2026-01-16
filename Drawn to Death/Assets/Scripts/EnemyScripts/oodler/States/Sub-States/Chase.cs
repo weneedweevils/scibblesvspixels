@@ -38,7 +38,6 @@ public class Chase : ChildBaseState
     public override void ExitState()
     {
         base.ExitState();
-        Debug.Log("exiting Empty state");
         ResetState();
 
     }

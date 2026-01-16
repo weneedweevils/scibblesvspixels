@@ -15,15 +15,31 @@ public class OodlerRun : ParentBaseState
     private Vulnerable vulnerableState { get; set; }
     private Rise rise { get; set; }
 
+    private Vector3 runPosition;
+
     public OodlerRun(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
-        chase = new Chase(boss, this,2f,100f);
-        run = new Run(boss, this, 20f);
+      
+
+   
+
+    }
+    
+    
+   
+
+    
+    
+    public override void EnterState()
+    {
+       
+        chase = new Chase(boss, this, 0f, 100f);
         land = new Land(boss, this, 10f);
-        vulnerableState = new Vulnerable(boss, this);
+        run = new Run(boss, this, 15f,25f);
+        vulnerableState = new Vulnerable(boss, this, vulnerabilityTime: 2);
         rise = new Rise(boss, this, 10f, 1f);
 
-    orderedSubStateList = new List<ChildBaseState>
+        orderedSubStateList = new List<ChildBaseState>
         {
             chase,
             land,
@@ -32,21 +48,16 @@ public class OodlerRun : ParentBaseState
             rise
         };
 
-    }
-    
-    
-    private Vector3 runPosition;
-
-    
-    
-    public override void EnterState()
-    {
         base.EnterState();
     }
 
     public override void ExitState()
     {
-        base.ExitState();
+        chase = null;
+        land = null;
+        run = null;
+        vulnerableState = null;
+        rise = null;
     }
 
     public override void FrameUpdate()

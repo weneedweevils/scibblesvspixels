@@ -28,7 +28,6 @@ public class AttemptGrab : ChildBaseState
         grabWasActivated = false;
         reachedTarget = false;
         isGrabFrame = false;
-        boss.ShowAttack();
         animationEventNotifier = boss.GetComponentInChildren<AnimationEventNotifier>(); //get animation event notifier
         animationEventNotifier.GrabNotifier += AnimationOffset;
         animationEventNotifier.HitBoxActive += ActivateHitbox;
@@ -57,7 +56,7 @@ public class AttemptGrab : ChildBaseState
             boss.SetLastPosition(); // sets glich last position
 
         }
-        // This if statement is for when the fist comes down
+        // This if statement is for when the hand comes down
         if(!reachedTarget && isGrabFrame){
             boss.Slam(chaseSpeed);
             if(!grabWasActivated && boss.CloseToTarget()){

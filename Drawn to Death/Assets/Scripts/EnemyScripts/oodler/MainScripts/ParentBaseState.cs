@@ -27,6 +27,8 @@ public class ParentBaseState
         // don't know why I initialized here
         index = 0;
         Initialize(orderedSubStateList[index]);
+        Debug.Log(GetCurrentChildState());
+
     }
 
     public virtual void ExitState() {

@@ -8,10 +8,11 @@ using Vector3 = UnityEngine.Vector3;
 public class Land : ChildBaseState
 {
     private float landSpeed;
+    private bool reachedPosition;
     public Land(Boss boss, ParentBaseState parentBaseState, float landSpeed) : base(boss, parentBaseState)
     {
+        this.landSpeed = landSpeed;
     }
-    private bool reachedPosition = false;
     private Vector3 runGroundPosition;
 
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
@@ -23,7 +24,8 @@ public class Land : ChildBaseState
     {
         base.EnterState();
         reachedPosition = false;
-        runGroundPosition = boss.transform.position + new Vector3(0, -12f, 0);
+        boss.SetLandPosition();
+        Debug.Log("entered landing state");
     }
 
     public override void ExitState()
@@ -36,8 +38,10 @@ public class Land : ChildBaseState
         base.FrameUpdate();
 
 
-        reachedPosition = LandOodler();
+        reachedPosition = boss.LandOodler(landSpeed);
         if(reachedPosition){
+
+            Debug.Log("Going to next child state frpm land");
             boss.BringSpriteToBackground();
             parentBaseState.NextSubState();
             //childStateMachine.ChangeState(boss.run);
@@ -46,22 +50,7 @@ public class Land : ChildBaseState
     }
 
     // MOVE TO BOSS SCRIPT
-    // This method will "Land" the oodler on the ground
-    public bool LandOodler(float speed = 15)
-    {
-        var step = landSpeed * Time.deltaTime;
-        boss.oodlerRB.MovePosition(Vector3.MoveTowards(boss.transform.position, runGroundPosition, step));
-        if (Vector3.Distance(boss.transform.position, runGroundPosition) < 0.3f)
-        {
-            boss.oodlerRB.MovePosition(runGroundPosition);
-            boss.HideShadow();
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+   
 
     public override void ResetState()
     {

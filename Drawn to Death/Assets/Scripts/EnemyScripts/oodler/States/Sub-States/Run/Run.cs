@@ -7,10 +7,13 @@ public class Run : ChildBaseState
     // NEED TO ADD SOME OF THESE TO BOSS SCRIPT
 
     private float runSpeed;
+    private float runAcceleration;
 
 
-    public Run(Boss boss, ParentBaseState parentBaseState, float runSpeed) : base(boss, parentBaseState)
+    public Run(Boss boss, ParentBaseState parentBaseState, float runSpeed, float runAcceleration = 0) : base(boss, parentBaseState)
     {
+        this.runSpeed = runSpeed;
+        this.runAcceleration = runAcceleration;
     }
 
     private bool hitObstacle = false;
@@ -21,7 +24,6 @@ public class Run : ChildBaseState
     {
         hitObstacle = false;
         boss.animator.SetTrigger("Walk");
-        boss.GetShadow().SetTrigger("Walk");
         oodlerRunDirection = (boss.glich.transform.position - boss.transform.position).normalized;// Mov
         boss.EnableRunHitbox(true);
         RunHitbox.CollidedWithObstacle += OnHitObstacle;
@@ -32,10 +34,21 @@ public class Run : ChildBaseState
         base.ExitState();
     }
 
+   
+
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        OodlerRun();
+
+        var acceleration = runAcceleration * Time.deltaTime;
+        runSpeed = runSpeed + acceleration;
+        boss.OodlerRun(runSpeed , oodlerRunDirection);
+        if (hitObstacle)
+        {
+            boss.EnableRunHitbox(false);
+            parentBaseState.NextSubState();
+        }
+
     }
 
      public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
@@ -44,18 +57,7 @@ public class Run : ChildBaseState
     }
 
 
-    public void OodlerRun(float speed = 20){
-
-        if(hitObstacle){
-            boss.EnableRunHitbox(false);
-            parentBaseState.NextSubState();
-        }
-
-        var step = speed * Time.deltaTime;
-        boss.oodlerRB.MovePosition(boss.transform.position + oodlerRunDirection * step);
-        boss.CheckSpriteDirection();
-
-    }
+   
 
     public void OnHitObstacle(){
         hitObstacle = true;

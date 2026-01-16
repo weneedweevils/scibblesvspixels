@@ -151,6 +151,7 @@ public class Boss : MonoBehaviour
     private Vector3 glichLastPosition = Vector3.zero;
     private Vector3 oodlerGroundPosition = Vector3.zero;
     private Vector3 oodlerRunDirection = Vector3.zero;
+    private Vector3 oodlerLandPosition = Vector3.zero;
     
     private Vector3 offScreen = new Vector3(220, 130, 0);
     public bool oodlerSlamCooldown = false;
@@ -228,7 +229,7 @@ public class Boss : MonoBehaviour
         }
         else if (attackType == AttackType.Slam)
         {
-            stateMachine.Initialize(oodlerQuickSlam);
+            stateMachine.Initialize(oodlerSlam);
         }
         else if (attackType == AttackType.Run)
         {
@@ -238,6 +239,8 @@ public class Boss : MonoBehaviour
         {
             stateMachine.Initialize(oodlerInitial);
         }
+
+
 
     }
 
@@ -754,6 +757,35 @@ public class Boss : MonoBehaviour
         }
     }
 
+    // This method will "Land" the oodler on the ground
+    public bool LandOodler(float  landSpeed)
+    {
+        Debug.Log("Calling land oodler");
+        var step = landSpeed * Time.deltaTime;
+        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, oodlerLandPosition, step));
+        if (Vector3.Distance(transform.position, oodlerLandPosition) < 0.3f)
+        {
+            Debug.Log("Calling land oodler");
+            oodlerRB.MovePosition(oodlerLandPosition);
+            HideShadow();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    // This function will make the oodler run
+    public void OodlerRun(float runSpeed, Vector3 oodlerRunDirection)
+    {
+
+        var step = runSpeed * Time.deltaTime;
+        oodlerRB.MovePosition(transform.position + oodlerRunDirection * step);
+        CheckSpriteDirection();
+
+    }
+
     public bool SnapToGlich()
     {
         Debug.Log("now snap to position");
@@ -993,6 +1025,11 @@ public class Boss : MonoBehaviour
         return glichLastPosition;
     }
 
+    // this function will get the landing position of oodler
+    public void SetLandPosition()
+    {
+         oodlerLandPosition = transform.position + new Vector3(0, -12f, 0);
+    }
 
     // This function will get the last position of the oodler before they slam their hand down
     public void SetGroundPosition()
