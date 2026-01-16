@@ -226,6 +226,7 @@ public class Boss : MonoBehaviour
         if (attackType == AttackType.Grab)
         {
             stateMachine.Initialize(oodlerGrab);
+            Debug.Log("going into grab state");
         }
         else if (attackType == AttackType.Slam)
         {
@@ -751,7 +752,7 @@ public class Boss : MonoBehaviour
         }
         else
         {
-            Debug.Log("have not reached target");
+           
             Profiler.EndSample();
             return false;
         }

@@ -35,7 +35,10 @@ public class ParentBaseState
         index = 0;
     } 
 
-    public virtual void FrameUpdate() { }
+    public virtual void FrameUpdate()
+    {
+        currentChildState.FrameUpdate();
+    }
 
     public virtual void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType) {
     

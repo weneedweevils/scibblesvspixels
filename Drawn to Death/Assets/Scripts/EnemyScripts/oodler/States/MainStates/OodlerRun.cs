@@ -63,7 +63,6 @@ public class OodlerRun : ParentBaseState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        currentChildState.FrameUpdate();
     }
 
 

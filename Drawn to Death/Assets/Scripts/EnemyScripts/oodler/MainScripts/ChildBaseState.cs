@@ -10,6 +10,7 @@ public class ChildBaseState
     protected Boss boss;
     protected ParentBaseState parentBaseState;
     private StateMachine parentStateMachine;
+    private bool success = true;
 
     public ChildBaseState(Boss boss, ParentBaseState baseState) {
         this.boss = boss; 
@@ -23,7 +24,9 @@ public class ChildBaseState
         this.parentStateMachine = parentStateMachine;
     }
 
-    public virtual void EnterState() {
+    public virtual void EnterState()
+    {
+        success = true;
     }
 
     public virtual void ResetState() { }
@@ -33,5 +36,10 @@ public class ChildBaseState
 
     public virtual void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType) {
     
+    }
+
+    public bool GetSuccess()
+    {
+        return success;
     }
 }

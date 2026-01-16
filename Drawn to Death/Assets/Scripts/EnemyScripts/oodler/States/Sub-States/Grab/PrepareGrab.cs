@@ -21,7 +21,7 @@ public class PrepareGrab : ChildBaseState
         base.EnterState();
         boss.SetBossCaught(false);
         boss.animator.SetTrigger("GrabWindUp");
-        boss.GetShadow().SetTrigger("GrabWindUp");
+        //boss.GetShadow().SetTrigger("GrabWindUp");
         //boss.GetShadow().SetTrigger();
         reachedTarget = false;
         attackCharged = false;
@@ -43,15 +43,12 @@ public class PrepareGrab : ChildBaseState
         if(!stopOodler){
             reachedTarget = boss.MoveToGlich(chaseSpeed);
             if(reachedTarget){
-                attackCharged = boss.RevealAttack();
-                if(attackCharged){
                     if(grabHoverTimer.Update()){
-                        boss.ShowAttack();
                         stopOodler = true;
-                        //childStateMachine.ChangeState(boss.attemptGrab);
+                        parentBaseState.NextSubState();
                         // change our state to the actual attack state
                     }
-                }
+                
             }
         }
     }

@@ -34,7 +34,7 @@ public class OodlerGrab : ParentBaseState
         Debug.Log("<color=red>ENTERING SLAM STATE");
 
         chase = new Chase(boss, this, chaseTime: 3f, chaseSpeed: 50f);
-        prepareGrab = new PrepareGrab(boss, this, grabHoverTime: 1f, chaseSpeed: 100);
+        prepareGrab = new PrepareGrab(boss, this, grabHoverTime: 5f, chaseSpeed: 100);
         attemptGrab = new AttemptGrab(boss, this, chaseSpeed: 100);
         vulnerable = new Vulnerable(boss, this, vulnerabilityTime: 1f);
         rise = new Rise(boss, this, 1f, 1f);
@@ -52,7 +52,7 @@ public class OodlerGrab : ParentBaseState
             //carryGlich,
             emptyChild,
         };
-
+        Debug.Log("We have entered the grabbing sub-state");
         base.EnterState(); // always go at the end
 
 
@@ -73,13 +73,17 @@ public class OodlerGrab : ParentBaseState
 
     public override void FrameUpdate()
     {
-        base.FrameUpdate();
+         base.FrameUpdate();
       
     }
 
     public override void NextSubState()
     {
         base.NextSubState();
+        if (currentChildState.GetSuccess())
+        {
+            index = index + 1;
+        }
         index = index + 1;
         if (index < orderedSubStateList.Count)
         {

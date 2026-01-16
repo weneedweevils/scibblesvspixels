@@ -26,6 +26,7 @@ public class OodlerInitial : ParentBaseState
 
     public override void FrameUpdate()
     {
+        base.FrameUpdate();
         if (boss.blockers.Length > 0)
         {
             foreach (EnemyAI blocker in boss.blockers)

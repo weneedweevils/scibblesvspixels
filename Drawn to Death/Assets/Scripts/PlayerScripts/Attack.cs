@@ -501,7 +501,6 @@ public class Attack : MonoBehaviour
                     EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
                     HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
                    
-                    Debug.Log("A enemy is being hit");
                     if (enemy != null)
                     {
                         if (attackTimer.IsActive() && enemy != null && enemy.team == Team.oddle && enemy.invincibilityTimer.IsUseable() && PlayerCanHit(enemy))

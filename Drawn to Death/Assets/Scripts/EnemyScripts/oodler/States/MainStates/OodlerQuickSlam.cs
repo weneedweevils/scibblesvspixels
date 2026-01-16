@@ -95,7 +95,7 @@ public class OodlerQuickSlam : ParentBaseState
     public override void FrameUpdate()
     {
    
-        currentChildState.FrameUpdate();  
+        base.FrameUpdate();  
     }
 
 

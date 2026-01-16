@@ -30,6 +30,8 @@ public class OodlerIdle : ParentBaseState
 
     public override void FrameUpdate()
     {
+
+        base.FrameUpdate();
         if (boss.ReachedOffScreen())
         {
             timer = timer + Time.deltaTime;
