@@ -4,46 +4,47 @@ using UnityEngine;
 
 public class OodlerInitial : ParentBaseState
 {
-   
+    List<ChildBaseState> orderedSubStateList;
     public OodlerInitial(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
 
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
+    public override void EnterParentState()
     {
-        base.AnimationTriggerEvent(triggerType);
-    }
-
-    public override void EnterState()
-    {
-        base.EnterState();
-    }
-
-    public override void ExitState()
-    {
-        base.ExitState();
-    }
-
-    public override void FrameUpdate()
-    {
-        base.FrameUpdate();
-        if (boss.blockers.Length > 0)
+        orderedSubStateList = new List<ChildBaseState>
         {
-            foreach (EnemyAI blocker in boss.blockers)
-            {
-                if (blocker.isDead())
-                {
-                    boss.healthBarParent.SetActive(true);
-                    boss.HealthCrystal1.SetActive(true);
-                    boss.HealthCrystal2.SetActive(true);
-                    boss.HealthCrystal3.SetActive(true);
-                    boss.HealthCrystal4.SetActive(true);
+            new EmptyChildState(boss, this),
+        };
+        base.InitializeQueue(orderedSubStateList);
+        orderedSubStateList = null;
+        base.EnterParentState();
+    }
+
+    public override void ExitParentState()
+    {
+        base.ExitParentState();
+    }
+
+    public override void ParentFrameUpdate()
+    {
+        base.ParentFrameUpdate();
+        //if (boss.blockers.Length > 0)
+        //{
+        //    foreach (EnemyAI blocker in boss.blockers)
+        //    {
+        //        if (blocker.isDead())
+        //        {
+        //            boss.healthBarParent.SetActive(true);
+        //            boss.HealthCrystal1.SetActive(true);
+        //            boss.HealthCrystal2.SetActive(true);
+        //            boss.HealthCrystal3.SetActive(true);
+        //            boss.HealthCrystal4.SetActive(true);
 
 
-                    oodlerStateMachine.ChangeState(boss.oodlerIdle);
-                }
-            }
-        }
+        //            oodlerStateMachine.ChangeState(boss.oodlerIdle);
+        //        }
+        //    }
+        //}
     }
 
 

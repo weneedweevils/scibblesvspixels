@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class OodlerDrop : ParentBaseState
 {
-  
-    
-
-    float delay = 0f;
-
+    List<ChildBaseState> orderedSubStateList;
     public OodlerDrop(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
@@ -18,65 +14,72 @@ public class OodlerDrop : ParentBaseState
         base.AnimationTriggerEvent(triggerType);
     }
 
-    public override void EnterState()
+    public override void EnterParentState()
     {
-        base.EnterState();
-        delay = 0f;
+
+        orderedSubStateList = new List<ChildBaseState>
+        {
+            new Chase(boss, this, chaseTime: 3f, chaseSpeed: 50f),
+        };
+        base.InitializeQueue(orderedSubStateList);
+        orderedSubStateList = null;
+        base.EnterParentState();
+        
 
     }
     
-    public override void ExitState()
+    public override void ExitParentState()
     {
-        base.ExitState();
+        base.ExitParentState();
         boss.SetBossCaught(false);
 
     }
 
-    public override void FrameUpdate()
+    public override void ParentFrameUpdate()
     {
 
-        base.FrameUpdate();
+        base.ParentFrameUpdate();
 
-        // move boss to drop zone 
-        if (!boss.ReachedDropZone())
-        {
-            boss.MoveToDropZone(10f);
-            boss.MoveGlichWithOodler();
-        }
+        //// move boss to drop zone 
+        //if (!boss.ReachedDropZone())
+        //{
+        //    boss.MoveToDropZone(10f);
+        //    boss.MoveGlichWithOodler();
+        //}
 
-        // Once we get to drop zone wait 5 seconds to drop glich
-        else
-        {
-            Debug.Log("here");
-            if (delay > 2f)
-            {
-                if (!boss.GlichReachedDropZone())
-                {
-                    Debug.Log("have not reached drop zone");
-                    //boss.MoveOffScreen();
-                    boss.DropGlich(20);
-                }
-                else
-                {
-                    Debug.Log("have eached drop zone");
-                    boss.EnableGlichColliders(true);
-                    boss.ControlAllies(boss.glich, false);
-                    boss.playerScript.EnableInput();
+        //// Once we get to drop zone wait 5 seconds to drop glich
+        //else
+        //{
+        //    Debug.Log("here");
+        //    if (delay > 2f)
+        //    {
+        //        if (!boss.GlichReachedDropZone())
+        //        {
+        //            Debug.Log("have not reached drop zone");
+        //            //boss.MoveOffScreen();
+        //            boss.DropGlich(20);
+        //        }
+        //        else
+        //        {
+        //            Debug.Log("have eached drop zone");
+        //            boss.EnableGlichColliders(true);
+        //            boss.ControlAllies(boss.glich, false);
+        //            boss.playerScript.EnableInput();
                    
-                    oodlerStateMachine.ChangeState(boss.oodlerIdle);
-                }
-            }
-            else
-            {
-                boss.MoveGlichWithOodler();
-                delay += Time.deltaTime;
-            }
+        //            oodlerStateMachine.ChangeState(boss.oodlerIdle);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        boss.MoveGlichWithOodler();
+        //        delay += Time.deltaTime;
+        //    }
 
             
 
             
             
-        }
+        //}
     }
 
    

@@ -14,7 +14,7 @@ public class OodlerRecover : ParentBaseState
         base.AnimationTriggerEvent(triggerType);
     }
 
-    public override void EnterState()
+    public override void EnterParentState()
     {
         boss.ShowShadow();
         timer = 0f;
@@ -28,9 +28,9 @@ public class OodlerRecover : ParentBaseState
         }
     }
 
-    public override void ExitState()
+    public override void ExitParentState()
     {
-        base.ExitState();
+        base.ExitParentState();
     }
 
     // public override void FrameUpdate()

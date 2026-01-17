@@ -319,7 +319,7 @@ public class Boss : MonoBehaviour
     // FixedUpdate to update physics
     private void FixedUpdate()
     {
-        stateMachine.currentState.FrameUpdate();
+        stateMachine.currentState.ParentFrameUpdate();
         invincibilityTimer.Update();
     }
     #endregion

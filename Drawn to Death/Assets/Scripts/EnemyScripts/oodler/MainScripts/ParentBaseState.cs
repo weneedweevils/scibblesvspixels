@@ -10,48 +10,18 @@ public class ParentBaseState
 
     protected Boss boss;
     protected StateMachine oodlerStateMachine;
-    protected List<ChildBaseState> orderedSubStateList;
+
+    protected Queue<ChildBaseState> subStateQueue;
     protected ChildBaseState currentChildState { get; set; }
+    protected ChildBaseState nextChildState {  get; set; }
     protected int index;
 
 
     public ParentBaseState(Boss boss, StateMachine oodlerStateMachine) {
         this.boss = boss;
         this.oodlerStateMachine = oodlerStateMachine;
-        orderedSubStateList = new List<ChildBaseState>();
+        subStateQueue = new Queue<ChildBaseState>();
 
-    }
-  
-
-    public virtual void EnterState() {
-        // don't know why I initialized here
-        index = 0;
-        Initialize(orderedSubStateList[index]);
-        Debug.Log(GetCurrentChildState());
-
-    }
-
-    public virtual void ExitState() {
-        index = 0;
-    } 
-
-    public virtual void FrameUpdate()
-    {
-        currentChildState.FrameUpdate();
-    }
-
-    public virtual void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType) {
-    
-    }
-
-
-    
-
-
-    public virtual void Initialize(ChildBaseState startingState)
-    {
-        currentChildState = startingState;
-        currentChildState.EnterState();
     }
 
 
@@ -73,11 +43,68 @@ public class ParentBaseState
         return currentChildState;
     }
 
+
     public virtual void NextSubState()
     {
+        if (subStateQueue.Count > 0)
+        {
+            nextChildState = subStateQueue.Dequeue();
+            ChangeChildState(nextChildState);
+        }
+        else
+        {
+            oodlerStateMachine.ChangeState(boss.oodlerIdle);
+            // End of Queue reached Handle logic to go to next state (Maybe go to the idle state and idle state determines where to go)
+        }
 
-        
+
+
     }
+
+    /// <summary>
+    ///  Enters the parent state in function that inherits this make sure to create an ordered substate list, initalize queue, and set substate list to null before calling base
+    /// </summary>
+    public virtual void EnterParentState() {
+        
+        
+
+        nextChildState = subStateQueue.Dequeue();
+        currentChildState = nextChildState;
+        currentChildState.EnterState();
+    }
+
+    public virtual void ExitParentState() {
+        subStateQueue.Clear();
+    } 
+
+    public virtual void ParentFrameUpdate()
+    {
+        currentChildState.FrameUpdate();
+    }
+
+    public virtual void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType) {
+    
+    }
+
+    // make sure this function is called in the class inheriting this
+    public virtual void InitializeQueue(List<ChildBaseState> childStates)
+    {
+        foreach(ChildBaseState child in childStates)
+        {
+            subStateQueue.Enqueue(child);
+        }
+    }
+
+    private void SkipStates(int skipCount)
+    {
+        for(int i = 0; i<skipCount; i++)
+        {
+            subStateQueue.Dequeue();
+        }
+    }
+
+
+   
 
   
 

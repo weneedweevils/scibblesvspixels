@@ -6,43 +6,56 @@ public class OodlerIdle : ParentBaseState
 {
 
     private float timer = 0f;
+    List<ChildBaseState> orderedSubStateList;
 
     public OodlerIdle(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
 
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
+    public override void EnterParentState()
     {
-        base.AnimationTriggerEvent(triggerType);
-    }
-
-    public override void EnterState()
-    {
-        base.EnterState();
-        timer = 0f;
-        boss.ShowShadow();
-    }
-
-    public override void ExitState()
-    {
-        base.ExitState();
-    }
-
-    public override void FrameUpdate()
-    {
-
-        base.FrameUpdate();
-        if (boss.ReachedOffScreen())
+        orderedSubStateList = new List<ChildBaseState>
         {
-            timer = timer + Time.deltaTime;
-            if (timer > 1f) {
-               // oodlerStateMachine.ChangeState(boss.oodlerChase);
-            }
+            new Chase(boss, this, chaseTime: 0f, chaseSpeed: 50f),
+        };
+        base.InitializeQueue(orderedSubStateList);
+        orderedSubStateList = null;
+        base.EnterParentState();
+    }
+
+    public override void ExitParentState()
+    {
+        base.ExitParentState();
+    }
+
+    public override void ParentFrameUpdate()
+    {
+
+        base.ParentFrameUpdate();
+       
+    }
+
+    // this is where we decide 
+    public override void NextSubState()
+    {
+        if (subStateQueue.Count > 0)
+        {
+            nextChildState = subStateQueue.Dequeue();
+            ChangeChildState(nextChildState);
         }
         else
         {
-            boss.MoveOffScreen(150f);
+            oodlerStateMachine.ChangeState(DecideState());
         }
+
     }
+
+
+    private ParentBaseState DecideState()
+    {
+        return boss.oodlerGrab;
+    }
+
+
 
 }

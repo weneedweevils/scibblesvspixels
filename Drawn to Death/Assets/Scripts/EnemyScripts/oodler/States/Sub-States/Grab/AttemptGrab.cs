@@ -5,11 +5,11 @@ using UnityEngine;
 public class AttemptGrab : ChildBaseState
 {
 
-
-    bool reachedTarget = false;
     private bool isGrabFrame = false;
     private bool grabWasActivated = false;
+
     private float chaseSpeed;
+
     private AnimationEventNotifier animationEventNotifier;
 
     public AttemptGrab(Boss boss, ParentBaseState parentBaseState, float chaseSpeed) : base(boss, parentBaseState)
@@ -26,15 +26,14 @@ public class AttemptGrab : ChildBaseState
     {
         base.EnterState();
         grabWasActivated = false;
-        reachedTarget = false;
         isGrabFrame = false;
+
         animationEventNotifier = boss.GetComponentInChildren<AnimationEventNotifier>(); //get animation event notifier
         animationEventNotifier.GrabNotifier += AnimationOffset;
         animationEventNotifier.HitBoxActive += ActivateHitbox;
+
         boss.BringSpriteToForeground();
-        boss.animator.SetTrigger("Grab");
-        //boss.GetShadow().SetTrigger("Grab");
-        //boss.GetShadow().SetTrigger("Slam"); // the shadow shrinks in its animator when you 
+        boss.animator.SetTrigger("Grab"); // This state has a function that calls animation event
     }
 
     public override void ExitState()
@@ -83,7 +82,7 @@ public class AttemptGrab : ChildBaseState
                      boss.animator.SetTrigger("Idle");
                      boss.GetShadow().SetTrigger("idle");
                      boss.EnableGrabHitbox(false);
-            }
+                }
                 //childStateMachine.ChangeState(boss.rise);
                 //childStateMachine.ChangeState(boss.vulnerableState);
         }

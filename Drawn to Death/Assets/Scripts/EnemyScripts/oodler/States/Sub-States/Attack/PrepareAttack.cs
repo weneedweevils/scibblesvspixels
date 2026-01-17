@@ -67,9 +67,9 @@ public class PrepareAttack : ChildBaseState
         attackCharged = false;
         slamWarningTimer = null;
         stopOodler = false;
-
-
     }
+
+
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
     {
         base.AnimationTriggerEvent(triggerType);

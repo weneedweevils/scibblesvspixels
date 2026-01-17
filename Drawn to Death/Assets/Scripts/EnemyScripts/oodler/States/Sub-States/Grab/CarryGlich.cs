@@ -50,7 +50,6 @@ public class CarryGlich : ChildBaseState
                 if (dropZoneHoverTimer.Update())
                 {
                     boss.animator.SetTrigger("Idle");
-                    boss.GetShadow().SetTrigger("idle");
                     if (boss.DropGlich())
                     {
                         

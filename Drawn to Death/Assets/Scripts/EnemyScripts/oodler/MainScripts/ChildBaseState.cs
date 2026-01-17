@@ -18,12 +18,6 @@ public class ChildBaseState
      
     }
 
-    public ChildBaseState(Boss boss, StateMachine parentStateMachine)
-    {
-        this.boss = boss;
-        this.parentStateMachine = parentStateMachine;
-    }
-
     public virtual void EnterState()
     {
         success = true;
