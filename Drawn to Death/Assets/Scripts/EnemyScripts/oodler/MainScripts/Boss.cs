@@ -916,9 +916,6 @@ public class Boss : MonoBehaviour
         }
     }
 
-    ///<summary>
-    /// Returns true if Oodler is close to target
-    ///</summary> 
     public bool CloseToTarget()
     {
         if (Vector3.Distance(transform.position, glichLastPosition) < 1.5f)

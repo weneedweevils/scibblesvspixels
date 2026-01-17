@@ -13,7 +13,6 @@ public class CarryGlich : ChildBaseState
     {
         this.dropZoneSpeed = dropZoneSpeed;
         this.dropZoneHoverTime = dropZoneHoverTime;
-        
     }
     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
     {

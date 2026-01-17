@@ -28,7 +28,6 @@ public class OodlerGrab : ParentBaseState
             new AttemptGrab(boss, this, chaseSpeed: 100),
             new Vulnerable(boss, this, vulnerabilityTime: 1f),
             new Rise(boss, this, 1f, 1f),
-            new CarryGlich(boss, this, dropZoneHoverTime: 5f, dropZoneSpeed: 20f),
             new EmptyChildState(boss, this),
         };
 
@@ -39,6 +38,9 @@ public class OodlerGrab : ParentBaseState
 
 
     }
+
+    // special function to go to drop state 
+    
 
     public override void ExitParentState()
     {

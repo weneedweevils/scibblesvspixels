@@ -95,7 +95,7 @@ public class ParentBaseState
         }
     }
 
-    private void SkipStates(int skipCount)
+    public void SkipStates(int skipCount)
     {
         for(int i = 0; i<skipCount; i++)
         {
@@ -103,9 +103,14 @@ public class ParentBaseState
         }
     }
 
+    public void GoToDropState()
+    {
+        oodlerStateMachine.ChangeState(boss.oodlerDrop);
+    }
 
-   
 
-  
+
+
+
 
 }

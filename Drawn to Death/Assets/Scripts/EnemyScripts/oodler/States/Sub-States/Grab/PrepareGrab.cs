@@ -21,7 +21,7 @@ public class PrepareGrab : ChildBaseState
     {
         base.EnterState();
 
-        boss.SetBossCaught(false);
+        //boss.SetBossCaught(false);
         reachedTarget = false;
 
         grabHoverTimer = new BossTimer(grabHoverTime);

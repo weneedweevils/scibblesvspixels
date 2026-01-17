@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class GrabHitbox:MonoBehaviour
 
     public PlayerMovement PlayerScript;
     public Oodler oodlerScript;
-
+    public static event Action grabbedGlich;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -20,16 +21,7 @@ public class GrabHitbox:MonoBehaviour
 
             case "Player":
                 {
-                    if (oodlerScript.IsCaught())
-                    {
-
-                    }
-                    else
-                    {
-                        oodlerScript.SetBossCaught(true);
-                    }
-
-                    Debug.Log("CAUGHT GLICH");
+                    grabbedGlich?.Invoke();
                 }
                 break;
 
