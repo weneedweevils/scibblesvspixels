@@ -35,7 +35,7 @@ public class OodlerSlam : ParentBaseState
             new Chase(boss, this, 2f, chaseSpeed: 100f),
             new PrepareAttack(boss, this, 1, 100f),
             new SwingHand(boss, this, chaseSpeed: 100f),
-            new Vulnerable(boss, this, vulnerabilityTime: 1f),
+            new Vulnerable(boss, this, vulnerabilityTime: 5f),
             new Rise(boss, this, 1f, 1f),
             new EmptyChildState(boss, this),
 

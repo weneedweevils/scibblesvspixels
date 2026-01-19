@@ -152,9 +152,10 @@ public class Boss : MonoBehaviour
     private Vector3 oodlerGroundPosition = Vector3.zero;
     private Vector3 oodlerRunDirection = Vector3.zero;
     private Vector3 oodlerLandPosition = Vector3.zero;
+    private Vector3 oodlerAirPosition = Vector3.zero;
+    private Vector3 grabPositionOffset = new Vector3(0, 2f, 0f);
     
     private Vector3 offScreen = new Vector3(220, 130, 0);
-    public bool oodlerSlamCooldown = false;
     
    
     public CooldownTimer invincibilityTimer;
@@ -777,6 +778,23 @@ public class Boss : MonoBehaviour
         }
     }
 
+    public bool RiseOodler(float speed = 10f)
+    {
+
+        var step = speed * Time.deltaTime;
+        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, oodlerAirPosition, step));
+
+        if (Vector3.Distance(transform.position, oodlerAirPosition) < 0.3f)
+        {
+            oodlerRB.MovePosition(oodlerAirPosition);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     // This function will make the oodler run
     public void OodlerRun(float runSpeed, Vector3 oodlerRunDirection)
     {
@@ -812,14 +830,10 @@ public class Boss : MonoBehaviour
 
 
     // This function will move the glich with the oodler if they are caught
-    public void MoveGlichWithOodler()
-    {
-        if (caught == true)
-        {
-            glich.transform.position = transform.position;
-        }
-
-        //playerScript.StopMovement();
+    public void MoveGlichWithOodler() { 
+            
+            
+            glich.transform.position = transform.position - grabPositionOffset;
     }
 
 
@@ -1035,14 +1049,13 @@ public class Boss : MonoBehaviour
         oodlerGroundPosition = transform.position;
     }
 
-    public void SetSlamCooldown(bool onCooldown){
-        if(onCooldown){
-            oodlerSlamCooldown = true;
-        }
-        else{
-             oodlerSlamCooldown = false;
-        }
+    public void SetAirPosition()
+    {
+        oodlerAirPosition = transform.position;
+        oodlerAirPosition.y = oodlerAirPosition.y + 12f;
     }
+
+
 
 
     public void SetBossCaught(bool isCaught){
@@ -1068,9 +1081,7 @@ public class Boss : MonoBehaviour
     #region Other
    
 
-    public bool OnSlamCooldown(){
-        return oodlerSlamCooldown;
-    }
+ 
 
  
 

@@ -5,6 +5,7 @@ using UnityEngine;
 public class OodlerDrop : ParentBaseState
 {
     List<ChildBaseState> orderedSubStateList;
+    private float dropZoneSpeed;
     public OodlerDrop(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
@@ -19,8 +20,10 @@ public class OodlerDrop : ParentBaseState
 
         orderedSubStateList = new List<ChildBaseState>
         {
-            new Chase(boss, this, chaseTime: 3f, chaseSpeed: 50f),
+            new RiseWithGlich(boss, this, riseSpeed: 20f, riseDelay: 0.5f),
+            new CarryGlich(boss, this, dropZoneHoverTime: 2f, dropZoneSpeed: 50f)
         };
+
         base.InitializeQueue(orderedSubStateList);
         orderedSubStateList = null;
         base.EnterParentState();
@@ -43,7 +46,7 @@ public class OodlerDrop : ParentBaseState
         //// move boss to drop zone 
         //if (!boss.ReachedDropZone())
         //{
-        //    boss.MoveToDropZone(10f);
+        //    boss.MoveToDropZone(dropZoneSpeed);
         //    boss.MoveGlichWithOodler();
         //}
 
@@ -65,7 +68,7 @@ public class OodlerDrop : ParentBaseState
         //            boss.EnableGlichColliders(true);
         //            boss.ControlAllies(boss.glich, false);
         //            boss.playerScript.EnableInput();
-                   
+
         //            oodlerStateMachine.ChangeState(boss.oodlerIdle);
         //        }
         //    }
@@ -75,14 +78,14 @@ public class OodlerDrop : ParentBaseState
         //        delay += Time.deltaTime;
         //    }
 
-            
 
-            
-            
-        //}
+
+
+
+        }
     }
 
    
 
 
-}
+

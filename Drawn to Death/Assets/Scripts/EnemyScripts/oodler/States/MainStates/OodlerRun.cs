@@ -19,7 +19,7 @@ public class OodlerRun : ParentBaseState
     {
         orderedSubStateList = new List<ChildBaseState>
         {
-            new Chase(boss, this, 0f, 100f),
+            new Chase(boss, this, 3f, 100f),
              new Land(boss, this, 10f),
              new Run(boss, this, 15f,25f),
              new Vulnerable(boss, this, vulnerabilityTime: 2),

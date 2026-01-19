@@ -27,6 +27,7 @@ public class AttemptGrab : ChildBaseState
     {
         base.EnterState();
         grabWasActivated = false;
+        reachedTarget = false;
         isGrabFrame = false;
 
         // This script gets two animation event notifiers from the grab animation, and one event from the grab hitbox
@@ -64,9 +65,11 @@ public class AttemptGrab : ChildBaseState
 
         // This statment is for after the oodler gets to the gliches last known position
         else if(isGrabFrame && grabWasActivated){
+
             if (caught)
             {
                 boss.playerScript.DisableInput();
+                boss.playerScript.animator.SetTrigger("Grabbed"); 
                 boss.animator.SetTrigger("Caught");
                 boss.EnableGrabHitbox(false);
                 parentBaseState.GoToDropState();

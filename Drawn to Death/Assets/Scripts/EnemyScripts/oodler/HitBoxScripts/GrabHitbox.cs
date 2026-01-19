@@ -21,7 +21,13 @@ public class GrabHitbox:MonoBehaviour
 
             case "Player":
                 {
-                    grabbedGlich?.Invoke();
+
+                    if (!PlayerScript.dashTimer.IsActive() && !PlayerScript.invincibilityTimer.IsActive())
+                    {
+                        grabbedGlich?.Invoke();
+                    }
+
+                    
                 }
                 break;
 

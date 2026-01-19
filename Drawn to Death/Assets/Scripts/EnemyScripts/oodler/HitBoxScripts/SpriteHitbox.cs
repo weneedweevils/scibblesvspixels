@@ -12,6 +12,9 @@ public class SpriteHitbox : MonoBehaviour
 
     private PlayerMovement PlayerScript;
 
+
+    public static event Action HitBorder;
+
     public void Start()
     {
         PlayerScript = Glich.GetComponent<PlayerMovement>();
@@ -28,6 +31,7 @@ public class SpriteHitbox : MonoBehaviour
                 {
                     oodlerScript.ChangeSpriteSortingOrder(8);
                     oodlerScript.EnableSpriteHitbox(false);
+                    HitBorder?.Invoke();
                     Debug.Log("Hit the border !!!");
            
                 }
@@ -37,6 +41,7 @@ public class SpriteHitbox : MonoBehaviour
                 {
                     oodlerScript.ChangeSpriteSortingOrder(8);
                     oodlerScript.EnableSpriteHitbox(false);
+                    HitBorder?.Invoke();
 
                 }
                 break;
