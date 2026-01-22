@@ -194,11 +194,51 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         }
     }
 
+    public Vector2 ReturnIsometricAcceleration(Vector2 acceleration) 
+    {
+        // return exact angle when pressing two keys
+
+        // top right movement
+        if(acceleration.x == 1f && acceleration.y == 1f)
+        {
+
+        }
+        // top left movement
+        if (acceleration.x == -1f && acceleration.y == 1f)
+        {
+
+        }
+        // bottom left movement
+        if (acceleration.x == -1f && acceleration.y == -1f)
+        {
+
+        }
+
+        // bottom right movement
+        if (acceleration.x == 1f && acceleration.y == -1f)
+        {
+
+        }
+        var degree = 26.56f;
+        var scale = ((32 * Mathf.Sqrt(5)) / 2);
+        var rad = Mathf.Deg2Rad * degree;
+        var dx = ((acceleration.x * Mathf.Cos(rad) + acceleration.y  * Mathf.Sin(rad)) * scale);
+        var dy = ((acceleration.y * Mathf.Cos(rad) - acceleration.x * Mathf.Sin(rad)) * scale) / 2f;
+
+        return new Vector3(dx,dy,0);
+    }
+
     // MOVE SOME OF THE STUFF TO A REGULAR UPDATE FUNCTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // Update is called once per frame
     void FixedUpdate()
     {
         acceleration = playerInput.actions["Move"].ReadValue<Vector2>()*accelerationCoefficient.value;
+        //Debug.Log(playerInput.actions["Move"].ReadValue<Vector2>()+ " is my move value");
+
+        //acceleration = ReturnIsometricAcceleration(playerInput.actions["Move"].ReadValue<Vector2>());
+
+
+
         aimDirection = playerInput.actions["Aim"].ReadValue<Vector2>();
 
         playerarms.FrameUpdate(aimDirection);

@@ -322,6 +322,7 @@ public class Boss : MonoBehaviour
     {
         stateMachine.currentState.ParentFrameUpdate();
         invincibilityTimer.Update();
+        GlichInOpen();
     }
     #endregion
 
@@ -944,7 +945,6 @@ public class Boss : MonoBehaviour
 
 
 
-    #endregion
 
     // this function will check to see if all the crystals are still active or if the oodler dies, cutscene plays if any one of these conditions are met
     public void CheckWinCondition()
@@ -1021,7 +1021,8 @@ public class Boss : MonoBehaviour
     }
 
 
-    
+    #endregion
+
     // SETTERS AND GETTERS //
     #region Setters
 
@@ -1132,5 +1133,57 @@ public class Boss : MonoBehaviour
         }
     }
 
-    #endregion 
+    /// <summary>
+    /// This function will determine if glich is out in the open or close to a wall
+    /// </summary>
+    /// <returns></returns>
+    public bool GlichInOpen()
+    {
+
+        float theta = 1.0472f;
+        // offset used to make sure that the players position is not overlapping with wall
+        var directions = new List<Vector3> { Vector3.up,Vector3.right, Vector3.down, Vector3.left};
+        Vector3 offSet = new Vector3(0f, -4f, 0f);
+        Vector3 PlayerPosition = glich.transform.position + offSet;
+        int layerMask = 1 << 8;
+        float best_distance = 0;
+        Vector3 bestDirection = Vector3.zero;
+        Vector2 point = new Vector2(0, 0);
+        var colors = new List<Color> { Color.red,Color.blue, Color.green, Color.gray};
+
+        int color_index = 0;
+        // This for loop will go through all directions and teleport the enemies in the direction where there is the most available space
+        foreach (Vector3 direction in directions)
+        {
+            
+            
+            var trueDirection = new Vector3(direction.y*Mathf.Sin(theta) + direction.x*Mathf.Cos(theta), direction.y * Mathf.Cos(theta) + direction.x * -Mathf.Sin(theta), 0);
+
+
+            RaycastHit2D hit = Physics2D.Raycast(PlayerPosition, trueDirection, Mathf.Infinity, layerMask);
+            //Debug.DrawRay(PlayerPosition, (Vector3.up) * 100f, Color.red, 5f);
+
+            if (hit)
+            {
+                Debug.DrawRay(PlayerPosition, trueDirection, colors[color_index]);
+                color_index++;
+                float distance = hit.distance;
+
+                if (distance > best_distance)
+                {
+                    point = hit.point;
+                    best_distance = distance;
+                    bestDirection = trueDirection;
+
+                }
+            }
+        }
+        Debug.Log("Our best direction is " + bestDirection);
+        var bestDirDis = (bestDirection, best_distance);
+        return true;// bestDirDis;
+    }
+
+
+
+    #endregion
 }
