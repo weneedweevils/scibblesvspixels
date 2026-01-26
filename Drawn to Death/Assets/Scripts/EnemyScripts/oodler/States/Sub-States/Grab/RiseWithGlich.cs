@@ -30,7 +30,6 @@ public class RiseWithGlich : ChildBaseState
         boss.SetAirPosition();
         riseTimer = new BossTimer(riseDelay);
         riseStarted = false;
-        boss.animator.SetTrigger("Caught");
         boss.EnableGlichColliders(false);
 
    

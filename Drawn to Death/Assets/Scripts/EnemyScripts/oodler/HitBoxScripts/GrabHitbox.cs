@@ -8,7 +8,7 @@ public class GrabHitbox:MonoBehaviour
     
 {
 
-    public PlayerMovement PlayerScript;
+    public PlayerMovement playerScript;
     public Oodler oodlerScript;
     public static event Action grabbedGlich;
 
@@ -21,8 +21,7 @@ public class GrabHitbox:MonoBehaviour
 
             case "Player":
                 {
-
-                    if (!PlayerScript.dashTimer.IsActive() && !PlayerScript.invincibilityTimer.IsActive())
+                    if (!playerScript.dashTimer.IsActive() && !playerScript.invincibilityTimer.IsActive())
                     {
                         grabbedGlich?.Invoke();
                     }
@@ -31,31 +30,31 @@ public class GrabHitbox:MonoBehaviour
                 }
                 break;
 
-            // case "Enemy":
-            //     {
-            //         EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
+            default:
+                {
+                    break;
+                }
+        }
+
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
 
 
-            //         if (enemy != null && !enemy.invincibilityTimer.IsActive() && !oodlerScript.OnSlamCooldown()) //&& oodlerScript.activateDamage())
-            //         {
-            //             enemy.Damage(oodlerScript.oodlerAttackDamage);
-            //         }
+        switch (collision.gameObject.tag)
+        {
 
-            //         else
-            //         {
-            //             HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
-            //             if (crystal != null)
-            //             {
-            //                 if (crystal != null && crystal.invincibilityTimer.IsUseable() && !oodlerScript.OnSlamCooldown())// && oodlerScript.activateDamage())
-            //                 {
-            //                     //Damage enemy
-            //                     crystal.CrystalDamage(oodlerScript.oodlerAttackDamage, true);
-            //                 }
-            //             }
-            //         }
-            //     }
-            //     break;
+            case "Player":
+                {
+                    if (!playerScript.dashTimer.IsActive() && !playerScript.invincibilityTimer.IsActive())
+                    {
+                        grabbedGlich?.Invoke();
+                    }
 
+
+                }
+                break;
 
             default:
                 {
@@ -64,4 +63,6 @@ public class GrabHitbox:MonoBehaviour
         }
 
     }
+
+
 }

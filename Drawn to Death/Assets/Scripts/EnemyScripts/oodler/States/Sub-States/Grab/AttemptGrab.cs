@@ -6,7 +6,8 @@ public class AttemptGrab : ChildBaseState
 {
 
     private bool isGrabFrame = false;
-    private bool grabWasActivated = false;
+    private bool grabActivated = false;
+    private bool grabDeactivated = false;
     private bool reachedTarget = false;
     private bool caught = false;
     private float chaseSpeed;
@@ -26,88 +27,112 @@ public class AttemptGrab : ChildBaseState
     public override void EnterState()
     {
         base.EnterState();
-        grabWasActivated = false;
+        grabActivated = false;
         reachedTarget = false;
         isGrabFrame = false;
+        grabDeactivated = false;
+        caught = false;
 
-        // This script gets two animation event notifiers from the grab animation, and one event from the grab hitbox
+
+    // This script gets two animation event notifiers from the grab animation, and one event from the grab hitbox
         animationEventNotifier = boss.GetComponentInChildren<AnimationEventNotifier>(); //get animation event notifier
-        animationEventNotifier.GrabNotifier += AnimationOffset;
-        animationEventNotifier.HitBoxActive += ActivateHitbox;
+        animationEventNotifier.AttackNotifier += ActivateHitbox;
+        animationEventNotifier.AttackEndNotifier += DeactivateHitbox;
 
+
+        boss.SetLastPosition();
         boss.BringSpriteToForeground();
         boss.animator.SetTrigger("Grab"); // This state has a function that calls animation event
-        boss.SetLastPosition();
     }
 
     public override void ExitState()
     {
         base.ExitState();
-        animationEventNotifier.GrabNotifier -= AnimationOffset;
-        animationEventNotifier.HitBoxActive -= ActivateHitbox;
 
-        grabWasActivated = false;
-        reachedTarget = false;
-        isGrabFrame = false;
+        animationEventNotifier.AttackNotifier -= ActivateHitbox;
+        animationEventNotifier.AttackEndNotifier -= DeactivateHitbox;
+    
+        GrabHitbox.grabbedGlich -= SetCaught;
+        grabActivated = false;
+        grabDeactivated = false;
     }
 
 
     public override void FrameUpdate()
     {
+
         base.FrameUpdate();
-
-        if(!reachedTarget && isGrabFrame){
-            boss.Slam(chaseSpeed);
-            if(boss.ReachedPlayerReal()){
+        if (grabActivated)
+        {
+            if (boss.Slam(chaseSpeed))
+            {
                 reachedTarget = true;
-            }   
-        }
-
-        // This statment is for after the oodler gets to the gliches last known position
-        else if(isGrabFrame && grabWasActivated){
+                Debug.Log("Reached Target");
+            }
 
             if (caught)
             {
+
+                Debug.Log("THE PLAYER WAS CAUGHT!");
                 boss.playerScript.DisableInput();
-                boss.playerScript.animator.SetTrigger("Grabbed"); 
                 boss.animator.SetTrigger("Caught");
+
+                boss.playerScript.animator.SetTrigger("Grabbed");
                 boss.EnableGrabHitbox(false);
-                parentBaseState.GoToDropState();
-                
+                Debug.Log("Caught");
+                //boss.EnableColumnHitbox(false);
+
+                if (reachedTarget)
+                {
+
+                    boss.MoveGlichWithOodler();
+                    Debug.Log("changed animation going to drop state");
+                    parentBaseState.GoToDropState();
+
+                }
+
+
+
+                Debug.Log("going to vulnerable if reached target true : " + reachedTarget + "grabdeactivated: " + grabDeactivated + "!caught: " + caught);
             }
-            else
+            else if (grabDeactivated) //|| reachedTarget)
             {
-                boss.EnableGrabHitbox(false);
+
+                //boss.EnableColumnHitbox(false);
                 parentBaseState.NextSubState();
             }
-        }
-    }
+          }
+
+
+
+     }
+ 
 
 
     // Helper Functions //
 
-    // Events Fired from Invoke //
-    public void AnimationOffset(){
-        isGrabFrame = true;
-        Debug.Log("THE GRAB HAS STARTED");
-    }
-    
+    // Events Fired from Invoke //    
+
+    // event fired when attack started event called from grabv2 animation
     public void ActivateHitbox(){
         Debug.Log("Enabled attack Hitbox");
         boss.EnableGrabHitbox(true);
         GrabHitbox.grabbedGlich += SetCaught;  // IT might be better to set the boss caught variable in the boss script for safety
-        grabWasActivated = true;
+        grabActivated = true;
+    }
+
+
+    // event fired when attack ended event called from grabv2 animation
+    public void DeactivateHitbox()
+    {
+        
+        boss.EnableGrabHitbox(false);
+        grabDeactivated = true;
     }
 
     private void SetCaught() 
     {
         caught = true;
         GrabHitbox.grabbedGlich -= SetCaught;
-    }
-
-    public override void ResetState()
-    {
-        base.ResetState();
-       
     }
 }

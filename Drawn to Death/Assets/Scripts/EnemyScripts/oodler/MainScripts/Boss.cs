@@ -126,7 +126,7 @@ public class Boss : MonoBehaviour
     public OodlerInitial oodlerInitial{ get; set; }
     public OodlerRun oodlerRun { get; set; } //
 
-   
+    public GameObject prefab;
 
 
 
@@ -322,7 +322,7 @@ public class Boss : MonoBehaviour
     {
         stateMachine.currentState.ParentFrameUpdate();
         invincibilityTimer.Update();
-        GlichInOpen();
+        //GlichInOpen();
     }
     #endregion
 
@@ -695,11 +695,21 @@ public class Boss : MonoBehaviour
    
 
     // This function will make the oodler come down and strike the players last known location
-    public void Slam(float speed = 200f)
+    public bool Slam(float speed = 200f)
     {
         var step = speed * Time.deltaTime;
         oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, glichLastPosition, step));
-   
+        //Instantiate(prefab, transform.position, transform.rotation);
+        if (Vector3.Distance(transform.position, glichLastPosition) < 1f)
+        {
+            return true;
+        }
+        else
+        {
+           
+            return false;
+        }
+
     }
 
     public void Land(float speed = 100)
@@ -832,9 +842,10 @@ public class Boss : MonoBehaviour
 
     // This function will move the glich with the oodler if they are caught
     public void MoveGlichWithOodler() { 
-            
-            
-            glich.transform.position = transform.position - grabPositionOffset;
+        
+        var step = 10f * Time.deltaTime;
+        //glich.GetComponent<Rigidbody2D>().MovePosition(Vector3.MoveTowards(glich.transform.position, transform.position - grabPositionOffset, step));
+        glich.transform.position = transform.position - grabPositionOffset;
     }
 
 
@@ -918,18 +929,7 @@ public class Boss : MonoBehaviour
     }
 
     // this function will return a bool if the oodler has reached gliches actual position
-    public bool ReachedPlayerReal()
-    {
-        if (Vector3.Distance(transform.position,glichLastPosition)<0.2f)
-        {
-           
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+   
 
     public bool CloseToTarget()
     {

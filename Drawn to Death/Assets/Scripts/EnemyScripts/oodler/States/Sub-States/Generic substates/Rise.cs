@@ -31,11 +31,7 @@ public class Rise : ChildBaseState
         riseStarted = false;
         boss.animator.SetTrigger("Idle");
 
-        if (boss.IsCaught()){
-            boss.EnableGlichColliders(false);
-            boss.playerScript.animator.SetTrigger("Grabbed");
-            
-        }
+       
         // boss.playerScript.ChangeSpriteSortingOrder(8);
 
         Debug.Log("Entered Rise State");
@@ -55,7 +51,6 @@ public class Rise : ChildBaseState
     {
         base.FrameUpdate();
         
-        IfCaught();
         if(riseTimer.Update()){
 
             if (!riseStarted)
@@ -87,14 +82,6 @@ public class Rise : ChildBaseState
     }
 
 
-
-
-    public void IfCaught(){
-         //if(parentStateMachine.currentOodlerState == boss.oodlerGrab && boss.IsCaught()){
-             //boss.MoveGlichWithOodler();
-        //}
-
-    }
 
     public override void ResetState()
     {

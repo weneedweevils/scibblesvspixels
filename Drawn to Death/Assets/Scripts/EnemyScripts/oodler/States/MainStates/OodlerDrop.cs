@@ -5,7 +5,6 @@ using UnityEngine;
 public class OodlerDrop : ParentBaseState
 {
     List<ChildBaseState> orderedSubStateList;
-    private float dropZoneSpeed;
     public OodlerDrop(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
@@ -21,7 +20,8 @@ public class OodlerDrop : ParentBaseState
         orderedSubStateList = new List<ChildBaseState>
         {
             new RiseWithGlich(boss, this, riseSpeed: 20f, riseDelay: 0.5f),
-            new CarryGlich(boss, this, dropZoneHoverTime: 2f, dropZoneSpeed: 50f)
+            new CarryGlich(boss, this, dropZoneHoverTime: 2f, dropZoneSpeed: 50f),
+            new EmptyChildState(boss, this),
         };
 
         base.InitializeQueue(orderedSubStateList);
@@ -34,7 +34,6 @@ public class OodlerDrop : ParentBaseState
     public override void ExitParentState()
     {
         base.ExitParentState();
-        boss.SetBossCaught(false);
 
     }
 
