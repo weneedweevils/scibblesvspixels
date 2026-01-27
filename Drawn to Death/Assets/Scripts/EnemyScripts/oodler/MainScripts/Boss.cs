@@ -178,6 +178,8 @@ public class Boss : MonoBehaviour
     //blockers
     public EnemyAI[] blockers;
 
+    private bool hitHazard = false;
+
     
     public Scene nextScene = Scene.End;
     private float angle = 0f;
@@ -309,19 +311,20 @@ public class Boss : MonoBehaviour
     #region Update
     private void Update(){
         //CheckWinCondition();
-       
+
         //currentHealthUI.text = Mathf.Ceil(currentHealth).ToString();
-        
+
         //CheckPhase();
-        
+
+        invincibilityTimer.Update();
         //maxHealthUI.text = maxHealth.ToString();
     }
 
     // FixedUpdate to update physics
     private void FixedUpdate()
     {
+
         stateMachine.currentState.ParentFrameUpdate();
-        invincibilityTimer.Update();
         //GlichInOpen();
     }
     #endregion
@@ -332,7 +335,6 @@ public class Boss : MonoBehaviour
     public void Damage(float damageTaken)
     {
         currentHealth = currentHealth - damageTaken;
-
         Debug.Log(currentHealth);
         invincibilityTimer.StartTimer();
         if (currentHealth <= 0f)
@@ -341,6 +343,19 @@ public class Boss : MonoBehaviour
         }
         UpdateUIHealthBar();
     }
+
+    public void DamageStatic(float damageTaken)
+    {
+
+        setHazard(true);
+        Debug.Log(currentHealth);
+        if (currentHealth <= 0f)
+        {
+            Die();
+        }
+        UpdateUIHealthBar();
+    }
+
 
     public void UpdateUIHealthBar()
     {
@@ -700,7 +715,7 @@ public class Boss : MonoBehaviour
         var step = speed * Time.deltaTime;
         oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, glichLastPosition, step));
         //Instantiate(prefab, transform.position, transform.rotation);
-        if (Vector3.Distance(transform.position, glichLastPosition) < 1f)
+        if (Vector3.Distance(transform.position, glichLastPosition) < 0.1f)
         {
             return true;
         }
@@ -1020,6 +1035,15 @@ public class Boss : MonoBehaviour
         }
     }
 
+    public void setHazard(bool hazard)
+    {
+        hitHazard = hazard;
+    }
+
+    public bool checkHazard()
+    {
+        return hitHazard;
+    }
 
     #endregion
 

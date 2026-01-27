@@ -16,6 +16,7 @@ public class AttackColumnHitbox : MonoBehaviour
         {
             case "Column":
                 {
+                    oodlerScript.DamageStatic(10f);
                     Destroy(collision.gameObject);
 
                 }

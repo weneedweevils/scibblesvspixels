@@ -20,7 +20,7 @@ public class AttackHitbox:MonoBehaviour
 
             case "Player":
                 {
-                    if (!PlayerScript.dashTimer.IsActive() && !PlayerScript.invincibilityTimer.IsActive() && oodlerScript.activateDamage())
+                    if (!PlayerScript.dashTimer.IsActive() && !PlayerScript.invincibilityTimer.IsActive())
                     {
                        
                         PlayerScript.Damage(oodlerScript.oodlerAttackDamage);

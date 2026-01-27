@@ -74,8 +74,10 @@ public class SwingHand : ChildBaseState
 
         // This statment is for after the fist comes down
         else if(isSlamFrame && slamWasActivated){
-                parentBaseState.NextSubState();
-                boss.BringSpriteToBackground();
+
+            boss.EnableColumnHitbox(false);
+            parentBaseState.NextSubState();
+            boss.BringSpriteToBackground();
         }
     }
 
@@ -90,6 +92,7 @@ public class SwingHand : ChildBaseState
     public void ActivateHitbox(){
         Debug.Log("Enabled attack Hitbox");
         boss.EnableAttackHitbox(true);
+        boss.EnableColumnHitbox(true);
         slamWasActivated = true;
     }
 

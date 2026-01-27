@@ -67,38 +67,26 @@ public class AttemptGrab : ChildBaseState
             if (boss.Slam(chaseSpeed))
             {
                 reachedTarget = true;
-                Debug.Log("Reached Target");
             }
 
-            if (caught)
-            {
-
-                Debug.Log("THE PLAYER WAS CAUGHT!");
+            if (caught) { 
                 boss.playerScript.DisableInput();
                 boss.animator.SetTrigger("Caught");
-
                 boss.playerScript.animator.SetTrigger("Grabbed");
                 boss.EnableGrabHitbox(false);
-                Debug.Log("Caught");
-                //boss.EnableColumnHitbox(false);
+                boss.EnableColumnHitbox(false);
 
                 if (reachedTarget)
                 {
 
                     boss.MoveGlichWithOodler();
-                    Debug.Log("changed animation going to drop state");
                     parentBaseState.GoToDropState();
 
                 }
-
-
-
-                Debug.Log("going to vulnerable if reached target true : " + reachedTarget + "grabdeactivated: " + grabDeactivated + "!caught: " + caught);
             }
-            else if (grabDeactivated) //|| reachedTarget)
+            else if (grabDeactivated)
             {
 
-                //boss.EnableColumnHitbox(false);
                 parentBaseState.NextSubState();
             }
           }
@@ -117,6 +105,7 @@ public class AttemptGrab : ChildBaseState
     public void ActivateHitbox(){
         Debug.Log("Enabled attack Hitbox");
         boss.EnableGrabHitbox(true);
+        boss.EnableColumnHitbox(true);
         GrabHitbox.grabbedGlich += SetCaught;  // IT might be better to set the boss caught variable in the boss script for safety
         grabActivated = true;
     }
@@ -125,7 +114,8 @@ public class AttemptGrab : ChildBaseState
     // event fired when attack ended event called from grabv2 animation
     public void DeactivateHitbox()
     {
-        
+
+        boss.EnableColumnHitbox(false);
         boss.EnableGrabHitbox(false);
         grabDeactivated = true;
     }
