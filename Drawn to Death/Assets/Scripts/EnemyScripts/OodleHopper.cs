@@ -311,7 +311,7 @@ public class OodleHopper : EnemyAI
             {
                 EnemyAI enemy = obj.GetComponent<EnemyAI>();
                 HealthCrystal crystal = obj.GetComponent<HealthCrystal>();
-                Boss oodler = obj.GetComponent<Boss>();
+                Oodler oodler = obj.GetComponent<Oodler>();
 
                 if (enemy != null)
                 {

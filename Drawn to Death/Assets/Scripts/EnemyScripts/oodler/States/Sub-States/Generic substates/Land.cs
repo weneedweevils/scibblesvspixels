@@ -9,16 +9,11 @@ public class Land : ChildBaseState
 {
     private float landSpeed;
     private bool reachedPosition;
-    public Land(Boss boss, ParentBaseState parentBaseState, float landSpeed) : base(boss, parentBaseState)
+    public Land(Oodler boss, ParentBaseState parentBaseState, float landSpeed) : base(boss, parentBaseState)
     {
         this.landSpeed = landSpeed;
     }
     private Vector3 runGroundPosition;
-
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-    }
 
     public override void EnterState()
     {

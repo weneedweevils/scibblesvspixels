@@ -11,7 +11,7 @@ public class OodlerRun : ParentBaseState
     private Vector3 runPosition;
     List<ChildBaseState> orderedSubStateList;
 
-    public OodlerRun(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+    public OodlerRun(Oodler boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
     

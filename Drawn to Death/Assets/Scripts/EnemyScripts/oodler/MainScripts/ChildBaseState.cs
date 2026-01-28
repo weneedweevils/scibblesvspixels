@@ -7,12 +7,12 @@ public class ChildBaseState
     // Instead if using a child state machine we are going to pass in the parent state
     // PUT A LIST OF THINGS HERE THAT YOU SHOULD ALWAYS DO WHEN EXITING ANY CHILD STATE
 
-    protected Boss boss;
+    protected Oodler boss;
     protected ParentBaseState parentBaseState;
     private StateMachine parentStateMachine;
     private bool success = true;
 
-    public ChildBaseState(Boss boss, ParentBaseState baseState) {
+    public ChildBaseState(Oodler boss, ParentBaseState baseState) {
         this.boss = boss; 
         this.parentBaseState = baseState;
      
@@ -28,9 +28,6 @@ public class ChildBaseState
 
     public virtual void FrameUpdate() { }
 
-    public virtual void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType) {
-    
-    }
 
     public bool GetSuccess()
     {

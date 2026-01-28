@@ -10,7 +10,7 @@ public class Run : ChildBaseState
     private float runAcceleration;
 
 
-    public Run(Boss boss, ParentBaseState parentBaseState, float runSpeed, float runAcceleration = 0) : base(boss, parentBaseState)
+    public Run(Oodler boss, ParentBaseState parentBaseState, float runSpeed, float runAcceleration = 0) : base(boss, parentBaseState)
     {
         this.runSpeed = runSpeed;
         this.runAcceleration = runAcceleration;
@@ -49,11 +49,6 @@ public class Run : ChildBaseState
             parentBaseState.NextSubState();
         }
 
-    }
-
-     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
     }
 
 

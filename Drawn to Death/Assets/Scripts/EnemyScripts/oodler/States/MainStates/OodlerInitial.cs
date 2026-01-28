@@ -5,7 +5,7 @@ using UnityEngine;
 public class OodlerInitial : ParentBaseState
 {
     List<ChildBaseState> orderedSubStateList;
-    public OodlerInitial(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+    public OodlerInitial(Oodler boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
 

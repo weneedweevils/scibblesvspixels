@@ -14,7 +14,7 @@ public class OodlerGrab : ParentBaseState
     private List<ChildBaseState> orderedSubStateList;
 
   
-    public OodlerGrab(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+    public OodlerGrab(Oodler boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
 

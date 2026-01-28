@@ -119,7 +119,7 @@ public class DoodleCrab : EnemyAI
                         //Get a reference to the enemy
                         EnemyAI otherAI = collision.gameObject.GetComponent<EnemyAI>();
                         HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
-                        Boss oodler = collision.gameObject.GetComponent<Boss>();
+                        Oodler oodler = collision.gameObject.GetComponent<Oodler>();
 
 
                         if (otherAI != null) {

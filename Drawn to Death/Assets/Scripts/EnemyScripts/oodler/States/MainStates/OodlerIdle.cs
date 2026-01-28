@@ -8,7 +8,7 @@ public class OodlerIdle : ParentBaseState
     private float timer = 0f;
     List<ChildBaseState> orderedSubStateList;
 
-    public OodlerIdle(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+    public OodlerIdle(Oodler boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
 

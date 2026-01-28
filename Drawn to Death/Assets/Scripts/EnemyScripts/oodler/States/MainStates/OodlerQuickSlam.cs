@@ -17,7 +17,7 @@ public class OodlerQuickSlam : ParentBaseState
     List<ChildBaseState> orderedSubStateList;
 
 
-    public OodlerQuickSlam(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+    public OodlerQuickSlam(Oodler boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
 

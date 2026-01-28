@@ -14,15 +14,12 @@ public class AttemptGrab : ChildBaseState
 
     private AnimationEventNotifier animationEventNotifier;
 
-    public AttemptGrab(Boss boss, ParentBaseState parentBaseState, float chaseSpeed) : base(boss, parentBaseState)
+    public AttemptGrab(Oodler boss, ParentBaseState parentBaseState, float chaseSpeed) : base(boss, parentBaseState)
     {
         this.chaseSpeed = chaseSpeed;
     }
 
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-    }
+  
 
     public override void EnterState()
     {

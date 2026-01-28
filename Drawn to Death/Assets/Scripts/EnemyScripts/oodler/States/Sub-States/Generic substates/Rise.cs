@@ -13,7 +13,7 @@ public class Rise : ChildBaseState
     private float riseDelay;
     private bool riseStarted;
 
-    public Rise(Boss boss, ParentBaseState parentBaseState, float riseSpeed, float riseDelay) : base(boss, parentBaseState)
+    public Rise(Oodler boss, ParentBaseState parentBaseState, float riseSpeed, float riseDelay) : base(boss, parentBaseState)
     {
         this.riseSpeed = riseSpeed;
         this.riseDelay = riseDelay;
@@ -74,13 +74,6 @@ public class Rise : ChildBaseState
 
         }
     }
-
-
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-    }
-
 
 
     public override void ResetState()

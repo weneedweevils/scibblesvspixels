@@ -16,7 +16,7 @@ public class PrepareAttack : ChildBaseState
    /// <param name="parentBaseState"></param>
    /// <param name="slamWarningTime"></param>
    /// <param name="chaseSpeed"></param>
-    public PrepareAttack(Boss boss, ParentBaseState parentBaseState, float slamWarningTime, float chaseSpeed) : base(boss, parentBaseState)
+    public PrepareAttack(Oodler boss, ParentBaseState parentBaseState, float slamWarningTime, float chaseSpeed) : base(boss, parentBaseState)
     {
         this.chaseSpeed = chaseSpeed;
         this.slamWarningTime = slamWarningTime;
@@ -70,8 +70,4 @@ public class PrepareAttack : ChildBaseState
     }
 
 
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-    }
 }

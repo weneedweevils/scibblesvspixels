@@ -11,7 +11,7 @@ public class PrepareGrab : ChildBaseState
     private BossTimer grabHoverTimer;
 
 
-    public PrepareGrab(Boss boss, ParentBaseState parentBaseState, float grabHoverTime, float chaseSpeed = 100f) : base(boss, parentBaseState)
+    public PrepareGrab(Oodler boss, ParentBaseState parentBaseState, float grabHoverTime, float chaseSpeed = 100f) : base(boss, parentBaseState)
     {
         this.chaseSpeed = chaseSpeed;
         this.grabHoverTime = grabHoverTime;
@@ -47,12 +47,6 @@ public class PrepareGrab : ChildBaseState
                 }
         }
         
-    }
-
-
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
     }
 
     public override void ResetState()

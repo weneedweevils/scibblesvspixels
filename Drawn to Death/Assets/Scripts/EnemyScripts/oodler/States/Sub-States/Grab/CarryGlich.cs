@@ -9,15 +9,12 @@ public class CarryGlich : ChildBaseState
     private float dropZoneHoverTime;
     private BossTimer dropZoneHoverTimer;
 
-    public CarryGlich(Boss boss, ParentBaseState parentBaseState, float dropZoneHoverTime, float dropZoneSpeed = 20f) : base(boss, parentBaseState)
+    public CarryGlich(Oodler boss, ParentBaseState parentBaseState, float dropZoneHoverTime, float dropZoneSpeed = 20f) : base(boss, parentBaseState)
     {
         this.dropZoneSpeed = dropZoneSpeed;
         this.dropZoneHoverTime = dropZoneHoverTime;
     }
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-    }
+
 
     public override void EnterState()
     {

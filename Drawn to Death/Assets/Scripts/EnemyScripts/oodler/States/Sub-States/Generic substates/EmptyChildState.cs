@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class EmptyChildState : ChildBaseState
 {
-    public EmptyChildState(Boss boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
+    public EmptyChildState(Oodler boss, ParentBaseState parentBaseState) : base(boss, parentBaseState)
     {
     }
 
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-    }
+ 
 
     public override void EnterState()
     {

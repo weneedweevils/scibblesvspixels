@@ -5,14 +5,11 @@ public class OodlerRecover : ParentBaseState
 {
     private float timer = 0f;
 
-    public OodlerRecover(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+    public OodlerRecover(Oodler boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
 
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-    }
+
 
     public override void EnterParentState()
     {

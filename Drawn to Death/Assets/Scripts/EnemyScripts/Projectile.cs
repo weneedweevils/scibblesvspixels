@@ -110,7 +110,7 @@ public class Projectile : MonoBehaviour
                 {
                     EnemyAI enemyai = collision.gameObject.GetComponent<EnemyAI>();
                     HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
-                    Boss oodler = collision.gameObject.GetComponent<Boss>();
+                    Oodler oodler = collision.gameObject.GetComponent<Oodler>();
 
                     if (enemyai != null && team != Team.neutral && enemyai.team != team && !(enemyai.state == State.dead || enemyai.state == State.dying))
                     {

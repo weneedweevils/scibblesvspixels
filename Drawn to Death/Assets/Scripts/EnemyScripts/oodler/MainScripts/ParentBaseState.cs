@@ -8,7 +8,7 @@ using UnityEngine.Scripting;
 public class ParentBaseState
 {
 
-    protected Boss boss;
+    protected Oodler boss;
     protected StateMachine oodlerStateMachine;
 
     protected Queue<ChildBaseState> subStateQueue;
@@ -17,7 +17,7 @@ public class ParentBaseState
     protected int index;
 
 
-    public ParentBaseState(Boss boss, StateMachine oodlerStateMachine) {
+    public ParentBaseState(Oodler boss, StateMachine oodlerStateMachine) {
         this.boss = boss;
         this.oodlerStateMachine = oodlerStateMachine;
         subStateQueue = new Queue<ChildBaseState>();
@@ -82,9 +82,7 @@ public class ParentBaseState
         currentChildState.FrameUpdate();
     }
 
-    public virtual void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType) {
-    
-    }
+
 
     // make sure this function is called in the class inheriting this
     public virtual void InitializeQueue(List<ChildBaseState> childStates)

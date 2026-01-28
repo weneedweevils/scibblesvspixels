@@ -400,7 +400,7 @@ public class Attack : MonoBehaviour
         {
             EnemyAI enemy = obj.GetComponent<EnemyAI>();
             HealthCrystal crystal = obj.GetComponent<HealthCrystal>();
-            Boss oodler = obj.GetComponent<Boss>();
+            Oodler oodler = obj.GetComponent<Oodler>();
 
             if (enemy != null) { 
             //Ignore doodleBars and any enemies that are not part of the enemy team
@@ -528,7 +528,7 @@ public class Attack : MonoBehaviour
                 }
             case "oodlerHitbox":
                 {
-                    Boss oodler = collision.gameObject.GetComponentInParent<Boss>();
+                    Oodler oodler = collision.gameObject.GetComponentInParent<Oodler>();
                    
                     if (attackTimer.IsActive() && oodler != null && oodler.BossIsDamageable() && !oodler.invincibilityTimer.IsActive())
                     {

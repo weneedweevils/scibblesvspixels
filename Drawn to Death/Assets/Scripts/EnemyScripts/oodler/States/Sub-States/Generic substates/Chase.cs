@@ -17,7 +17,7 @@ public class Chase : ChildBaseState
    
 
 
-    public Chase(Boss boss,  ParentBaseState parentBaseState, float chaseTime, float chaseSpeed = 100f) : base(boss, parentBaseState)
+    public Chase(Oodler boss,  ParentBaseState parentBaseState, float chaseTime, float chaseSpeed = 100f) : base(boss, parentBaseState)
     {
         this.chaseSpeed = chaseSpeed;
         this.chaseTime = chaseTime;
@@ -66,10 +66,7 @@ public class Chase : ChildBaseState
         reachedTarget = false;
     }
 
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-    }
+
 
 
 }

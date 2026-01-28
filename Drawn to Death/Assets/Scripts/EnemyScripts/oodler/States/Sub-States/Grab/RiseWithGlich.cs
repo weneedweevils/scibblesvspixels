@@ -13,7 +13,7 @@ public class RiseWithGlich : ChildBaseState
     private float riseDelay;
     private bool riseStarted;
 
-    public RiseWithGlich(Boss boss, ParentBaseState parentBaseState, float riseSpeed, float riseDelay) : base(boss, parentBaseState)
+    public RiseWithGlich(Oodler boss, ParentBaseState parentBaseState, float riseSpeed, float riseDelay) : base(boss, parentBaseState)
     {
         this.riseSpeed = riseSpeed;
         this.riseDelay = riseDelay;
@@ -72,12 +72,6 @@ public class RiseWithGlich : ChildBaseState
             }
 
         }
-    }
-
-
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
     }
 
 

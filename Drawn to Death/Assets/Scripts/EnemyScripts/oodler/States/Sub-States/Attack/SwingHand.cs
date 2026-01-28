@@ -18,15 +18,11 @@ public class SwingHand : ChildBaseState
     /// <param name="boss"></param>
     /// <param name="parentBaseState"></param>
     /// <param name="chaseSpeed"></param>
-    public SwingHand(Boss boss, ParentBaseState parentBaseState, float chaseSpeed = 100f) : base(boss, parentBaseState)
+    public SwingHand(Oodler boss, ParentBaseState parentBaseState, float chaseSpeed = 100f) : base(boss, parentBaseState)
     {
         this.chaseSpeed = chaseSpeed;
     }
 
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-    }
 
     public override void EnterState()
     {

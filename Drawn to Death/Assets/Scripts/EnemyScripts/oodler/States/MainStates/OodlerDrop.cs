@@ -5,14 +5,11 @@ using UnityEngine;
 public class OodlerDrop : ParentBaseState
 {
     List<ChildBaseState> orderedSubStateList;
-    public OodlerDrop(Boss boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+    public OodlerDrop(Oodler boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
 
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-    }
+
 
     public override void EnterParentState()
     {

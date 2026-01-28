@@ -10,7 +10,7 @@ public class Vulnerable : ChildBaseState
     BossTimer vulnerabilityTimer;
     private float vulnerabilityTime;
     private float hazardVulnerabilityTime;
-    public Vulnerable(Boss boss, ParentBaseState parentBaseState, float vulnerabilityTime = 3f, float hazardVulnerabilityTime = 5f) : base(boss, parentBaseState)
+    public Vulnerable(Oodler boss, ParentBaseState parentBaseState, float vulnerabilityTime = 3f, float hazardVulnerabilityTime = 5f) : base(boss, parentBaseState)
     {
         this.vulnerabilityTime = vulnerabilityTime;
         this.hazardVulnerabilityTime=hazardVulnerabilityTime;
@@ -53,11 +53,6 @@ public class Vulnerable : ChildBaseState
             parentBaseState.NextSubState();
         }
         base.FrameUpdate();
-    }
-
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
     }
 
     public override void ResetState()
