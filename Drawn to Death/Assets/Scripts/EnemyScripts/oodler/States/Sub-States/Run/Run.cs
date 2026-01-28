@@ -27,6 +27,7 @@ public class Run : ChildBaseState
         oodlerRunDirection = (boss.glich.transform.position - boss.transform.position).normalized;// Mov
         boss.EnableRunHitbox(true);
         RunHitbox.CollidedWithObstacle += OnHitObstacle;
+        boss.CheckSpriteDirection();
     }
 
     public override void ExitState()

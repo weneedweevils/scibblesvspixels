@@ -27,6 +27,7 @@ public class Rise : ChildBaseState
         boss.EnableAreaHitbox(false);
         boss.EnableSpriteHitbox(true);
         boss.SetAirPosition();
+        boss.ResetShadow();
         riseTimer = new BossTimer(riseDelay);
         riseStarted = false;
         boss.animator.SetTrigger("Idle");

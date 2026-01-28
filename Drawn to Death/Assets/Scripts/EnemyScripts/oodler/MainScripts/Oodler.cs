@@ -129,23 +129,6 @@ public class Oodler : MonoBehaviour
     public GameObject prefab;
 
 
-
-    // Sub-States
-    //public GoToRunPosition goToRunPosition{get;set;}
-    //public Land land{get;set;}
-    //public Run run{get;set;}
-    //public EmptyChildState emptyChildState{get;set;}
-    //public Chase chase{get;set;}
-    //public PrepareAttack prepareAttack{get;set;}
-    //public SwingHand swingHand{get;set;}
-    //public Vulnerable vulnerableState{get;set;}
-    //public Rise rise{get;set;}
-    //public PrepareGrab prepareGrab{get;set;}
-    //public AttemptGrab attemptGrab{get;set;}
-    //public CarryGlich carryGlich{get;set;}
-
-
-
     //Movment
     private Vector3 playerOffSet = Vector3.zero;
     private Vector3 glichLastPosition = Vector3.zero;
@@ -202,20 +185,6 @@ public class Oodler : MonoBehaviour
         oodlerInitial = new OodlerInitial(this, stateMachine);
         oodlerRun = new OodlerRun(this, stateMachine);
         oodlerQuickSlam = new OodlerQuickSlam(this, stateMachine);
-
-        //goToRunPosition = new GoToRunPosition(this,childStateMachine, stateMachine);
-        //land = new Land(this,childStateMachine,stateMachine);
-        //run = new Run(this,childStateMachine,stateMachine);
-        //emptyChildState = new EmptyChildState(this,childStateMachine,stateMachine);
-        //chase = new Chase(this,childStateMachine,stateMachine);
-        //prepareAttack = new PrepareAttack(this, childStateMachine, stateMachine);
-        //prepareGrab = new PrepareGrab(this,childStateMachine,stateMachine);
-        //swingHand = new SwingHand(this,childStateMachine,stateMachine);
-        //vulnerableState = new Vulnerable(this,childStateMachine,stateMachine);
-        //rise = new Rise(this,childStateMachine,stateMachine);
-        //attemptGrab = new AttemptGrab(this,childStateMachine,stateMachine);
-        //carryGlich = new CarryGlich(this,childStateMachine,stateMachine);
-      
     }
 
     
@@ -410,11 +379,9 @@ public class Oodler : MonoBehaviour
     public void CheckSpriteDirection(){
         if(transform.position.x - glich.transform.position.x >= 0){
             oodlerSprite.flipX = true;
-            oodlerShadow.flipX = true; // might need to change this so I only have to reference it
         }
         else{
              oodlerSprite.flipX = false;
-               oodlerShadow.flipX = false;
         }
     }
 
@@ -454,10 +421,7 @@ public class Oodler : MonoBehaviour
     /// This function changes the colour of the shadow to red
     ///</summary> 
     // This function shows the attack
-    public void ShowAttack()
-    {
-        oodlerShadow.color = new Color(255, 0, 0, 0.5f);
-    }
+    
 
     ///<summary>
     /// This function hides the oodlers shadow
@@ -466,6 +430,8 @@ public class Oodler : MonoBehaviour
     {
         shadowAnimator.SetTrigger("Hidden");
     }
+
+ 
 
 
     ///<summary>
@@ -808,7 +774,6 @@ public class Oodler : MonoBehaviour
 
         var step = runSpeed * Time.deltaTime;
         oodlerRB.MovePosition(transform.position + oodlerRunDirection * step);
-        CheckSpriteDirection();
 
     }
 
@@ -833,6 +798,11 @@ public class Oodler : MonoBehaviour
         //oodlerShadow.transform.position = spriteOffset;
         oodlerShadowObject.GetComponent<Rigidbody2D>().MovePosition(spriteOffset);
 
+    }
+
+    public void ResetShadow()
+    {
+        oodlerShadowObject.GetComponent<Rigidbody2D>().MovePosition(transform.position);
     }
 
 

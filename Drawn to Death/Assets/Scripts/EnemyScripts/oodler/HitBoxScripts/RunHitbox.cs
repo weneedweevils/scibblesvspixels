@@ -7,10 +7,13 @@ public class RunHitbox : MonoBehaviour{
 
 
     public GameObject Glich;
-    public Oodler oodlerScript;
+    public GameObject oodler;
+ 
 
     private Rigidbody2D glichRb;
+    private Rigidbody2D oodlerRB;
 
+    private Oodler oodlerScript;
     private PlayerMovement PlayerScript;
 
     public static event Action CollidedWithObstacle;
@@ -18,6 +21,9 @@ public class RunHitbox : MonoBehaviour{
     public void Start(){
         PlayerScript = Glich.GetComponent<PlayerMovement>();
         glichRb = Glich.GetComponent<Rigidbody2D>();
+        oodlerScript = oodler.GetComponent<Oodler>();
+        oodlerRB = oodler.GetComponent<Rigidbody2D>();
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -36,7 +42,7 @@ public class RunHitbox : MonoBehaviour{
                         //if (!PlayerScript.dashTimer.IsActive()) {
                             PlayerScript.Damage(oodlerScript.oodlerAttackDamage);
                             Debug.Log("hit glich");
-                            glichRb.AddForce(new Vector2(100f, 100f));
+                            glichRb.AddForce(new Vector2(oodlerRB.velocity.x, oodlerRB.velocity.y)*1000f);
                         //}
                     }
                    

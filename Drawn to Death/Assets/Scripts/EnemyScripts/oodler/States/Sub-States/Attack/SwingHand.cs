@@ -26,20 +26,16 @@ public class SwingHand : ChildBaseState
 
     public override void EnterState()
     {
-        Debug.Log("<color=red> ENTERED SWING");
         base.EnterState();
         slamWasActivated = false;
         reachedTarget = false;
         isSlamFrame = false;
-        //boss.SetAirPosition(); // sets the last position the oodler was in the air since we have downward motion instead of doing this lets try using +12
-        boss.ShowAttack();
+     
 
         animationEventNotifier = boss.GetComponentInChildren<AnimationEventNotifier>(); //get animation event notifier
         animationEventNotifier.AttackNotifier += AnimationOffset;
         animationEventNotifier.HitBoxActive += ActivateHitbox;
-
         boss.animator.SetTrigger("Slam");
-        //boss.GetShadow().SetTrigger("Slam"); // the shadow shrinks in its animator when you 
     }
 
     public override void ExitState()
@@ -82,11 +78,9 @@ public class SwingHand : ChildBaseState
 
     public void AnimationOffset(){
         isSlamFrame = true;
-        Debug.Log("THE SLAM HAS STARTED");
     }
     
     public void ActivateHitbox(){
-        Debug.Log("Enabled attack Hitbox");
         boss.EnableAttackHitbox(true);
         boss.EnableColumnHitbox(true);
         slamWasActivated = true;

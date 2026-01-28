@@ -44,6 +44,7 @@ public class Chase : ChildBaseState
 
     public override void FrameUpdate()
     {
+        boss.CheckSpriteDirection();
         Debug.Log("We are in the chase state");
         // If the distance between glich and oodler gets shorter oodler speeds up to glich's position
         if (Vector3.Distance(boss.glich.transform.position, boss.transform.position) < 20f){

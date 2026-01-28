@@ -26,7 +26,6 @@ public class PrepareAttack : ChildBaseState
     {
         base.EnterState();
         boss.animator.SetTrigger("SlamWindUp");
-        //boss.GetShadow().SetTrigger("SlamWindUp");
         reachedTarget = false;
         attackCharged = false;
         slamWarningTimer = new BossTimer(slamWarningTime);
@@ -51,7 +50,6 @@ public class PrepareAttack : ChildBaseState
                 attackCharged = boss.RevealAttack();
                 if(attackCharged){
                     if(slamWarningTimer.Update()){
-                        boss.ShowAttack();
                         stopOodler = true;
                         parentBaseState.NextSubState();
                         // change our state to the actual attack state
