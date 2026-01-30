@@ -125,6 +125,7 @@ public class Oodler : MonoBehaviour
     public OodlerDrop oodlerDrop { get; set; }
     public OodlerInitial oodlerInitial{ get; set; }
     public OodlerRun oodlerRun { get; set; } //
+    public OodlerIntimidate oodlerIntimidate { get; set; }
 
     public GameObject prefab;
 
@@ -185,6 +186,7 @@ public class Oodler : MonoBehaviour
         oodlerInitial = new OodlerInitial(this, stateMachine);
         oodlerRun = new OodlerRun(this, stateMachine);
         oodlerQuickSlam = new OodlerQuickSlam(this, stateMachine);
+        oodlerIntimidate = new OodlerIntimidate(this, stateMachine);
     }
 
     
@@ -555,7 +557,7 @@ public class Oodler : MonoBehaviour
     }
 
 
-    
+
 
 
 
@@ -568,16 +570,49 @@ public class Oodler : MonoBehaviour
     // MOVING METHODS //
 
 
+    // https://math.stackexchange.com/questions/127613/closest-point-on-circle-edge-from-point-outside-inside-the-circle
+    public bool GoToCircle(float speed, float radius)
+    {
+        var step = speed * Time.deltaTime;
+        var a = glich.transform.localPosition;
+        var b = transform.position;
+        a.y = a.y + 10f;
+
+        Vector2 circlePos = new Vector2();
+        circlePos.x = a.x + (radius * ((b.x - a.x) / Mathf.Sqrt(Mathf.Pow((b.x - a.x),2f) + Mathf.Pow((b.y - a.y),2f))));
+        circlePos.y = a.y + (radius * ((b.y - a.y) / Mathf.Sqrt(Mathf.Pow((b.x - a.x), 2f) + Mathf.Pow((b.y - a.y), 2f))));
+
+     
+        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, circlePos, step));
+        MoveShadowSprite();
+
+        if (Vector3.Distance(transform.position, circlePos) < 0.5f)
+        {
+            oodlerRB.MovePosition(playerOffSet);
+
+            Vector2 startAngle = new Vector2();
+            startAngle.x = b.x - a.x;
+            startAngle.y = b.y - a.y;
+            angle = Mathf.Atan2(startAngle.y, startAngle.x);
+            return true;
+        }
+        else
+        {
+
+            return false;
+        }
+    }
+
+
     ///<summary>
     /// this function will circl glich at a constant rate
     ///</summary> 
     public void Circleglich( float speed, float radius){
 
 
+
         var step = speed * Time.deltaTime;
        
-        Debug.Log("My angle is "+ angle);
-
         playerOffSet = glich.transform.localPosition;
         playerOffSet.y = playerOffSet.y + 10f;
 
@@ -585,10 +620,12 @@ public class Oodler : MonoBehaviour
         float y = playerOffSet.y + (Mathf.Sin(angle)*radius);
 
         angle = angle + speed*Time.deltaTime;
-        Debug.Log("angle is "+ angle);
         MoveShadowSprite();
         Vector3 circlePosition = new Vector3(x,y,0);
-
+        if(angle > 2* Mathf.PI)
+        {
+            angle = 0f;
+        }
 
         //transform.position = circlePosition;
         //points.Add(circlePosition);
@@ -596,21 +633,7 @@ public class Oodler : MonoBehaviour
         oodlerRB.MovePosition(circlePosition);
     }
 
-    // void OnDrawGizmos(){
-    //     Gizmos.color = Color.magenta;
-    //      if(points.Count > 1){
-    //         Gizmos.DrawLine(points[points.Count-1],points[points.Count-2]);
-    //     }
-
-    // }
-
-    //void OnDrawGizmos()
-    //{
-
-    //    Gizmos.color = new Color(1, 0, 0, 0.5f);
-    //    Gizmos.DrawCube(playerOffSet, new Vector3(1, 1, 1));
-    //    Gizmos.DrawCube(transform.position, new Vector3(1, 1, 1));
-    //}
+ 
 
 
 
@@ -715,7 +738,6 @@ public class Oodler : MonoBehaviour
         var step = speed * Time.deltaTime;
         playerOffSet = glich.transform.localPosition;
         playerOffSet.y = playerOffSet.y + 10f;
-        Profiler.BeginSample("Stalk function");
         oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, playerOffSet, step));
         MoveShadowSprite();
 
@@ -727,7 +749,6 @@ public class Oodler : MonoBehaviour
         else
         {
            
-            Profiler.EndSample();
             return false;
         }
     }
@@ -1109,7 +1130,7 @@ public class Oodler : MonoBehaviour
     }
 
     /// <summary>
-    /// This function will determine if glich is out in the open or close to a wall
+    /// This function will determine if glich is out in the open or close to a wall will return if its distance is 20f units away
     /// </summary>
     /// <returns></returns>
     public bool GlichInOpen()
@@ -1121,17 +1142,17 @@ public class Oodler : MonoBehaviour
         Vector3 offSet = new Vector3(0f, -4f, 0f);
         Vector3 PlayerPosition = glich.transform.position + offSet;
         int layerMask = 1 << 8;
-        float best_distance = 0;
-        Vector3 bestDirection = Vector3.zero;
-        Vector2 point = new Vector2(0, 0);
-        var colors = new List<Color> { Color.red,Color.blue, Color.green, Color.gray};
+        float closestWall = 1000f;
 
-        int color_index = 0;
+        Vector2 point = new Vector2(0, 0);
+
+       // var colors = new List<Color> { Color.red,Color.blue, Color.green, Color.gray};
+        //int color_index = 0;
         // This for loop will go through all directions and teleport the enemies in the direction where there is the most available space
         foreach (Vector3 direction in directions)
         {
             
-            
+            // corrects direction to isometric grid
             var trueDirection = new Vector3(direction.y*Mathf.Sin(theta) + direction.x*Mathf.Cos(theta), direction.y * Mathf.Cos(theta) + direction.x * -Mathf.Sin(theta), 0);
 
 
@@ -1140,25 +1161,56 @@ public class Oodler : MonoBehaviour
 
             if (hit)
             {
-                Debug.DrawRay(PlayerPosition, trueDirection, colors[color_index]);
-                color_index++;
+                //Debug.DrawRay(PlayerPosition, trueDirection, colors[color_index]);
+               // color_index++;
                 float distance = hit.distance;
 
-                if (distance > best_distance)
+                if (distance < closestWall)
                 {
                     point = hit.point;
-                    best_distance = distance;
-                    bestDirection = trueDirection;
+                    closestWall = distance;
 
                 }
             }
         }
-        Debug.Log("Our best direction is " + bestDirection);
-        var bestDirDis = (bestDirection, best_distance);
-        return true;// bestDirDis;
+
+        if (closestWall < 20f)
+        {
+            return true;// bestDirDis;
+        }
+        else
+        {
+            return false;
+        }
+
     }
 
+    public float GetGlichHealth()
+    {
+        if (playerScript != null)
+        {
 
+            return playerScript.health;
+        }
+        else
+        {
+            return 1f;
+        }
+    }
 
+    public float GetGlichMaxHealth()
+    {
+        if (playerScript != null)
+        {
+
+            return playerScript.maxHealth;
+        }
+        else
+        {
+            return 2f;
+        }
+    }
     #endregion
+
+    // End of file
 }

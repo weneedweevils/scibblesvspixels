@@ -16,7 +16,8 @@ public class OodlerIdle : ParentBaseState
     {
         orderedSubStateList = new List<ChildBaseState>
         {
-            new Chase(boss, this, chaseTime: 0f, chaseSpeed: 50f),
+            //new Chase(boss, this, chaseTime: 0f, chaseSpeed: 50f),
+             new EmptyChildState(boss, this)
         };
         base.InitializeQueue(orderedSubStateList);
         orderedSubStateList = null;
@@ -51,12 +52,56 @@ public class OodlerIdle : ParentBaseState
     }
 
 
-    // FIX THIS ujifasuifhui9ashfh8ashuifhyu8iasfh
+    // This function will determine which state we go to next
     private ParentBaseState DecideState()
     {
+
+        if(boss.phase == Oodler.Phase.P1)
+        {
+            return DecidePhaseOne();
+        }
+
+        if (boss.phase == Oodler.Phase.P2)
+        {
+            //return DecidePhaseTwo();
+        }
+
+        if (boss.phase == Oodler.Phase.P3)
+        {
+            //return DecidePhaseThree();
+        }
+
+
+
         return boss.oodlerSlam;
     }
 
+
+    private ParentBaseState DecidePhaseOne()
+    {
+        if (boss.GetGlichHealth() / boss.GetGlichMaxHealth() > 0.5f)
+        {
+            return boss.oodlerIntimidate;
+        }
+        else
+        {
+            return boss.oodlerSlam;
+        }
+
+
+    }
+
+    //private ParentBaseState DecidePhaseTwo()
+    //{
+
+
+    //}
+
+    //private ParentBaseState DecidePhaseThree()
+    //{
+
+
+    //}
 
 
 }
