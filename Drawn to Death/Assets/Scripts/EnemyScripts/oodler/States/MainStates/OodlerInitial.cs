@@ -27,24 +27,20 @@ public class OodlerInitial : ParentBaseState
 
     public override void ParentFrameUpdate()
     {
-        base.ParentFrameUpdate();
-        //if (boss.blockers.Length > 0)
-        //{
-        //    foreach (EnemyAI blocker in boss.blockers)
-        //    {
-        //        if (blocker.isDead())
-        //        {
-        //            boss.healthBarParent.SetActive(true);
-        //            boss.HealthCrystal1.SetActive(true);
-        //            boss.HealthCrystal2.SetActive(true);
-        //            boss.HealthCrystal3.SetActive(true);
-        //            boss.HealthCrystal4.SetActive(true);
+        if (boss.blockers.Length > 0)
+        {
+            foreach (EnemyAI blocker in boss.blockers)
+            {
+                if (blocker.isDead())
+                {
+                    boss.healthBarParent.SetActive(true);
+                  
 
 
-        //            oodlerStateMachine.ChangeState(boss.oodlerIdle);
-        //        }
-        //    }
-        //}
+                    oodlerStateMachine.ChangeState(boss.oodlerIdle);
+                }
+            }
+        }
     }
 
 

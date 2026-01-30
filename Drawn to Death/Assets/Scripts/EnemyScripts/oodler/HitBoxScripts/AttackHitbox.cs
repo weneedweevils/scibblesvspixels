@@ -23,7 +23,8 @@ public class AttackHitbox:MonoBehaviour
                     if (!PlayerScript.dashTimer.IsActive() && !PlayerScript.invincibilityTimer.IsActive())
                     {
                        
-                        PlayerScript.Damage(oodlerScript.oodlerAttackDamage);
+                        // change this in for regular damage function later
+                        PlayerScript.OodlerIncomingDamage(oodlerScript.oodlerAttackDamage);
                         PlayerScript.animator.SetTrigger("Squished");
                     }
                   
@@ -37,7 +38,7 @@ public class AttackHitbox:MonoBehaviour
 
                     if (enemy != null && !enemy.invincibilityTimer.IsActive()) //&& oodlerScript.activateDamage())
                     {
-                        enemy.Damage(oodlerScript.oodlerAttackDamage);
+                        enemy.Damage(oodlerScript.oodlerAttackDamage * 1000f);
                     }
 
                     else

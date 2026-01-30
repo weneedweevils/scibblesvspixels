@@ -16,7 +16,7 @@ public class OodlerIntimidate : ParentBaseState
     {
         orderedSubStateList = new List<ChildBaseState>
         {
-            new Circle(boss, this, circleTime: 50f)
+            new Circle(boss, this, circleTime: 5f)
         };
 
         base.InitializeQueue(orderedSubStateList);

@@ -34,7 +34,7 @@ public class Oodler : MonoBehaviour
     private float maxHealth = 500f;
     private float currentHealth = 500f;
     public float movementSpeed { get; set; } = 100f;
-    public float oodlerAttackDamage = 50f;
+    public float oodlerAttackDamage = 100f;
     private float invincibilityDuration = 40f / 60f;
 
 
@@ -73,6 +73,7 @@ public class Oodler : MonoBehaviour
     [Header ("Player References")]
     public PlayerMovement playerScript;
     public GameObject glich;
+    
 
 
     // Health Crystals and health
@@ -164,8 +165,9 @@ public class Oodler : MonoBehaviour
 
     private bool hitHazard = false;
 
-    
-    public Scene nextScene = Scene.End;
+
+    //public Scene nextScene = Scene.End;
+    public MenuManager menuManager;
     private float angle = 0f;
     private List<Vector3> points;
 
@@ -289,6 +291,10 @@ public class Oodler : MonoBehaviour
         currentHealth = currentHealth - damageTaken;
         Debug.Log(currentHealth);
         invincibilityTimer.StartTimer();
+        if(currentHealth < maxHealth / 2f)
+        {
+            phase = Phase.P2;
+        }
         if (currentHealth <= 0f)
         {
             Die();
@@ -341,7 +347,9 @@ public class Oodler : MonoBehaviour
     ///</summary> 
     public void Die()
     {
+        menuManager.GotoScene();
         Debug.Log("oodler is dead :/");
+
     }
 
     #endregion
@@ -433,27 +441,6 @@ public class Oodler : MonoBehaviour
         shadowAnimator.SetTrigger("Hidden");
     }
 
- 
-
-
-    ///<summary>
-    /// This function will increase the alpha value slowly and reveal the outline of where the hand will slam
-    ///</summary> 
-    public bool RevealAttack()
-    {
-        if (oodlerShadow.color.a < 0.5f)
-        {
-            var temp = oodlerShadow.color;
-            temp.a += 0.5f * Time.deltaTime;
-            oodlerShadow.color = temp;
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-      
-    }
 
     public Animator GetShadow(){
         return shadowAnimator;
@@ -586,7 +573,7 @@ public class Oodler : MonoBehaviour
         oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, circlePos, step));
         MoveShadowSprite();
 
-        if (Vector3.Distance(transform.position, circlePos) < 0.5f)
+        if (Vector3.Distance(transform.position, circlePos) < 0.1f)
         {
             oodlerRB.MovePosition(playerOffSet);
 
@@ -629,8 +616,8 @@ public class Oodler : MonoBehaviour
 
         //transform.position = circlePosition;
         //points.Add(circlePosition);
-
         oodlerRB.MovePosition(circlePosition);
+        //oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, circlePosition, step));
     }
 
  
@@ -961,17 +948,17 @@ public class Oodler : MonoBehaviour
         //}
 
 
-        if (currentHealth < 0)
-        {
-            Debug.Log("we go to end scene");
-            if (nextScene != Scene.End)
-            {
-                GameData data = DataPersistenceManager.instance.GetGameData();
-                data.skipCutscene = false;
-                DataPersistenceManager.instance.UpdateGame();
-            }
-            StartCoroutine(MenuManager.LoadScene(nextScene));
-        }
+        //if (currentHealth < 0)
+        //{
+        //    Debug.Log("we go to end scene");
+        //    if (nextScene != Scene.End)
+        //    {
+        //        GameData data = DataPersistenceManager.instance.GetGameData();
+        //        data.skipCutscene = false;
+        //        DataPersistenceManager.instance.UpdateGame();
+        //    }
+        //    StartCoroutine(MenuManager.LoadScene(nextScene));
+        //}
     }
 
 
@@ -1099,35 +1086,6 @@ public class Oodler : MonoBehaviour
         }
     }
     
-    public void CheckPhase()
-    {
-        if (!enteredPhase2 && maxHealth / 2f > currentHealth)
-        {
-            enteredPhase2 = true;
-            phase = Phase.P2;
-            allowedSlams = 2;
-            bossVulnerabilityTime = 6f;
-            slamWarningTime = 0.75f;
-            grabWarningTime = 1.00f;
-            airTime = 2f;
-            SlamNum = 0;
-
-        }
-
-        if (!enteredPhase3 && maxHealth / 4f > currentHealth)
-        {
-            enteredPhase3 = true;
-            phase = Phase.P3;
-            allowedSlams = 3;
-            bossVulnerabilityTime = 4f;
-            slamWarningTime = 0.5f;
-            grabWarningTime = 0.75f;
-            airTime = 0.5f;
-            SlamNum = 0;
-
-
-        }
-    }
 
     /// <summary>
     /// This function will determine if glich is out in the open or close to a wall will return if its distance is 20f units away
@@ -1174,7 +1132,7 @@ public class Oodler : MonoBehaviour
             }
         }
 
-        if (closestWall < 20f)
+        if (closestWall > 20f)
         {
             return true;// bestDirDis;
         }

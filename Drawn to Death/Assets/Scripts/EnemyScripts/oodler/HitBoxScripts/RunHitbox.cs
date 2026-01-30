@@ -40,7 +40,8 @@ public class RunHitbox : MonoBehaviour{
                     if (!PlayerScript.invincibilityTimer.IsActive()) //oodlerScript.activateDamage()
                     {
                         //if (!PlayerScript.dashTimer.IsActive()) {
-                            PlayerScript.Damage(oodlerScript.oodlerAttackDamage);
+                            PlayerScript.OodlerIncomingDamage(oodlerScript.oodlerAttackDamage);
+                        //PlayerScript.Damage(oodlerScript.oodlerAttackDamage);
                             Debug.Log("hit glich");
                             glichRb.AddForce(new Vector2(oodlerRB.velocity.x, oodlerRB.velocity.y)*1000f);
                         //}

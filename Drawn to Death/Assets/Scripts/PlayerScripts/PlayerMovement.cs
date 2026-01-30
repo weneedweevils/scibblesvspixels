@@ -507,6 +507,43 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         }
     }
 
+    public void OodlerIncomingDamage(float damageTaken, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f)
+    {
+        if (dashTimer.IsActive() || inFreezeDialogue() || timelinePlaying)
+        {
+            return;
+        }
+
+        HealthBarReference.SetTrigger("HealthBarShake");
+        CameraReference.SetTrigger("Shake");
+
+        Debug.Log(damageTaken);
+        Debug.Log(health);
+        health = health - 10f; 
+        
+        invincibilityTimer.StartTimer();
+        healthBar.SetHealth(health, maxHealth);
+        
+        hit = true;
+
+        //Apply Knockback
+        if (knockbackPower > 0f)
+        {
+            velocity = knockbackDir.normalized * knockbackPower * 3;
+        }
+
+        // function will make the health bar move around when low on health
+
+
+        // flashes damage indicator around health bar
+        ChangeScreenColor(true);
+
+        if (health <= 0)
+        {
+            StartCoroutine(MenuManager.LoadScene(Scene.Ded));
+        }
+    }
+
     // Function to run when player takes damage
     public void Damage(float damageTaken, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f)
     {

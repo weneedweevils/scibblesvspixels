@@ -52,6 +52,7 @@ public class AttemptGrab : ChildBaseState
         GrabHitbox.grabbedGlich -= SetCaught;
         grabActivated = false;
         grabDeactivated = false;
+        boss.HideShadow();
     }
 
 

@@ -47,15 +47,13 @@ public class PrepareAttack : ChildBaseState
         if(!stopOodler){
             reachedTarget = boss.MoveToGlich(chaseSpeed);
             if(reachedTarget){
-                attackCharged = boss.RevealAttack();
-                if(attackCharged){
-                    if(slamWarningTimer.Update()){
-                        stopOodler = true;
-                        parentBaseState.NextSubState();
-                        // change our state to the actual attack state
-                    }
+                if(slamWarningTimer.Update()){
+                    stopOodler = true;
+                    parentBaseState.NextSubState();
+                    // change our state to the actual attack state
                 }
-            }
+             }
+            
         }
     }
 

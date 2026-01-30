@@ -31,8 +31,8 @@ public class OodlerSlam : ParentBaseState
     {
         orderedSubStateList = new List<ChildBaseState>
         {
-
-            new Chase(boss, this, 2f, chaseSpeed: 100f),
+            new Circle(boss, this, 5f),
+            new Chase(boss, this, 2f, chaseSpeed: 50f),
             new PrepareAttack(boss, this, 1, 100f),
             new SwingHand(boss, this, chaseSpeed: 100f),
             new Vulnerable(boss, this, vulnerabilityTime: 5f),

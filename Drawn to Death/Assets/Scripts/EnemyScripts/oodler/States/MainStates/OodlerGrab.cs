@@ -26,7 +26,7 @@ public class OodlerGrab : ParentBaseState
             new Chase(boss, this, chaseTime: 2f, chaseSpeed: 50f),
             new PrepareGrab(boss, this, grabHoverTime: 1f, chaseSpeed: 100),
             new AttemptGrab(boss, this, chaseSpeed: 100),
-            new Vulnerable(boss, this, vulnerabilityTime: 2f),
+            new Vulnerable(boss, this, vulnerabilityTime: 7f),
             new Rise(boss, this, 1f, 1f),
             new EmptyChildState(boss, this),
         };

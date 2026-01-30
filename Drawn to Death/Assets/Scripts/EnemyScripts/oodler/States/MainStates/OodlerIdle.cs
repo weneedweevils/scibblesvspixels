@@ -6,10 +6,14 @@ public class OodlerIdle : ParentBaseState
 {
 
     private float timer = 0f;
+    private int p1SlamNum;
+    private int p2SlamNum;
     List<ChildBaseState> orderedSubStateList;
 
     public OodlerIdle(Oodler boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
+        p1SlamNum = 0;
+        p2SlamNum = 0;
     }
 
     public override void EnterParentState()
@@ -63,7 +67,7 @@ public class OodlerIdle : ParentBaseState
 
         if (boss.phase == Oodler.Phase.P2)
         {
-            //return DecidePhaseTwo();
+            return DecidePhaseTwo();
         }
 
         if (boss.phase == Oodler.Phase.P3)
@@ -79,21 +83,44 @@ public class OodlerIdle : ParentBaseState
 
     private ParentBaseState DecidePhaseOne()
     {
-        if (boss.GetGlichHealth() / boss.GetGlichMaxHealth() > 0.5f)
+        if (p1SlamNum < 1)
         {
-            return boss.oodlerIntimidate;
+            p1SlamNum++;
+            return boss.oodlerQuickSlam;
         }
         else
         {
+            p1SlamNum = 0;
             return boss.oodlerSlam;
         }
+           
 
 
     }
 
-    //private ParentBaseState DecidePhaseTwo()
-    //{
+    private ParentBaseState DecidePhaseTwo()
+    {
 
+        if (p2SlamNum < 3)
+        {
+            p2SlamNum++;
+            return boss.oodlerQuickSlam;
+        }
+        else
+        {
+
+            p2SlamNum = 0;
+            if (boss.GlichInOpen())
+            {
+                return boss.oodlerRun;
+            }
+            else
+            {
+                return boss.oodlerGrab;
+            }
+        }
+
+    }
 
     //}
 
