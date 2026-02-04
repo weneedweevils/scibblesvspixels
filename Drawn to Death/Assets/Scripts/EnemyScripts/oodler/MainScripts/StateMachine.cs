@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Android;
 
 /// <summary>
 /// This class defines a state machine class which has a starting parent state and then switches to parent states

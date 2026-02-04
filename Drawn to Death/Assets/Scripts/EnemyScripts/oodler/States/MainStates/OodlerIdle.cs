@@ -45,7 +45,7 @@ public class OodlerIdle : ParentBaseState
     {
         if (subStateQueue.Count > 0)
         {
-            nextChildState = subStateQueue.Dequeue();
+            var nextChildState = subStateQueue.Dequeue();
             ChangeChildState(nextChildState);
         }
         else
@@ -119,16 +119,5 @@ public class OodlerIdle : ParentBaseState
                 return boss.oodlerGrab;
             }
         }
-
     }
-
-    //}
-
-    //private ParentBaseState DecidePhaseThree()
-    //{
-
-
-    //}
-
-
 }

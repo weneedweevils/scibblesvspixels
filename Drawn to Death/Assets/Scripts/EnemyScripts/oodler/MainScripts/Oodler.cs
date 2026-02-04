@@ -1,35 +1,34 @@
-﻿using JetBrains.Annotations;
-using Pathfinding;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Xml.Schema;
+﻿using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Android;
-using UnityEngine.Tilemaps;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
-using UnityEngine.XR;
-using System.Collections;
-using Random = UnityEngine.Random;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
-using UnityEngine.Profiling;
 
 
-
+/// <summary>
+/// This is the Main script for the boss battle it handles all physics and game logic
+/// </summary>
 public class Oodler : MonoBehaviour
 {
-    // Private variables
+    // Components //
     public Rigidbody2D Rigidbody { get; set; }
     public Animator animator;
     private SpriteRenderer oodlerSprite;
- 
+    public Rigidbody2D oodlerRB;
 
-    // Public Parameters
+
+    [Header("Shadow Reference")]
+    public GameObject oodlerShadowObject;
+    private Animator shadowAnimator;
+
+
+    // Player //
+    [Header("Player References")]
+    public PlayerMovement playerScript;
+    public GameObject glich;
+
+
+    // Public Parameters //
     [Header ("Public float")]
     private float maxHealth = 500f;
     private float currentHealth = 500f;
@@ -37,60 +36,13 @@ public class Oodler : MonoBehaviour
     public float oodlerAttackDamage = 100f;
     private float invincibilityDuration = 40f / 60f;
 
-
-     // timings and speeds for boss battle
-    public float bossVulnerabilityTime = 5f; // Time the oodler is vulnerable
-    public float slamWarningTime = 1f; // Time the oodler stops before Slamming player
-    public float grabWarningTime = 1.25f; // Time the oodler stops before grabbing player
-    
-
-    public float airTime = 5f;
-    public int allowedSlams = 1;
-    public int SlamNum = 0;
-    
-
-    
-    [Header("Public bool Parameters")]
-    public bool grabbing = false;
-    private bool caught = false;
-
-    // ENUMS
+    // ENUMS //
     public enum AttackType {Grab,Slam,Run, Default}
     public AttackType attackType;
     public enum Phase {P1,P2,P3}
     public Phase phase = Phase.P1;
-    
-
-    
-
-    [Header ("Shadow Reference")]
-    public GameObject oodlerShadowObject;
-    private SpriteRenderer oodlerShadow;
-    private Animator shadowAnimator;
-   
-
-
-    [Header ("Player References")]
-    public PlayerMovement playerScript;
-    public GameObject glich;
-    
-
-
-    // Health Crystals and health
-
-    [Header ("Health Crystals")]
-    public GameObject HealthCrystal1;
-    bool countedOne = false;
-    public GameObject HealthCrystal2;
-    bool countedTwo = false;
-    public GameObject HealthCrystal3;
-    bool countedThree = false;
-    public GameObject HealthCrystal4;
-    bool countedFour = false;
-    private int CrystalsRemaining = 4;
-
-
-    // UI
+  
+    // UI //
     [Header ("UI References")]
     public GameObject healthBarParent;
     public GameObject healthBar;
@@ -99,8 +51,9 @@ public class Oodler : MonoBehaviour
     private UnityEngine.UI.Image healthBarImage;
 
 
-    [Header ("HitBox References")]
+
     // Collider References
+    [Header("HitBox References")]
     public GameObject runHitboxCollider;
 
     public GameObject attackHitboxCollider;
@@ -119,62 +72,43 @@ public class Oodler : MonoBehaviour
 
     // Main States
     public OodlerIdle oodlerIdle { get; set; }
-    public OodlerSlam oodlerSlam { get; set; } //
-    public OodlerQuickSlam oodlerQuickSlam { get; set; } //
-    public OodlerRecover oodlerRecover { get; set; }
-    public OodlerGrab oodlerGrab { get; set; } //
+    public OodlerSlam oodlerSlam { get; set; } 
+    public OodlerQuickSlam oodlerQuickSlam { get; set; } 
+    public OodlerGrab oodlerGrab { get; set; } 
     public OodlerDrop oodlerDrop { get; set; }
     public OodlerInitial oodlerInitial{ get; set; }
-    public OodlerRun oodlerRun { get; set; } //
+    public OodlerRun oodlerRun { get; set; } 
     public OodlerIntimidate oodlerIntimidate { get; set; }
 
     public GameObject prefab;
 
 
-    //Movment
+    //Vector Initialization's // 
     private Vector3 playerOffSet = Vector3.zero;
     private Vector3 glichLastPosition = Vector3.zero;
     private Vector3 oodlerGroundPosition = Vector3.zero;
-    private Vector3 oodlerRunDirection = Vector3.zero;
     private Vector3 oodlerLandPosition = Vector3.zero;
     private Vector3 oodlerAirPosition = Vector3.zero;
     private Vector3 grabPositionOffset = new Vector3(0, 2f, 0f);
-    
     private Vector3 offScreen = new Vector3(220, 130, 0);
-    
-   
-    public CooldownTimer invincibilityTimer;
-    
-    public Rigidbody2D oodlerRB;
 
-
-    // for controlling enemies for Drop attack
+    // Initialization for drop attack 
     public GameObject dropZoneObject;
     private Vector3 dropZone;
     private Vector3 dropZoneCorrected;
+    public CooldownTimer invincibilityTimer;
+   
 
-
-
-    // Phases
-    private bool enteredPhase2=false;
-    private bool enteredPhase3=false;
-
-    
     //blockers
     public EnemyAI[] blockers;
 
-    private bool hitHazard = false;
 
-
-    //public Scene nextScene = Scene.End;
+    // Menu Control //
     public MenuManager menuManager;
     private float angle = 0f;
-    private List<Vector3> points;
 
-   
-
-   
-   
+    // Bool checks //
+    private bool hitHazard = false;
 
     private void Awake()
     {
@@ -182,7 +116,6 @@ public class Oodler : MonoBehaviour
 
         oodlerIdle = new OodlerIdle(this, stateMachine);
         oodlerSlam = new OodlerSlam(this, stateMachine);
-        oodlerRecover = new OodlerRecover(this, stateMachine);
         oodlerGrab = new OodlerGrab(this, stateMachine);
         oodlerDrop = new OodlerDrop(this, stateMachine);
         oodlerInitial = new OodlerInitial(this, stateMachine);
@@ -192,13 +125,11 @@ public class Oodler : MonoBehaviour
     }
 
     
+
     private void Start()
     {
         InstantiateVariables();
 
-
-
-        // THIS NEEDS TO GO AT BOTTOM AFTER INSTANTIATING VARIABLES
         if (attackType == AttackType.Grab)
         {
             stateMachine.Initialize(oodlerGrab);
@@ -217,13 +148,11 @@ public class Oodler : MonoBehaviour
             stateMachine.Initialize(oodlerInitial);
         }
 
-
-
     }
 
         
-
-
+   
+    // Instantiate private references //
     private void InstantiateVariables()
     {
         // Health
@@ -234,7 +163,6 @@ public class Oodler : MonoBehaviour
         // Sprite components for oolder and oodler shadow
         animator = GetComponentInChildren<Animator>();
         oodlerSprite = GetComponentInChildren<SpriteRenderer>();
-        oodlerShadow = oodlerShadowObject.GetComponentInChildren<SpriteRenderer>();
         shadowAnimator = oodlerShadowObject.GetComponentInChildren<Animator>();
         BringSpriteToForeground();
 
@@ -248,44 +176,28 @@ public class Oodler : MonoBehaviour
         // values for drop zone in grab attack
         dropZoneCorrected = new Vector3(dropZoneObject.transform.position.x, dropZoneObject.transform.position.y + 10f, 0);
         dropZone = new Vector3(dropZoneObject.transform.position.x, dropZoneObject.transform.position.y, 0);
-        points = new List<Vector3>();
     }
 
-    
-
-
-    public enum AnimationTriggerType
-    {
-        BossIdle,
-        BossFollow,
-        BossDamage
-    }
-
+   
 
     #region Update
+
+
     private void Update(){
-        //CheckWinCondition();
-
-        //currentHealthUI.text = Mathf.Ceil(currentHealth).ToString();
-
-        //CheckPhase();
-
         invincibilityTimer.Update();
-        //maxHealthUI.text = maxHealth.ToString();
     }
-
     // FixedUpdate to update physics
     private void FixedUpdate()
     {
-
         stateMachine.currentState.ParentFrameUpdate();
-        //GlichInOpen();
     }
     #endregion
 
 
+
     #region Health
 
+    // Damage function for damage from player //
     public void Damage(float damageTaken)
     {
         currentHealth = currentHealth - damageTaken;
@@ -302,6 +214,7 @@ public class Oodler : MonoBehaviour
         UpdateUIHealthBar();
     }
 
+    // Damage function for damage from other objects //
     public void DamageStatic(float damageTaken)
     {
 
@@ -315,6 +228,7 @@ public class Oodler : MonoBehaviour
     }
 
 
+    // Updates Health UI
     public void UpdateUIHealthBar()
     {
         currentHealthUI.text = currentHealth.ToString();
@@ -322,6 +236,7 @@ public class Oodler : MonoBehaviour
 
     }
 
+    // Heal Function //
     public void heal(float heal_amount)
     {
         if (currentHealth <= maxHealth)
@@ -342,42 +257,14 @@ public class Oodler : MonoBehaviour
         return currentHealth;
     }
 
-    ///<summary>
-    /// logic for when oodler health reaches 0
-    ///</summary> 
+     
+    // When Health Reaches Zero
     public void Die()
     {
         menuManager.GotoScene();
-        Debug.Log("oodler is dead :/");
+        Debug.Log("oodler is dead");
 
     }
-
-    #endregion
-
-
-    #region StateMachine
-    ///<summary>
-    /// will determine the next state depending on playerHealth, oodlerHealth, playerProximity, columnsLeft, phase
-    ///</summary> 
-    public void pickState()//ParentBaseState pickState()
-    {
-        if (phase == Phase.P1)
-        {
-
-        }
-        else if (phase == Phase.P2)
-        {
-
-        }
-        else if (phase == Phase.P3)
-        {
-
-        }
-
-
-
-    }
-
 
     #endregion
 
@@ -428,25 +315,12 @@ public class Oodler : MonoBehaviour
     }
 
     ///<summary>
-    /// This function changes the colour of the shadow to red
-    ///</summary> 
-    // This function shows the attack
-    
-
-    ///<summary>
     /// This function hides the oodlers shadow
     ///</summary> 
     public void HideShadow()
     {
         shadowAnimator.SetTrigger("Hidden");
     }
-
-
-    public Animator GetShadow(){
-        return shadowAnimator;
-    }
-
-
 
     # endregion
 
@@ -462,9 +336,6 @@ public class Oodler : MonoBehaviour
 
     #region Hitboxes
 
-    ///<summary>
-    /// Enables/Disables oodlers Attack hitbox
-    ///</summary> 
     public void EnableAttackHitbox(bool enable)
     {
        
@@ -481,11 +352,6 @@ public class Oodler : MonoBehaviour
         
     }
 
-
-
-    ///<summary>
-    /// Enables/Disables oodlers self hitbox for glich to deal damage
-    ///</summary> 
     public void EnableAreaHitbox(bool enable)
     {
    
@@ -493,18 +359,12 @@ public class Oodler : MonoBehaviour
       
     }
 
-    ///<summary>
-    /// Enables/Disables oodlers run hitbox
-    ///</summary> 
     public void EnableRunHitbox(bool enable)
     {
         runHitboxCollider.SetActive(enable);
         
     }
 
-    ///<summary>
-    /// Enables/Disables oodlers grab hitbox
-    ///</summary> 
     public void EnableGrabHitbox(bool enable)
     {
        
@@ -512,9 +372,6 @@ public class Oodler : MonoBehaviour
        
     }
 
-    ///<summary>
-    /// Enables/Disables sprite hitbox
-    ///</summary> 
     public void EnableSpriteHitbox(bool enable)
     {
         
@@ -522,8 +379,6 @@ public class Oodler : MonoBehaviour
 
         
     }
-
-
 
 
     ///<summary>
@@ -543,11 +398,6 @@ public class Oodler : MonoBehaviour
         }
     }
 
-
-
-
-
-
     #endregion
 
 
@@ -557,7 +407,7 @@ public class Oodler : MonoBehaviour
     // MOVING METHODS //
 
 
-    // https://math.stackexchange.com/questions/127613/closest-point-on-circle-edge-from-point-outside-inside-the-circle
+    //This function will make the oodler go to the closest position along a radius around the player 
     public bool GoToCircle(float speed, float radius)
     {
         var step = speed * Time.deltaTime;
@@ -591,13 +441,9 @@ public class Oodler : MonoBehaviour
     }
 
 
-    ///<summary>
-    /// this function will circl glich at a constant rate
-    ///</summary> 
-    public void Circleglich( float speed, float radius){
-
-
-
+    // this function will make the oodler circle the player at a constant speed
+    public void Circleglich( float speed, float radius)
+    {
         var step = speed * Time.deltaTime;
        
         playerOffSet = glich.transform.localPosition;
@@ -614,19 +460,14 @@ public class Oodler : MonoBehaviour
             angle = 0f;
         }
 
-        //transform.position = circlePosition;
-        //points.Add(circlePosition);
         oodlerRB.MovePosition(circlePosition);
-        //oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, circlePosition, step));
     }
 
  
 
 
 
-    ///<summary>
-    /// This function the oodler to the "drop zone" where they drop glich
-    ///</summary> 
+    // This function will move the oodler and the player to the drop area after a successful grab
     public bool MoveToDropZone(float speed = 20)
     {
         var step = speed * Time.deltaTime;
@@ -645,9 +486,8 @@ public class Oodler : MonoBehaviour
     }
 
 
-    ///<summary>
-    /// This function drops glich in the drop zone
-    ///</summary> 
+
+    // This function drops the player inside the drop area
     public bool DropGlich(float speed = 10)
     {
         var step = speed * Time.deltaTime;
@@ -671,7 +511,6 @@ public class Oodler : MonoBehaviour
     {
         var step = speed * Time.deltaTime;
         oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, glichLastPosition, step));
-        //Instantiate(prefab, transform.position, transform.rotation);
         if (Vector3.Distance(transform.position, glichLastPosition) < 0.1f)
         {
             return true;
@@ -684,40 +523,6 @@ public class Oodler : MonoBehaviour
 
     }
 
-    public void Land(float speed = 100)
-    {
-        var step = speed * Time.deltaTime;
-        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, playerOffSet, step));
-    }
-
-    // This function will move the oodler to a location offscreen
-    public void MoveOffScreen(float speed = 100)
-    {
-        var step = speed * Time.deltaTime;
-        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, offScreen, step));
-        MoveShadowSprite();
-    }
-
-
-    // This function will move the oodler off the ground
-    // public void MoveUp(float speed = 20)
-    // {
-    //     //playerOffSet = glich.transform.localPosition;
-    //     //playerOffSet.y = playerOffSet.y + 10f;
-    //     var step = speed * Time.deltaTime;
-    //     oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, oodlerAirPosition, step));
-
-    // }
-
-    public void Follow(float speed = 50f){
-         var step = speed * Time.deltaTime;
-        playerOffSet = glich.transform.localPosition;
-        playerOffSet.y = playerOffSet.y + 10f;
-        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, playerOffSet, step));
-        MoveShadowSprite();
-    }
-
-   
     // This function will follow the players position with an offset of 10 units above them if we reached the target in anyway then reached target then it will always return true
     public bool MoveToGlich(float speed)
     {
@@ -743,12 +548,10 @@ public class Oodler : MonoBehaviour
     // This method will "Land" the oodler on the ground
     public bool LandOodler(float  landSpeed)
     {
-        Debug.Log("Calling land oodler");
         var step = landSpeed * Time.deltaTime;
         oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, oodlerLandPosition, step));
         if (Vector3.Distance(transform.position, oodlerLandPosition) < 0.3f)
         {
-            Debug.Log("Calling land oodler");
             oodlerRB.MovePosition(oodlerLandPosition);
             HideShadow();
             return true;
@@ -759,6 +562,7 @@ public class Oodler : MonoBehaviour
         }
     }
 
+    // This function will rise the oodler from its current position
     public bool RiseOodler(float speed = 10f)
     {
 
@@ -776,26 +580,12 @@ public class Oodler : MonoBehaviour
         }
     }
 
-    // This function will make the oodler run
+    // This function will make the oodler run towards glich
     public void OodlerRun(float runSpeed, Vector3 oodlerRunDirection)
     {
-
         var step = runSpeed * Time.deltaTime;
         oodlerRB.MovePosition(transform.position + oodlerRunDirection * step);
-
     }
-
-    public bool SnapToGlich()
-    {
-        Debug.Log("now snap to position");
-        oodlerRB.MovePosition(playerOffSet);
-        MoveShadowSprite();
-        Profiler.EndSample();
-        return true;
-    }
-
-    
-
 
 
     // this function will move the Shadow Sprite
@@ -803,7 +593,6 @@ public class Oodler : MonoBehaviour
     {
         Vector3 spriteOffset = transform.position;
         spriteOffset.y = transform.position.y - 12f;
-        //oodlerShadow.transform.position = spriteOffset;
         oodlerShadowObject.GetComponent<Rigidbody2D>().MovePosition(spriteOffset);
 
     }
@@ -818,7 +607,6 @@ public class Oodler : MonoBehaviour
     public void MoveGlichWithOodler() { 
         
         var step = 10f * Time.deltaTime;
-        //glich.GetComponent<Rigidbody2D>().MovePosition(Vector3.MoveTowards(glich.transform.position, transform.position - grabPositionOffset, step));
         glich.transform.position = transform.position - grabPositionOffset;
     }
 
@@ -828,138 +616,6 @@ public class Oodler : MonoBehaviour
     // CHECKS //
 
     #region Bool Checks
-
-    // this function will return a bool if the oodler has reached offscreen
-    public bool ReachedOffScreen()
-    {
-        if (transform.position == offScreen)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    // This function will check if the oodler reached the last position it was in the air
-    public bool OodlerGroundPosiiton()
-    {
-        if (transform.position == oodlerGroundPosition)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    // This function returns a bool if the oodler reached the correct drop zone which is a few positions up from the actual dropzone
-    public bool ReachedDropZone()
-    {
-        if (transform.position == dropZoneCorrected)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    // This fucntion returns a bool if glich has reached their drop zone location when the oodler drops them
-    public bool GlichReachedDropZone()
-    {
-
-        var glichCurrentRoundedPosition = new Vector3(Mathf.Round(glich.transform.position.x),Mathf.Round(glich.transform.position.y),Mathf.Round(glich.transform.position.z));
-
-        if (glich.transform.position == dropZone ||Vector3.Distance(glich.transform.position,dropZone)<0.3)
-        {
-            return true;
-        }
-        else
-        {
-            playerScript.StopMovement();
-            Debug.Log("Rounded glich Position is "+ glichCurrentRoundedPosition);
-            Debug.Log("Actual glich Position is " + glich.transform.position);
-            Debug.Log("Drop Zone Position is" + dropZone);
-
-            return false;
-        }
-    }
-
-    // this function will return a bool if the oodler has reached the glichs offset position
-    public bool ReachedPlayer()
-    {
-        if (Vector3.Distance(transform.position,playerOffSet)<0.3f)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    // this function will return a bool if the oodler has reached gliches actual position
-   
-
-    public bool CloseToTarget()
-    {
-        if (Vector3.Distance(transform.position, glichLastPosition) < 1.5f)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-
-
-
-    // this function will check to see if all the crystals are still active or if the oodler dies, cutscene plays if any one of these conditions are met
-    public void CheckWinCondition()
-    {
-        //if (HealthCrystal1 == null && !countedOne)
-        //{
-        //    CrystalsRemaining -= 1;
-        //    countedOne = true;
-        //}
-
-        //if (HealthCrystal2 == null && !countedTwo)
-        //{
-        //    CrystalsRemaining -= 1;
-        //    countedTwo = true;
-        //}
-
-        //if (HealthCrystal3 == null && !countedThree)
-        //{
-        //    CrystalsRemaining -= 1;
-        //    countedThree = true;
-        //}
-
-        //if (HealthCrystal4 == null && !countedFour)
-        //{
-        //    CrystalsRemaining -= 1;
-        //    countedFour = true;
-        //}
-
-
-        //if (currentHealth < 0)
-        //{
-        //    Debug.Log("we go to end scene");
-        //    if (nextScene != Scene.End)
-        //    {
-        //        GameData data = DataPersistenceManager.instance.GetGameData();
-        //        data.skipCutscene = false;
-        //        DataPersistenceManager.instance.UpdateGame();
-        //    }
-        //    StartCoroutine(MenuManager.LoadScene(nextScene));
-        //}
-    }
 
 
     // This function will check if the boss is vulnerable
@@ -976,24 +632,7 @@ public class Oodler : MonoBehaviour
         }
     }
 
-
-    // This function will return a bool whether 
-    public bool activateDamage()
-    {
-        float distance = Vector3.Distance(transform.position, GetLastPosition());
-
-        if (distance < 5f)
-        {
-            return true;
-
-        }
-        else
-        {
-            return false;
-
-        }
-    }
-
+    // Bool for setting and getting if the boss hit an on level hazard 
     public void setHazard(bool hazard)
     {
         hitHazard = hazard;
@@ -1005,6 +644,8 @@ public class Oodler : MonoBehaviour
     }
 
     #endregion
+
+
 
     // SETTERS AND GETTERS //
     #region Setters
@@ -1039,24 +680,6 @@ public class Oodler : MonoBehaviour
         oodlerAirPosition.y = oodlerAirPosition.y + 12f;
     }
 
-
-
-
-    public void SetBossCaught(bool isCaught){
-        if(isCaught){
-            caught = true;
-        }
-        else{
-            caught = false;
-        }
-
-    } 
-
-    public bool IsCaught(){
-        return caught;
-    }
-
-
     #endregion
 
 
@@ -1064,14 +687,7 @@ public class Oodler : MonoBehaviour
     // OTHER //
     #region Other
    
-
- 
-
- 
-
-
-    
-
+    // This Function will control enemies to go to the drop zone location
     public void ControlAllies(GameObject target, bool toDropZone = false)
     {
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
@@ -1087,10 +703,8 @@ public class Oodler : MonoBehaviour
     }
     
 
-    /// <summary>
-    /// This function will determine if glich is out in the open or close to a wall will return if its distance is 20f units away
-    /// </summary>
-    /// <returns></returns>
+
+    // This function checks if the player is close to a wall
     public bool GlichInOpen()
     {
 
@@ -1104,23 +718,19 @@ public class Oodler : MonoBehaviour
 
         Vector2 point = new Vector2(0, 0);
 
-       // var colors = new List<Color> { Color.red,Color.blue, Color.green, Color.gray};
-        //int color_index = 0;
+       
         // This for loop will go through all directions and teleport the enemies in the direction where there is the most available space
         foreach (Vector3 direction in directions)
         {
             
-            // corrects direction to isometric grid
+            // corrects direction close to isometric grid
             var trueDirection = new Vector3(direction.y*Mathf.Sin(theta) + direction.x*Mathf.Cos(theta), direction.y * Mathf.Cos(theta) + direction.x * -Mathf.Sin(theta), 0);
 
 
             RaycastHit2D hit = Physics2D.Raycast(PlayerPosition, trueDirection, Mathf.Infinity, layerMask);
-            //Debug.DrawRay(PlayerPosition, (Vector3.up) * 100f, Color.red, 5f);
 
             if (hit)
             {
-                //Debug.DrawRay(PlayerPosition, trueDirection, colors[color_index]);
-               // color_index++;
                 float distance = hit.distance;
 
                 if (distance < closestWall)
@@ -1134,7 +744,7 @@ public class Oodler : MonoBehaviour
 
         if (closestWall > 20f)
         {
-            return true;// bestDirDis;
+            return true;
         }
         else
         {
@@ -1143,6 +753,7 @@ public class Oodler : MonoBehaviour
 
     }
 
+    // Gets player's health 
     public float GetGlichHealth()
     {
         if (playerScript != null)
@@ -1156,6 +767,8 @@ public class Oodler : MonoBehaviour
         }
     }
 
+
+    // Gets player's max health 
     public float GetGlichMaxHealth()
     {
         if (playerScript != null)

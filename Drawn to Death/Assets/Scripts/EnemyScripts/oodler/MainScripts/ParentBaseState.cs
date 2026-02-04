@@ -1,20 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Xml.Serialization;
-using UnityEngine;
-using UnityEngine.Scripting;
+﻿using System.Collections.Generic;
 
+
+
+/// <summary>
+/// This class defines a parent base state where the behaviours of a group of states is defined
+/// </summary>
 public class ParentBaseState
 {
 
+    // Initialization // 
     protected Oodler boss;
     protected StateMachine oodlerStateMachine;
 
     protected Queue<ChildBaseState> subStateQueue;
     protected ChildBaseState currentChildState { get; set; }
-    protected ChildBaseState nextChildState {  get; set; }
-    protected int index;
 
 
     public ParentBaseState(Oodler boss, StateMachine oodlerStateMachine) {
@@ -24,7 +23,11 @@ public class ParentBaseState
 
     }
 
-
+    
+    /// <summary>
+    /// This function exits the currentChildState and enters the new one
+    /// </summary>
+    /// <param name="newState"></param>
     protected virtual void ChangeChildState(ChildBaseState newState)
     {
         currentChildState.ExitState();
@@ -32,59 +35,49 @@ public class ParentBaseState
         currentChildState.EnterState();
     }
 
-    protected virtual void ExitChildState()
-    {
-        currentChildState.ExitState();
-    }
+ 
 
 
-    public virtual ChildBaseState GetCurrentChildState()
-    {
-        return currentChildState;
-    }
-
-
+    /// <summary>
+    /// This function will select the next substate to go to in the queue, if there are none it will switch to the idle state
+    /// </summary>
     public virtual void NextSubState()
     {
         if (subStateQueue.Count > 0)
         {
-            nextChildState = subStateQueue.Dequeue();
+            var nextChildState = subStateQueue.Dequeue();
             ChangeChildState(nextChildState);
         }
         else
         {
             oodlerStateMachine.ChangeState(boss.oodlerIdle);
-            // End of Queue reached Handle logic to go to next state (Maybe go to the idle state and idle state determines where to go)
         }
 
-
-
     }
+
 
     /// <summary>
     ///  Enters the parent state in function that inherits this make sure to create an ordered substate list, initalize queue, and set substate list to null before calling base
     /// </summary>
     public virtual void EnterParentState() {
-        
-        
-
-        nextChildState = subStateQueue.Dequeue();
+        var nextChildState = subStateQueue.Dequeue();
         currentChildState = nextChildState;
         currentChildState.EnterState();
     }
 
+    // Exits the current parent state
     public virtual void ExitParentState() {
         subStateQueue.Clear();
     } 
 
+    // Updates the current child state every frame
     public virtual void ParentFrameUpdate()
     {
         currentChildState.FrameUpdate();
     }
 
 
-
-    // make sure this function is called in the class inheriting this
+    // Initializes the Queue
     public virtual void InitializeQueue(List<ChildBaseState> childStates)
     {
         foreach(ChildBaseState child in childStates)
@@ -93,22 +86,15 @@ public class ParentBaseState
         }
     }
 
-    public void SkipStates(int skipCount)
-    {
-        for(int i = 0; i<skipCount; i++)
-        {
-            subStateQueue.Dequeue();
-        }
-    }
-
+    // This is a special function used to go to another parent state
     public void GoToDropState()
     {
         oodlerStateMachine.ChangeState(boss.oodlerDrop);
     }
 
-
-
-
-
-
+    // Gets Current Child State
+    public virtual ChildBaseState GetCurrentChildState()
+    {
+        return currentChildState;
+    }
 }
