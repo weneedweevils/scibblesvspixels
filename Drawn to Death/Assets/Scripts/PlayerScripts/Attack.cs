@@ -230,6 +230,12 @@ public class Attack : MonoBehaviour
                             sprite.enabled = false;
                             playerMovement.animationDone = false;
                             playerSFX.PlayReviveSFX();
+                            Renderer renderer = obj.GetComponentInChildren<SpriteRenderer>();
+                            MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
+                            renderer.GetPropertyBlock(propertyBlock);
+                            propertyBlock.SetFloat("Vector1_5CF00FC", 100f);
+                            renderer.SetPropertyBlock(propertyBlock);
+                            Debug.Log("Changed Material");
                         }
                     }
                 }
@@ -500,6 +506,7 @@ public class Attack : MonoBehaviour
                     //Get a reference to the enemy
                     EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
                     HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
+                    
                    
                     if (enemy != null)
                     {
@@ -508,6 +515,10 @@ public class Attack : MonoBehaviour
                             //Calculate knockback
                             Vector2 direction = ((Vector2)enemy.transform.position - (Vector2)transform.position).normalized * enemy.knockbackRatio;
                             //Damage enemy
+
+                           
+
+                           
                             enemy.Damage(damage.value, true, true, direction, knockback, fromPlayer: true);
                         }
                     }
