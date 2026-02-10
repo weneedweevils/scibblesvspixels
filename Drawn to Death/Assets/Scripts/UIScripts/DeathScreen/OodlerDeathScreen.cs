@@ -26,6 +26,7 @@ public class OodlerDeathScreen : MonoBehaviour
         DeathScreen.OnDeathUiActive += OodlerDraw;
         oodler = this.gameObject.transform.GetChild(1).gameObject;
         blackBar = this.gameObject.transform.GetChild(0).gameObject;
+        
 
         
         oodlerPos = oodler.GetComponent<RectTransform>();

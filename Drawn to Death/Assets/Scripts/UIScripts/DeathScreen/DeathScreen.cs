@@ -58,6 +58,8 @@ public class DeathScreen : MonoBehaviour
     {
 
         Debug.Log("MADE IT to the Death Screen");
+
+
         //StartCoroutine(MenuManager.ReloadScene());
         
 
@@ -69,5 +71,12 @@ public class DeathScreen : MonoBehaviour
 
 
         PlayerMovement.OnPlayerDeath -= StartDeathScreen;
+    }
+
+
+    public void OnSelfReviveClick()
+    {
+        PlayerMovement.instance.animator.SetBool("isDead", false);
+        PlayerMovement.instance.animator.SetTrigger("selfRevive");
     }
 }

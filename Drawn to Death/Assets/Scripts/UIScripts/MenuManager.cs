@@ -69,7 +69,26 @@ public class MenuManager : MonoBehaviour, IDataPersistence
         StartCoroutine(LoadScene(nextScene, transition, transitionTime));
     }
 
-    public static IEnumerator LoadScene(Scene scene, Animator transition = null, float transitionTime = 0f)
+    public void ReloadScene()
+    {
+        if (newGame)
+        {
+            DataPersistenceManager.instance.NewGame();
+            nextScene = Scene.Level_1;
+        }
+        else if (saveGame && nextScene != Scene.End)
+        {
+            DataPersistenceManager.instance.SaveGame();
+            GameData data = DataPersistenceManager.instance.GetGameData();
+            data.skipCutscene = false;
+            DataPersistenceManager.instance.UpdateGame();
+        }
+        StartCoroutine(LoadScene(nextScene, transition, transitionTime, true));
+
+
+    }
+
+    public static IEnumerator LoadScene(Scene scene, Animator transition = null, float transitionTime = 0f, bool reload = false)
     {
         PlayerInput playerInput = CustomInput.instance.playerInput;
         playerInput.DeactivateInput();
@@ -81,25 +100,19 @@ public class MenuManager : MonoBehaviour, IDataPersistence
             yield return new WaitForSecondsRealtime(transitionTime);
         }
         Time.timeScale = 1;
-        SceneManager.LoadScene((int)scene);
+
+        if (!reload)
+        {
+            SceneManager.LoadScene((int)scene);
+        }
+        else
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+          
     }
 
-    public static IEnumerator ReloadScene(Animator transition = null, float transitionTime = 5f)
-    {
-        PlayerInput playerInput = CustomInput.instance.playerInput;
-        playerInput.DeactivateInput();
-
-        //if (transition != null)
-        //{
-        //    transition.gameObject.SetActive(true);
-        //    transition.SetTrigger("Start");
-        //    yield return new WaitForSecondsRealtime(transitionTime);
-        //}
-        yield return new WaitForSecondsRealtime(transitionTime);
-        Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
+   
     public void LoadData(GameData data)
     {
         if (loadGame)
