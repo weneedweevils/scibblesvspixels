@@ -43,13 +43,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a2fdeff171544069b3aa0244b5b55a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fmodEvent:
-    Guid:
+  music:
+  - Guid:
       Data1: -265291380
       Data2: 1081923302
       Data3: -449126740
       Data4: -1107445570
-    Path: event:/JailMusic
+    Path: event:/Music/JailMusic
+  - Guid:
+      Data1: -1272765440
+      Data2: 1161165019
+      Data3: -204850511
+      Data4: -94747294
+    Path: event:/Music/BossMusic
+  currentTrack: 0
   intensity: 0
   autoUpdate: 1
   intensityPerEnemy: 3

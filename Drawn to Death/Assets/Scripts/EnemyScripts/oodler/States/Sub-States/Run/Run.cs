@@ -28,6 +28,7 @@ public class Run : ChildBaseState
         boss.EnableRunHitbox(true);
         RunHitbox.CollidedWithObstacle += OnHitObstacle;
         boss.CheckSpriteDirection();
+        boss.runSFXInstance.start(); // Bugged?
     }
 
     public override void ExitState()
@@ -48,6 +49,7 @@ public class Run : ChildBaseState
         {
             boss.EnableRunHitbox(false);
             parentBaseState.NextSubState();
+            boss.runSFXInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
 
     }

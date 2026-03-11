@@ -38,6 +38,7 @@ public class OodlerInitial : ParentBaseState
 
 
                     oodlerStateMachine.ChangeState(boss.oodlerIdle);
+                    boss.musicScript.setIntensity(30f);
                 }
             }
         }

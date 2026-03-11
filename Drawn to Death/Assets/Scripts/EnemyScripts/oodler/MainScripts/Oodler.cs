@@ -82,6 +82,17 @@ public class Oodler : MonoBehaviour
 
     public GameObject prefab;
 
+    // Music and Sound
+    public BasicMusicScript musicScript;
+
+    public FMODUnity.EventReference oodlerHurtSFX;
+    public FMODUnity.EventReference oodlerSlamSFX;
+    public FMODUnity.EventReference oodlerGrabSFX;
+    public FMODUnity.EventReference oodlerRunSFX;
+    public FMODUnity.EventReference oodlerChargeupSFX;
+
+    public FMOD.Studio.EventInstance runSFXInstance;
+
 
     //Vector Initialization's // 
     private Vector3 playerOffSet = Vector3.zero;
@@ -148,6 +159,17 @@ public class Oodler : MonoBehaviour
             stateMachine.Initialize(oodlerInitial);
         }
 
+        if (musicScript.currentTrack != 1)
+        {
+            musicScript.currentTrack = 1;
+            musicScript.switchTrack();
+        }
+        musicScript.setIntensity(0f);
+        musicScript.autoUpdate = false;
+
+        runSFXInstance = FMODUnity.RuntimeManager.CreateInstance(oodlerRunSFX);
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(runSFXInstance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
+        
     }
 
         
@@ -200,6 +222,7 @@ public class Oodler : MonoBehaviour
     // Damage function for damage from player //
     public void Damage(float damageTaken)
     {
+        FMODUnity.RuntimeManager.PlayOneShot(oodlerHurtSFX, transform.position);
         currentHealth = currentHealth - damageTaken;
         Debug.Log(currentHealth);
         invincibilityTimer.StartTimer();
@@ -509,6 +532,7 @@ public class Oodler : MonoBehaviour
     // This function will make the oodler come down and strike the players last known location
     public bool Slam(float speed = 200f)
     {
+        FMODUnity.RuntimeManager.PlayOneShot(oodlerSlamSFX, transform.position);
         var step = speed * Time.deltaTime;
         oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, glichLastPosition, step));
         if (Vector3.Distance(transform.position, glichLastPosition) < 0.1f)

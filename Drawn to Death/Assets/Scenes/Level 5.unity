@@ -38695,7 +38695,7 @@ MonoBehaviour:
   playerScript: {fileID: 862424968}
   glich: {fileID: 862424965}
   oodlerAttackDamage: 100
-  attackType: 3
+  attackType: 2
   phase: 0
   healthBarParent: {fileID: 913683209}
   healthBar: {fileID: 913683209}
@@ -38708,6 +38708,42 @@ MonoBehaviour:
   attackColumnHitboxCollider: {fileID: 603900970}
   spriteHitboxCollider: {fileID: 1071849284}
   prefab: {fileID: 0}
+  musicScript: {fileID: 1876261624}
+  oodlerHurtSFX:
+    Guid:
+      Data1: 2018583472
+      Data2: 1214784813
+      Data3: 1494621588
+      Data4: -1544305371
+    Path: event:/Oodler/OodlerHurt
+  oodlerSlamSFX:
+    Guid:
+      Data1: 243482972
+      Data2: 1115103798
+      Data3: -1393111666
+      Data4: -2009180307
+    Path: event:/Oodler/OodlerSlam
+  oodlerGrabSFX:
+    Guid:
+      Data1: 1226430155
+      Data2: 1210417124
+      Data3: 273656707
+      Data4: 1270590667
+    Path: event:/Oodler/OodlerGrab
+  oodlerRunSFX:
+    Guid:
+      Data1: 1124629490
+      Data2: 1316537218
+      Data3: -924403323
+      Data4: 1483004279
+    Path: event:/Oodler/OodlerRun
+  oodlerChargeupSFX:
+    Guid:
+      Data1: 751581988
+      Data2: 1242205069
+      Data3: -914355013
+      Data4: 1997998466
+    Path: event:/Oodler/OodlerDialogueMad
   dropZoneObject: {fileID: 565716888}
   blockers:
   - {fileID: 1324097284}
@@ -42663,6 +42699,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Music
+      objectReference: {fileID: 0}
+    - target: {fileID: 3241373899353904391, guid: 92eb330eac24f6843a9eba8310978d1e,
+        type: 3}
+      propertyPath: currentTrack
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92eb330eac24f6843a9eba8310978d1e, type: 3}
@@ -50837,6 +50878,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab87cd96678f07f44a05dd9811f75d64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1876261624 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3241373899353904391, guid: 92eb330eac24f6843a9eba8310978d1e,
+    type: 3}
+  m_PrefabInstance: {fileID: 907889782}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a2fdeff171544069b3aa0244b5b55a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1879207532 stripped

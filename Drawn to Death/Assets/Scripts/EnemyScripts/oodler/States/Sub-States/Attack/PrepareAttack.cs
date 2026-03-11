@@ -30,6 +30,7 @@ public class PrepareAttack : ChildBaseState
         attackCharged = false;
         slamWarningTimer = new BossTimer(slamWarningTime);
         stopOodler = false;
+        FMODUnity.RuntimeManager.PlayOneShot(boss.oodlerChargeupSFX, boss.transform.position);
     }
 
     public override void ExitState()

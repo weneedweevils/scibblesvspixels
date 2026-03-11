@@ -74,6 +74,8 @@ public class AttemptGrab : ChildBaseState
                 boss.EnableGrabHitbox(false);
                 boss.EnableColumnHitbox(false);
 
+                FMODUnity.RuntimeManager.PlayOneShot(boss.oodlerGrabSFX, boss.transform.position);
+
                 if (reachedTarget)
                 {
 
