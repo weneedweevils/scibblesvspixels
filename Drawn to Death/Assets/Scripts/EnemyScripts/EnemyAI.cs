@@ -528,6 +528,24 @@ public abstract class EnemyAI : MonoBehaviour
         animator.SetBool("dying", true);
     }
 
+    virtual public void Destroy()
+    {
+        health = 0;
+        state = State.dying;
+        target = null;
+        targetIsPlayer = false;
+
+        //Set Movement
+        rb.velocity = Vector2.zero;
+        movementCollider.enabled = false;
+
+        //Set Animation variables
+        animator.SetBool("attacking", false);
+        animator.SetBool("chasing", false);
+        animator.SetBool("dying", true);
+        team = Team.player;
+    }
+
     //Revive this entity as an ally to the player
     virtual public bool Revive(float percentMaxHP = 1f, float percentDamage = 1f, float percentSpeed = 1f, float percentAttkSpeed = 1f)
     {
