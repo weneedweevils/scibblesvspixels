@@ -23,6 +23,8 @@ public class Killcircle : MonoBehaviour
     public float step = 100f;
     private float yOffSet = 6f;
     private float xOffSet = -0.5f;
+    private float colorFallOff = 25f;
+    private float maxRadius = 45f;
 
 
 
@@ -50,12 +52,20 @@ public class Killcircle : MonoBehaviour
     void Update()
     {
 
-        if (handUp && radius < 45f)
+        if (handUp && radius < maxRadius)
         {
             radius = radius + Time.deltaTime * step;
             GenerateKillCircle(radius);
+
+            if (radius > colorFallOff)
+            {
+                var color = uiLineRenderer.color;
+                Debug.Log(color.a);
+                color.a = (1-((radius-colorFallOff)/(maxRadius - colorFallOff)));
+                uiLineRenderer.color = color;
+            }
         }
-        else if(handUp && radius >= 45f){
+        else if(handUp && radius >= maxRadius){
             uiLineRenderer.points = new Vector2[] { new Vector2(0, 0) };
             collider.enabled = false;
             uiLineRenderer.SetVerticesDirty();
@@ -99,6 +109,7 @@ public class Killcircle : MonoBehaviour
     }
 
 
+    // This is called during a animation event that is triggered when the hand goes up in the self revive animation
     private void ChangeHand()
     {
         collider.enabled = true;

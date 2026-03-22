@@ -134,6 +134,8 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     public static event Action OnPlayerDeath;
     public static event Action OnSelfRevive;
     private bool death = false;
+    private bool isReviving = false;
+    private float selfReviveTimer = 0f;
     
     
     // Start is called before the first frame update
@@ -394,6 +396,22 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             //change screen flash back to normal 
             ChangeScreenColor(false);
         }
+        else if(death && isReviving){
+            Debug.Log(animator.GetCurrentAnimatorStateInfo(0).length);
+            selfReviveTimer += Time.deltaTime;
+            if (selfReviveTimer > 5.7f)
+            {
+                isReviving = false;
+                death = false;
+                armsObject.SetActive(true);
+                playerInput.ActivateInput();
+                rbody.constraints = RigidbodyConstraints2D.None;
+                rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+                boxCollider.enabled = true;
+                //sprite.sortingOrder = 200;
+               
+            }
+        }
     }
 
     private float VelocityCalc(float a, float v, float modifier = 1f)
@@ -528,6 +546,14 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     public void SelfRevive()
     {
         OnSelfRevive?.Invoke();
+    }
+
+    public void StartSelfRevive()
+    {
+        isReviving = true;
+        selfReviveTimer = 0f;
+        animator.SetBool("isDead", false);
+        animator.SetTrigger("selfRevive");
     }
 
     // function to handle changing the color of the screen when damaged

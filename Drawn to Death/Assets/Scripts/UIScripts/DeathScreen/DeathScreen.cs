@@ -76,7 +76,6 @@ public class DeathScreen : MonoBehaviour
 
     public void OnSelfReviveClick()
     {
-        PlayerMovement.instance.animator.SetBool("isDead", false);
-        PlayerMovement.instance.animator.SetTrigger("selfRevive");
+        PlayerMovement.instance.StartSelfRevive(); 
     }
 }

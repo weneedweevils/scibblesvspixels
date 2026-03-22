@@ -1,40 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OodlerDeathScreen : MonoBehaviour
 {
 
     // Ooodler Objects
-    private GameObject oodler;
-    private RectTransform oodlerPos;
     private Animator oodlerAnimator;
 
-
-    // Black bar
-    private GameObject blackBar;
-    private RectTransform blackBarPos;
+    // Text
+    public RectMask2D mask;
+    public RectTransform text;
 
     //other
-    private bool died = false;
-    private bool drawing = true;
-    int num = 0;
+    private float starting = -500f;
+    private float target;
+    private float maxMaskVal;
+    private bool reachedPos = false;
+    private float diff;
+
+  
+
+   
 
     void OnEnable()
     {
         //GameObject hud = GameObject.Find("HUD");
         DeathScreen.OnDeathUiActive += OodlerDraw;
-        oodler = this.gameObject.transform.GetChild(1).gameObject;
-        blackBar = this.gameObject.transform.GetChild(0).gameObject;
-        
-
-        
-        oodlerPos = oodler.GetComponent<RectTransform>();
-        oodlerAnimator = oodler.GetComponent<Animator>();
-        blackBarPos = blackBar.GetComponent<RectTransform>();
-        
-
-    }
+        target = text.sizeDelta.x/2f;
+        starting = -target;
+        diff = target - starting;
+        oodlerAnimator = GetComponent<Animator>();
+        maxMaskVal = mask.padding.z;
+}
 
     private void OnDisable()
     {
@@ -43,73 +43,26 @@ public class OodlerDeathScreen : MonoBehaviour
 
     void Start()
     {
-       
     }
 
     void Update()
     {
-        // x = 18, y = -581
-
-        switch (num)
+        if (transform.localPosition.x> -500f && transform.position.x<500f)
         {
-            case 0:
-                break;
-            case 1:
-                
-                oodlerPos.localPosition = oodlerPos.localPosition + (new Vector3(0, -1,0) * (Time.deltaTime * 1000f));
-                num = oodlerPos.localPosition.y > 0 ? num + 0 : num + 1;
-                break;
-            case 2:
-                oodlerAnimator.SetBool("Drawing", true);
-                blackBarPos.localPosition = oodlerPos.localPosition;
-                num = oodlerPos.localPosition.x >= 500 ? num + 1 : num + 0;
-                break;
-            case 3:
-                oodlerAnimator.SetBool("Drawing", false);
-                Debug.Log("Case 3");
-                break;
-
-
+            
+            var val = maxMaskVal - (transform.localPosition.x + 500f);
+            Debug.Log(val);
+            Debug.Log(mask.padding);
+            mask.padding = new UnityEngine.Vector4(0, 0, val, 0);
+          
         }
-
-
-        //if (died)
-        //{
-        //    if (oodlerPos.localPosition.y > 0) {
-
-        //        oodlerPos.localPosition = oodlerPos.localPosition + (new Vector3(0, -1, 0) * (Time.deltaTime*1000f));
-                
-        //    }
-        //    else if(oodlerPos.localPosition.y <= 0)
-        //    {
-
-        //        oodlerAnimator.SetBool("Drawing", true);
-        //        blackBarPos.localPosition = oodlerPos.localPosition;
-                
-
-        //        if (!drawing)
-        //        {
-        //            oodlerAnimator.SetBool("Drawing", false);
-        //        }
-        //    }
-
-        //}
-
     }
+
 
     private void OodlerDraw()
     {
-
         // Move from off screen to on screen
-
-        
-        died = true;
-        num += 1;
         DeathScreen.OnDeathUiActive -= OodlerDraw;
-        Debug.Log("my num is : "+ num);
-
-
     }
-
    
 }
