@@ -132,9 +132,10 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
     // Death
     public static event Action OnPlayerDeath;
-    public static event Action OnSelfRevive;
+    public static event Action SelfReviveHandUp;
+    public static event Action OnSelfReviveComplete;
     private bool death = false;
-    private bool isReviving = false;
+    private bool isSelfReviving = false;
     private float selfReviveTimer = 0f;
     
     
@@ -396,20 +397,23 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             //change screen flash back to normal 
             ChangeScreenColor(false);
         }
-        else if(death && isReviving){
+
+        else if(death && isSelfReviving){
             Debug.Log(animator.GetCurrentAnimatorStateInfo(0).length);
             selfReviveTimer += Time.deltaTime;
-            if (selfReviveTimer > 5.7f)
+            if (selfReviveTimer > animator.GetCurrentAnimatorStateInfo(0).length) //5.7f
             {
-                isReviving = false;
+                isSelfReviving = false;
                 death = false;
                 armsObject.SetActive(true);
                 playerInput.ActivateInput();
                 rbody.constraints = RigidbodyConstraints2D.None;
                 rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
                 boxCollider.enabled = true;
-                //sprite.sortingOrder = 200;
-               
+                selfReviveTimer = 0;
+                sprite.sortingOrder = 5;
+                OnSelfReviveComplete?.Invoke();
+
             }
         }
     }
@@ -543,14 +547,16 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         }
     }
 
-    public void SelfRevive()
+    // 
+    public void HandUp()
     {
-        OnSelfRevive?.Invoke();
+        SelfReviveHandUp?.Invoke();
     }
+
 
     public void StartSelfRevive()
     {
-        isReviving = true;
+        isSelfReviving = true;
         selfReviveTimer = 0f;
         animator.SetBool("isDead", false);
         animator.SetTrigger("selfRevive");

@@ -150,7 +150,8 @@ public abstract class EnemyAI : MonoBehaviour
         {
             Debug.Log("Enemy type is defined as general. Please define the enemy type in the child script for the enemy.");
         }
-        PlayerMovement.OnPlayerDeath += ChangeSortingLayer;
+        PlayerMovement.OnPlayerDeath += BringToFront;
+        PlayerMovement.OnSelfReviveComplete += SendToBack;
 
     }
     //private void OnEnable()
@@ -159,7 +160,8 @@ public abstract class EnemyAI : MonoBehaviour
     //}
     private void OnDisable()
     {
-        PlayerMovement.OnPlayerDeath -= ChangeSortingLayer;
+        PlayerMovement.OnPlayerDeath -= BringToFront;
+        PlayerMovement.OnSelfReviveComplete -= SendToBack;
     }
     private void CheckState()
     {
@@ -446,17 +448,23 @@ public abstract class EnemyAI : MonoBehaviour
             targetIsPlayer = true;
 
             //Compare against player allies
+
+           
             foreach (EnemyAI enemy in playerAttack.GetAllies())
             {
-                //Check if the ally is a better target
-                float newDist = Vector2.Distance(rb.position, enemy.transform.position);
-                if (newDist <= dist)
+                if (enemy != null)
                 {
-                    dist = newDist;
-                    target = enemy.transform;
-                    targetIsPlayer = false;
+                    //Check if the ally is a better target
+                    float newDist = Vector2.Distance(rb.position, enemy.transform.position);
+                    if (newDist <= dist)
+                    {
+                        dist = newDist;
+                        target = enemy.transform;
+                        targetIsPlayer = false;
+                    }
                 }
             }
+            
         }
     }
 
@@ -752,7 +760,7 @@ public abstract class EnemyAI : MonoBehaviour
         return invincibilityTimer;
     }
 
-    public void ChangeSortingLayer()
+    public void BringToFront()
     {
         Debug.Log("Changed Sorting Order of ENEMY");
         if (state == State.chase || state == State.attack || state == State.follow)
@@ -760,4 +768,11 @@ public abstract class EnemyAI : MonoBehaviour
             selfImage.sortingOrder = 200;
         }
     }
+
+    public void SendToBack()
+    {
+        selfImage.sortingOrder = 5;
+    }
+
+
 }

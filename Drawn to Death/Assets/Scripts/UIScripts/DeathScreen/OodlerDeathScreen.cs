@@ -51,8 +51,6 @@ public class OodlerDeathScreen : MonoBehaviour
         {
             
             var val = maxMaskVal - (transform.localPosition.x + 500f);
-            Debug.Log(val);
-            Debug.Log(mask.padding);
             mask.padding = new UnityEngine.Vector4(0, 0, val, 0);
           
         }

@@ -38,13 +38,23 @@ public class Killcircle : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         uiLineRenderer = GetComponent<UILineRenderer>();
-        PlayerMovement.OnSelfRevive += ChangeHand;
         collider.enabled = false;
         collider.offset= new Vector2(xOffSet,yOffSet);
         
 
 
 
+    }
+
+    private void OnEnable()
+    {
+
+        PlayerMovement.SelfReviveHandUp += ChangeHand;
+    }
+
+    private void OnDisable()
+    {
+        PlayerMovement.SelfReviveHandUp -= ChangeHand;
     }
 
 
@@ -114,6 +124,6 @@ public class Killcircle : MonoBehaviour
     {
         collider.enabled = true;
         handUp = true;
-        PlayerMovement.OnSelfRevive -= ChangeHand;
+        PlayerMovement.SelfReviveHandUp -= ChangeHand;
     }
 }
