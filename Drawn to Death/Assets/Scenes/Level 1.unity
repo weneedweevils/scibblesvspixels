@@ -38668,7 +38668,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 100
+  m_SortingOrder: 7
   m_TargetDisplay: 0
 --- !u!114 &848616426
 MonoBehaviour:
@@ -38869,7 +38869,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e6d980bc2169da48badbe6b56c5ccc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  segments: 100
+  radius: 0
+  segments: 20
   step: 50
 --- !u!1 &879471122
 GameObject:
@@ -49316,7 +49317,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -250, y: -199.99994}
+  m_AnchoredPosition: {x: -250, y: -199.99997}
   m_SizeDelta: {x: 300, y: 200}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1832512010
@@ -75639,7 +75640,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 250, y: -199.99994}
+  m_AnchoredPosition: {x: 250, y: -199.99997}
   m_SizeDelta: {x: 300, y: 200}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1853140924
@@ -76922,6 +76923,11 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1894804472619243552, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
     - target: {fileID: 2454788199460616576, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
       propertyPath: m_FlipX
@@ -77021,7 +77027,7 @@ PrefabInstance:
     - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
       propertyPath: maxHealth
-      value: 200
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
@@ -77064,6 +77070,11 @@ PrefabInstance:
       propertyPath: HealthBarReference
       value: 
       objectReference: {fileID: 1643918136}
+    - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
+        type: 3}
+      propertyPath: invincibilityDuration
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2454788199460616579, guid: f5e11bc1681c3b844b34bab6fe8ab682,
         type: 3}
       propertyPath: volumeControllerObject

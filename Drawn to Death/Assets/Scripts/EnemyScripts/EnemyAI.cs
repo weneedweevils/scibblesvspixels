@@ -448,19 +448,21 @@ public abstract class EnemyAI : MonoBehaviour
             targetIsPlayer = true;
 
             //Compare against player allies
-
-           
-            foreach (EnemyAI enemy in playerAttack.GetAllies())
+            var allies = playerAttack.GetAllies();
+            if (allies != null)
             {
-                if (enemy != null)
+                foreach (EnemyAI enemy in allies)
                 {
-                    //Check if the ally is a better target
-                    float newDist = Vector2.Distance(rb.position, enemy.transform.position);
-                    if (newDist <= dist)
+                    if (enemy != null)
                     {
-                        dist = newDist;
-                        target = enemy.transform;
-                        targetIsPlayer = false;
+                        //Check if the ally is a better target
+                        float newDist = Vector2.Distance(rb.position, enemy.transform.position);
+                        if (newDist <= dist)
+                        {
+                            dist = newDist;
+                            target = enemy.transform;
+                            targetIsPlayer = false;
+                        }
                     }
                 }
             }

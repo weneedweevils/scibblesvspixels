@@ -11,73 +11,56 @@ public class DeathScreen : MonoBehaviour
     public GameObject lights;
     public GameObject deathUI;
     public Animator deathUIAnimator;
+
     private bool dead = false;
     private bool reviving = false;
+    private bool faded = false;
+
     UnityEngine.UI.Image image;
-    private float timer = 0f;
     public static event Action OnDeathUiActive;
     private float fadeInDuration = 2f;
     private float fadeOutDuration = 5.7f;
-    private bool startedDeath = false;
-    private bool startedRevive = false;
 
 
     private Light2D[] sceneLights;
     private float[] initialIntensyArray;
 
-    //private UnityEngine.UI.Image image = panel.GetComponent<UnityEngine.UI.Image>();
 
 
     // Start is called before the first frame update
     void OnEnable()
     {
         PlayerMovement.OnPlayerDeath += StartDeathScreen;
-        
+        PlayerMovement.OnSelfReviveComplete += EndDeathScreen;
+
         image = panel.GetComponent<UnityEngine.UI.Image>();
-        //deathUIAnimator = deathUI.GetComponent<Animator>();
 
     }
 
     private void OnDisable()
     {
         PlayerMovement.OnPlayerDeath -= StartDeathScreen;
+        PlayerMovement.OnSelfReviveComplete -= EndDeathScreen;
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (dead)
-        {
-            if (!startedDeath) {
-                StartCoroutine(DeathFade());
-            }
-        }
-        else if(reviving && !dead)
-        {
-            StartCoroutine(ReviveFade());
-        }
-
-        
-    }
-
-
     // This function is run when OnPlayer Death event activates from player movement
     private void StartDeathScreen()
     {
 
         Debug.Log("we started the deathscreen");
         //PlayerMovement.OnPlayerDeath -= StartDeathScreen;
-        PlayerMovement.OnSelfReviveComplete += EndDeathScreen;
+        
         sceneLights = GetVisibleLights();
         dead = true;
-        startedDeath = false;
+        faded = false;
+        StartCoroutine(DeathFade());
     }
 
 
     // This function is run when the OnSelfReviveComplete event activates when the players revive animation is finished
     private void EndDeathScreen()
     {
-        PlayerMovement.OnPlayerDeath += StartDeathScreen;
         //PlayerMovement.OnSelfReviveComplete -= EndDeathScreen;
     }
 
@@ -86,9 +69,11 @@ public class DeathScreen : MonoBehaviour
     public void OnSelfReviveClick()
     {
         reviving = true;
+        dead = false;
         deathUIAnimator.SetBool("slide", true);
         PlayerMovement.instance.StartSelfRevive();
-        dead = false;
+        StartCoroutine(ReviveFade());
+
 
     }
 
@@ -99,12 +84,13 @@ public class DeathScreen : MonoBehaviour
 
     private IEnumerator DeathFade()
     {
-        startedDeath = true;
+        yield return null;
+        faded = true;
         float elapsed = 0f;
 
         while (elapsed < fadeInDuration)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             float x = Mathf.Clamp01(elapsed / fadeInDuration);
 
             
@@ -115,7 +101,6 @@ public class DeathScreen : MonoBehaviour
             var temp = image.color;
             temp.a = Mathf.Lerp(0f, 1f, x);
             image.color = temp;
-
             yield return null;
         }
 
@@ -127,19 +112,21 @@ public class DeathScreen : MonoBehaviour
         temp2.a = 1f;
         image.color = temp2;
 
-        deathUI.SetActive(true);
+        
         deathUIAnimator.SetBool("slide", false);
         OnDeathUiActive?.Invoke();
+        deathUI.SetActive(true);
         yield return null;
     }
 
     private IEnumerator ReviveFade()
     {
         float elapsed = 0f;
+        reviving = false;
 
         while (elapsed < fadeOutDuration)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             float x = Mathf.Clamp01(elapsed / fadeOutDuration);
 
 
@@ -150,15 +137,15 @@ public class DeathScreen : MonoBehaviour
             var temp = image.color;
             temp.a = Mathf.Lerp(1f, 0f, x);
             image.color = temp;
-
             yield return null;
+
         }
 
-        deathUI.SetActive(false);
+       
         var temp2 = image.color;
         temp2.a = 0f;
         image.color = temp2;
-        reviving = false;
+        deathUI.SetActive(false);
         yield return null;
     }
 

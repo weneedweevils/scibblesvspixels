@@ -5,6 +5,7 @@
 *          
 */
 
+using Microsoft.Unity.VisualStudio.Editor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -399,25 +400,56 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         }
 
         else if(death && isSelfReviving){
-            Debug.Log(animator.GetCurrentAnimatorStateInfo(0).length);
             selfReviveTimer += Time.deltaTime;
-            if (selfReviveTimer > animator.GetCurrentAnimatorStateInfo(0).length) //5.7f
+            if (selfReviveTimer > 5.7f)//animator.GetCurrentAnimatorStateInfo(0).length) 
             {
+                hud.SetActive(true);
+                FillHealth();
                 isSelfReviving = false;
                 death = false;
                 armsObject.SetActive(true);
                 playerInput.ActivateInput();
                 rbody.constraints = RigidbodyConstraints2D.None;
                 rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+                invincibilityTimer.StartTimer();
+                StartCoroutine(FlashPlayerSprite());
                 boxCollider.enabled = true;
                 selfReviveTimer = 0;
                 sprite.sortingOrder = 5;
                 OnSelfReviveComplete?.Invoke();
+                
+
 
             }
         }
     }
 
+    private IEnumerator FlashPlayerSprite()
+    {
+        float elapsed = 0f;
+
+        while (elapsed < invincibilityDuration)
+        {
+
+
+            elapsed += Time.deltaTime;
+            //float x = Mathf.Clamp01(elapsed / invincibilityDuration);
+            float x = ((Mathf.Sin(elapsed * 15f) + 3f) / 4f);
+            var temp = sprite.color;
+            temp.a = Mathf.Lerp(1f, 0.5f, x);
+            sprite.color = temp;
+            yield return null; 
+        }
+        var temp2 = sprite.color;
+        temp2.a = 1f;
+        sprite.color = temp2;
+    }
+
+    private void FillHealth()
+    {
+        health = maxHealth;
+        healthBar.SetHealth(health, maxHealth);
+    }
     private float VelocityCalc(float a, float v, float modifier = 1f)
     {
         //  a = Acceleration
@@ -532,7 +564,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         ChangeScreenColor(true);
 
         // Death Animation
-        if (health >= 0)
+        if (health <= 0f && !isSelfReviving && !death)
         {
             death = true;
             animator.SetBool("isDead", true);
@@ -543,6 +575,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             boxCollider.enabled = false;
             sprite.sortingOrder = 200;
             Debug.Log("Made it here");
+            hud.SetActive(false);
             OnPlayerDeath?.Invoke();
         }
     }
