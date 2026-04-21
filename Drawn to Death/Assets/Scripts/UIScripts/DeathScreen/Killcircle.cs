@@ -47,13 +47,23 @@ public class Killcircle : MonoBehaviour
 
     private void OnEnable()
     {
-       
+        Debug.Log("Killcircle OnEnable fired");
         PlayerMovement.SelfReviveHandUp += ChangeHand;
+        //if (uiLineRenderer != null)
+        //{
+        //    uiLineRenderer.points = new Vector2[0]; // empty array not single element
+        //    uiLineRenderer.SetVerticesDirty();
+
+        //    // Reset alpha back to full
+        //    var color = uiLineRenderer.color;
+        //    color.a = 1f;
+        //    uiLineRenderer.color = color;
+        //}
     }
 
     private void OnDisable()
     {
-        
+        Debug.Log("Killcircle OnDisable fired");
         PlayerMovement.SelfReviveHandUp -= ChangeHand;
     }
 
@@ -115,7 +125,7 @@ public class Killcircle : MonoBehaviour
                 float yposition = radius * Mathf.Sin(angleStep * i) + yOffSet;
                 Vector2 point = new Vector2(xposition, yposition);
                 list.Add(point);
-                Debug.Log("rendering the point");
+                //Debug.Log("rendering the point");
             }
            
             uiLineRenderer.points = list.ToArray();
@@ -129,12 +139,18 @@ public class Killcircle : MonoBehaviour
             yield return null;
         }
 
-        uiLineRenderer.points = new Vector2[] { new Vector2(0, 0) };
+        //uiLineRenderer.points = new Vector2[] { new Vector2(0, 0) };
         collider.enabled = false;
         radius = startingRadius;
         collider.radius = radius;
-     
+
+        uiLineRenderer.points = new Vector2[0];
         uiLineRenderer.SetVerticesDirty();
+
+        var color2 = uiLineRenderer.color;
+        color2.a = 1f;
+        uiLineRenderer.color = color2;
+
         handUp = false;
         yield return null;
 
@@ -165,7 +181,7 @@ public class Killcircle : MonoBehaviour
     // This is called during a animation event that is triggered when the hand goes up in the self revive animation
     private void ChangeHand()
     {
-        Debug.Log("hand went up");
+        Debug.Log("ChangeHand called, handUp is: " + handUp);
         //if (handUp) return;
         StartCoroutine(StartKillCircle());
         collider.enabled = true;

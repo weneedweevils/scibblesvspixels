@@ -764,7 +764,7 @@ public abstract class EnemyAI : MonoBehaviour
 
     public void BringToFront()
     {
-        Debug.Log("Changed Sorting Order of ENEMY");
+        //Debug.Log("Changed Sorting Order of ENEMY");
         if (state == State.chase || state == State.attack || state == State.follow)
         {
             selfImage.sortingOrder = 200;
