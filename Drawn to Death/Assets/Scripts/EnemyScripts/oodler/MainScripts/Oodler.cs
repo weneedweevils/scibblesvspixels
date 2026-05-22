@@ -89,9 +89,11 @@ public class Oodler : MonoBehaviour
     public FMODUnity.EventReference oodlerSlamSFX;
     public FMODUnity.EventReference oodlerGrabSFX;
     public FMODUnity.EventReference oodlerRunSFX;
+    public FMODUnity.EventReference oodlerFloatSFX;
     public FMODUnity.EventReference oodlerChargeupSFX;
 
     public FMOD.Studio.EventInstance runSFXInstance;
+    public FMOD.Studio.EventInstance floatSFXInstance;
 
 
     //Vector Initialization's // 
@@ -170,6 +172,10 @@ public class Oodler : MonoBehaviour
         runSFXInstance = FMODUnity.RuntimeManager.CreateInstance(oodlerRunSFX);
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(runSFXInstance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
         
+        floatSFXInstance = FMODUnity.RuntimeManager.CreateInstance(oodlerFloatSFX);
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(floatSFXInstance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
+        floatSFXInstance.start();
+        floatSFXInstance.setParameterByName("Velocity", 0f);
     }
 
         
@@ -207,6 +213,9 @@ public class Oodler : MonoBehaviour
 
     private void Update(){
         invincibilityTimer.Update();
+
+        // var velocity = (current - previous) / Time.deltaTime;
+        // Debug.Log("Current Velocity: " + velocity);
     }
     // FixedUpdate to update physics
     private void FixedUpdate()

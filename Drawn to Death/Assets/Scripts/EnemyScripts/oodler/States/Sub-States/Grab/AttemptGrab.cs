@@ -36,6 +36,7 @@ public class AttemptGrab : ChildBaseState
         animationEventNotifier.AttackNotifier += ActivateHitbox;
         animationEventNotifier.AttackEndNotifier += DeactivateHitbox;
 
+        FMODUnity.RuntimeManager.PlayOneShot(boss.oodlerChargeupSFX, boss.transform.position);
 
         boss.SetLastPosition();
         boss.BringSpriteToForeground();
