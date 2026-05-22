@@ -31,8 +31,9 @@ public class Rise : ChildBaseState
         riseTimer = new BossTimer(riseDelay);
         riseStarted = false;
         boss.animator.SetTrigger("Idle");
+        boss.floating = true;
 
-       
+
         // boss.playerScript.ChangeSpriteSortingOrder(8);
 
         Debug.Log("Entered Rise State");
@@ -45,7 +46,8 @@ public class Rise : ChildBaseState
         Debug.Log("Changed sprite order back to 8");
         boss.BringSpriteToForeground();
         base.ExitState();
-        
+        boss.floating = false;
+
     }
 
     public override void FrameUpdate()

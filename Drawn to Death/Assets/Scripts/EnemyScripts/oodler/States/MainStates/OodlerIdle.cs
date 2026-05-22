@@ -59,7 +59,7 @@ public class OodlerIdle : ParentBaseState
     // This function will determine which state we go to next
     private ParentBaseState DecideState()
     {
-
+        
         if(boss.phase == Oodler.Phase.P1)
         {
             return DecidePhaseOne();
@@ -83,6 +83,9 @@ public class OodlerIdle : ParentBaseState
 
     private ParentBaseState DecidePhaseOne()
     {
+
+        
+
         if (p1SlamNum < 1)
         {
             p1SlamNum++;

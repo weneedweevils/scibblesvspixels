@@ -31,8 +31,9 @@ public class RiseWithGlich : ChildBaseState
         riseTimer = new BossTimer(riseDelay);
         riseStarted = false;
         boss.EnableGlichColliders(false);
+        boss.floating = true;
 
-   
+
 
         Debug.Log("Entered Rise with glich state");
 
@@ -44,6 +45,7 @@ public class RiseWithGlich : ChildBaseState
         boss.EnableSpriteHitbox(false);
         Debug.Log("Changed sprite order back to 8");
         boss.BringSpriteToForeground();
+        boss.floating = false;
         base.ExitState();
 
     }

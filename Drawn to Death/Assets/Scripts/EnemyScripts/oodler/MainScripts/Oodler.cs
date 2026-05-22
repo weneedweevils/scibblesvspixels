@@ -110,7 +110,8 @@ public class Oodler : MonoBehaviour
     private Vector3 dropZone;
     private Vector3 dropZoneCorrected;
     public CooldownTimer invincibilityTimer;
-   
+
+    private float oodlerVelocity;
 
     //blockers
     public EnemyAI[] blockers;
@@ -122,6 +123,7 @@ public class Oodler : MonoBehaviour
 
     // Bool checks //
     private bool hitHazard = false;
+    public bool floating = true;
 
     private void Awake()
     {
@@ -169,13 +171,14 @@ public class Oodler : MonoBehaviour
         musicScript.setIntensity(0f);
         musicScript.autoUpdate = false;
 
+
+        // run sfx
         runSFXInstance = FMODUnity.RuntimeManager.CreateInstance(oodlerRunSFX);
-        FMODUnity.RuntimeManager.AttachInstanceToGameObject(runSFXInstance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
-        
+       
+        // float sfx
         floatSFXInstance = FMODUnity.RuntimeManager.CreateInstance(oodlerFloatSFX);
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(floatSFXInstance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
         floatSFXInstance.start();
-        floatSFXInstance.setParameterByName("Velocity", 0f);
     }
 
         
@@ -215,7 +218,19 @@ public class Oodler : MonoBehaviour
         invincibilityTimer.Update();
 
         // var velocity = (current - previous) / Time.deltaTime;
-        // Debug.Log("Current Velocity: " + velocity);
+        
+
+        if (floating)
+        {
+            Debug.Log("Current Velocity: " + oodlerVelocity);
+            floatSFXInstance.setParameterByName("Velocity", 0.5f);
+
+        }
+        else
+        {
+            floatSFXInstance.setParameterByName("Velocity", 0f);
+        }
+
     }
     // FixedUpdate to update physics
     private void FixedUpdate()
@@ -451,7 +466,8 @@ public class Oodler : MonoBehaviour
         circlePos.x = a.x + (radius * ((b.x - a.x) / Mathf.Sqrt(Mathf.Pow((b.x - a.x),2f) + Mathf.Pow((b.y - a.y),2f))));
         circlePos.y = a.y + (radius * ((b.y - a.y) / Mathf.Sqrt(Mathf.Pow((b.x - a.x), 2f) + Mathf.Pow((b.y - a.y), 2f))));
 
-     
+
+        oodlerVelocity = step;
         oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, circlePos, step));
         MoveShadowSprite();
 
@@ -491,7 +507,7 @@ public class Oodler : MonoBehaviour
         {
             angle = 0f;
         }
-
+        oodlerVelocity = step;
         oodlerRB.MovePosition(circlePosition);
     }
 
@@ -506,6 +522,7 @@ public class Oodler : MonoBehaviour
         oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, dropZoneCorrected, step));
         MoveShadowSprite();
         MoveGlichWithOodler();
+        oodlerVelocity = step;
         if (Vector3.Distance(transform.position, dropZoneCorrected) < 0.3f)
         {
             oodlerRB.MovePosition(dropZoneCorrected);
@@ -536,7 +553,7 @@ public class Oodler : MonoBehaviour
     }
 
 
-   
+
 
     // This function will make the oodler come down and strike the players last known location
     public bool Slam(float speed = 200f)
@@ -550,7 +567,25 @@ public class Oodler : MonoBehaviour
         }
         else
         {
-           
+
+            return false;
+        }
+
+    }
+
+    // This function wil HBJSFHBJHBSFJHBJSFHBJUSFHBJ GRAB
+    public bool Grab(float speed = 200f)
+    {
+        FMODUnity.RuntimeManager.PlayOneShot(oodlerSlamSFX, transform.position);
+        var step = speed * Time.deltaTime;
+        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, glichLastPosition, step));
+        if (Vector3.Distance(transform.position, glichLastPosition) < 0.1f)
+        {
+            return true;
+        }
+        else
+        {
+
             return false;
         }
 
@@ -559,8 +594,9 @@ public class Oodler : MonoBehaviour
     // This function will follow the players position with an offset of 10 units above them if we reached the target in anyway then reached target then it will always return true
     public bool MoveToGlich(float speed)
     {
-
+        
         var step = speed * Time.deltaTime;
+        oodlerVelocity = step;
         playerOffSet = glich.transform.localPosition;
         playerOffSet.y = playerOffSet.y + 10f;
         oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, playerOffSet, step));
@@ -582,6 +618,7 @@ public class Oodler : MonoBehaviour
     public bool LandOodler(float  landSpeed)
     {
         var step = landSpeed * Time.deltaTime;
+        oodlerVelocity = step;
         oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, oodlerLandPosition, step));
         if (Vector3.Distance(transform.position, oodlerLandPosition) < 0.3f)
         {
@@ -600,6 +637,7 @@ public class Oodler : MonoBehaviour
     {
 
         var step = speed * Time.deltaTime;
+        oodlerVelocity = step;
         oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, oodlerAirPosition, step));
 
         if (Vector3.Distance(transform.position, oodlerAirPosition) < 0.3f)

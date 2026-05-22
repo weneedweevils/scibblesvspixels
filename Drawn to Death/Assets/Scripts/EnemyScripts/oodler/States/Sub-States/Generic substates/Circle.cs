@@ -31,6 +31,7 @@ public class Circle : ChildBaseState
         playerOffSet = boss.glich.transform.localPosition;
         circleTimer = new BossTimer(circleTime);
         reachedCircle = false;
+        boss.floating = true;
         //time we continue following glich
 
 
@@ -40,6 +41,7 @@ public class Circle : ChildBaseState
     {
         base.ExitState();
         ResetState();
+        boss.floating = false;
 
     }
 

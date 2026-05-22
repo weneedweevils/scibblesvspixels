@@ -30,6 +30,7 @@ public class Chase : ChildBaseState
         boss.ShowShadow();
         playerOffSet = boss.glich.transform.localPosition;
         chaseTimer = new BossTimer(chaseTime);
+        boss.floating = true;
         //time we continue following glich
 
 
@@ -38,6 +39,7 @@ public class Chase : ChildBaseState
     public override void ExitState()
     {
         base.ExitState();
+        boss.floating = false;
         ResetState();
 
     }

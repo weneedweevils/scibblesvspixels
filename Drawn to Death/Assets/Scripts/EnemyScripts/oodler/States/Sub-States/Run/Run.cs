@@ -28,6 +28,7 @@ public class Run : ChildBaseState
         boss.EnableRunHitbox(true);
         RunHitbox.CollidedWithObstacle += OnHitObstacle;
         boss.CheckSpriteDirection();
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(boss.runSFXInstance, boss.transform);
         boss.runSFXInstance.start(); // Bugged?
     }
 
@@ -45,6 +46,7 @@ public class Run : ChildBaseState
         var acceleration = runAcceleration * Time.deltaTime;
         runSpeed = runSpeed + acceleration;
         boss.OodlerRun(runSpeed , oodlerRunDirection);
+        //boss.runSFXInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(boss.transform)); // This fixes the problem. it seems like attachinstance to gameobject might need to be run right before a sound is started otherwise it is not called. I will try attaching the instance to game object above instead of start in boss.
         if (hitObstacle)
         {
             boss.EnableRunHitbox(false);

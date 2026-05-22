@@ -22,6 +22,7 @@ public class CarryGlich : ChildBaseState
         Debug.Log("Carrying Glich");
         reachedDropZone = false;
         dropZoneHoverTimer = new BossTimer(dropZoneHoverTime);
+        boss.floating = true;
     }
 
     public override void ExitState()
@@ -30,6 +31,7 @@ public class CarryGlich : ChildBaseState
         boss.EnableGrabHitbox(false);
         boss.EnableGlichColliders(true);
         dropZoneHoverTimer = null;
+        boss.floating = false;
     }
 
     public override void FrameUpdate()
