@@ -585,7 +585,6 @@ public class Oodler : MonoBehaviour
         }
         else
         {
-
             return false;
         }
 
