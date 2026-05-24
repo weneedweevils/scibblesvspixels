@@ -108,7 +108,7 @@ public class Cubie : EnemyAI
 
             //Create a projectile
 
-            if (sceneName == "Level 3" || sceneName == "Level 4"){
+            if (sceneName == "Level 5"){
                 Instantiate(DarkProjectileObject, transform);
             }
             else{

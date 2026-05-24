@@ -44,11 +44,10 @@ public class Oodler : MonoBehaviour
   
     // UI //
     [Header ("UI References")]
-    public GameObject healthBarParent;
     public GameObject healthBar;
     public TextMeshProUGUI currentHealthUI;
     public TextMeshProUGUI maxHealthUI;
-    private UnityEngine.UI.Image healthBarImage;
+    public UnityEngine.UI.Image healthBarImage;
 
 
 
@@ -201,7 +200,7 @@ public class Oodler : MonoBehaviour
         playerScript = glich.GetComponent<PlayerMovement>();
 
         invincibilityTimer = new CooldownTimer(invincibilityDuration * 0.5f, invincibilityDuration * 0.5f);
-        healthBarImage = healthBar.GetComponent<UnityEngine.UI.Image>();
+        //healthBarImage = healthBar.<UnityEngine.UI.Image>();
         oodlerRB = GetComponent<Rigidbody2D>();
 
         // values for drop zone in grab attack
@@ -222,7 +221,7 @@ public class Oodler : MonoBehaviour
 
         if (floating)
         {
-            Debug.Log("Current Velocity: " + oodlerVelocity);
+            //Debug.Log("Current Velocity: " + oodlerVelocity);
             floatSFXInstance.setParameterByName("Velocity", 0.5f);
 
         }
@@ -558,7 +557,7 @@ public class Oodler : MonoBehaviour
     // This function will make the oodler come down and strike the players last known location
     public bool Slam(float speed = 200f)
     {
-        FMODUnity.RuntimeManager.PlayOneShot(oodlerSlamSFX, transform.position);
+       
         var step = speed * Time.deltaTime;
         oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, glichLastPosition, step));
         if (Vector3.Distance(transform.position, glichLastPosition) < 0.1f)
@@ -573,10 +572,10 @@ public class Oodler : MonoBehaviour
 
     }
 
-    // This function wil HBJSFHBJHBSFJHBJSFHBJUSFHBJ GRAB
+    // This function wil This function will make the oodler come down and strike the players last known location I created a function for just grab so the same sfx doesn't play as slam
     public bool Grab(float speed = 200f)
     {
-        FMODUnity.RuntimeManager.PlayOneShot(oodlerSlamSFX, transform.position);
+        
         var step = speed * Time.deltaTime;
         oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, glichLastPosition, step));
         if (Vector3.Distance(transform.position, glichLastPosition) < 0.1f)

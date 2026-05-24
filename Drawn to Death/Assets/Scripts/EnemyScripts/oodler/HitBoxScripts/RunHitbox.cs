@@ -55,7 +55,7 @@ public class RunHitbox : MonoBehaviour{
                     EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
 
 
-                    if (enemy != null && !enemy.invincibilityTimer.IsActive()) //&& oodlerScript.activateDamage())
+                    if (enemy != null && enemy.state!=State.dead && !enemy.invincibilityTimer.IsActive()) //&& oodlerScript.activateDamage())
                     {
                         enemy.Damage(oodlerScript.oodlerAttackDamage);
                     }

@@ -33,7 +33,7 @@ public class OodlerInitial : ParentBaseState
             {
                 if (blocker.isDead())
                 {
-                    boss.healthBarParent.SetActive(true);
+                    boss.healthBar.SetActive(true);
                   
 
 

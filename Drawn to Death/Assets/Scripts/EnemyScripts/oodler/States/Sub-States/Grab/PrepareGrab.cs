@@ -27,6 +27,7 @@ public class PrepareGrab : ChildBaseState
         grabHoverTimer = new BossTimer(grabHoverTime);
 
         boss.animator.SetTrigger("GrabWindUp");
+        FMODUnity.RuntimeManager.PlayOneShot(boss.oodlerChargeupSFX, boss.transform.position);
     }
 
     public override void ExitState()

@@ -84,7 +84,6 @@ public class OodlerIdle : ParentBaseState
     private ParentBaseState DecidePhaseOne()
     {
 
-        
 
         if (p1SlamNum < 1)
         {

@@ -36,7 +36,7 @@ public class AttemptGrab : ChildBaseState
         animationEventNotifier.AttackNotifier += ActivateHitbox;
         animationEventNotifier.AttackEndNotifier += DeactivateHitbox;
 
-        FMODUnity.RuntimeManager.PlayOneShot(boss.oodlerChargeupSFX, boss.transform.position);
+        
 
         boss.SetLastPosition();
         boss.BringSpriteToForeground();
@@ -63,12 +63,12 @@ public class AttemptGrab : ChildBaseState
         base.FrameUpdate();
         if (grabActivated)
         {
-            if (boss.Slam(chaseSpeed))
+            if (boss.Grab(chaseSpeed))
             {
                 reachedTarget = true;
             }
 
-            if (caught) { 
+            if (caught) {
                 boss.playerScript.DisableInput();
                 boss.animator.SetTrigger("Caught");
                 boss.playerScript.animator.SetTrigger("Grabbed");

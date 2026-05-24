@@ -11,7 +11,6 @@ public class AttackColumnHitbox : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Collided with " + collision.name);
         switch (collision.gameObject.tag)
         {
             case "Column":
