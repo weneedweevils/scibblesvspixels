@@ -268,7 +268,6 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
             if (!playerInput.currentControlScheme.Equals("Gamepad") && Mathf.Abs(directionalInput.x) > 0f && Mathf.Abs(directionalInput.y) > 0f)
             {
-                Debug.Log("directional input is" + directionalInput);
 
 
 
@@ -289,8 +288,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
                 }
 
                 else if (directionalInput.x > 0f && directionalInput.y < 0f)
-                {
-                    Debug.Log("activating bototm righjt");
+                { 
                     diagonalVelocity = directionalInput.magnitude * bottomRight;
                 }
 
@@ -302,8 +300,8 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
                 velocity.y = VelocityCalc(diagonalVelocity.y * accelerationCoefficient.value, velocity.y, speedModifier * 0.5f); // multiply by 0.5f to get correct ratio
 
 
-                Debug.Log("The current angle I am inputing is: " + directionVector);
-                Debug.Log("my actual angle I am travelling is: " + Mathf.Rad2Deg * (Mathf.Atan(velocity.x / velocity.y)));
+                //Debug.Log("The current angle I am inputing is: " + directionVector);
+                //Debug.Log("my actual angle I am travelling is: " + Mathf.Rad2Deg * (Mathf.Atan(velocity.x / velocity.y)));
             }
 
 
@@ -683,48 +681,6 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         // flashes damage indicator around health bar
         ChangeScreenColor(true);
 
-        if (health <= 0)
-        {
-            StartCoroutine(MenuManager.LoadScene(Scene.Ded));
-        }
-    }
-
-    // Function to run when player takes damage
-    public void Damage(float damageTaken, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f)
-    {
-        if (dashTimer.IsActive() || inFreezeDialogue() || timelinePlaying)
-        {
-            return;
-        }
-
-        HealthBarReference.SetTrigger("HealthBarShake");
-        CameraReference.SetTrigger("Shake");
-
-        if (UsingAbility())
-        {
-            health -= incomingDamage.Calculate(damageTaken * (1 - abilityDamageReduction));
-        }
-        else
-        {
-            health -= incomingDamage.Calculate(damageTaken);
-        }
-        invincibilityTimer.StartTimer();
-        healthBar.SetHealth(health, maxHealth);
-        hit = true;
-
-        //Apply Knockback
-        if (knockbackPower > 0f)
-        {
-            velocity = knockbackDir.normalized * knockbackPower * 3;
-        }
-
-        // function will make the health bar move around when low on health
-        
-
-        // flashes damage indicator around health bar
-        ChangeScreenColor(true);
-
-        // Death Animation
         if (health <= 0f && !isSelfReviving && !death)
         {
             death = true;
@@ -738,6 +694,62 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             Debug.Log("Made it here");
             hud.SetActive(false);
             OnPlayerDeath?.Invoke();
+        }
+    }
+
+    // Function to run when player takes damage
+    public void Damage(float damageTaken, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f)
+    {
+        if (!death)
+        {
+            if (dashTimer.IsActive() || inFreezeDialogue() || timelinePlaying)
+            {
+                return;
+            }
+
+            HealthBarReference.SetTrigger("HealthBarShake");
+            CameraReference.SetTrigger("Shake");
+
+            if (UsingAbility())
+            {
+                health -= incomingDamage.Calculate(damageTaken * (1 - abilityDamageReduction));
+            }
+            else
+            {
+                health -= incomingDamage.Calculate(damageTaken);
+            }
+            invincibilityTimer.StartTimer();
+            StartCoroutine(FlashPlayerSprite());
+            healthBar.SetHealth(health, maxHealth);
+            hit = true;
+
+            //Apply Knockback
+            if (knockbackPower > 0f)
+            {
+                velocity = knockbackDir.normalized * knockbackPower * 3;
+            }
+
+            // function will make the health bar move around when low on health
+
+
+            // flashes damage indicator around health bar
+            ChangeScreenColor(true);
+
+            // Death Animation
+            if (health <= 0f && !isSelfReviving && !death)
+            {
+                death = true;
+                animator.SetBool("isDead", true);
+                armsObject.SetActive(false);
+                playerInput.DeactivateInput();
+                rbody.velocity = new Vector2(0f, 0f);
+                rbody.constraints = RigidbodyConstraints2D.FreezeAll;
+                boxCollider.enabled = false;
+                sprite.sortingOrder = 200;
+                Debug.Log("Made it here");
+                hud.SetActive(false);
+                OnPlayerDeath?.Invoke();
+            }
         }
     }
 

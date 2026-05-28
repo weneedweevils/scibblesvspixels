@@ -18,9 +18,9 @@ public class Attack : MonoBehaviour
     //public KeyCode attackButton = KeyCode.Mouse0;
     //public KeyCode lifestealButton = KeyCode.Mouse1;
     //public KeyCode reviveButton = KeyCode.R;
-    
 
-        /* ----- Attacking ----- */
+
+    /* ----- Attacking ----- */
 
     [Header("Attack Info")]
     //Stats
@@ -28,13 +28,13 @@ public class Attack : MonoBehaviour
     public VariableStat attackCooldown;
     public float knockback = 3;
     public CooldownTimer attackTimer;
-    private float attackDuration = 30f/60f;
+    private float attackDuration = 30f / 60f;
     private bool attacking;
-    
+
     //Hitbox
     private PolygonCollider2D hitbox;
 
-        /* ----- Reviving ----- */
+    /* ----- Reviving ----- */
 
     [Header("Revive Info")]
     //Stats
@@ -50,7 +50,7 @@ public class Attack : MonoBehaviour
     private UnityEngine.UI.Image reviveNotifier;
     public bool activatedReviveNotifier = false;
 
-         /* ----- Lifesteal ----- */
+    /* ----- Lifesteal ----- */
 
     [Header("Lifesteal Info")]
     //Stats
@@ -102,7 +102,7 @@ public class Attack : MonoBehaviour
 
         //Setup Timers and cooldown bars
         reviveTimer = new CooldownTimer(reviveCooldown, reviveDuration);
-        attackTimer = new CooldownTimer(attackDuration*0.35f, attackDuration*0.65f);
+        attackTimer = new CooldownTimer(attackDuration * 0.35f, attackDuration * 0.65f);
         lifestealTimer = new CooldownTimer(lifestealCooldown, lifestealDuration);
         lifestealStartTimer = new CooldownTimer(0.65f, 0.35f);
 
@@ -136,7 +136,7 @@ public class Attack : MonoBehaviour
         {
             uiCounter.text = allies.Count.ToString();
         }
-        if (!player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying && Time.timeScale!=0f)
+        if (!player.GetComponent<PlayerMovement>().inFreezeDialogue() && !player.GetComponent<PlayerMovement>().timelinePlaying && Time.timeScale != 0f)
         {
             CheckAttack();
             CheckRevive();
@@ -177,7 +177,8 @@ public class Attack : MonoBehaviour
             reviveTimer.Update();
 
         // if revive is at max cooldown, flash the notifier
-        if (reviveTimer.IsUseable() && !activatedReviveNotifier){
+        if (reviveTimer.IsUseable() && !activatedReviveNotifier)
+        {
             var temp1 = reviveNotifier.color;
             temp1.a = 1f;
             reviveNotifier.color = temp1;
@@ -185,7 +186,7 @@ public class Attack : MonoBehaviour
         }
 
         // bring revive notifier alpha back to zero after it flashes
-        if (reviveNotifier.color.a > 0 )
+        if (reviveNotifier.color.a > 0)
         {
             var temp = reviveNotifier.color;
             temp.a -= 0.01f;
@@ -199,7 +200,8 @@ public class Attack : MonoBehaviour
             playerMovement.speedModifier = 0f;
             playerMovement.StopMovement();
             playerMovement.ZoomCamera(0.35f); // Revive and Recall share timer
-        } else
+        }
+        else
         {
             playerMovement.speedModifier = 1f;
         }
@@ -233,7 +235,7 @@ public class Attack : MonoBehaviour
                             Renderer renderer = obj.GetComponentInChildren<SpriteRenderer>();
                             MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
                             renderer.GetPropertyBlock(propertyBlock);
-                            propertyBlock.SetFloat("Vector1_5CF00FC", 100f);
+                            propertyBlock.SetFloat("Vector1_5CF00FC", 64f);
                             renderer.SetPropertyBlock(propertyBlock);
                             Debug.Log("Changed Material");
                         }
@@ -408,8 +410,9 @@ public class Attack : MonoBehaviour
             HealthCrystal crystal = obj.GetComponent<HealthCrystal>();
             Oodler oodler = obj.GetComponent<Oodler>();
 
-            if (enemy != null) { 
-            //Ignore doodleBars and any enemies that are not part of the enemy team
+            if (enemy != null)
+            {
+                //Ignore doodleBars and any enemies that are not part of the enemy team
                 if (enemy == null || enemy.team != Team.oddle || enemy is DoodleBars)
                 {
                     continue;
@@ -423,7 +426,7 @@ public class Attack : MonoBehaviour
                 }
             }
 
-            
+
             else if (crystal != null)
             {
                 float dist = Vector3.Distance(obj.transform.position, player.transform.position);
@@ -438,7 +441,7 @@ public class Attack : MonoBehaviour
             else if (oodler != null && oodler.BossIsDamageable())
             {
                 float dist = Vector3.Distance(obj.transform.position, player.transform.position);
-                if(dist<=targetDistance && dist < minDist)
+                if (dist <= targetDistance && dist < minDist)
                 {
                     target = obj;
                     minDist = dist;
@@ -466,7 +469,7 @@ public class Attack : MonoBehaviour
             if (ally.state == State.dead || ally.state == State.dying)
             {
                 allies.Remove(ally);
-            } 
+            }
             else if (ally.type == Type.hopper) // Allied Oodle Hoppers always follow and heal player
             {
                 ally.SetTarget(player, true);
@@ -479,7 +482,7 @@ public class Attack : MonoBehaviour
                 }
                 ally.SetTarget(target.transform);
 
-            } 
+            }
             else  //No target and ally is not dead -> follow player
             {
                 ally.SetTarget(player, true);
@@ -506,8 +509,8 @@ public class Attack : MonoBehaviour
                     //Get a reference to the enemy
                     EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
                     HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
-                    
-                   
+
+
                     if (enemy != null)
                     {
                         if (attackTimer.IsActive() && enemy != null && enemy.team == Team.oddle && enemy.invincibilityTimer.IsUseable() && PlayerCanHit(enemy))
@@ -516,14 +519,14 @@ public class Attack : MonoBehaviour
                             Vector2 direction = ((Vector2)enemy.transform.position - (Vector2)transform.position).normalized * enemy.knockbackRatio;
                             //Damage enemy
 
-                           
 
-                           
+
+                            
                             enemy.Damage(damage.value, true, true, direction, knockback, fromPlayer: true);
                         }
                     }
-                  
-                        
+
+
                     else if (crystal != null)
                     {
                         if (attackTimer.IsActive() && crystal != null && crystal.invincibilityTimer.IsUseable())
@@ -532,15 +535,15 @@ public class Attack : MonoBehaviour
                             crystal.CrystalDamage(damage.value, true);
                         }
                     }
-                    
+
 
                     break;
-                    
+
                 }
             case "oodlerHitbox":
                 {
                     Oodler oodler = collision.gameObject.GetComponentInParent<Oodler>();
-                   
+
                     if (attackTimer.IsActive() && oodler != null && oodler.BossIsDamageable() && !oodler.invincibilityTimer.IsActive())
                     {
                         //Damage enemy
@@ -582,4 +585,7 @@ public class Attack : MonoBehaviour
 
         return false;
     }
+
+
+    
 }

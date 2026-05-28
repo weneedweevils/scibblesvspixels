@@ -389,7 +389,7 @@ public abstract class EnemyAI : MonoBehaviour
                     {
                         Destroy(gameObject);
                     }
-                    else if(playerAttack.reviveTimer.IsUseable() && playerAttack.InReviveRange(transform))
+                    else if(playerAttack!=null && playerAttack.reviveTimer.IsUseable() && playerAttack.InReviveRange(transform))
                     {
                         selfImage.color = reviveCol;
                     } 
@@ -448,20 +448,23 @@ public abstract class EnemyAI : MonoBehaviour
             targetIsPlayer = true;
 
             //Compare against player allies
-            var allies = playerAttack.GetAllies();
-            if (allies != null)
-            {
-                foreach (EnemyAI enemy in allies)
+            if (playerAttack != null)
+            { 
+                var allies = playerAttack.GetAllies();
+                if (allies != null)
                 {
-                    if (enemy != null)
+                    foreach (EnemyAI enemy in allies)
                     {
-                        //Check if the ally is a better target
-                        float newDist = Vector2.Distance(rb.position, enemy.transform.position);
-                        if (newDist <= dist)
+                        if (enemy != null)
                         {
-                            dist = newDist;
-                            target = enemy.transform;
-                            targetIsPlayer = false;
+                            //Check if the ally is a better target
+                            float newDist = Vector2.Distance(rb.position, enemy.transform.position);
+                            if (newDist <= dist)
+                            {
+                                dist = newDist;
+                                target = enemy.transform;
+                                targetIsPlayer = false;
+                            }
                         }
                     }
                 }
@@ -519,6 +522,7 @@ public abstract class EnemyAI : MonoBehaviour
         if (team == Team.oddle) //First Death
         {
             team = Team.neutral;
+            
 
             //Spawn Soul Currency
             UpgradeManager.instance.CreateSoul(transform.position, killReward, 1);
@@ -606,6 +610,8 @@ public abstract class EnemyAI : MonoBehaviour
         else
             health -= incomingDamage.Calculate(damageTaken);
 
+
+        StartCoroutine(Pixelate());
         healthBar.SetHealth(health, maxHealth);
 
         //Play eraser hit sound if from player and not lifesteal. Else play regular hit noise
@@ -650,6 +656,38 @@ public abstract class EnemyAI : MonoBehaviour
 
         return;
         
+    }
+
+    // pixelate effect will cause enemies to get pixelated on hitting with pencil
+    private IEnumerator Pixelate()
+    {
+        if (team == Team.oddle)
+        {
+            float duration = 3f;
+            float elapsed = 0f;
+            Renderer renderer = GetComponentInChildren<SpriteRenderer>();
+            MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
+
+
+            while (elapsed < duration)
+            {
+                if (health <= 0)
+                {
+                    break;
+                }
+                elapsed += Time.unscaledDeltaTime;
+                float value = Mathf.Lerp(16f, 128f, elapsed / duration);
+
+                renderer.GetPropertyBlock(propertyBlock);
+                propertyBlock.SetFloat("Vector1_5CF00FC", value);
+                renderer.SetPropertyBlock(propertyBlock);
+                yield return null;
+
+            }
+            renderer.GetPropertyBlock(propertyBlock);
+            propertyBlock.SetFloat("Vector1_5CF00FC", 1024);
+            renderer.SetPropertyBlock(propertyBlock);
+        }
     }
 
     virtual public void Stun()

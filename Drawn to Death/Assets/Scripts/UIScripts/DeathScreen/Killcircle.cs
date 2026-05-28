@@ -25,6 +25,8 @@ public class Killcircle : MonoBehaviour
     private float xOffSet = -0.5f;
     private float colorFallOff = 25f;
     private float maxRadius = 45f;
+    public float knockback = 20000f;
+    
 
 
 
@@ -100,11 +102,18 @@ public class Killcircle : MonoBehaviour
     {
         if(collision.gameObject.tag == "Enemy")
         {
+            
+
             Debug.Log("enemy encountered");
             EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
             if (enemy.GetComponent<DoodleBars>() == null)
             {
-                enemy.Destroy();
+                Vector2 hitLocation = collision.ClosestPoint(transform.position);
+                Vector2 direction = (hitLocation - (Vector2)transform.position).normalized * enemy.knockbackRatio;
+                float damage = 1f;
+                collision.GetComponent<Rigidbody2D>().AddForce(direction*1000f);
+                //enemy.Damage(damage, true, true, direction, knockback, fromPlayer: true);
+                //enemy.Destroy();
             }
         }
     }

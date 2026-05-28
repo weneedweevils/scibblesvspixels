@@ -21,7 +21,7 @@ public class DeathScreen : MonoBehaviour
     UnityEngine.UI.Image image;
     public static event Action OnDeathUiActive;
     private float fadeInDuration = 2f;
-    private float fadeOutDuration = 5.7f;
+    private float fadeOutDuration = 0.5f;//5.7f;
 
 
     private Light2D[] sceneLights;
@@ -63,6 +63,7 @@ public class DeathScreen : MonoBehaviour
     // This function is run when the OnSelfReviveComplete event activates when the players revive animation is finished
     private void EndDeathScreen()
     {
+        StartCoroutine(ReviveFade());
         //PlayerMovement.OnSelfReviveComplete -= EndDeathScreen;
     }
 
@@ -76,7 +77,7 @@ public class DeathScreen : MonoBehaviour
         dead = false;
         deathUIAnimator.SetBool("slide", true);
         PlayerMovement.instance.StartSelfRevive();
-        StartCoroutine(ReviveFade());
+        
 
 
     }
