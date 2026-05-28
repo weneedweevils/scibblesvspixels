@@ -150,8 +150,19 @@ public abstract class EnemyAI : MonoBehaviour
         {
             Debug.Log("Enemy type is defined as general. Please define the enemy type in the child script for the enemy.");
         }
-    }
+        PlayerMovement.OnPlayerDeath += BringToFront;
+        PlayerMovement.OnSelfReviveComplete += SendToBack;
 
+    }
+    //private void OnEnable()
+    //{
+    //    PlayerMovement.OnPlayerDeath += ChangeSortingLayer;
+    //}
+    private void OnDisable()
+    {
+        PlayerMovement.OnPlayerDeath -= BringToFront;
+        PlayerMovement.OnSelfReviveComplete -= SendToBack;
+    }
     private void CheckState()
     {
         //Dead enemies dont move
@@ -437,17 +448,25 @@ public abstract class EnemyAI : MonoBehaviour
             targetIsPlayer = true;
 
             //Compare against player allies
-            foreach (EnemyAI enemy in playerAttack.GetAllies())
+            var allies = playerAttack.GetAllies();
+            if (allies != null)
             {
-                //Check if the ally is a better target
-                float newDist = Vector2.Distance(rb.position, enemy.transform.position);
-                if (newDist <= dist)
+                foreach (EnemyAI enemy in allies)
                 {
-                    dist = newDist;
-                    target = enemy.transform;
-                    targetIsPlayer = false;
+                    if (enemy != null)
+                    {
+                        //Check if the ally is a better target
+                        float newDist = Vector2.Distance(rb.position, enemy.transform.position);
+                        if (newDist <= dist)
+                        {
+                            dist = newDist;
+                            target = enemy.transform;
+                            targetIsPlayer = false;
+                        }
+                    }
                 }
             }
+            
         }
     }
 
@@ -517,6 +536,24 @@ public abstract class EnemyAI : MonoBehaviour
         animator.SetBool("attacking", false);
         animator.SetBool("chasing", false);
         animator.SetBool("dying", true);
+    }
+
+    virtual public void Destroy()
+    {
+        health = 0;
+        state = State.dying;
+        target = null;
+        targetIsPlayer = false;
+
+        //Set Movement
+        rb.velocity = Vector2.zero;
+        movementCollider.enabled = false;
+
+        //Set Animation variables
+        animator.SetBool("attacking", false);
+        animator.SetBool("chasing", false);
+        animator.SetBool("dying", true);
+        team = Team.player;
     }
 
     //Revive this entity as an ally to the player
@@ -724,4 +761,20 @@ public abstract class EnemyAI : MonoBehaviour
     {
         return invincibilityTimer;
     }
+
+    public void BringToFront()
+    {
+        //Debug.Log("Changed Sorting Order of ENEMY");
+        if (state == State.chase || state == State.attack || state == State.follow)
+        {
+            selfImage.sortingOrder = 200;
+        }
+    }
+
+    public void SendToBack()
+    {
+        selfImage.sortingOrder = 5;
+    }
+
+
 }
