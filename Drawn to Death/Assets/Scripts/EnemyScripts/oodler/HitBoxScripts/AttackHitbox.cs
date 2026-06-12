@@ -20,11 +20,11 @@ public class AttackHitbox:MonoBehaviour
 
             case "Player":
                 {
-                    //if (oodlerSlamCooldown == false && !PlayerScript.dashTimer.IsActive())
-                    if (!PlayerScript.dashTimer.IsActive() && !oodlerScript.OnSlamCooldown() && !PlayerScript.invincibilityTimer.IsActive() && oodlerScript.activateDamage())
+                    if (!PlayerScript.dashTimer.IsActive() && !PlayerScript.invincibilityTimer.IsActive())
                     {
                        
-                        PlayerScript.Damage(oodlerScript.oodlerAttackDamage);
+                        // change this in for regular damage function later
+                        PlayerScript.OodlerIncomingDamage(oodlerScript.oodlerAttackDamage);
                         PlayerScript.animator.SetTrigger("Squished");
                     }
                   
@@ -36,9 +36,9 @@ public class AttackHitbox:MonoBehaviour
                     EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
 
 
-                    if (enemy != null && !enemy.invincibilityTimer.IsActive() && !oodlerScript.OnSlamCooldown()) //&& oodlerScript.activateDamage())
+                    if (enemy != null && !enemy.invincibilityTimer.IsActive()) //&& oodlerScript.activateDamage())
                     {
-                        enemy.Damage(oodlerScript.oodlerAttackDamage);
+                        enemy.Damage(oodlerScript.oodlerAttackDamage * 1000f);
                     }
 
                     else
@@ -46,7 +46,7 @@ public class AttackHitbox:MonoBehaviour
                         HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
                         if (crystal != null)
                         {
-                            if (crystal != null && crystal.invincibilityTimer.IsUseable() && !oodlerScript.OnSlamCooldown())// && oodlerScript.activateDamage())
+                            if (crystal != null && crystal.invincibilityTimer.IsUseable())// && oodlerScript.activateDamage())
                             {
                                 //Damage enemy
                                 crystal.CrystalDamage(oodlerScript.oodlerAttackDamage, true);

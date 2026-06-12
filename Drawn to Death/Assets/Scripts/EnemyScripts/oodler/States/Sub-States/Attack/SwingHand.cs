@@ -10,16 +10,19 @@ public class SwingHand : ChildBaseState
     private bool isSlamFrame = false;
     private bool slamWasActivated = false;
     private AnimationEventNotifier animationEventNotifier;
+    private float chaseSpeed;
   
-
-    public SwingHand(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) : base(boss, childStateMachine, parentStateMachine)
+    /// <summary>
+    /// This is the state where the oodler swings its hand down on glich
+    /// </summary>
+    /// <param name="boss"></param>
+    /// <param name="parentBaseState"></param>
+    /// <param name="chaseSpeed"></param>
+    public SwingHand(Oodler boss, ParentBaseState parentBaseState, float chaseSpeed = 100f) : base(boss, parentBaseState)
     {
+        this.chaseSpeed = chaseSpeed;
     }
 
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-    }
 
     public override void EnterState()
     {
@@ -27,22 +30,20 @@ public class SwingHand : ChildBaseState
         slamWasActivated = false;
         reachedTarget = false;
         isSlamFrame = false;
-        //boss.SetAirPosition(); // sets the last position the oodler was in the air since we have downward motion instead of doing this lets try using +12
-        boss.ShowAttack();
+     
 
         animationEventNotifier = boss.GetComponentInChildren<AnimationEventNotifier>(); //get animation event notifier
-        animationEventNotifier.SlamNotifier += AnimationOffset;
+        animationEventNotifier.AttackNotifier += AnimationOffset;
         animationEventNotifier.HitBoxActive += ActivateHitbox;
-        boss.ChangeSpriteSortingOrder(5);
         boss.animator.SetTrigger("Slam");
-        boss.GetShadow().SetTrigger("Slam"); // the shadow shrinks in its animator when you 
+        FMODUnity.RuntimeManager.PlayOneShot(boss.oodlerSlamSFX, boss.transform.position);
     }
 
     public override void ExitState()
     {
         base.ExitState();
-        animationEventNotifier.SlamNotifier -= AnimationOffset;
-        animationEventNotifier.HitBoxActive -= ActivateHitbox;
+        boss.HideShadow();
+        ResetState();
     }
 
 
@@ -52,26 +53,24 @@ public class SwingHand : ChildBaseState
 
         // This statement makes it so that the oodler will follow glich until its hand commes down
         if(!isSlamFrame){
-            boss.Stalk(false,100f);
+            boss.MoveToGlich(chaseSpeed);
             boss.SetLastPosition(); // sets glich last position
 
         }
         // This if statement is for when the fist comes down
         if(!reachedTarget && isSlamFrame){
-            boss.Slam();
-            if(!slamWasActivated && boss.CloseToTarget()){
-                boss.EnableAttackHitbox(true);
-                slamWasActivated = true;
-            }
-
-            if(boss.ReachedPlayerReal()){
+            if (boss.Slam())
+            {
                 reachedTarget = true;
             }
         }
 
         // This statment is for after the fist comes down
         else if(isSlamFrame && slamWasActivated){
-                childStateMachine.ChangeState(boss.vulnerableState);
+
+            boss.EnableColumnHitbox(false);
+            parentBaseState.NextSubState();
+            boss.BringSpriteToBackground();
         }
     }
 
@@ -80,12 +79,23 @@ public class SwingHand : ChildBaseState
 
     public void AnimationOffset(){
         isSlamFrame = true;
-        Debug.Log("THE SLAM HAS STARTED");
     }
     
     public void ActivateHitbox(){
-        Debug.Log("Enabled attack Hitbox");
         boss.EnableAttackHitbox(true);
+        boss.EnableColumnHitbox(true);
         slamWasActivated = true;
+    }
+
+    public override void ResetState()
+    {
+        slamWasActivated = false;
+        reachedTarget = false;
+        isSlamFrame = false;
+        animationEventNotifier.AttackNotifier -= AnimationOffset;
+        animationEventNotifier.HitBoxActive -= ActivateHitbox;
+        boss.EnableAttackHitbox(false);
+        boss.EnableColumnHitbox(false);
+
     }
 }

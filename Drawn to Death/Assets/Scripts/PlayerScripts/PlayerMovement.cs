@@ -5,18 +5,21 @@
 *          
 */
 
+using Microsoft.Unity.VisualStudio.Editor;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Xml.Serialization;
 //using UnityEditor.Timeline;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using static System.Net.Mime.MediaTypeNames;
-using System.Threading;
-using UnityEngine.InputSystem;
-using System.Xml.Serialization;
+using static System.TimeZoneInfo;
 using Cursor = UnityEngine.Cursor;
 
 public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
@@ -68,7 +71,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     [HideInInspector] public bool animationDone = true;
 
     //Physics info
-    private Vector2 velocity, acceleration, accelerationCorrected;
+    private Vector2 velocity, acceleration, accelerationCorrected, directionalInput;
    
 
     Rigidbody2D rbody;
@@ -82,6 +85,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     // Health
     [Header("Player Stats")]
     public float health;
+    private float previousHealth;
     public float maxHealth;
     public float invincibilityDuration;
     public HealthBarBehaviour healthBar;
@@ -127,10 +131,31 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
     [HideInInspector]
     public PlayerInput playerInput;
-    
+
+    // Death
+    public static event Action OnPlayerDeath;
+    public static event Action SelfReviveHandUp;
+    public static event Action OnSelfReviveComplete;
+    private bool death = false;
+    private bool isSelfReviving = false;
+    private float selfReviveTimer = 0f;
+
+    Vector2 topLeft = new Vector2(-1f, 0.5f).normalized;
+    Vector2 topRight = new Vector2(1f, 0.50f).normalized;
+    Vector2 bottomLeft = new Vector2(-1f, -0.5f).normalized;
+    Vector2 bottomRight = new Vector2(1f, -0.5f).normalized;
+
+    //Vector2 topLeft = new Vector2(-0.5f, 1f).normalized;
+    //Vector2 topRight = new Vector2(0.5f, 1f).normalized;
+    //Vector2 bottomLeft = new Vector2(-0.5f, -1f).normalized;
+    //Vector2 bottomRight = new Vector2(0.5f, -1f).normalized;
+    Vector2 diagonalVelocity = new Vector2(0f,0f);
+
+
     // Start is called before the first frame update
     void Start()
     {
+    
         playerInput = CustomInput.instance.playerInput;
 
         cam = Camera.main;
@@ -175,6 +200,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         playerInput.onControlsChanged += OnDeviceChanged; // If the object is ever disabled we must unsubscribe to this event
 
         incomingDamage.Set(0, 1, 0, 0, 0, maxHealth);
+        healthBar.SetHealth(health, maxHealth);
     }
 
     public void OnDeviceChanged(PlayerInput pi)
@@ -194,10 +220,135 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         }
     }
 
+    public Vector2 ReturnIsometricAcceleration(Vector2 acceleration) 
+    {
+        // return exact angle when pressing two keys
+
+        // top right movement
+        if(acceleration.x == 1f && acceleration.y == 1f)
+        {
+
+        }
+        // top left movement
+        if (acceleration.x == -1f && acceleration.y == 1f)
+        {
+
+        }
+        // bottom left movement
+        if (acceleration.x == -1f && acceleration.y == -1f)
+        {
+
+        }
+
+        // bottom right movement
+        if (acceleration.x == 1f && acceleration.y == -1f)
+        {
+
+        }
+        var degree = 26.56f;
+        var scale = ((32 * Mathf.Sqrt(5)) / 2);
+        var rad = Mathf.Deg2Rad * degree;
+        var dx = ((acceleration.x * Mathf.Cos(rad) + acceleration.y  * Mathf.Sin(rad)) * scale);
+        var dy = ((acceleration.y * Mathf.Cos(rad) - acceleration.x * Mathf.Sin(rad)) * scale) / 2f;
+
+        return new Vector3(dx,dy,0);
+    }
+
+    // MOVE SOME OF THE STUFF TO A REGULAR UPDATE FUNCTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // Update is called once per frame
+
+    private void FixedUpdate()
+    {
+        if (!death)
+        {
+            directionalInput = playerInput.actions["Move"].ReadValue<Vector2>(); //* accelerationCoefficient.value;
+
+
+            //checks for combined velocity need to create new function for controller to create uniform velocity
+
+            if (!playerInput.currentControlScheme.Equals("Gamepad") && Mathf.Abs(directionalInput.x) > 0f && Mathf.Abs(directionalInput.y) > 0f)
+            {
+
+
+
+                if (directionalInput.x < 0f && directionalInput.y > 0f)
+                {
+                    diagonalVelocity = directionalInput.magnitude * topLeft;
+
+                }
+
+                else if (directionalInput.x > 0f && directionalInput.y > 0f)
+                {
+                    diagonalVelocity = directionalInput.magnitude * topRight;
+                }
+
+                else if (directionalInput.x < 0f && directionalInput.y < 0f)
+                {
+                    diagonalVelocity = directionalInput.magnitude * bottomLeft;
+                }
+
+                else if (directionalInput.x > 0f && directionalInput.y < 0f)
+                { 
+                    diagonalVelocity = directionalInput.magnitude * bottomRight;
+                }
+
+
+                float directionVector = Mathf.Rad2Deg * (Mathf.Atan(diagonalVelocity.x / diagonalVelocity.y));
+
+
+                velocity.x = VelocityCalc(diagonalVelocity.x * accelerationCoefficient.value, velocity.x, speedModifier);
+                velocity.y = VelocityCalc(diagonalVelocity.y * accelerationCoefficient.value, velocity.y, speedModifier * 0.5f); // multiply by 0.5f to get correct ratio
+
+
+                //Debug.Log("The current angle I am inputing is: " + directionVector);
+                //Debug.Log("my actual angle I am travelling is: " + Mathf.Rad2Deg * (Mathf.Atan(velocity.x / velocity.y)));
+            }
+
+
+            else
+            {
+
+                //Calculate velocity
+                velocity.x = VelocityCalc(directionalInput.x * accelerationCoefficient.value, velocity.x, speedModifier);
+                velocity.y = VelocityCalc(directionalInput.y * accelerationCoefficient.value, velocity.y, speedModifier);
+            }
+        }
+    }
+
+
+    // a - new directional input vector
+    // v - existing velocity
+    // modifier - speed modifier changed by upgrades
+
+    private float VelocityCalc(float a, float v, float modifier = 1f)
+    {
+        //  a = Acceleration
+        //  v = Velocity
+
+        //Accelerate
+        if (Mathf.Abs(a) > 0f && Mathf.Abs(v) <= maxVelocity.value * modifier)
+        {
+            v += a * modifier * Time.deltaTime;
+            v = Mathf.Clamp(v, -maxVelocity.value * modifier, maxVelocity.value * modifier);
+        }
+        //Account for friction
+        else if (Mathf.Abs(v) > 0f)
+        {
+            //Reduce our absolute velocity
+            v = Mathf.Sign(v) * Mathf.Max(Mathf.Abs(v) - friction * modifier * Time.deltaTime, 0f);
+        }
+
+        //Return velocity bound by maxVelocity
+        return v;
+    }
+
+    #region Update
     void Update()
     {
-        acceleration = playerInput.actions["Move"].ReadValue<Vector2>()*accelerationCoefficient.value;
+    if(!death)
+    {
+
+           
         aimDirection = playerInput.actions["Aim"].ReadValue<Vector2>();
 
         playerarms.FrameUpdate(aimDirection);
@@ -235,22 +386,22 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             eraser.color = new Color(255, 255, 255, 1f);
             hit = false;
         }
-        
+
         // Disable movement if in dialogue/cutscene where we don't want movement
         if (!inFreezeDialogue() && !timelinePlaying) //&& pauseUi.active == false)
         {
             hud.SetActive(true);
             //Determine acceleration
 
-             // Decrease SFX volume
+            // Decrease SFX volume
             volumeController.inCutscene = false;
         }
-        else 
+        else
         {
             hud.SetActive(false);
             weapon.animator.SetBool("attacking", false);
-            acceleration.x = 0;
-            acceleration.y = 0;
+            directionalInput.x = 0;
+            directionalInput.y = 0;
 
             // Return SFX volume to original setting
             volumeController.inCutscene = true;
@@ -259,21 +410,19 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         // disable movement if player is recalling
         if (weapon.reviveTimer.IsActive() || recallTimer.IsActive())
         {
-            acceleration.x = 0;
-            acceleration.y = 0;
+            directionalInput.x = 0;
+            directionalInput.y = 0;
             //ZoomCamera(zoomFactor);
         }
 
-        //Calculate velocity
-        velocity.x = VelocityCalc(acceleration.x, velocity.x, speedModifier);
-        velocity.y = VelocityCalc(acceleration.y, velocity.y, speedModifier);
 
-        
-        
+
+
         //Dash ability
 
         // if dash is useable flash the dash notifier
-        if(dashTimer.IsUseable() && !activatedDashNotifier){
+        if (dashTimer.IsUseable() && !activatedDashNotifier)
+        {
             var temp1 = dashNotifier.color;
             temp1.a = 1f;
             dashNotifier.color = temp1;
@@ -281,7 +430,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         }
 
         // if dash notifier is visible, decrease the alpha value
-        if (dashNotifier.color.a > 0 )
+        if (dashNotifier.color.a > 0)
         {
             var temp = dashNotifier.color;
             temp.a -= 0.01f;
@@ -329,8 +478,9 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
                 var temp = restricted.color;
                 temp.a = 0f;
                 restricted.color = temp;
-                
-                if(recallTimer.IsUseable() && !activatedRecallNotifier){
+
+                if (recallTimer.IsUseable() && !activatedRecallNotifier)
+                {
                     var temp1 = recallNotifier.color;
                     temp1.a = 1f;
                     recallNotifier.color = temp1;
@@ -379,36 +529,70 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
         //Animate
         ManageAnimations();
-        healthBar.SetHealth(health, maxHealth);
+
+        if (health != previousHealth)
+        {
+            healthBar.SetHealth(health, maxHealth);
+            previousHealth = health;
+        }
 
         //change screen flash back to normal 
         ChangeScreenColor(false);
     }
 
-    private float VelocityCalc(float a, float v, float modifier = 1f)
-    {
-        //  a = Acceleration
-        //  v = Velocity
-
-        //Accelerate
-        if (Mathf.Abs(a) > 0f && Mathf.Abs(v) <= maxVelocity.value * modifier)
+    else if(death && isSelfReviving){
+        selfReviveTimer += Time.deltaTime;
+        if (selfReviveTimer > 5.7f)//animator.GetCurrentAnimatorStateInfo(0).length) 
         {
-            v += a * modifier * Time.deltaTime;
-            v = Mathf.Clamp(v, -maxVelocity.value * modifier, maxVelocity.value * modifier);
-        }
-        //Account for friction
-        else if (Mathf.Abs(v) > 0f)
-        {
-            //Reduce our absolute velocity
-            if (Mathf.Abs(v) > maxVelocity.value * modifier)
-                v = Mathf.Sign(v) * Mathf.Max(Mathf.Abs(v) - friction / 2 * modifier * Time.deltaTime, 0f);
-            else
-                v = Mathf.Sign(v) * Mathf.Max(Mathf.Abs(v) - friction * modifier * Time.deltaTime, 0f);
-        }
+            hud.SetActive(true);
+            FillHealth();
+            isSelfReviving = false;
+            death = false;
+            armsObject.SetActive(true);
+            playerInput.ActivateInput();
+            rbody.constraints = RigidbodyConstraints2D.None;
+            rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+            invincibilityTimer.StartTimer();
+            StartCoroutine(FlashPlayerSprite());
+            boxCollider.enabled = true;
+            selfReviveTimer = 0;
+            sprite.sortingOrder = 5;
+            OnSelfReviveComplete?.Invoke();
+                
 
-        //Return velocity bound by maxVelocity
-        return v;
+
+        }
     }
+}
+    #endregion
+
+    private IEnumerator FlashPlayerSprite()
+    {
+        float elapsed = 0f;
+
+        while (elapsed < invincibilityDuration)
+        {
+
+
+            elapsed += Time.deltaTime;
+            //float x = Mathf.Clamp01(elapsed / invincibilityDuration);
+            float x = ((Mathf.Sin(elapsed * 15f) + 3f) / 4f);
+            var temp = sprite.color;
+            temp.a = Mathf.Lerp(1f, 0.5f, x);
+            sprite.color = temp;
+            yield return null; 
+        }
+        var temp2 = sprite.color;
+        temp2.a = 1f;
+        sprite.color = temp2;
+    }
+
+    private void FillHealth()
+    {
+        health = maxHealth;
+        healthBar.SetHealth(health, maxHealth);
+    }
+    
 
     private void ManageAnimations()
     {
@@ -466,8 +650,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         }
     }
 
-    // Function to run when player takes damage
-    public void Damage(float damageTaken, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f)
+    public void OodlerIncomingDamage(float damageTaken, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f)
     {
         if (dashTimer.IsActive() || inFreezeDialogue() || timelinePlaying)
         {
@@ -477,16 +660,13 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         HealthBarReference.SetTrigger("HealthBarShake");
         CameraReference.SetTrigger("Shake");
 
-        if (UsingAbility())
-        {
-            health -= incomingDamage.Calculate(damageTaken * (1 - abilityDamageReduction));
-        }
-        else
-        {
-            health -= incomingDamage.Calculate(damageTaken);
-        }
+        Debug.Log(damageTaken);
+        Debug.Log(health);
+        health = health - 10f; 
+        
         invincibilityTimer.StartTimer();
         healthBar.SetHealth(health, maxHealth);
+        
         hit = true;
 
         //Apply Knockback
@@ -496,15 +676,97 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         }
 
         // function will make the health bar move around when low on health
-        
+
 
         // flashes damage indicator around health bar
         ChangeScreenColor(true);
 
-        if (health <= 0)
+        if (health <= 0f && !isSelfReviving && !death)
         {
-            StartCoroutine(MenuManager.LoadScene(Scene.Ded));
+            death = true;
+            animator.SetBool("isDead", true);
+            armsObject.SetActive(false);
+            playerInput.DeactivateInput();
+            rbody.velocity = new Vector2(0f, 0f);
+            rbody.constraints = RigidbodyConstraints2D.FreezeAll;
+            boxCollider.enabled = false;
+            sprite.sortingOrder = 200;
+            Debug.Log("Made it here");
+            hud.SetActive(false);
+            OnPlayerDeath?.Invoke();
         }
+    }
+
+    // Function to run when player takes damage
+    public void Damage(float damageTaken, Vector2 knockbackDir = default(Vector2), float knockbackPower = 0f)
+    {
+        if (!death)
+        {
+            if (dashTimer.IsActive() || inFreezeDialogue() || timelinePlaying)
+            {
+                return;
+            }
+
+            HealthBarReference.SetTrigger("HealthBarShake");
+            CameraReference.SetTrigger("Shake");
+
+            if (UsingAbility())
+            {
+                health -= incomingDamage.Calculate(damageTaken * (1 - abilityDamageReduction));
+            }
+            else
+            {
+                health -= incomingDamage.Calculate(damageTaken);
+            }
+            invincibilityTimer.StartTimer();
+            StartCoroutine(FlashPlayerSprite());
+            healthBar.SetHealth(health, maxHealth);
+            hit = true;
+
+            //Apply Knockback
+            if (knockbackPower > 0f)
+            {
+                velocity = knockbackDir.normalized * knockbackPower * 3;
+            }
+
+            // function will make the health bar move around when low on health
+
+
+            // flashes damage indicator around health bar
+            ChangeScreenColor(true);
+
+            // Death Animation
+            if (health <= 0f && !isSelfReviving && !death)
+            {
+                death = true;
+                animator.SetBool("isDead", true);
+                armsObject.SetActive(false);
+                playerInput.DeactivateInput();
+                rbody.velocity = new Vector2(0f, 0f);
+                rbody.constraints = RigidbodyConstraints2D.FreezeAll;
+                boxCollider.enabled = false;
+                sprite.sortingOrder = 200;
+                Debug.Log("Made it here");
+                hud.SetActive(false);
+                OnPlayerDeath?.Invoke();
+            }
+        }
+    }
+
+    // 
+    public void HandUp()
+    {
+        Debug.Log("HandUp animation event fired");
+        SelfReviveHandUp?.Invoke();
+    }
+
+
+    public void StartSelfRevive()
+    {
+        isSelfReviving = true;
+        selfReviveTimer = 0f;
+        animator.SetBool("isDead", false);
+        animator.SetTrigger("selfRevive");
     }
 
     // function to handle changing the color of the screen when damaged

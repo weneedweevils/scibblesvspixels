@@ -2,29 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OodlerInitial : BaseState
+public class OodlerInitial : ParentBaseState
 {
-   
-    public OodlerInitial(Boss boss, StateMachine oodlerStateMachine, ChildStateMachine childStateMachine) : base(boss, oodlerStateMachine, childStateMachine)
+    List<ChildBaseState> orderedSubStateList;
+    public OodlerInitial(Oodler boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
 
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
+    public override void EnterParentState()
     {
-        base.AnimationTriggerEvent(triggerType);
+        orderedSubStateList = new List<ChildBaseState>
+        {
+            new EmptyChildState(boss, this),
+        };
+        base.InitializeQueue(orderedSubStateList);
+        orderedSubStateList = null;
+        base.EnterParentState();
     }
 
-    public override void EnterState()
+    public override void ExitParentState()
     {
-        base.EnterState();
+        base.ExitParentState();
     }
 
-    public override void ExitState()
-    {
-        base.ExitState();
-    }
-
-    public override void FrameUpdate()
+    public override void ParentFrameUpdate()
     {
         if (boss.blockers.Length > 0)
         {
@@ -32,12 +33,12 @@ public class OodlerInitial : BaseState
             {
                 if (blocker.isDead())
                 {
-                    boss.healthBarParent.SetActive(true);
+                    boss.healthBar.SetActive(true);
+                  
+
+
                     oodlerStateMachine.ChangeState(boss.oodlerIdle);
-                    boss.HealthCrystal1.SetActive(true);
-                    boss.HealthCrystal2.SetActive(true);
-                    boss.HealthCrystal3.SetActive(true);
-                    boss.HealthCrystal4.SetActive(true);
+                    boss.musicScript.setIntensity(30f);
                 }
             }
         }

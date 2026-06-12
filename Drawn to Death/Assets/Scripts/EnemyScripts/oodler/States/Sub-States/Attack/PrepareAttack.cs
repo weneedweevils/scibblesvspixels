@@ -2,29 +2,41 @@ using UnityEngine;
 
 public class PrepareAttack : ChildBaseState
 {
-    private BossTimer bossTimer;
+    private BossTimer slamWarningTimer;
     private bool reachedTarget = false;
     private bool attackCharged = false;
     private bool stopOodler = false;
-
-    public PrepareAttack(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) : base(boss, childStateMachine, parentStateMachine)
+    private float slamWarningTime;
+    private float chaseSpeed;
+    
+   /// <summary>
+   /// This sub-state is the state where the boss shakes its fist above the player before a slam attack
+   /// </summary>
+   /// <param name="boss"></param>
+   /// <param name="parentBaseState"></param>
+   /// <param name="slamWarningTime"></param>
+   /// <param name="chaseSpeed"></param>
+    public PrepareAttack(Oodler boss, ParentBaseState parentBaseState, float slamWarningTime, float chaseSpeed) : base(boss, parentBaseState)
     {
+        this.chaseSpeed = chaseSpeed;
+        this.slamWarningTime = slamWarningTime;
     }
 
     public override void EnterState()
     {
         base.EnterState();
         boss.animator.SetTrigger("SlamWindUp");
-        boss.GetShadow().SetTrigger("SlamWindUp");
         reachedTarget = false;
         attackCharged = false;
-        bossTimer = new BossTimer(0f);
+        slamWarningTimer = new BossTimer(slamWarningTime);
         stopOodler = false;
+        FMODUnity.RuntimeManager.PlayOneShot(boss.oodlerChargeupSFX, boss.transform.position);
     }
 
     public override void ExitState()
     {
         base.ExitState();
+        ResetState();
 
     }
 
@@ -34,25 +46,25 @@ public class PrepareAttack : ChildBaseState
 
         // Following if statement will stalk glich, once the redoutline is fully revealed we will stop the oodler for sometime to give the player time to react
         if(!stopOodler){
-            reachedTarget = boss.Stalk(reachedTarget, 100f);
+            reachedTarget = boss.MoveToGlich(chaseSpeed);
             if(reachedTarget){
-                attackCharged = boss.RevealAttack();
-                if(attackCharged){
-                    if(bossTimer.Update()){
-                        boss.ShowAttack();
-                        stopOodler = true;
-                        
-                        childStateMachine.ChangeState(boss.swingHand);
-                        // change our state to the actual attack state
-                    }
+                if(slamWarningTimer.Update()){
+                    stopOodler = true;
+                    parentBaseState.NextSubState();
+                    // change our state to the actual attack state
                 }
-            }
+             }
+            
         }
     }
 
-
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
+    public override void ResetState()
     {
-        base.AnimationTriggerEvent(triggerType);
+        reachedTarget = false;
+        attackCharged = false;
+        slamWarningTimer = null;
+        stopOodler = false;
     }
+
+
 }

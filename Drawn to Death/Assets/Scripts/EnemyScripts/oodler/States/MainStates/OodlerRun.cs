@@ -6,38 +6,39 @@ using UnityEngine;
 /// <summary>
 /// This is an attacking state where the oodler will charge towards glich and damage him
 /// </summary>
-public class OodlerRun : BaseState
+public class OodlerRun : ParentBaseState
 {
-
-    public OodlerRun(Boss boss, StateMachine oodlerStateMachine, ChildStateMachine childStateMachine) : base(boss, oodlerStateMachine, childStateMachine)
-    {
-    }
-    
-    
     private Vector3 runPosition;
+    List<ChildBaseState> orderedSubStateList;
 
+    public OodlerRun(Oodler boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
+    {
+    }
     
-    
-    public override void EnterState()
+    public override void EnterParentState()
     {
-        base.EnterState();
-        boss.childStateMachine.ChangeState(boss.chase);
+        orderedSubStateList = new List<ChildBaseState>
+        {
+             new Chase(boss, this, 0f, 100f),
+             new Land(boss, this, 8f),
+             new Run(boss, this, 15f,25f),
+             new Vulnerable(boss, this, vulnerabilityTime: 7f),
+             new Rise(boss, this, 10f, 1f),
+        };
+
+        base.InitializeQueue(orderedSubStateList);
+        orderedSubStateList = null;
+        base.EnterParentState();
     }
 
-    public override void ExitState()
+    public override void ExitParentState()
     {
-        base.ExitState();
+       base.ExitParentState();
     }
 
-    public override void FrameUpdate()
+    public override void ParentFrameUpdate()
     {
-        base.FrameUpdate();
-        childStateMachine.currentChildState.FrameUpdate();  
+        base.ParentFrameUpdate();
     }
 
-
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-    }
 }

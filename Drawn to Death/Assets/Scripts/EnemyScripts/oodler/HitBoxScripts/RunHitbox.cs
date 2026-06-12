@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,15 +7,23 @@ public class RunHitbox : MonoBehaviour{
 
 
     public GameObject Glich;
-    public Oodler oodlerScript;
+    public GameObject oodler;
+ 
 
     private Rigidbody2D glichRb;
+    private Rigidbody2D oodlerRB;
 
+    private Oodler oodlerScript;
     private PlayerMovement PlayerScript;
+
+    public static event Action CollidedWithObstacle;
 
     public void Start(){
         PlayerScript = Glich.GetComponent<PlayerMovement>();
         glichRb = Glich.GetComponent<Rigidbody2D>();
+        oodlerScript = oodler.GetComponent<Oodler>();
+        oodlerRB = oodler.GetComponent<Rigidbody2D>();
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -27,13 +36,15 @@ public class RunHitbox : MonoBehaviour{
             case "Player":
                 {
 
-                    //if (oodlerSlamCooldown == false && !PlayerScript.dashTimer.IsActive())
 
-                    if (!PlayerScript.dashTimer.IsActive() &&  !PlayerScript.invincibilityTimer.IsActive() && oodlerScript.activateDamage())
+                    if (!PlayerScript.invincibilityTimer.IsActive()) //oodlerScript.activateDamage()
                     {
-                        PlayerScript.Damage(oodlerScript.oodlerAttackDamage);
-                        Debug.Log("hit glich");
-                        glichRb.AddForce(new Vector2(100f,100f));
+                        //if (!PlayerScript.dashTimer.IsActive()) {
+                            PlayerScript.OodlerIncomingDamage(oodlerScript.oodlerAttackDamage);
+                        //PlayerScript.Damage(oodlerScript.oodlerAttackDamage);
+                            Debug.Log("hit glich");
+                            glichRb.AddForce(new Vector2(oodlerRB.velocity.x, oodlerRB.velocity.y)*1000f);
+                        //}
                     }
                    
                 }
@@ -44,7 +55,7 @@ public class RunHitbox : MonoBehaviour{
                     EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
 
 
-                    if (enemy != null && !enemy.invincibilityTimer.IsActive() && !oodlerScript.OnSlamCooldown()) //&& oodlerScript.activateDamage())
+                    if (enemy != null && enemy.state!=State.dead && !enemy.invincibilityTimer.IsActive()) //&& oodlerScript.activateDamage())
                     {
                         enemy.Damage(oodlerScript.oodlerAttackDamage);
                     }
@@ -54,7 +65,7 @@ public class RunHitbox : MonoBehaviour{
                         HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
                         if (crystal != null)
                         {
-                            if (crystal != null && crystal.invincibilityTimer.IsUseable() && !oodlerScript.OnSlamCooldown())// && oodlerScript.activateDamage())
+                            if (crystal != null && crystal.invincibilityTimer.IsUseable())// && oodlerScript.activateDamage())
                             {
                                 //Damage enemy
                                 crystal.CrystalDamage(oodlerScript.oodlerAttackDamage, true);
@@ -74,7 +85,7 @@ public class RunHitbox : MonoBehaviour{
                 break;
             case "Obstacle":
             {
-                oodlerScript.run.OnHitObstacle();
+                    CollidedWithObstacle?.Invoke();
                 break;
             }
 

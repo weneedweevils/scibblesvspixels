@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class OodlerGrab : BaseState
+public class OodlerGrab : ParentBaseState
 {   
 
 
@@ -11,97 +11,57 @@ public class OodlerGrab : BaseState
     bool delay = true;
     private float timer = 0f;
     private float delayTimer = 0f;
+    private List<ChildBaseState> orderedSubStateList;
 
-    public OodlerGrab(Boss boss, StateMachine oodlerStateMachine, ChildStateMachine childStateMachine) : base(boss, oodlerStateMachine, childStateMachine)
+  
+    public OodlerGrab(Oodler boss, StateMachine oodlerStateMachine) : base(boss, oodlerStateMachine)
     {
     }
 
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
+    public override void EnterParentState()
     {
-        base.AnimationTriggerEvent(triggerType);
+        Debug.Log("<color=red>ENTERING SLAM STATE");
+        orderedSubStateList = new List<ChildBaseState>
+        {
+            new Chase(boss, this, chaseTime: 2f, chaseSpeed: 50f),
+            new PrepareGrab(boss, this, grabHoverTime: 1f, chaseSpeed: 100),
+            new AttemptGrab(boss, this, chaseSpeed: 100),
+            new Vulnerable(boss, this, vulnerabilityTime: 7f),
+            new Rise(boss, this, 1f, 1f),
+            new EmptyChildState(boss, this),
+        };
+
+
+        base.InitializeQueue(orderedSubStateList);
+        orderedSubStateList = null;
+        base.EnterParentState(); // always go at the end
+
+
     }
 
-    public override void EnterState()
-    {
-        base.EnterState();
-        boss.SetBossCaught(false);
-        childStateMachine.ChangeState(boss.chase);
- 
+    // special function to go to drop state 
+    
 
+    public override void ExitParentState()
+    {
+        
+        base.ExitParentState();
     }
 
-    public override void ExitState()
+    public override void ParentFrameUpdate()
     {
-        base.ExitState();
+         base.ParentFrameUpdate();
+      
     }
 
-    public override void FrameUpdate()
+    public override void NextSubState()
     {
-        base.FrameUpdate();
-        childStateMachine.currentChildState.FrameUpdate();  
+        base.NextSubState();
+       
 
-
-        // // if the delay is over
-        // if (!delay)
-        // {
-        //     // disable collider once we reach the ground and set reach target to true
-        //     if (!reachedTarget && boss.ReachedPlayerReal())
-        //     {
-        //         reachedTarget = true;
-        //         boss.EnableAttackHitbox(false);
-        //         boss.SetSlamCooldown(true); // set to true so that the oodler does not hurt anyone on the ground
-        //         boss.HideShadow();
-        //         boss.SetBossVulnerability(true);
-        //     }
-
-        //     // This will continue to move the hand down on glich
-        //     if (!reachedTarget)
-        //     {
-        //         boss.Slam();
-        //         // activates the attack hitbox a few units above gliches position
-        //         if (boss.transform.position.y < boss.GetLastPosition().y + 0.01f)
-        //         {
-        //             boss.EnableAttackHitbox(true);
-        //         }
-        //     }
-
-        //     // Logic for once we hit the ground and if we caught them 
-        //     else
-        //     {
-        //         if (boss.IsCaught())
-        //         {
-        //             boss.ControlAllies(boss.dropZoneObject, true); // change this to only occur when caught
-        //             oodlerStateMachine.ChangeState(boss.oodlerRecover);
-                    
-        //         }
-
-          
-        //         // if the oodler has been on the ground for more than 5 seconds get up
-        //         else if (timer > boss.bossVulnerabilityTime)
-        //         {
-        //             oodlerStateMachine.ChangeState(boss.oodlerRecover);
-        //         }
-
-        //         timer += Time.deltaTime;
-        //     }
-
-        // }
-
-        // // a few seconds of delay and a color shift of shadow to give player time to react
-        // else
-        // {
-        //     delayTimer += Time.deltaTime;
-        //     if (delayTimer > boss.grabWarningTime)
-        //     {
-        //         delay = false;
-        //         boss.EnableAreaHitbox(true);
-        //         boss.ChangeSpriteSortingOrder(5);
-
-        //     }
-        // }
     }
 
 
-   
+
 }
 

@@ -21,10 +21,13 @@ public enum Scene {
     Level_4,
     Level_5,
 }
+
+
 public class MenuManager : MonoBehaviour, IDataPersistence
 {
     [Header("Next Scene")]
     public Scene nextScene;
+    public Scene currentScene;
     public bool newGame = false;
     public bool loadGame = false;
     public bool saveGame = false;
@@ -48,6 +51,7 @@ public class MenuManager : MonoBehaviour, IDataPersistence
     public FMODUnity.EventReference loadSFX;
     public FMODUnity.EventReference backSFX;
 
+  
     public void GotoScene()
     {
         if (newGame)
@@ -65,7 +69,26 @@ public class MenuManager : MonoBehaviour, IDataPersistence
         StartCoroutine(LoadScene(nextScene, transition, transitionTime));
     }
 
-    public static IEnumerator LoadScene(Scene scene, Animator transition = null, float transitionTime = 0f)
+    public void ReloadScene()
+    {
+        if (newGame)
+        {
+            DataPersistenceManager.instance.NewGame();
+            nextScene = Scene.Level_1;
+        }
+        else if (saveGame && nextScene != Scene.End)
+        {
+            DataPersistenceManager.instance.SaveGame();
+            GameData data = DataPersistenceManager.instance.GetGameData();
+            data.skipCutscene = false;
+            DataPersistenceManager.instance.UpdateGame();
+        }
+        StartCoroutine(LoadScene(nextScene, transition, transitionTime, true));
+
+
+    }
+
+    public static IEnumerator LoadScene(Scene scene, Animator transition = null, float transitionTime = 0f, bool reload = false)
     {
         PlayerInput playerInput = CustomInput.instance.playerInput;
         playerInput.DeactivateInput();
@@ -77,9 +100,19 @@ public class MenuManager : MonoBehaviour, IDataPersistence
             yield return new WaitForSecondsRealtime(transitionTime);
         }
         Time.timeScale = 1;
-        SceneManager.LoadScene((int)scene);
+
+        if (!reload)
+        {
+            SceneManager.LoadScene((int)scene);
+        }
+        else
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+          
     }
 
+   
     public void LoadData(GameData data)
     {
         if (loadGame)

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +8,9 @@ public class BasicMusicScript : MonoBehaviour
     public static BasicMusicScript instance;
     private FMOD.Studio.EventInstance eventInstance;
 
-    public FMODUnity.EventReference fmodEvent;
+    public List<FMODUnity.EventReference> music;
+
+    public int currentTrack = 0;
 
     [SerializeField][Range(0f, 30f)]
     private float intensity;
@@ -30,7 +33,7 @@ public class BasicMusicScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        eventInstance = FMODUnity.RuntimeManager.CreateInstance(fmodEvent);
+        eventInstance = FMODUnity.RuntimeManager.CreateInstance(music[currentTrack]);
         eventInstance.start();
         InvokeRepeating("UpdateIntensity", 0f, 2f); //Update the music intensity every 2 seconds
     }
@@ -39,9 +42,23 @@ public class BasicMusicScript : MonoBehaviour
     void Update()
     {
         eventInstance.setParameterByName("Intensity", intensity);
+
+        if (eventInstance.getPlaybackState(out FMOD.Studio.PLAYBACK_STATE state) == FMOD.RESULT.OK)
+        {
+            if (state == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+            {
+                FMODUnity.RuntimeManager.CreateInstance(music[currentTrack]);
+                eventInstance.start();
+            }
+        }
     }
 
     private void OnDestroy() {
+        eventInstance.stop(0);
+    }
+
+    public void switchTrack()
+    {
         eventInstance.stop(0);
     }
 
@@ -52,6 +69,8 @@ public class BasicMusicScript : MonoBehaviour
 
     public float CalculateIntensity()
     {
+        
+
         float total = 0f;
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
         {

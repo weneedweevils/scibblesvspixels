@@ -15,6 +15,9 @@ public class Soul : MonoBehaviour
     private PlayerMovement player;
     private Animator animator;
 
+    public FMODUnity.EventReference collectSFX1;
+    public FMODUnity.EventReference collectSFX2;
+
     public void Start()
     {
         //Generate a random direction with a positive y-component
@@ -88,6 +91,14 @@ public class Soul : MonoBehaviour
     private void CollectSoul()
     {
         UpgradeManager.instance.currency += value;
+        if (UpgradeManager.instance.currency % 5 == 0)
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(collectSFX2, transform.position);
+        } else
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(collectSFX1, transform.position);
+        }
+
         Destroy(gameObject);
     }
 }

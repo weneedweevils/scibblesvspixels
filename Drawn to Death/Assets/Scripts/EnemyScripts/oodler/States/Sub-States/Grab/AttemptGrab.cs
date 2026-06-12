@@ -5,97 +5,125 @@ using UnityEngine;
 public class AttemptGrab : ChildBaseState
 {
 
-
-    bool reachedTarget = false;
     private bool isGrabFrame = false;
-    private bool grabWasActivated = false;
+    private bool grabActivated = false;
+    private bool grabDeactivated = false;
+    private bool reachedTarget = false;
+    private bool caught = false;
+    private float chaseSpeed;
+
     private AnimationEventNotifier animationEventNotifier;
+
+    public AttemptGrab(Oodler boss, ParentBaseState parentBaseState, float chaseSpeed) : base(boss, parentBaseState)
+    {
+        this.chaseSpeed = chaseSpeed;
+    }
+
   
-
-    public AttemptGrab(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) : base(boss, childStateMachine, parentStateMachine)
-    {
-    }
-
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-    }
 
     public override void EnterState()
     {
         base.EnterState();
-        grabWasActivated = false;
+        grabActivated = false;
         reachedTarget = false;
         isGrabFrame = false;
-        boss.ShowAttack();
+        grabDeactivated = false;
+        caught = false;
+
+
+    // This script gets two animation event notifiers from the grab animation, and one event from the grab hitbox
         animationEventNotifier = boss.GetComponentInChildren<AnimationEventNotifier>(); //get animation event notifier
-        animationEventNotifier.GrabNotifier += AnimationOffset;
-        animationEventNotifier.HitBoxActive += ActivateHitbox;
-        boss.ChangeSpriteSortingOrder(8);
-        boss.animator.SetTrigger("Grab");
-        boss.shadowAnimator.SetTrigger("Grab");
-        //boss.GetShadow().SetTrigger("Slam"); // the shadow shrinks in its animator when you 
+        animationEventNotifier.AttackNotifier += ActivateHitbox;
+        animationEventNotifier.AttackEndNotifier += DeactivateHitbox;
+
+        
+
+        boss.SetLastPosition();
+        boss.BringSpriteToForeground();
+        boss.animator.SetTrigger("Grab"); // This state has a function that calls animation event
     }
 
     public override void ExitState()
     {
         base.ExitState();
-        animationEventNotifier.GrabNotifier -= AnimationOffset;
-        animationEventNotifier.HitBoxActive -= ActivateHitbox;
+
+        animationEventNotifier.AttackNotifier -= ActivateHitbox;
+        animationEventNotifier.AttackEndNotifier -= DeactivateHitbox;
+    
+        GrabHitbox.grabbedGlich -= SetCaught;
+        grabActivated = false;
+        grabDeactivated = false;
+        boss.HideShadow();
     }
 
 
     public override void FrameUpdate()
     {
+
         base.FrameUpdate();
-
-        // This statement makes it so that the oodler will follow glich until its hand commes down
-        if(!isGrabFrame){
-            boss.Stalk(false,100f);
-            boss.SetLastPosition(); // sets glich last position
-
-        }
-        // This if statement is for when the fist comes down
-        if(!reachedTarget && isGrabFrame){
-            boss.Slam(100f);
-            if(!grabWasActivated && boss.CloseToTarget()){
-                boss.EnableAttackHitbox(true);
-                grabWasActivated = true;
-            }
-
-            if(boss.ReachedPlayerReal()){
+        if (grabActivated)
+        {
+            if (boss.Grab(chaseSpeed))
+            {
                 reachedTarget = true;
             }
-        }
 
-        // This statment is for after the fist comes down
-        else if(isGrabFrame && grabWasActivated){
-                if(boss.IsCaught()){
-                    Debug.Log("GO to the state where we are holding glich");
-                    boss.playerScript.DisableInput();
-                    boss.animator.SetTrigger("Caught");
-                    boss.shadowAnimator.SetTrigger("Caught");
+            if (caught) {
+                boss.playerScript.DisableInput();
+                boss.animator.SetTrigger("Caught");
+                boss.playerScript.animator.SetTrigger("Grabbed");
+                boss.EnableGrabHitbox(false);
+                boss.EnableColumnHitbox(false);
+
+                FMODUnity.RuntimeManager.PlayOneShot(boss.oodlerGrabSFX, boss.transform.position);
+
+                if (reachedTarget)
+                {
+
+                    boss.MoveGlichWithOodler();
+                    parentBaseState.GoToDropState();
+
                 }
-                else{
-                     boss.SetBossCaught(false);
-                     boss.animator.SetTrigger("Idle");
-                     boss.shadowAnimator.SetTrigger("idle");
-                }
-                childStateMachine.ChangeState(boss.rise);
-                //childStateMachine.ChangeState(boss.vulnerableState);
-        }
-    }
+            }
+            else if (grabDeactivated)
+            {
+
+                parentBaseState.NextSubState();
+            }
+          }
+
+
+
+     }
+ 
 
 
     // Helper Functions //
-    public void AnimationOffset(){
-        isGrabFrame = true;
-        Debug.Log("THE GRAB HAS STARTED");
-    }
-    
+
+    // Events Fired from Invoke //    
+
+    // event fired when attack started event called from grabv2 animation
     public void ActivateHitbox(){
         Debug.Log("Enabled attack Hitbox");
         boss.EnableGrabHitbox(true);
-        grabWasActivated = true;
+        boss.EnableColumnHitbox(true);
+        GrabHitbox.grabbedGlich += SetCaught;  // IT might be better to set the boss caught variable in the boss script for safety
+        grabActivated = true;
+    }
+
+
+    // event fired when attack ended event called from grabv2 animation
+    public void DeactivateHitbox()
+    {
+
+        boss.EnableColumnHitbox(false);
+        boss.EnableGrabHitbox(false);
+        grabDeactivated = true;
+    }
+
+    private void SetCaught() 
+    {
+        caught = true;
+        GrabHitbox.grabbedGlich -= SetCaught;
     }
 }

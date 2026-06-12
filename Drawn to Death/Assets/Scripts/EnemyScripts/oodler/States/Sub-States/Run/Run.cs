@@ -4,21 +4,32 @@ using UnityEngine;
 
 public class Run : ChildBaseState
 {
-    public Run(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) : base(boss, childStateMachine, parentStateMachine)
+    // NEED TO ADD SOME OF THESE TO BOSS SCRIPT
+
+    private float runSpeed;
+    private float runAcceleration;
+
+
+    public Run(Oodler boss, ParentBaseState parentBaseState, float runSpeed, float runAcceleration = 0) : base(boss, parentBaseState)
     {
+        this.runSpeed = runSpeed;
+        this.runAcceleration = runAcceleration;
     }
 
     private bool hitObstacle = false;
     private Vector3 oodlerRunDirection;
-   
 
+  
     public override void EnterState()
     {
         hitObstacle = false;
         boss.animator.SetTrigger("Walk");
-        boss.shadowAnimator.SetTrigger("Walk");
         oodlerRunDirection = (boss.glich.transform.position - boss.transform.position).normalized;// Mov
         boss.EnableRunHitbox(true);
+        RunHitbox.CollidedWithObstacle += OnHitObstacle;
+        boss.CheckSpriteDirection();
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(boss.runSFXInstance, boss.transform);
+        boss.runSFXInstance.start(); // Bugged?
     }
 
     public override void ExitState()
@@ -26,37 +37,36 @@ public class Run : ChildBaseState
         base.ExitState();
     }
 
+   
+
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        if(OodlerRun()){
-            
-        }
-    }
 
-     public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-    }
-
-
-    public bool OodlerRun(float speed = 20){
-
-        if(hitObstacle){
+        var acceleration = runAcceleration * Time.deltaTime;
+        runSpeed = runSpeed + acceleration;
+        boss.OodlerRun(runSpeed , oodlerRunDirection);
+        //boss.runSFXInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(boss.transform)); // This fixes the problem. it seems like attachinstance to gameobject might need to be run right before a sound is started otherwise it is not called. I will try attaching the instance to game object above instead of start in boss.
+        if (hitObstacle)
+        {
             boss.EnableRunHitbox(false);
-             boss.animator.SetTrigger("idle");
-            return true;
+            parentBaseState.NextSubState();
+            boss.runSFXInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
 
-        var step = speed * Time.deltaTime;
-        boss.oodlerRB.MovePosition(boss.transform.position + oodlerRunDirection * step);
-        boss.CheckSpriteDirection();
-        return false;
-
     }
+
+
+   
 
     public void OnHitObstacle(){
         hitObstacle = true;
+    }
+
+    public override void ResetState()
+    {
+        base.ResetState();
+
     }
 
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,9 +8,9 @@ public class GrabHitbox:MonoBehaviour
     
 {
 
-    public PlayerMovement PlayerScript;
+    public PlayerMovement playerScript;
     public Oodler oodlerScript;
-
+    public static event Action grabbedGlich;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -20,44 +21,14 @@ public class GrabHitbox:MonoBehaviour
 
             case "Player":
                 {
-                    if (oodlerScript.IsCaught())
+                    if (!playerScript.dashTimer.IsActive() && !playerScript.invincibilityTimer.IsActive())
                     {
-
-                    }
-                    else
-                    {
-                        oodlerScript.SetBossCaught(true);
+                        grabbedGlich?.Invoke();
                     }
 
-                    Debug.Log("CAUGHT GLICH");
+                    
                 }
                 break;
-
-            // case "Enemy":
-            //     {
-            //         EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
-
-
-            //         if (enemy != null && !enemy.invincibilityTimer.IsActive() && !oodlerScript.OnSlamCooldown()) //&& oodlerScript.activateDamage())
-            //         {
-            //             enemy.Damage(oodlerScript.oodlerAttackDamage);
-            //         }
-
-            //         else
-            //         {
-            //             HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
-            //             if (crystal != null)
-            //             {
-            //                 if (crystal != null && crystal.invincibilityTimer.IsUseable() && !oodlerScript.OnSlamCooldown())// && oodlerScript.activateDamage())
-            //                 {
-            //                     //Damage enemy
-            //                     crystal.CrystalDamage(oodlerScript.oodlerAttackDamage, true);
-            //                 }
-            //             }
-            //         }
-            //     }
-            //     break;
-
 
             default:
                 {
@@ -66,4 +37,32 @@ public class GrabHitbox:MonoBehaviour
         }
 
     }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+
+
+        switch (collision.gameObject.tag)
+        {
+
+            case "Player":
+                {
+                    if (!playerScript.dashTimer.IsActive() && !playerScript.invincibilityTimer.IsActive())
+                    {
+                        grabbedGlich?.Invoke();
+                    }
+
+
+                }
+                break;
+
+            default:
+                {
+                    break;
+                }
+        }
+
+    }
+
+
 }

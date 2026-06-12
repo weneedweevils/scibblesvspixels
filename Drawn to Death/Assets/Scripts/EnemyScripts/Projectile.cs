@@ -40,8 +40,13 @@ public class Projectile : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        
-        damage = parent.damage.value;
+        catch (MissingReferenceException)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+            damage = parent.damage.value;
 
         Transform t = parent.GetTarget();
       
@@ -110,8 +115,14 @@ public class Projectile : MonoBehaviour
                 {
                     EnemyAI enemyai = collision.gameObject.GetComponent<EnemyAI>();
                     HealthCrystal crystal = collision.gameObject.GetComponent<HealthCrystal>();
-                    Boss oodler = collision.gameObject.GetComponent<Boss>();
+                    Oodler oodler = collision.gameObject.transform.root.GetComponent<Oodler>();
 
+
+                    if (oodler != null)
+                    {
+                        Debug.Log("I hit something ", oodler);
+                    }
+                    
                     if (enemyai != null && team != Team.neutral && enemyai.team != team && !(enemyai.state == State.dead || enemyai.state == State.dying))
                     {
                         enemyai.Damage(damage, true, true, velocity.normalized, 7f);
@@ -140,7 +151,8 @@ public class Projectile : MonoBehaviour
 
                     else if (oodler != null)
                     {
-                        if (oodler != null && oodler.BossIsDamageable()) //&& !oodler.invincibilityTimer.IsActive())
+                        Debug.Log("hit oodler!!!!");
+                        if (oodler != null )//&& oodler.BossIsDamageable()) //&& !oodler.invincibilityTimer.IsActive())
                         {
                             //Damage enemy
                             oodler.Damage(damage);

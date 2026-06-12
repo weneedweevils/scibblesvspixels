@@ -2,26 +2,32 @@
 
 public class PrepareGrab : ChildBaseState
 {
-    private BossTimer bossTimer;
+   
     private bool reachedTarget = false;
-    private bool attackCharged = false;
-    private bool stopOodler = false;
 
-    public PrepareGrab(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) : base(boss, childStateMachine, parentStateMachine)
+    private float chaseSpeed;
+    private float grabHoverTime;
+
+    private BossTimer grabHoverTimer;
+
+
+    public PrepareGrab(Oodler boss, ParentBaseState parentBaseState, float grabHoverTime, float chaseSpeed = 100f) : base(boss, parentBaseState)
     {
+        this.chaseSpeed = chaseSpeed;
+        this.grabHoverTime = grabHoverTime;
     }
 
     public override void EnterState()
     {
         base.EnterState();
-        boss.SetBossCaught(false);
-        boss.animator.SetTrigger("GrabWindUp");
-        boss.shadowAnimator.SetTrigger("GrabWindUp");
-        //boss.GetShadow().SetTrigger();
+
+        //boss.SetBossCaught(false);
         reachedTarget = false;
-        attackCharged = false;
-        bossTimer = new BossTimer(1f);
-        stopOodler = false;
+
+        grabHoverTimer = new BossTimer(grabHoverTime);
+
+        boss.animator.SetTrigger("GrabWindUp");
+        FMODUnity.RuntimeManager.PlayOneShot(boss.oodlerChargeupSFX, boss.transform.position);
     }
 
     public override void ExitState()
@@ -34,26 +40,19 @@ public class PrepareGrab : ChildBaseState
     {
         base.FrameUpdate();
 
-        // Following if statement will stalk glich, once the redoutline is fully revealed we will stop the oodler for sometime to give the player time to react
-        if(!stopOodler){
-            reachedTarget = boss.Stalk(reachedTarget, 100f);
-            if(reachedTarget){
-                attackCharged = boss.RevealAttack();
-                if(attackCharged){
-                    if(bossTimer.Update()){
-                        boss.ShowAttack();
-                        stopOodler = true;
-                        childStateMachine.ChangeState(boss.attemptGrab);
-                        // change our state to the actual attack state
-                    }
+        // This code will follow glich in hand open position
+        reachedTarget = boss.MoveToGlich(chaseSpeed);
+        if(reachedTarget){
+                if(grabHoverTimer.Update()){
+                    parentBaseState.NextSubState();
                 }
-            }
         }
+        
     }
 
-
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
+    public override void ResetState()
     {
-        base.AnimationTriggerEvent(triggerType);
+        base.ResetState();
+
     }
 }

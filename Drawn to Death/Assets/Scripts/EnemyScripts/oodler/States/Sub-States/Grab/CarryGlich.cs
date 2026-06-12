@@ -5,23 +5,24 @@ using UnityEngine;
 public class CarryGlich : ChildBaseState
 {
     private bool reachedDropZone = false;
-    private BossTimer bossTimer;
+    private float dropZoneSpeed;
+    private float dropZoneHoverTime;
+    private BossTimer dropZoneHoverTimer;
 
-    public CarryGlich(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) : base(boss, childStateMachine, parentStateMachine)
+    public CarryGlich(Oodler boss, ParentBaseState parentBaseState, float dropZoneHoverTime, float dropZoneSpeed = 20f) : base(boss, parentBaseState)
     {
+        this.dropZoneSpeed = dropZoneSpeed;
+        this.dropZoneHoverTime = dropZoneHoverTime;
+    }
 
-    }
-    public override void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-    }
 
     public override void EnterState()
     {
         base.EnterState();
         Debug.Log("Carrying Glich");
         reachedDropZone = false;
-        bossTimer = new BossTimer(2f);
+        dropZoneHoverTimer = new BossTimer(dropZoneHoverTime);
+        boss.floating = true;
     }
 
     public override void ExitState()
@@ -29,34 +30,39 @@ public class CarryGlich : ChildBaseState
         base.ExitState();
         boss.EnableGrabHitbox(false);
         boss.EnableGlichColliders(true);
-        boss.SetBossCaught(false);
-        boss.ControlAllies(boss.glich, false);
-        Debug.Log("exiting Empty state");
+        dropZoneHoverTimer = null;
+        boss.floating = false;
     }
 
     public override void FrameUpdate()
     {
-        Debug.Log("Updating...");
+        Debug.Log("Updating... in Carry GLich");
         base.FrameUpdate();
         
-        if(parentStateMachine.currentOodlerState == boss.oodlerGrab && boss.IsCaught()){
-            if (reachedDropZone || boss.MoveToDropZone())
+        if (reachedDropZone || boss.MoveToDropZone(dropZoneSpeed))
+        {
+            reachedDropZone = true;
+            if (dropZoneHoverTimer.Update())
             {
-                reachedDropZone = true;
-
-                if (bossTimer.Update())
+                
+                if (boss.DropGlich())
                 {
-                    if (boss.DropGlich())
-                    {
-                        
-                        boss.playerScript.animator.SetTrigger("Dropped");
-                        boss.animator.SetTrigger("Idle");
-                        boss.shadowAnimator.SetTrigger("idle");
-                        boss.playerScript.EnableInput();
-                        childStateMachine.ChangeState(boss.chase);
-                    }
+                    boss.animator.SetTrigger("Idle");
+                    boss.playerScript.animator.SetTrigger("Dropped");
+                    boss.EnableGlichColliders(true);
+                    boss.playerScript.EnableInput();
+                    boss.playerScript.ChangeSpriteSortingOrder(5);
+                    parentBaseState.NextSubState();
                 }
             }
         }
+        
+    }
+
+    public override void ResetState()
+    {
+        base.ResetState();
+        dropZoneHoverTimer = null;
+       
     }
 }

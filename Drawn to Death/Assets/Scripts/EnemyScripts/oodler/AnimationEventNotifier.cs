@@ -6,19 +6,21 @@ using UnityEngine;
 public class AnimationEventNotifier : MonoBehaviour
 {
 
-    public event Action SlamNotifier;
+    public event Action AttackNotifier;
     public event Action HitBoxActive;
-    public event Action GrabNotifier;
-    
+    public event Action AttackEndNotifier;
 
-    public void SlamStarted(){
-        SlamNotifier?.Invoke();
+
+    public void AttackStarted(){
+        AttackNotifier?.Invoke();
     }
 
     public void SetHitBoxTrue(){
         HitBoxActive?.Invoke();
     }
-    public void GrabStarted(){
-        GrabNotifier?.Invoke();
+
+    public void AttackEnded()
+    {
+        AttackEndNotifier?.Invoke();  
     }
 }

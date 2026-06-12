@@ -1,29 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
-using UnityEngine.Android;
 
+/// <summary>
+/// This class defines a state machine class which has a starting parent state and then switches to parent states
+/// </summary>
 public class StateMachine
 {
-    public BaseState currentOodlerState { get; set; }
+    public ParentBaseState currentState { get; set; }
 
-    public void Initialize(BaseState startingState)
+    public void Initialize(ParentBaseState startingState)
     {
-        currentOodlerState = startingState;
-        currentOodlerState.EnterState();
+        if (currentState != null)
+        {
+            Debug.LogException(new Exception("Trying to instantiate State Machine more than once"));
+            return;
+        }
+        currentState = startingState;
+        currentState.EnterParentState();
     }
    
 
-    public void ChangeState(BaseState newState)
+    public void ChangeState(ParentBaseState newState)
     {
-        currentOodlerState.ExitState();
-        currentOodlerState = newState;
-        currentOodlerState.EnterState();
+        currentState.ExitParentState();
+        currentState = newState;
+        currentState.EnterParentState();
     }
 
 
-    public BaseState GetCurrentState(){
-        return currentOodlerState;
+    public ParentBaseState GetCurrentState(){
+        return currentState;
     }
 
 }

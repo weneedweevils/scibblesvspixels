@@ -108,7 +108,6 @@ public class SkipCutscene : MonoBehaviour
 
     public void OnDisable()
     {
-        Debug.Log("Destroyed object");
         Destroy(gameObject); 
     }
 }

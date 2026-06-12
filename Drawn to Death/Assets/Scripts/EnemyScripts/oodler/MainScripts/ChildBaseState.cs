@@ -2,27 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChildBaseState 
+/// <summary>
+/// This class defines a child base state where the behaviours of individual states are implemented
+/// </summary>
+public class ChildBaseState
 {
-    protected Boss boss;
-    protected ChildStateMachine childStateMachine;
-    protected StateMachine parentStateMachine;
+   
 
+    protected Oodler boss;
+    protected ParentBaseState parentBaseState;
 
-    public ChildBaseState(Boss boss, ChildStateMachine childStateMachine, StateMachine parentStateMachine) {
-        this.boss = boss;
-        this.childStateMachine = childStateMachine;
-        this.parentStateMachine = parentStateMachine;
+    public ChildBaseState(Oodler boss, ParentBaseState baseState) {
+        this.boss = boss; 
+        this.parentBaseState = baseState;
+     
     }
 
+    public virtual void EnterState(){}
 
-    public virtual void EnterState() { }
-
+    public virtual void ResetState() { }
     public virtual void ExitState() { } 
 
     public virtual void FrameUpdate() { }
 
-    public virtual void AnimationTriggerEvent(Boss.AnimationTriggerType triggerType) {
-    
-    }
+
 }
