@@ -103,7 +103,7 @@ public class DataPersistenceManager : MonoBehaviour
             }
 
             // Disable tutorial
-            if (gameData.skipTutorial || skipTutorialOnLoad) //Removed the following code as it was returning false and not letting me skip the cutscene:  (skipTutorialOnLoad && gameData.skipTutorial)
+            if (gameData.skipTutorial || skipTutorialOnLoad)
             {
                 if (tutorialObject != null) { tutorialObject.SetActive(false); }
                 if (tutorialObjectOnEnemy != null) { tutorialObjectOnEnemy.SetActive(false); }

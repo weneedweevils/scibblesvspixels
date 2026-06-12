@@ -400,19 +400,9 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         {
             hud.SetActive(false);
             weapon.animator.SetBool("attacking", false);
-            directionalInput.x = 0;
-            directionalInput.y = 0;
 
             // Return SFX volume to original setting
             volumeController.inCutscene = true;
-        }
-
-        // disable movement if player is recalling
-        if (weapon.reviveTimer.IsActive() || recallTimer.IsActive())
-        {
-            directionalInput.x = 0;
-            directionalInput.y = 0;
-            //ZoomCamera(zoomFactor);
         }
 
 
@@ -524,11 +514,15 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         Vector2 currentPos = rbody.position;
         Vector2 newPos = currentPos + velocity * Time.fixedDeltaTime;
 
-        //Move to new position
-        rbody.MovePosition(newPos);
-
+        if (!(weapon.reviveTimer.IsActive() || recallTimer.IsActive() || inFreezeDialogue()))
+        {
+            //Move to new position
+            rbody.MovePosition(newPos);
+        }
+        
         //Animate
         ManageAnimations();
+        
 
         if (health != previousHealth)
         {
@@ -558,9 +552,6 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             selfReviveTimer = 0;
             sprite.sortingOrder = 5;
             OnSelfReviveComplete?.Invoke();
-                
-
-
         }
     }
 }
@@ -596,8 +587,14 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
     private void ManageAnimations()
     {
-        //Set the speed parameter in the animator
-        animator.SetFloat("speed", velocity.magnitude);
+        if (weapon.reviveTimer.IsActive() || recallTimer.IsActive() || inFreezeDialogue())
+        {
+            animator.SetFloat("speed", 0f);
+        }
+        else
+        {
+            animator.SetFloat("speed", velocity.magnitude);
+        }
 
         if (!inFreezeDialogue() && !timelinePlaying && !weapon.reviveTimer.IsActive() && !recallTimer.IsActive())
         {
@@ -610,10 +607,10 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             {
                 //Flip the sprite according to mouse position relative to the players position
 
-                if(isGamepad)
+                if (isGamepad)
                 {
                     sprite.flipX = armsObject.transform.localScale.x < 0;
-                    
+
                 }
                 else
                 {
