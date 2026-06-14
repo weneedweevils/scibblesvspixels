@@ -32,8 +32,9 @@ public class ConditionalWall : MonoBehaviour
             spawner.onEnemySpawn += ((enemy) => enemy.onDeath += EnemyKilled);
         }
     }
-    public void EnemyKilled(){
+    public void EnemyKilled(EnemyAI enemy){
         killCount++;
+        enemy.onDeath -= EnemyKilled;
         if (!destroyed &&killCount >= requiredKills){
             ConditionReached();
             destroyed = true;

@@ -70,7 +70,7 @@ public abstract class EnemyAI : MonoBehaviour
     public SpriteRenderer selfImage;
     public GameObject panel;
 
-    public Action onDeath;
+    public Action<EnemyAI> onDeath;
 
     /* ----- Hidden Variables ----- */
 
@@ -518,6 +518,8 @@ public abstract class EnemyAI : MonoBehaviour
     [ContextMenu("Kill")]
     virtual public void Kill()
     {
+        onDeath?.Invoke(this);
+        
         // Play the death sfx
         FMODUnity.RuntimeManager.PlayOneShot(deathSfx, this.transform.position);
         
@@ -543,8 +545,6 @@ public abstract class EnemyAI : MonoBehaviour
         animator.SetBool("attacking", false);
         animator.SetBool("chasing", false);
         animator.SetBool("dying", true);
-
-        onDeath.Invoke();
     }
 
     virtual public void Destroy()
