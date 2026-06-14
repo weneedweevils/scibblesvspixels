@@ -345,216 +345,219 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     #region Update
     void Update()
     {
-    if(!death)
-    {
+        if(!death)
+        {
 
            
-        aimDirection = playerInput.actions["Aim"].ReadValue<Vector2>();
+            aimDirection = playerInput.actions["Aim"].ReadValue<Vector2>();
 
-        playerarms.FrameUpdate(aimDirection);
-        dashTimer.Update();
-        recallTimer.Update();
-        invincibilityTimer.Update();
-        lifestealEndTimer.Update();
+            playerarms.FrameUpdate(aimDirection);
+            dashTimer.Update();
+            recallTimer.Update();
+            invincibilityTimer.Update();
+            lifestealEndTimer.Update();
 
-        // Handles lifesteal animation
-        if (weapon.lifestealTimer.IsActive() && weapon.lifestealStartTimer.IsOnCooldown() && !orb)
-        {
-            lifestealOrb.SetActive(true);
-            lifestealOrb.GetComponent<Animator>().SetTrigger("lifestealstart");
-            orb = true;
-        }
-        else if (weapon.lifestealTimer.IsOnCooldown() && orb)
-        {
-            lifestealOrb.GetComponent<Animator>().SetTrigger("lifestealend");
-            lifestealEndTimer.StartTimer();
-            orb = false;
-        }
-        else if (lifestealEndTimer.IsOnCooldown())
-        {
-            lifestealOrb.SetActive(false);
-        }
-
-        if (invincibilityTimer.IsActive() && hit) // Illustrates Iframes
-        {
-            sprite.color = new Color(255, 255, 255, 0.70f);
-            eraser.color = new Color(255, 255, 255, 0.70f);
-        }
-        else if (invincibilityTimer.IsUseable() && hit)
-        {
-            sprite.color = new Color(255, 255, 255, 1f);
-            eraser.color = new Color(255, 255, 255, 1f);
-            hit = false;
-        }
-
-        // Disable movement if in dialogue/cutscene where we don't want movement
-        if (!inFreezeDialogue() && !timelinePlaying) //&& pauseUi.active == false)
-        {
-            hud.SetActive(true);
-            //Determine acceleration
-
-            // Decrease SFX volume
-            volumeController.inCutscene = false;
-        }
-        else
-        {
-            hud.SetActive(false);
-            weapon.animator.SetBool("attacking", false);
-
-            // Return SFX volume to original setting
-            volumeController.inCutscene = true;
-        }
-
-
-
-
-        //Dash ability
-
-        // if dash is useable flash the dash notifier
-        if (dashTimer.IsUseable() && !activatedDashNotifier)
-        {
-            var temp1 = dashNotifier.color;
-            temp1.a = 1f;
-            dashNotifier.color = temp1;
-            activatedDashNotifier = true;
-        }
-
-        // if dash notifier is visible, decrease the alpha value
-        if (dashNotifier.color.a > 0)
-        {
-            var temp = dashNotifier.color;
-            temp.a -= 0.01f;
-            dashNotifier.color = temp;
-
-        }
-
-
-        if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && playerInput.actions["Dash"].triggered && !pauseInput)
-        {
-            activatedDashNotifier = false;
-            maxVelocity.baseIncrease += dashBoost;
-            velocity += acceleration.normalized * dashBoost * 5;
-            animator.SetBool("dashing", true);
-            pencil.enabled = false;
-            dashTimer.StartTimer();
-            playerSFX.PlayDashSFX();
-            gameObject.layer = LayerMask.NameToLayer("Player Dodge");
-        }
-        else if (dashTimer.IsOnCooldown())
-        {
-            if (animator.GetBool("dashing"))
+            // Handles lifesteal animation
+            if (weapon.lifestealTimer.IsActive() && weapon.lifestealStartTimer.IsOnCooldown() && !orb)
             {
-                pencil.enabled = true;
-                animator.SetBool("dashing", false);
-                maxVelocity.baseIncrease -= dashBoost;
-                gameObject.layer = LayerMask.NameToLayer("Player");
+                lifestealOrb.SetActive(true);
+                lifestealOrb.GetComponent<Animator>().SetTrigger("lifestealstart");
+                orb = true;
             }
-        }
-
-        // Recall Ability
-
-        // Update X over Recall UI
-        if (restricted != null)
-        {
-            // if we have no allies show x over the icon otherwise flash the recall notifier if off cooldown
-            if (weapon.GetAllies().Count == 0)
+            else if (weapon.lifestealTimer.IsOnCooldown() && orb)
             {
-                var temp = restricted.color;
-                temp.a = 1f;
-                restricted.color = temp;
+                lifestealOrb.GetComponent<Animator>().SetTrigger("lifestealend");
+                lifestealEndTimer.StartTimer();
+                orb = false;
+            }
+            else if (lifestealEndTimer.IsOnCooldown())
+            {
+                lifestealOrb.SetActive(false);
+            }
+
+            if (invincibilityTimer.IsActive() && hit) // Illustrates Iframes
+            {
+                sprite.color = new Color(255, 255, 255, 0.70f);
+                eraser.color = new Color(255, 255, 255, 0.70f);
+            }
+            else if (invincibilityTimer.IsUseable() && hit)
+            {
+                sprite.color = new Color(255, 255, 255, 1f);
+                eraser.color = new Color(255, 255, 255, 1f);
+                hit = false;
+            }
+
+            // Disable movement if in dialogue/cutscene where we don't want movement
+            if (!inFreezeDialogue() && !timelinePlaying) //&& pauseUi.active == false)
+            {
+                hud.SetActive(true);
+                //Determine acceleration
+
+                // Decrease SFX volume
+                volumeController.inCutscene = false;
             }
             else
             {
-                var temp = restricted.color;
-                temp.a = 0f;
-                restricted.color = temp;
+                hud.SetActive(false);
+                weapon.animator.SetBool("attacking", false);
 
-                if (recallTimer.IsUseable() && !activatedRecallNotifier)
+                // Return SFX volume to original setting
+                volumeController.inCutscene = true;
+            }
+
+
+
+
+            //Dash ability
+
+            // if dash is useable flash the dash notifier
+            if (dashTimer.IsUseable() && !activatedDashNotifier)
+            {
+                var temp1 = dashNotifier.color;
+                temp1.a = 1f;
+                dashNotifier.color = temp1;
+                activatedDashNotifier = true;
+            }
+
+            // if dash notifier is visible, decrease the alpha value
+            if (dashNotifier.color.a > 0)
+            {
+                var temp = dashNotifier.color;
+                temp.a -= 0.01f;
+                dashNotifier.color = temp;
+
+            }
+
+
+            if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && playerInput.actions["Dash"].triggered && !pauseInput)
+            {
+                activatedDashNotifier = false;
+                maxVelocity.baseIncrease += dashBoost;
+                velocity += acceleration.normalized * dashBoost * 5;
+                animator.SetBool("dashing", true);
+                pencil.enabled = false;
+                dashTimer.StartTimer();
+                playerSFX.PlayDashSFX();
+                gameObject.layer = LayerMask.NameToLayer("Player Dodge");
+            }
+            else if (dashTimer.IsOnCooldown())
+            {
+                if (animator.GetBool("dashing"))
                 {
-                    var temp1 = recallNotifier.color;
-                    temp1.a = 1f;
-                    recallNotifier.color = temp1;
-                    activatedRecallNotifier = true;
+                    pencil.enabled = true;
+                    animator.SetBool("dashing", false);
+                    maxVelocity.baseIncrease -= dashBoost;
+                    gameObject.layer = LayerMask.NameToLayer("Player");
                 }
             }
-        }
 
-        //reset notifier if we have allies or have pressed revive or recall
-        if ((playerInput.actions["Rally"].triggered || playerInput.actions["Revive"].triggered) && weapon.GetAllies().Count > 0)
-        {
-            activatedRecallNotifier = false;
-        }
+            // Recall Ability
 
-        // if recall notifier is visible, decrease the alpha value
-        if (recallNotifier.color.a > 0)
-        {
-            var temp = recallNotifier.color;
-            temp.a -= 0.01f;
-            recallNotifier.color = temp;
-        }
+            // Update X over Recall UI
+            if (restricted != null)
+            {
+                // if we have no allies show x over the icon otherwise flash the recall notifier if off cooldown
+                if (weapon.GetAllies().Count == 0)
+                {
+                    var temp = restricted.color;
+                    temp.a = 1f;
+                    restricted.color = temp;
+                }
+                else
+                {
+                    var temp = restricted.color;
+                    temp.a = 0f;
+                    restricted.color = temp;
 
-        //If player pressed recall and they are not on cooldown and they have allies, do recall
-        if (recallTimer.IsUseable() && CanUseAbility() && playerInput.actions["Rally"].triggered && weapon.GetAllies().Count > 0)
-        {
-            recallTimer.StartTimer();
-            pencil.enabled = false;
-            StopMovement();
-            playerSFX.PlayRallySFX();
-            animationDone = false;
-            animator.SetBool("New Bool", true);
-        }
+                    if (recallTimer.IsUseable() && !activatedRecallNotifier)
+                    {
+                        var temp1 = recallNotifier.color;
+                        temp1.a = 1f;
+                        recallNotifier.color = temp1;
+                        activatedRecallNotifier = true;
+                    }
+                }
+            }
 
-        if (cam.orthographicSize != noZoom && animationDone == true)
-        {
-            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, noZoom, Time.deltaTime * 5f);
-            targetZoom = noZoom;
-        }
+            //reset notifier if we have allies or have pressed revive or recall
+            if ((playerInput.actions["Rally"].triggered || playerInput.actions["Revive"].triggered) && weapon.GetAllies().Count > 0)
+            {
+                activatedRecallNotifier = false;
+            }
 
-        //Predict new position
-        Vector2 currentPos = rbody.position;
-        Vector2 newPos = currentPos + velocity * Time.fixedDeltaTime;
+            // if recall notifier is visible, decrease the alpha value
+            if (recallNotifier.color.a > 0)
+            {
+                var temp = recallNotifier.color;
+                temp.a -= 0.01f;
+                recallNotifier.color = temp;
+            }
 
-        if (!(weapon.reviveTimer.IsActive() || recallTimer.IsActive() || inFreezeDialogue()))
-        {
-            //Move to new position
-            rbody.MovePosition(newPos);
-        }
+            //If player pressed recall and they are not on cooldown and they have allies, do recall
+            if (recallTimer.IsUseable() && CanUseAbility() && playerInput.actions["Rally"].triggered && weapon.GetAllies().Count > 0)
+            {
+                recallTimer.StartTimer();
+                pencil.enabled = false;
+                playerSFX.PlayRallySFX();
+                animationDone = false;
+                animator.SetBool("New Bool", true);
+            }
+
+            if (cam.orthographicSize != noZoom && animationDone == true)
+            {
+                cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, noZoom, Time.deltaTime * 5f);
+                targetZoom = noZoom;
+            }
+
+            //Predict new position
+            Vector2 currentPos = rbody.position;
+            Vector2 newPos = currentPos + velocity * Time.fixedDeltaTime;
+
+            if (!(weapon.reviveTimer.IsActive() || recallTimer.IsActive() || inFreezeDialogue()))
+            {
+                //Move to new position
+                rbody.MovePosition(newPos);
+            }
+            else
+            {
+                StopMovement();
+            }
+
+            //Animate
+            ManageAnimations();
         
-        //Animate
-        ManageAnimations();
-        
 
-        if (health != previousHealth)
-        {
-            healthBar.SetHealth(health, maxHealth);
-            previousHealth = health;
+            if (health != previousHealth)
+            {
+                healthBar.SetHealth(health, maxHealth);
+                previousHealth = health;
+            }
+
+            //change screen flash back to normal 
+            ChangeScreenColor(false);
         }
 
-        //change screen flash back to normal 
-        ChangeScreenColor(false);
-    }
-
-    else if(death && isSelfReviving){
-        selfReviveTimer += Time.deltaTime;
-        if (selfReviveTimer > 5.7f)//animator.GetCurrentAnimatorStateInfo(0).length) 
-        {
-            hud.SetActive(true);
-            FillHealth();
-            isSelfReviving = false;
-            death = false;
-            armsObject.SetActive(true);
-            playerInput.ActivateInput();
-            rbody.constraints = RigidbodyConstraints2D.None;
-            rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-            invincibilityTimer.StartTimer();
-            StartCoroutine(FlashPlayerSprite());
-            boxCollider.enabled = true;
-            selfReviveTimer = 0;
-            sprite.sortingOrder = 5;
-            OnSelfReviveComplete?.Invoke();
+        else if(death && isSelfReviving){
+            selfReviveTimer += Time.deltaTime;
+            if (selfReviveTimer > 5.7f)//animator.GetCurrentAnimatorStateInfo(0).length) 
+            {
+                hud.SetActive(true);
+                FillHealth();
+                isSelfReviving = false;
+                death = false;
+                armsObject.SetActive(true);
+                playerInput.ActivateInput();
+                rbody.constraints = RigidbodyConstraints2D.None;
+                rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+                invincibilityTimer.StartTimer();
+                StartCoroutine(FlashPlayerSprite());
+                boxCollider.enabled = true;
+                selfReviveTimer = 0;
+                sprite.sortingOrder = 5;
+                OnSelfReviveComplete?.Invoke();
+            }
         }
     }
-}
     #endregion
 
     private IEnumerator FlashPlayerSprite()
