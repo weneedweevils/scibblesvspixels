@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 using UnityEngine.UIElements;
+using UnityEngine.Events;
+using System;
 
 // Used this video for most of the script https://www.youtube.com/watch?v=jvtFUfJ6CP8a
 // if you want to use this in FSM inherit from EnemybaseState class
@@ -68,6 +70,7 @@ public abstract class EnemyAI : MonoBehaviour
     public SpriteRenderer selfImage;
     public GameObject panel;
 
+    public Action onDeath;
 
     /* ----- Hidden Variables ----- */
 
@@ -540,6 +543,8 @@ public abstract class EnemyAI : MonoBehaviour
         animator.SetBool("attacking", false);
         animator.SetBool("chasing", false);
         animator.SetBool("dying", true);
+
+        onDeath.Invoke();
     }
 
     virtual public void Destroy()

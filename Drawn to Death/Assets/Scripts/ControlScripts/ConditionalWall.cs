@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class ConditionalWall : MonoBehaviour
 {
-    public EnemyAI[] enemies;
+    private int killCount = 0;
+    [Min(1)] public int requiredKills = 1;
     public Sprite destroyedSprite;
-    
-    private bool allDead;
+
     private bool destroyed;
     private SpriteRenderer spriteRenderer;
     private PolygonCollider2D polygonCollider2D;
@@ -21,23 +21,22 @@ public class ConditionalWall : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         polygonCollider2D = GetComponent<PolygonCollider2D>();
         destroyed = false;
+
+        foreach (EnemyAI enemy in FindObjectsOfType<EnemyAI>())
+        {
+            enemy.onDeath += EnemyKilled;
+        }
+
+        foreach (Spawner spawner in FindObjectsOfType<Spawner>())
+        {
+            spawner.onEnemySpawn += ((enemy) => enemy.onDeath += EnemyKilled);
+        }
     }
-    public void Update(){
-        allDead = true;
-
-        if (!destroyed){
-            // Check if all enemies are dead
-            foreach (EnemyAI enemy in enemies){
-                if (!(enemy.isDead() || enemy.team == 0)){
-                    allDead = false;
-                    break;
-                }
-            }
-
-            if (allDead){
-                ConditionReached();
-                destroyed = true;
-            }
+    public void EnemyKilled(){
+        killCount++;
+        if (!destroyed &&killCount >= requiredKills){
+            ConditionReached();
+            destroyed = true;
         }
     }
 

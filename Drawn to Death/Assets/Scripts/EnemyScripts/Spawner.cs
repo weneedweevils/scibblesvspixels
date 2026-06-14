@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public enum Limit { None, Time, Unit, Either, Both}
 public enum ActivationTrigger { None, Collider, Blocker}
@@ -25,6 +27,8 @@ public class Spawner : MonoBehaviour
     public ActivationTrigger activationTrigger = ActivationTrigger.None;
     public EnemyAI[] blockers;
     [HideInInspector] public bool active = true;
+
+    public Action<EnemyAI> onEnemySpawn;
 
     private CooldownTimer attemptTimer;
     private CooldownTimer limitTimer;
@@ -142,6 +146,7 @@ public class Spawner : MonoBehaviour
                 ++spawnCount;
                 spawnTime = false;
                 attemptTimer.StartTimer();
+                onEnemySpawn.Invoke(newEnemy.GetComponent<EnemyAI>());
             }
 
             if (!active && !triggerActive)
