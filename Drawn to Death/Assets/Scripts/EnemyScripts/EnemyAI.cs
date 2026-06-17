@@ -434,7 +434,7 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     //Usually called when the blocker that is isolating this enemy is destroyed
-    virtual protected void BlockerActivation()
+    virtual public void BlockerActivation()
     {
         isolated = false;
     }
