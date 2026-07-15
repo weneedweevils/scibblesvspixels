@@ -1,91 +1,55 @@
-﻿using FMOD.Studio;
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Serialization;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class EndCutscene : MonoBehaviour
 {
-    public UnityEngine.Video.VideoPlayer videoPlayer;
-    private bool videoStarted = false;
-    
-    private FMOD.Studio.EventInstance instance;
-    public FMODUnity.EventReference fmodEvent;
-    
+    [Header("UI Elements")]
     public GameObject menuButton;
     public GameObject credits;
-    public UnityEngine.UI.Button skipButton;
-    public float creditStartTime;
+    public Button skipButton;
     public float scrollSpeed;
-    private bool skipped = false;
+    private bool scrollCredits = false;
+    public float scrollStopPosition = 320f;
 
+    [Header("Input")]
     public PlayerInput playerInput;
+
+    [Header("Actors")]
+    public GameObject player;
+    public Vector2 playerFloatSpeed;
+    public float playerRotationSpeed;
+    public GameObject oodler;
+    public Vector2 oodlerFloatSpeed;
+    public float oodlerRotationSpeed;
+    public bool actorsFloating = false;
 
     // Start is called before the first frame update
     void Start()
     {
         skipButton.gameObject.SetActive(true);
         menuButton.SetActive(false);
-        instance = FMODUnity.RuntimeManager.CreateInstance(fmodEvent);
-        instance.start();
     }
 
-    public void SkipVideo()
+    public void SkipCutscene()
     {
-        videoPlayer.time = videoPlayer.length-10;
-        instance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        // TBD
+        StartCreditsScroll();
+    }
+
+    public void StartCreditsScroll()
+    {
         skipButton.gameObject.SetActive(false);
-        skipped = true;
+        menuButton.SetActive(true);
+        scrollCredits = true;
     }
-
-    private void Update()
-    {
-        if (videoPlayer.isPlaying && !skipped)
-        {
-            if (playerInput.actions["Escape"].triggered)
-            {
-                if (skipButton.IsActive())
-                {
-                    skipButton.gameObject.SetActive(false);
-                }
-                else
-                {
-                    skipButton.gameObject.SetActive(true);
-                }
-            }
-        }
-    }
- 
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!videoStarted && videoPlayer.isPlaying)
+        if (scrollCredits)
         {
-            videoStarted = true;
-        }
-        else if (videoStarted && !videoPlayer.isPlaying)
-        {
-            
-            EventSystem.current.SetSelectedGameObject(menuButton);
-            skipButton.gameObject.SetActive(false);
-        }
-
-      
-
-        if (videoPlayer.time > videoPlayer.length - 20)
-        {
-            skipped = true;
-            skipButton.gameObject.SetActive(false);
-        }
-
-        if (videoPlayer.time > creditStartTime)
-        {
-            menuButton.SetActive(true);
-            if (credits.gameObject.transform.GetChild(0).transform.position.y >= 270)
+            if (credits.gameObject.transform.GetChild(0).transform.position.y >= scrollStopPosition)
             {
                 scrollSpeed = 0;
                 return;
@@ -97,5 +61,19 @@ public class EndCutscene : MonoBehaviour
                 credits.transform.position += scrollSpeed * 3 * Vector3.up * Time.deltaTime;
             }
         }
+
+        if (actorsFloating)
+        {
+            player.transform.position += new Vector3(playerFloatSpeed.x * Time.deltaTime, playerFloatSpeed.y * Time.deltaTime, 0);
+            oodler.transform.position += new Vector3(oodlerFloatSpeed.x * Time.deltaTime, oodlerFloatSpeed.y * Time.deltaTime, 0);
+
+            player.transform.Rotate(Vector3.forward, playerRotationSpeed * Time.deltaTime);
+            oodler.transform.Rotate(Vector3.forward, oodlerRotationSpeed * Time.deltaTime);
+        }
+    }
+
+    public void StartFloatingActors()
+    {
+        actorsFloating = true;
     }
 }
