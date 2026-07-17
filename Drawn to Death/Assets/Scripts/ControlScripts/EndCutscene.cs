@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -24,6 +25,9 @@ public class EndCutscene : MonoBehaviour
     public float oodlerRotationSpeed;
     public bool actorsFloating = false;
 
+    [Header("Misc")]
+    public UnityEvent onCutsceneSkip;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +37,18 @@ public class EndCutscene : MonoBehaviour
 
     public void SkipCutscene()
     {
-        // TBD
+        /*
+        GameObject dialogueBox = DialogueManager.instance.GetCurrentDialogue().gameObject;
+        if (dialogueBox != null)
+            Destroy(dialogueBox);
+        DialogueManager.instance.SetCurrentDialogueNull();
+        DialogueManager.instance.dialogueActive = false;
+        */
+
+        onCutsceneSkip?.Invoke();
+
+        actorsFloating = true;
+
         StartCreditsScroll();
     }
 
@@ -47,6 +62,15 @@ public class EndCutscene : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (actorsFloating)
+        {
+            player.transform.position += new Vector3(playerFloatSpeed.x * Time.deltaTime, playerFloatSpeed.y * Time.deltaTime, 0);
+            oodler.transform.position += new Vector3(oodlerFloatSpeed.x * Time.deltaTime, oodlerFloatSpeed.y * Time.deltaTime, 0);
+
+            player.transform.Rotate(Vector3.forward, playerRotationSpeed * Time.deltaTime);
+            oodler.transform.Rotate(Vector3.forward, oodlerRotationSpeed * Time.deltaTime);
+        }
+
         if (scrollCredits)
         {
             if (credits.gameObject.transform.GetChild(0).transform.position.y >= scrollStopPosition)
@@ -62,14 +86,7 @@ public class EndCutscene : MonoBehaviour
             }
         }
 
-        if (actorsFloating)
-        {
-            player.transform.position += new Vector3(playerFloatSpeed.x * Time.deltaTime, playerFloatSpeed.y * Time.deltaTime, 0);
-            oodler.transform.position += new Vector3(oodlerFloatSpeed.x * Time.deltaTime, oodlerFloatSpeed.y * Time.deltaTime, 0);
-
-            player.transform.Rotate(Vector3.forward, playerRotationSpeed * Time.deltaTime);
-            oodler.transform.Rotate(Vector3.forward, oodlerRotationSpeed * Time.deltaTime);
-        }
+        
     }
 
     public void StartFloatingActors()

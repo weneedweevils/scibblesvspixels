@@ -28586,6 +28586,12 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1209472366}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1297791715 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5016467592371810576, guid: 7a70a575ba077fc48bf02e00badb0e5c,
+    type: 3}
+  m_PrefabInstance: {fileID: 613472155}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1388347526
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29658,6 +29664,7 @@ MonoBehaviour:
   credits: {fileID: 832984365}
   skipButton: {fileID: 1194457964}
   scrollSpeed: 100
+  scrollStopPosition: 320
   playerInput: {fileID: 1007969313}
   player: {fileID: 1832865755}
   playerFloatSpeed: {x: -0.15, y: 0.075}
@@ -29666,6 +29673,75 @@ MonoBehaviour:
   oodlerFloatSpeed: {x: 0.15, y: 0.075}
   oodlerRotationSpeed: -8
   actorsFloating: 0
+  onCutsceneSkip:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 885727209}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 842062174}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1482054696}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1297791715}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1749876821}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 18168809}
+        m_MethodName: SetState
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: idle
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1809042629
 MonoBehaviour:
   m_ObjectHideFlags: 0
