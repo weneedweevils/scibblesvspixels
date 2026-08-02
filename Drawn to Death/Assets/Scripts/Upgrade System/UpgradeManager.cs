@@ -22,24 +22,16 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
     public TMP_FontAsset fancyFont;
     public float fontSize;
 
-    public void Start()
-    {
-        if (!loadLevels)
-        {
-            Init();
-        }
-    }
-
     public void Update()
     {
-        currencyCounter.text = string.Format("x{0}", currency);
+        currencyCounter.text = currency.ToString();
         soulCounter.text = currency.ToString();
     }
 
     public void Init()
     {
+        Debug.Log("Initializing UpgradeManager...");
         SetTextbox();
-
         for (int i = 0; i < upgrades.Length; i++)
         {
             upgrades[i].option.Init(i);

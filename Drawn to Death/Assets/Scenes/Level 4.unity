@@ -5178,7 +5178,7 @@ PrefabInstance:
         type: 3}
       propertyPath: shopUI
       value: 
-      objectReference: {fileID: 1945567429}
+      objectReference: {fileID: 0}
     - target: {fileID: 5107638030663310200, guid: 948ee7c037099fe4981ad914a8af4671,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -93612,6 +93612,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 948932423}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &948932425 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3675139206520164842, guid: c620ed06c2126fe44a05d4db30dce7b6,
+    type: 3}
+  m_PrefabInstance: {fileID: 948932423}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &960982476 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7372220336552775461, guid: 6744da465353f014cb4c4555f102bf5c,
@@ -94920,7 +94932,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shop: {fileID: 1945567429}
-  playerInput: {fileID: 0}
+  playerInput: {fileID: 948932425}
 --- !u!61 &1021848132
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -105049,7 +105061,6 @@ MonoBehaviour:
   hud: {fileID: 541503753}
   tutorialObject: {fileID: 0}
   tutorialObjectOnEnemy: {fileID: 0}
-  tutorialToggle: {fileID: 0}
   newGame: 0
   loadGame: 1
   saveGame: 1
@@ -109941,6 +109952,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8220840406583130535, guid: 65e6e5dc867df7b4f9564bec4522407e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -199.99994
+      objectReference: {fileID: 0}
+    - target: {fileID: 8220840406604971029, guid: 65e6e5dc867df7b4f9564bec4522407e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -199.99994
+      objectReference: {fileID: 0}
     - target: {fileID: 8220840407198435399, guid: 65e6e5dc867df7b4f9564bec4522407e,
         type: 3}
       propertyPath: m_Camera
@@ -112146,6 +112167,11 @@ PrefabInstance:
       propertyPath: soulCounter
       value: 
       objectReference: {fileID: 1174132367}
+    - target: {fileID: 2284303529332056875, guid: 72657c078df370a4484073cbdab47a57,
+        type: 3}
+      propertyPath: nextScene
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 2979237151618724199, guid: 72657c078df370a4484073cbdab47a57,
         type: 3}
       propertyPath: m_Pivot.x
@@ -112275,7 +112301,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 72657c078df370a4484073cbdab47a57, type: 3}
 --- !u!1 &1945567429 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 6828740081639146778, guid: 72657c078df370a4484073cbdab47a57,
+  m_CorrespondingSourceObject: {fileID: 2652343935611121088, guid: 72657c078df370a4484073cbdab47a57,
     type: 3}
   m_PrefabInstance: {fileID: 1945567428}
   m_PrefabAsset: {fileID: 0}

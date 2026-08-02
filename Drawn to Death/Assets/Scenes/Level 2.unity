@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -6679,7 +6679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shop: {fileID: 1140698540}
-  playerInput: {fileID: 0}
+  playerInput: {fileID: 1497819739}
 --- !u!61 &331108976
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9823,7 +9823,6 @@ MonoBehaviour:
   hud: {fileID: 2106967940}
   tutorialObject: {fileID: 0}
   tutorialObjectOnEnemy: {fileID: 0}
-  tutorialToggle: {fileID: 0}
   newGame: 0
   loadGame: 1
   saveGame: 1
@@ -10160,6 +10159,11 @@ PrefabInstance:
       propertyPath: soulCounter
       value: 
       objectReference: {fileID: 910812015}
+    - target: {fileID: 2284303529332056875, guid: 72657c078df370a4484073cbdab47a57,
+        type: 3}
+      propertyPath: nextScene
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 2979237151618724199, guid: 72657c078df370a4484073cbdab47a57,
         type: 3}
       propertyPath: m_Pivot.x
@@ -10289,7 +10293,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 72657c078df370a4484073cbdab47a57, type: 3}
 --- !u!1 &1140698540 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 6828740081639146778, guid: 72657c078df370a4484073cbdab47a57,
+  m_CorrespondingSourceObject: {fileID: 2652343935611121088, guid: 72657c078df370a4484073cbdab47a57,
     type: 3}
   m_PrefabInstance: {fileID: 1140698539}
   m_PrefabAsset: {fileID: 0}
@@ -11015,7 +11019,7 @@ PrefabInstance:
         type: 3}
       propertyPath: shopUI
       value: 
-      objectReference: {fileID: 1140698540}
+      objectReference: {fileID: 0}
     - target: {fileID: 4959863527738910926, guid: 948ee7c037099fe4981ad914a8af4671,
         type: 3}
       propertyPath: activate.Array.data[3]
@@ -44919,6 +44923,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1497819737}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1497819739 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3675139206520164842, guid: c620ed06c2126fe44a05d4db30dce7b6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1497819737}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215642399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1522753130
 GameObject:
   m_ObjectHideFlags: 0
