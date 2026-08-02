@@ -59,7 +59,6 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
             textbox.text = content;
 
         textbox.font = (DialogueManager.fancyFont ? fancyFont : basicFont);
-        textbox.fontSize = (DialogueManager.fancyFont ? fontSize : fontSize * 0.8f);
     }
 
     public void LoadData(GameData data)
