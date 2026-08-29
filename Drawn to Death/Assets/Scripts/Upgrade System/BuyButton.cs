@@ -39,6 +39,8 @@ public class BuyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         state = _state;
         button.interactable = (state == BuyState.Buyable);
 
+        if (!animator.isActiveAndEnabled) return;
+
         // Manage animation/visuals
         switch (state)
         {
