@@ -16,18 +16,26 @@ public class RandAnimationPlayer : MonoBehaviour
     {
         if (animator == null) animator = GetComponent<Animator>();
 
+        // Start a timer for when to play a random animation
         timer = new StateTimer(new float[] { timeBetweenAnimations });
-
         timer.Start(PlayRandomVariant);
     }
 
+    // Activate a random animation variant
     public void PlayRandomVariant()
     {
+        // Pick a random variant from the weighted list
         var item = MyUtils.WeightedRandomChoice(variants);
         PlayBackgroundVariant(item.variantID);
+
+        // Restart the timer
         timer.Restart();
     }
 
+    /// <summary>
+    /// Play a specific background animation variant
+    /// </summary>
+    /// <param name="variantID"></param>
     [Button]
     public void PlayBackgroundVariant(int variantID)
     {

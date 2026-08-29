@@ -31,30 +31,37 @@ public class BuyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         SetBuyState(_state);
     }
 
+    /// <summary>
+    /// Set the state of the button
+    /// </summary>
     public void SetBuyState(BuyState _state)
     {
         state = _state;
         button.interactable = (state == BuyState.Buyable);
 
-            switch (state)
-            {
-                case BuyState.Unavailable:
-                    animator.SetBool("Available", false);
-                    soulCounter.enabled = true;
-                    break;
-                case BuyState.Buyable:
-                    animator.SetBool("Available", true);
-                    soulCounter.enabled = true;
-                    break;
-                case BuyState.Purchased:
-                    animator.SetBool("Available", true);
-                    animator.SetBool("Hover", true);
-                    animator.SetBool("Buy", true);
-                    soulCounter.enabled = false;
-                    break;
-            }
+        // Manage animation/visuals
+        switch (state)
+        {
+            case BuyState.Unavailable:
+                animator.SetBool("Available", false);
+                soulCounter.enabled = true;
+                break;
+            case BuyState.Buyable:
+                animator.SetBool("Available", true);
+                soulCounter.enabled = true;
+                break;
+            case BuyState.Purchased:
+                animator.SetBool("Available", true);
+                animator.SetBool("Hover", true);
+                animator.SetBool("Buy", true);
+                soulCounter.enabled = false;
+                break;
+        }
     }
 
+    /// <summary>
+    /// Perform the upgrade
+    /// </summary>
     public void Buy()
     {
         UpgradeManager.instance.currency -= price;

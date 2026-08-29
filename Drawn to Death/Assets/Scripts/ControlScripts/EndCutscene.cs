@@ -48,16 +48,11 @@ public class EndCutscene : MonoBehaviour
         oodlerSprite = oodler.GetComponentInChildren<SpriteRenderer>();
     }
 
+    /// <summary>
+    /// Skip the cutscene
+    /// </summary>
     public void SkipCutscene()
     {
-        /*
-        GameObject dialogueBox = DialogueManager.instance.GetCurrentDialogue().gameObject;
-        if (dialogueBox != null)
-            Destroy(dialogueBox);
-        DialogueManager.instance.SetCurrentDialogueNull();
-        DialogueManager.instance.dialogueActive = false;
-        */
-
         onCutsceneSkip?.Invoke();
 
         actorsFloating = true;
@@ -65,10 +60,18 @@ public class EndCutscene : MonoBehaviour
         StartCreditsScroll();
     }
 
+    /// <summary>
+    /// Start the scrolling credits sequence
+    /// </summary>
     public void StartCreditsScroll()
     {
+        // Disable skip cutscene button
         skipButton.gameObject.SetActive(false);
+
+        // Activate menu button
         menuButton.SetActive(true);
+
+        // enable credit scroll
         scrollCredits = true;
     }
 
@@ -107,22 +110,27 @@ public class EndCutscene : MonoBehaviour
 
         if (scrollCredits)
         {
+            // Check if end of credits has been reched
             if (credits.gameObject.transform.GetChild(0).transform.position.y >= scrollStopPosition)
             {
                 scrollSpeed = 0;
                 return;
             }
+
+            // Scroll credits
             credits.transform.position += scrollSpeed * Vector3.up * Time.deltaTime;
 
+            // (Optional) increase scroll speed
             if (playerInput.actions["ScrollFaster"].IsPressed())
             {
                 credits.transform.position += scrollSpeed * 3 * Vector3.up * Time.deltaTime;
             }
         }
-
-        
     }
 
+    /// <summary>
+    /// Enable floating actors
+    /// </summary>
     public void StartFloatingActors()
     {
         actorsFloating = true;

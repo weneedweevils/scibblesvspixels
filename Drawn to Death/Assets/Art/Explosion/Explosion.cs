@@ -27,24 +27,34 @@ public class Explosion : MonoBehaviour
     {
         if (animator == null) animator = GetComponent<Animator>();
 
+        // Randomize properties
         RandRot();
         RandScale();
         RandTranslation();
         RandPlaybackSpeed();
     }
 
+    /// <summary>
+    /// Set a random rotation between [minAngle, maxAngle]
+    /// </summary>
     public void RandRot()
     {
         float randomAngle = Random.Range(minAngle, maxAngle);
         transform.rotation = Quaternion.Euler(0f, 0f, randomAngle);
     }
 
+    /// <summary>
+    /// Set a random scale between [minScale, maxScale]
+    /// </summary>
     public void RandScale()
     {
         float randomScale = Random.Range(minScale, maxScale);
         transform.localScale = new Vector3(randomScale, randomScale, 1f);
     }
 
+    /// <summary>
+    /// Set a random relative position between [minTranslation, maxTranslation]
+    /// </summary>
     public void RandTranslation()
     {
         float randomX = Random.Range(minTranslation.x, maxTranslation.x);
@@ -52,6 +62,9 @@ public class Explosion : MonoBehaviour
         transform.position += new Vector3(randomX, randomY, 0f);
     }
 
+    /// <summary>
+    /// Set a random animation playbackspeed between [playbackspeed - playbackSpeedVariance, playbackspeed + playbackSpeedVariance]
+    /// </summary>
     public void RandPlaybackSpeed()
     {
         float randomPlaybackSpeed = playbackspeed + Random.Range(-playbackSpeedVariance, playbackSpeedVariance);

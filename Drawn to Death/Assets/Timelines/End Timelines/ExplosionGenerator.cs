@@ -16,8 +16,6 @@ public class ExplosionGenerator : MonoBehaviour
     [SerializeField] private float shakeAmount = 0.5f;
     [SerializeField] private float damping = 0.5f;
 
-    //TODO: add SFX event for explosions
-
     public void Update()
     {
         if (isExploding)
@@ -34,13 +32,19 @@ public class ExplosionGenerator : MonoBehaviour
             camera.transform.localPosition = new Vector3(0f, 0f, camera.transform.localPosition.z);
         }
     }
-
+    
+    /// <summary>
+    /// Start spawning explosions
+    /// </summary>
     public void StartSpawnExplosions(int count)
     {
         isExploding = true;
         StartCoroutine(SpawnExplosions(count));
     }
 
+    /// <summary>
+    /// Explosion spawning sequence
+    /// </summary>
     public IEnumerator SpawnExplosions(int total)
     {
         int count = 0;
@@ -50,8 +54,10 @@ public class ExplosionGenerator : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
 
+            // Spawn explosions according to the explosionSpawnInterval
             if (elapsedTime >= count * explosionSpawnInterval)
             {
+                // Spawn and save an explosion
                 Explosion explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity, transform);
                 activeExplosions.Add(explosion);
                 count++;
@@ -60,10 +66,14 @@ public class ExplosionGenerator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Stop spawning explosions and remove all explosions created by this spawner
+    /// </summary>
     public void KillExplosions()
     {
         StopAllCoroutines();
 
+        // Remove all saved explosions
         foreach (var explosion in activeExplosions)
         {
             if (explosion != null)

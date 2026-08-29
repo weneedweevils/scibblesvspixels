@@ -23,42 +23,67 @@ public class ConditionalWall : MonoBehaviour
     [Header("FMOD Events")]
     [SerializeField] private FMODUnity.EventReference cellWallBreakSFX;
 
-    public void Start(){
+    public void Start()
+    {
         spriteRenderer = GetComponent<SpriteRenderer>();
         polygonCollider2D = GetComponent<PolygonCollider2D>();
         destroyed = false;
 
+        // Start listening to all enemies onDeath event
         foreach (EnemyAI enemy in FindObjectsOfType<EnemyAI>())
         {
             enemy.onDeath += EnemyKilled;
         }
 
+        // Subscribe to all spawners to start listening for newly created enemies' onDeath event
         foreach (Spawner spawner in FindObjectsOfType<Spawner>())
         {
             spawner.onEnemySpawn += ((enemy) => enemy.onDeath += EnemyKilled);
         }
 
+        // Ensure all associated enemies are marked as isolated
         foreach (EnemyAI enemy in activateEnemies)
         {
             if (enemy != null)
                 enemy.isolated = true;
         }
     }
-    public void EnemyKilled(EnemyAI enemy){
+    
+    /// <summary>
+    /// Observer function for when an enemy is killed
+    /// </summary>
+    public void EnemyKilled(EnemyAI enemy)
+    {
+        // increment kill counter
         killCount++;
+
+        // Remove listener
         enemy.onDeath -= EnemyKilled;
-        if (!destroyed &&killCount >= requiredKills){
+
+        // Check for activation condition
+        if (!destroyed && killCount >= requiredKills)
+        {
             ConditionReached();
             destroyed = true;
         }
     }
 
-    public void ConditionReached(){
+    /// <summary>
+    /// Activation function for when the condition is reached
+    /// </summary>
+    public void ConditionReached()
+    {
+        // Change sprite and disable collider
         spriteRenderer.sprite = destroyedSprite;
         polygonCollider2D.enabled = false;
+
+        // Spawn explosion
         Instantiate(explosion, transform.position, Quaternion.identity);
+
+        // Play sfx
         FMODUnity.RuntimeManager.PlayOneShot(cellWallBreakSFX, this.transform.position);
 
+        // Release isolated enemies
         foreach (EnemyAI enemy in activateEnemies)
         {
             if (enemy != null)

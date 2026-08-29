@@ -11,6 +11,9 @@ public class FadeController : MonoBehaviour
 
     public UnityEvent onFadeComplete = new UnityEvent();
 
+    /// <summary>
+    /// Set the color of the fade using a color from the fadeColors list
+    /// </summary>
     public void SetFadeColor(int id)
     {
         if (id >= 0 && id < fadeColors.Length)
@@ -23,6 +26,9 @@ public class FadeController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Set the color of the fade
+    /// </summary>
     public void SetFadeColor(Color color)
     {
         if (fadeImage != null)
@@ -31,16 +37,25 @@ public class FadeController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Fade alpha from 0 -> 1
+    /// </summary>
     public void FadeIn(float duration)
     {
         StartCoroutine(Fade(0f, 1f, duration));
     }
 
+    /// <summary>
+    /// Fade alpha from 1 -> 0
+    /// </summary>
     public void FadeOut(float duration)
     {
         StartCoroutine(Fade(1f, 0f, duration));
     }
 
+    /// <summary>
+    /// Fade sequence
+    /// </summary>
     public IEnumerator Fade(float startAlpha, float endAlpha, float duration, float delay = 0f)
     {
         if (delay > 0f)
