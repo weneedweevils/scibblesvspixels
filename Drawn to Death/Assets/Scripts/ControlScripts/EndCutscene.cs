@@ -18,11 +18,21 @@ public class EndCutscene : MonoBehaviour
 
     [Header("Actors")]
     public GameObject player;
+    [HideInInspector] public SpriteRenderer playerSprite;
     public Vector2 playerFloatSpeed;
     public float playerRotationSpeed;
+    public float playerScaleSpeed;
+    public float playerfadeSpeed;
+
+    [Space(20)]
     public GameObject oodler;
+    [HideInInspector] public SpriteRenderer oodlerSprite;
     public Vector2 oodlerFloatSpeed;
     public float oodlerRotationSpeed;
+    public float oodlerScaleSpeed;
+    public float oodlerFadeSpeed;
+
+    [Space(20)]
     public bool actorsFloating = false;
 
     [Header("Misc")]
@@ -33,6 +43,9 @@ public class EndCutscene : MonoBehaviour
     {
         skipButton.gameObject.SetActive(true);
         menuButton.SetActive(false);
+
+        playerSprite = player.GetComponent<SpriteRenderer>();
+        oodlerSprite = oodler.GetComponentInChildren<SpriteRenderer>();
     }
 
     public void SkipCutscene()
@@ -64,11 +77,32 @@ public class EndCutscene : MonoBehaviour
     {
         if (actorsFloating)
         {
+            // Adjust translation
             player.transform.position += new Vector3(playerFloatSpeed.x * Time.deltaTime, playerFloatSpeed.y * Time.deltaTime, 0);
             oodler.transform.position += new Vector3(oodlerFloatSpeed.x * Time.deltaTime, oodlerFloatSpeed.y * Time.deltaTime, 0);
 
+            // Adjust rotation
             player.transform.Rotate(Vector3.forward, playerRotationSpeed * Time.deltaTime);
             oodler.transform.Rotate(Vector3.forward, oodlerRotationSpeed * Time.deltaTime);
+
+            // Adjust scale
+            float delta = playerScaleSpeed * Time.deltaTime;
+            player.transform.localScale = new Vector3(
+                Mathf.Max(0, player.transform.localScale.x + delta),
+                Mathf.Max(0, player.transform.localScale.y + delta), 
+                player.transform.localScale.z
+            );
+
+            delta = oodlerScaleSpeed * Time.deltaTime;
+            oodler.transform.localScale = new Vector3(
+                Mathf.Max(0, oodler.transform.localScale.x + delta),
+                Mathf.Max(0, oodler.transform.localScale.y + delta), 
+                oodler.transform.localScale.z
+                );
+
+            // Adjust alpha
+            MyUtils.SetAlpha(playerSprite, Mathf.Clamp01(playerSprite.color.a + playerfadeSpeed * Time.deltaTime));
+            MyUtils.SetAlpha(oodlerSprite, Mathf.Clamp01(oodlerSprite.color.a + playerfadeSpeed * Time.deltaTime));
         }
 
         if (scrollCredits)

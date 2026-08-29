@@ -29667,11 +29667,17 @@ MonoBehaviour:
   scrollStopPosition: 320
   playerInput: {fileID: 1007969313}
   player: {fileID: 1832865755}
-  playerFloatSpeed: {x: -0.15, y: 0.075}
+  playerSprite: {fileID: 0}
+  playerFloatSpeed: {x: -0.3, y: 0.15}
   playerRotationSpeed: 8
+  playerScaleSpeed: -0.03
+  playerfadeSpeed: -0.01
   oodler: {fileID: 1499305843}
-  oodlerFloatSpeed: {x: 0.15, y: 0.075}
+  oodlerSprite: {fileID: 0}
+  oodlerFloatSpeed: {x: 0.3, y: 0.15}
   oodlerRotationSpeed: -8
+  oodlerScaleSpeed: -0.02
+  oodlerFadeSpeed: -0.01
   actorsFloating: 0
   onCutsceneSkip:
     m_PersistentCalls:
@@ -29798,7 +29804,7 @@ GameObject:
   - component: {fileID: 1832865759}
   - component: {fileID: 1832865758}
   m_Layer: 0
-  m_Name: Glich
+  m_Name: Glich Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29878,7 +29884,7 @@ Animator:
   m_GameObject: {fileID: 1832865755}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 56352d978f843de40b31e71c27f047df, type: 2}
+  m_Controller: {fileID: 9100000, guid: 061983139acd2c844aef04c33c73645d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
