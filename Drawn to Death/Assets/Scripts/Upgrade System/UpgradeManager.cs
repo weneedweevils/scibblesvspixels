@@ -104,13 +104,12 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
         data.currency = currency;
     }
 
-    public void CreateSoul(Vector2 pos, int count, int value)
+    public void CreateSoul(Vector3 pos, int count, int value)
     {
         for (int i = 0; i < count; i++)
         {
             //Instantiate the soul
-            Soul soul = Instantiate<Soul>(soulBlueprint, transform);
-            soul.transform.position = pos;
+            Soul soul = Instantiate<Soul>(soulBlueprint, pos, Quaternion.identity );
             soul.SetValue(value);
         }
     }
