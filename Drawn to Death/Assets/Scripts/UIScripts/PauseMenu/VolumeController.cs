@@ -26,7 +26,6 @@ public class VolumeController : Singleton<VolumeController>
 
         inCutscene = false;
         volumeReduction = 1;
-        Debug.Log(volumeReduction);
     } 
 
     void Update()

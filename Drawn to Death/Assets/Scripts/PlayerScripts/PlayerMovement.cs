@@ -5,7 +5,6 @@
 *          
 */
 
-using Microsoft.Unity.VisualStudio.Editor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -513,7 +512,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             Vector2 currentPos = rbody.position;
             Vector2 newPos = currentPos + velocity * Time.fixedDeltaTime;
 
-            if (!(weapon.reviveTimer.IsActive() || recallTimer.IsActive() || inFreezeDialogue()))
+            if (!(weapon.reviveTimer.IsActive() || recallTimer.IsActive() || inFreezeDialogue() || timelinePlaying))
             {
                 //Move to new position
                 rbody.MovePosition(newPos);

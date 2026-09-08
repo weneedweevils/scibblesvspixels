@@ -8,7 +8,6 @@ public class UpgradeOption : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 {
     public int id;
     public TMPro.TextMeshProUGUI titleRef;
-    public Image iconRef;
     public string title;
     public Sprite icon;
     public BuyButton[] upgradeTier;
@@ -26,12 +25,12 @@ public class UpgradeOption : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         //Set Upgrade title and icon
         titleRef.text = title;
-        if (icon != null) iconRef.sprite = icon;
         description = upgradeMap.upgrade.upgradeDescription;
 
         //Initialize all Buy Buttons
         for (int i = 0; i < upgradeTier.Length; i++)
         {
+            
             //Select the correct buy button state
             BuyButton.BuyState state = BuyButton.BuyState.Unavailable;
             if (upgradeMap.level == i)
@@ -41,6 +40,7 @@ public class UpgradeOption : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
             //Initialize Buy Button
             upgradeTier[i].Init(state, this, upgradeMap.upgrade.upgradeCosts[i], upgradeMap.upgrade.upgradeDescriptions[i]);
+
         }
     }
 

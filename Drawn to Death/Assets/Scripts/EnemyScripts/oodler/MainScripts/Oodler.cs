@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
@@ -117,7 +118,7 @@ public class Oodler : MonoBehaviour
 
 
     // Menu Control //
-    public MenuManager menuManager;
+    public UnityEvent OnDeath = new UnityEvent();
     private float angle = 0f;
 
     // Bool checks //
@@ -303,13 +304,12 @@ public class Oodler : MonoBehaviour
         return currentHealth;
     }
 
-     
+
     // When Health Reaches Zero
+    [ContextMenu("Die")]
     public void Die()
     {
-        menuManager.GotoScene();
-        Debug.Log("oodler is dead");
-
+        OnDeath.Invoke();
     }
 
     #endregion

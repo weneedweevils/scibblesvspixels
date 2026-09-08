@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 using UnityEngine.UIElements;
+using UnityEngine.Events;
+using System;
 
 // Used this video for most of the script https://www.youtube.com/watch?v=jvtFUfJ6CP8a
 // if you want to use this in FSM inherit from EnemybaseState class
@@ -68,6 +70,7 @@ public abstract class EnemyAI : MonoBehaviour
     public SpriteRenderer selfImage;
     public GameObject panel;
 
+    public Action<EnemyAI> onDeath;
 
     /* ----- Hidden Variables ----- */
 
@@ -431,7 +434,7 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     //Usually called when the blocker that is isolating this enemy is destroyed
-    virtual protected void BlockerActivation()
+    virtual public void BlockerActivation()
     {
         isolated = false;
     }
@@ -515,6 +518,8 @@ public abstract class EnemyAI : MonoBehaviour
     [ContextMenu("Kill")]
     virtual public void Kill()
     {
+        onDeath?.Invoke(this);
+        
         // Play the death sfx
         FMODUnity.RuntimeManager.PlayOneShot(deathSfx, this.transform.position);
         

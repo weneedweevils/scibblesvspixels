@@ -8,15 +8,19 @@ public class BuyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 {
     public enum BuyState { Unavailable, Buyable, Purchased }
     public BuyState state;
-    public Text soulCounter;
+    public TMPro.TextMeshProUGUI soulCounter;
     public Button button;
-    public Image image;
-    public Color[] colors;
+    public Animator animator;
     private int price;
     private UpgradeOption parent;
     private string description;
     public FMODUnity.EventReference upgradeSound;
     public FMODUnity.EventReference hoverSound;
+
+    public void Awake()
+    {
+        SetBuyState(state);
+    }
 
     public void Init(BuyState _state, UpgradeOption _parent, int _price, string _description)
     {
@@ -27,15 +31,39 @@ public class BuyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         SetBuyState(_state);
     }
 
+    /// <summary>
+    /// Set the state of the button
+    /// </summary>
     public void SetBuyState(BuyState _state)
     {
         state = _state;
         button.interactable = (state == BuyState.Buyable);
-        image.color = colors[(int)state];
-        if (state == BuyState.Purchased)
-            soulCounter.text = "PURCHASED";
+
+        if (!animator.isActiveAndEnabled) return;
+
+        // Manage animation/visuals
+        switch (state)
+        {
+            case BuyState.Unavailable:
+                animator.SetBool("Available", false);
+                soulCounter.enabled = true;
+                break;
+            case BuyState.Buyable:
+                animator.SetBool("Available", true);
+                soulCounter.enabled = true;
+                break;
+            case BuyState.Purchased:
+                animator.SetBool("Available", true);
+                animator.SetBool("Hover", true);
+                animator.SetBool("Buy", true);
+                soulCounter.enabled = false;
+                break;
+        }
     }
 
+    /// <summary>
+    /// Perform the upgrade
+    /// </summary>
     public void Buy()
     {
         UpgradeManager.instance.currency -= price;
@@ -49,6 +77,7 @@ public class BuyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             parent.displayDescription = false;
             UpgradeManager.instance.SetTextbox(description);
             FMODUnity.RuntimeManager.PlayOneShot(hoverSound);
+            animator.SetBool("Hover", true);
         }
     }
 
@@ -56,6 +85,10 @@ public class BuyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         parent.displayDescription = true;
         UpgradeManager.instance.SetTextbox(parent.description);
+        if (state == BuyState.Buyable)
+        {
+            animator.SetBool("Hover", false);
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)

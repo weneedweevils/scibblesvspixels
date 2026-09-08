@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,5 +36,38 @@ public static class MyUtils
 
         // Create a Quaternion with the calculated angle (2D rotation is around the Z-axis)
         return Quaternion.Euler(0, 0, angle);
+    }
+
+    /// <summary>
+    /// Selects a random element from a list based on weighted probabilities.
+    /// </summary>
+    public static T WeightedRandomChoice<T>(List<T> items) where T : IWeightedOption
+    {
+        if (items == null || items.Count == 0)
+            throw new ArgumentException("Item list is null or empty.");
+
+        float totalWeight = 0f;
+        foreach (var item in items)
+            totalWeight += item.weight;
+
+        if (totalWeight <= 0f)
+            throw new ArgumentException("Total weight must be greater than zero.");
+
+        float randomPoint = UnityEngine.Random.value * totalWeight;
+        float currentWeight = 0f;
+
+        foreach (var item in items)
+        {
+            currentWeight += item.weight;
+            if (randomPoint <= currentWeight)
+                return item;
+        }
+
+        return default;
+    }
+
+    public interface IWeightedOption
+    {
+        float weight { get; }
     }
 }

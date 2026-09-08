@@ -1,101 +1,138 @@
-﻿using FMOD.Studio;
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Serialization;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class EndCutscene : MonoBehaviour
 {
-    public UnityEngine.Video.VideoPlayer videoPlayer;
-    private bool videoStarted = false;
-    
-    private FMOD.Studio.EventInstance instance;
-    public FMODUnity.EventReference fmodEvent;
-    
+    [Header("UI Elements")]
     public GameObject menuButton;
     public GameObject credits;
-    public UnityEngine.UI.Button skipButton;
-    public float creditStartTime;
+    public Button skipButton;
     public float scrollSpeed;
-    private bool skipped = false;
+    private bool scrollCredits = false;
+    public float scrollStopPosition = 320f;
 
+    [Header("Input")]
     public PlayerInput playerInput;
+
+    [Header("Actors")]
+    public GameObject player;
+    [HideInInspector] public SpriteRenderer playerSprite;
+    public Vector2 playerFloatSpeed;
+    public float playerRotationSpeed;
+    public float playerScaleSpeed;
+    public float playerfadeSpeed;
+
+    [Space(20)]
+    public GameObject oodler;
+    [HideInInspector] public SpriteRenderer oodlerSprite;
+    public Vector2 oodlerFloatSpeed;
+    public float oodlerRotationSpeed;
+    public float oodlerScaleSpeed;
+    public float oodlerFadeSpeed;
+
+    [Space(20)]
+    public bool actorsFloating = false;
+
+    [Header("Misc")]
+    public UnityEvent onCutsceneSkip;
 
     // Start is called before the first frame update
     void Start()
     {
         skipButton.gameObject.SetActive(true);
         menuButton.SetActive(false);
-        instance = FMODUnity.RuntimeManager.CreateInstance(fmodEvent);
-        instance.start();
+
+        playerSprite = player.GetComponent<SpriteRenderer>();
+        oodlerSprite = oodler.GetComponentInChildren<SpriteRenderer>();
     }
 
-    public void SkipVideo()
+    /// <summary>
+    /// Skip the cutscene
+    /// </summary>
+    public void SkipCutscene()
     {
-        videoPlayer.time = videoPlayer.length-10;
-        instance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        onCutsceneSkip?.Invoke();
+
+        actorsFloating = true;
+
+        StartCreditsScroll();
+    }
+
+    /// <summary>
+    /// Start the scrolling credits sequence
+    /// </summary>
+    public void StartCreditsScroll()
+    {
+        // Disable skip cutscene button
         skipButton.gameObject.SetActive(false);
-        skipped = true;
-    }
 
-    private void Update()
-    {
-        if (videoPlayer.isPlaying && !skipped)
-        {
-            if (playerInput.actions["Escape"].triggered)
-            {
-                if (skipButton.IsActive())
-                {
-                    skipButton.gameObject.SetActive(false);
-                }
-                else
-                {
-                    skipButton.gameObject.SetActive(true);
-                }
-            }
-        }
+        // Activate menu button
+        menuButton.SetActive(true);
+
+        // enable credit scroll
+        scrollCredits = true;
     }
- 
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!videoStarted && videoPlayer.isPlaying)
+        if (actorsFloating)
         {
-            videoStarted = true;
-        }
-        else if (videoStarted && !videoPlayer.isPlaying)
-        {
-            
-            EventSystem.current.SetSelectedGameObject(menuButton);
-            skipButton.gameObject.SetActive(false);
+            // Adjust translation
+            player.transform.position += new Vector3(playerFloatSpeed.x * Time.deltaTime, playerFloatSpeed.y * Time.deltaTime, 0);
+            oodler.transform.position += new Vector3(oodlerFloatSpeed.x * Time.deltaTime, oodlerFloatSpeed.y * Time.deltaTime, 0);
+
+            // Adjust rotation
+            player.transform.Rotate(Vector3.forward, playerRotationSpeed * Time.deltaTime);
+            oodler.transform.Rotate(Vector3.forward, oodlerRotationSpeed * Time.deltaTime);
+
+            // Adjust scale
+            float delta = playerScaleSpeed * Time.deltaTime;
+            player.transform.localScale = new Vector3(
+                Mathf.Max(0, player.transform.localScale.x + delta),
+                Mathf.Max(0, player.transform.localScale.y + delta), 
+                player.transform.localScale.z
+            );
+
+            delta = oodlerScaleSpeed * Time.deltaTime;
+            oodler.transform.localScale = new Vector3(
+                Mathf.Max(0, oodler.transform.localScale.x + delta),
+                Mathf.Max(0, oodler.transform.localScale.y + delta), 
+                oodler.transform.localScale.z
+                );
+
+            // Adjust alpha
+            MyUtils.SetAlpha(playerSprite, Mathf.Clamp01(playerSprite.color.a + playerfadeSpeed * Time.deltaTime));
+            MyUtils.SetAlpha(oodlerSprite, Mathf.Clamp01(oodlerSprite.color.a + playerfadeSpeed * Time.deltaTime));
         }
 
-      
-
-        if (videoPlayer.time > videoPlayer.length - 20)
+        if (scrollCredits)
         {
-            skipped = true;
-            skipButton.gameObject.SetActive(false);
-        }
-
-        if (videoPlayer.time > creditStartTime)
-        {
-            menuButton.SetActive(true);
-            if (credits.gameObject.transform.GetChild(0).transform.position.y >= 270)
+            // Check if end of credits has been reched
+            if (credits.gameObject.transform.GetChild(0).transform.position.y >= scrollStopPosition)
             {
                 scrollSpeed = 0;
                 return;
             }
+
+            // Scroll credits
             credits.transform.position += scrollSpeed * Vector3.up * Time.deltaTime;
 
+            // (Optional) increase scroll speed
             if (playerInput.actions["ScrollFaster"].IsPressed())
             {
                 credits.transform.position += scrollSpeed * 3 * Vector3.up * Time.deltaTime;
             }
         }
+    }
+
+    /// <summary>
+    /// Enable floating actors
+    /// </summary>
+    public void StartFloatingActors()
+    {
+        actorsFloating = true;
     }
 }
