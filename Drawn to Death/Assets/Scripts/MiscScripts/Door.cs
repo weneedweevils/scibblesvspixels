@@ -24,7 +24,7 @@ public class Door : MonoBehaviour
     {
         animator?.SetTrigger("Open");   // Play the door opening animation
         timer.Start(() => doorCollider.enabled = false);    // disable door collider when timer ends
-        FMODUnity.RuntimeManager.PlayOneShot(openSFX);      // Play door sfx
+        FMODUnity.RuntimeManager.PlayOneShot(openSFX, this.transform.position);      // Play door sfx
     }
 
     public void OnTriggerEnter2D(Collider2D collision)

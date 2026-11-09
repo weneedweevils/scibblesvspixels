@@ -13,12 +13,16 @@ public class PlayerSFX : MonoBehaviour
     public FMODUnity.EventReference lifestealSFX;
     public FMODUnity.EventReference rallySFX;
     public FMODUnity.EventReference reviveSFX;
+    public FMODUnity.EventReference deathSFX;
+    public FMODUnity.EventReference selfReviveSFX;
 
     private FMOD.Studio.EventInstance lifestealInstance;
 
     void Awake()
     {
         lifestealInstance = FMODUnity.RuntimeManager.CreateInstance(lifestealSFX);
+        PlayerMovement.OnPlayerDeath += PlayDeathSFX;
+        PlayerMovement.SelfReviveHandUp += PlaySelfReviveSFX;
     }
 
     public void PlayFootstepSFX()
@@ -56,8 +60,20 @@ public class PlayerSFX : MonoBehaviour
         lifestealInstance.stop(0);
     }
 
+    public void PlayDeathSFX()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot(deathSFX);
+    }
+
+    public void PlaySelfReviveSFX()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot(selfReviveSFX);
+    }
+
     private void OnDestroy()
     {
         lifestealInstance.stop(0);
+        PlayerMovement.OnPlayerDeath -= PlayDeathSFX;
+        PlayerMovement.SelfReviveHandUp -= PlaySelfReviveSFX;
     }
 }

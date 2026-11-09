@@ -7,6 +7,8 @@ public class BasicMusicScript : MonoBehaviour
 {
     public static BasicMusicScript instance;
     private FMOD.Studio.EventInstance eventInstance;
+    public FMODUnity.EventReference deathScreenSnapshotReference;
+    private FMOD.Studio.EventInstance deathScreenSnapshotInstance;
 
     public List<FMODUnity.EventReference> music;
 
@@ -28,6 +30,10 @@ public class BasicMusicScript : MonoBehaviour
             Debug.LogError("Found more than one Basic Music Script in the scene");
         }
         instance = this;
+
+        deathScreenSnapshotInstance = FMODUnity.RuntimeManager.CreateInstance(deathScreenSnapshotReference);
+        PlayerMovement.OnPlayerDeath += EnableDeathScreen;
+        PlayerMovement.SelfReviveHandUp += DisableDeathScreen;
     }
 
     // Start is called before the first frame update
@@ -55,6 +61,9 @@ public class BasicMusicScript : MonoBehaviour
 
     private void OnDestroy() {
         eventInstance.stop(0);
+
+        PlayerMovement.OnPlayerDeath -= EnableDeathScreen;
+        PlayerMovement.SelfReviveHandUp -= DisableDeathScreen;
     }
 
     public void switchTrack()
@@ -95,5 +104,15 @@ public class BasicMusicScript : MonoBehaviour
     public float GetIntensity()
     {
         return intensity;
+    }
+
+    public void EnableDeathScreen()
+    {
+        deathScreenSnapshotInstance.start();
+    }
+
+    public void DisableDeathScreen()
+    {
+        deathScreenSnapshotInstance.stop(0);
     }
 }

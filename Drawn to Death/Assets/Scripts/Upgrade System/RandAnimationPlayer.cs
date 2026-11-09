@@ -27,6 +27,7 @@ public class RandAnimationPlayer : MonoBehaviour
         // Pick a random variant from the weighted list
         var item = MyUtils.WeightedRandomChoice(variants);
         PlayBackgroundVariant(item.variantID);
+        FMODUnity.RuntimeManager.PlayOneShot(item.sound);
 
         // Restart the timer
         timer.Restart();
@@ -49,6 +50,7 @@ public class VariantWeights : MyUtils.IWeightedOption
 {
     public int variantID;
     public float weight;
+    public FMODUnity.EventReference sound;
     
     float MyUtils.IWeightedOption.weight => weight;
 }
