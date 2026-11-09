@@ -18,7 +18,6 @@ public class DataPersistenceManager : MonoBehaviour
     [SerializeField] private GameObject hud;
     [SerializeField] private GameObject tutorialObject;
     [SerializeField] private GameObject tutorialObjectOnEnemy;
-    [SerializeField] private GameObject tutorialToggle;
 
     [Header("On Start Options")]
     [SerializeField] private bool newGame;
@@ -68,14 +67,12 @@ public class DataPersistenceManager : MonoBehaviour
         if (newGame) { NewGame(); }
         if (loadGame) { LoadGame(); }
         if (saveGame) { SaveGame(); }
-
-       
     }
 
     [ContextMenu("New Game")]
     public void NewGame()
     {
-        this.gameData = new GameData(tutorialToggle.GetComponent<Toggle>().isOn);
+        this.gameData = new GameData(PlayerPrefs.GetInt("SkipTutorial", 0) == 1);
         dataHandler.Save(gameData);
     }
 
@@ -123,21 +120,14 @@ public class DataPersistenceManager : MonoBehaviour
         //pass data to other scripts so they can update it
         gameData.skipCutscene = true;
         gameData.scene = scene;
-
-        Debug.Log("----- Collecting Data -----");
         
         foreach (IDataPersistence obj in dataPersistenceObjects)
         {
             obj.SaveData(ref gameData);
         }
 
-        Debug.Log("----- Saving Data -----");
-
         //save the data to a file using the data handler
         dataHandler.Save(gameData);
-
-        Debug.Log("----- Data Saved -----");
-
     }
 
     public GameData GetGameData()
@@ -156,5 +146,8 @@ public class DataPersistenceManager : MonoBehaviour
         return new List<IDataPersistence>(dataPerObjects);
     }
 
-  
+    public void SetSkipTutorial(bool value)
+    {
+        PlayerPrefs.SetInt("SkipTutorial", value ? 1 : 0);
+    }
 }

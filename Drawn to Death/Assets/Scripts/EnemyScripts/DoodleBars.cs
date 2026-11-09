@@ -30,7 +30,7 @@ public class DoodleBars : EnemyAI
         }
     }
 
-    override protected void BlockerActivation()
+    override public void BlockerActivation()
     {
         base.BlockerActivation();
         selfImage.color = Color.white;

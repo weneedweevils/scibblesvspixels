@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public enum Limit { None, Time, Unit, Either, Both}
-public enum ActivationTrigger { None, Collider, Blocker}
+public enum ActivationTrigger { None, Collider, Blocker, KillCount }
 public class Spawner : MonoBehaviour
 {
     [Header("References")]
@@ -24,7 +26,11 @@ public class Spawner : MonoBehaviour
     public int unitLimit;
     public ActivationTrigger activationTrigger = ActivationTrigger.None;
     public EnemyAI[] blockers;
+    [Min(1)]public int requiredKills = 1;
+    private int killCount = 0;
     [HideInInspector] public bool active = true;
+
+    public Action<EnemyAI> onEnemySpawn;
 
     private CooldownTimer attemptTimer;
     private CooldownTimer limitTimer;
@@ -65,6 +71,19 @@ public class Spawner : MonoBehaviour
         if (active)
         {
             ActivateSpawner();
+        }
+
+        if (activationTrigger == ActivationTrigger.KillCount)
+        {
+            foreach (EnemyAI enemy in FindObjectsOfType<EnemyAI>())
+            {
+                enemy.onDeath += EnemyKilled;
+            }
+
+            foreach (Spawner spawner in FindObjectsOfType<Spawner>())
+            {
+                spawner.onEnemySpawn += ((enemy) => enemy.onDeath += EnemyKilled);
+            }
         }
     }
 
@@ -142,6 +161,7 @@ public class Spawner : MonoBehaviour
                 ++spawnCount;
                 spawnTime = false;
                 attemptTimer.StartTimer();
+                onEnemySpawn?.Invoke(newEnemy.GetComponent<EnemyAI>());
             }
 
             if (!active && !triggerActive)
@@ -178,6 +198,16 @@ public class Spawner : MonoBehaviour
         triggerActive = false;
         spawnCount = 0;
         limitTimer.StartTimer();
+    }
+
+    public void EnemyKilled(EnemyAI enemy)
+    {
+        killCount++;
+        enemy.onDeath -= EnemyKilled;
+        if (triggerActive && activationTrigger == ActivationTrigger.KillCount && killCount >= requiredKills)
+        {
+            ActivateSpawner();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

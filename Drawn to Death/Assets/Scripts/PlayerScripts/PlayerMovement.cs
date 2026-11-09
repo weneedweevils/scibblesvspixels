@@ -5,7 +5,6 @@
 *          
 */
 
-using Microsoft.Unity.VisualStudio.Editor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -513,7 +512,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             Vector2 currentPos = rbody.position;
             Vector2 newPos = currentPos + velocity * Time.fixedDeltaTime;
 
-            if (!(weapon.reviveTimer.IsActive() || recallTimer.IsActive() || inFreezeDialogue()))
+            if (!(weapon.reviveTimer.IsActive() || recallTimer.IsActive() || inFreezeDialogue() || timelinePlaying))
             {
                 //Move to new position
                 rbody.MovePosition(newPos);
@@ -836,8 +835,8 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     //Animate the camera zoom
     public void ZoomCamera(float zoom)
     {
-        targetZoom -= zoom * 0.1f;
-        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetZoom, Time.deltaTime * 0.4f);
+      float targetSize = cam.orthographicSize * (1f - zoom);
+      cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetSize, Time.deltaTime * 0.4f);
     }
 
     // Teleport function which is called as an animation event in g'liches recall animation

@@ -49,6 +49,8 @@ public class Attack : MonoBehaviour
     private float reviveDuration = 126f / 60f; // Revive and Recall share timer
     private UnityEngine.UI.Image reviveNotifier;
     public bool activatedReviveNotifier = false;
+    
+   
 
     /* ----- Lifesteal ----- */
 
@@ -66,6 +68,17 @@ public class Attack : MonoBehaviour
     private UnityEngine.UI.Image lifeStealNotifier;
     private bool activatedLsNotifier = false;
     [HideInInspector] public float lifestealRatio;
+
+    private Dictionary<Type, float> revivePixelation= new Dictionary<Type,float>()
+    {
+        [Type.crab] = 64f,
+        [Type.cubie] = 64f,
+        [Type.knight] = 128f,
+        [Type.snek] = 112f,
+        [Type.hopper] = 112f,
+        [Type.general] = 1024f,
+    };
+
 
     //Misc
     private List<EnemyAI> allies = new List<EnemyAI>();
@@ -85,6 +98,8 @@ public class Attack : MonoBehaviour
     // Getting Input Handler //
     public GameObject inputHandler;
     private PlayerInput playerInput;
+ 
+
 
 
 
@@ -124,6 +139,8 @@ public class Attack : MonoBehaviour
     {
         playerInput = CustomInput.instance.playerInput;
     }
+
+        
 
     // Update is called once per frame
     void Update()
@@ -235,7 +252,7 @@ public class Attack : MonoBehaviour
                             Renderer renderer = obj.GetComponentInChildren<SpriteRenderer>();
                             MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
                             renderer.GetPropertyBlock(propertyBlock);
-                            propertyBlock.SetFloat("Vector1_5CF00FC", 64f);
+                            propertyBlock.SetFloat("Vector1_5CF00FC", revivePixelation[enemy.type]);
                             renderer.SetPropertyBlock(propertyBlock);
                             Debug.Log("Changed Material");
                         }
