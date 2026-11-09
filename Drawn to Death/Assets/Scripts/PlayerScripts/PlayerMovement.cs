@@ -835,8 +835,8 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     //Animate the camera zoom
     public void ZoomCamera(float zoom)
     {
-        targetZoom -= zoom * 0.1f;
-        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetZoom, Time.deltaTime * 0.4f);
+      float targetSize = cam.orthographicSize * (1f - zoom);
+      cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetSize, Time.deltaTime * 0.4f);
     }
 
     // Teleport function which is called as an animation event in g'liches recall animation
