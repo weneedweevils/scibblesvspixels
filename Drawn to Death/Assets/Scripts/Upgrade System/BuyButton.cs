@@ -67,6 +67,8 @@ public class BuyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public void Buy()
     {
         UpgradeManager.instance.currency -= price;
+        UpgradeManager.instance.StartAmbience();
+        UpgradeManager.instance.PlaySconceSFX();
         parent.UpgradeTier();
     }
 
