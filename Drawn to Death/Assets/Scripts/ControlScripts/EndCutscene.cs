@@ -73,6 +73,8 @@ public class EndCutscene : MonoBehaviour
 
         // enable credit scroll
         scrollCredits = true;
+
+        BasicMusicScript.instance.setIntensity(30);
     }
 
     // Update is called once per frame

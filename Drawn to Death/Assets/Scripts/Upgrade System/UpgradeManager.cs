@@ -148,7 +148,7 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
             }
          ));
         
-        if (instance.upgrades.Length != 0) instance.StartAmbience();
+        if (!instance.NoUpgradesBought()) instance.StartAmbience();
     }
 
     /// <summary>
@@ -232,6 +232,14 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
         // Effect ended -> invoke the callback (optional)
         screenFade.color = endColor;
         callback?.Invoke();
+    }
+
+    public bool NoUpgradesBought()
+    {
+        foreach (UpgradeMap upgrade in upgrades){
+            if (upgrade.level > 0) return false;
+        }
+        return true;
     }
 }
 
