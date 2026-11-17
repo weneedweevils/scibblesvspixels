@@ -61,6 +61,7 @@ public class BasicMusicScript : MonoBehaviour
 
     private void OnDestroy() {
         eventInstance.stop(0);
+        DisableDeathScreen();
 
         PlayerMovement.OnPlayerDeath -= EnableDeathScreen;
         PlayerMovement.SelfReviveHandUp -= DisableDeathScreen;
@@ -69,6 +70,7 @@ public class BasicMusicScript : MonoBehaviour
     public void switchTrack()
     {
         eventInstance.stop(0);
+        DisableDeathScreen();
     }
 
     public void setIntensity(float value)
