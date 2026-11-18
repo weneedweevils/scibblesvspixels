@@ -22,7 +22,7 @@ public class PlayerSFX : MonoBehaviour
     {
         lifestealInstance = FMODUnity.RuntimeManager.CreateInstance(lifestealSFX);
         PlayerMovement.OnPlayerDeath += PlayDeathSFX;
-        PlayerMovement.SelfReviveHandUp += PlaySelfReviveSFX;
+        PlayerMovement.SelfReviveStart += PlaySelfReviveSFX;
     }
 
     public void PlayFootstepSFX()
@@ -74,6 +74,6 @@ public class PlayerSFX : MonoBehaviour
     {
         lifestealInstance.stop(0);
         PlayerMovement.OnPlayerDeath -= PlayDeathSFX;
-        PlayerMovement.SelfReviveHandUp -= PlaySelfReviveSFX;
+        PlayerMovement.SelfReviveStart -= PlaySelfReviveSFX;
     }
 }

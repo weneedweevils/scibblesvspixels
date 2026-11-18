@@ -25,11 +25,20 @@ public class BasicMusicScript : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null)
+        if (instance != null && instance != this)
         {
-            Debug.LogError("Found more than one Basic Music Script in the scene");
+            // Only replace if track was switched
+            if (this.currentTrack != instance.currentTrack) Destroy(instance.gameObject);
+            else
+            {
+                instance.intensity = this.intensity;
+                instance.autoUpdate = this.autoUpdate;
+                Destroy(this);
+                return;
+            } 
         }
         instance = this;
+        DontDestroyOnLoad(gameObject);
 
         deathScreenSnapshotInstance = FMODUnity.RuntimeManager.CreateInstance(deathScreenSnapshotReference);
         PlayerMovement.OnPlayerDeath += EnableDeathScreen;

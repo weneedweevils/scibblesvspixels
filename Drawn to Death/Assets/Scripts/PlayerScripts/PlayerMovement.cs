@@ -133,6 +133,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
     // Death
     public static event Action OnPlayerDeath;
+    public static event Action SelfReviveStart;
     public static event Action SelfReviveHandUp;
     public static event Action OnSelfReviveComplete;
     private bool death = false;
@@ -766,6 +767,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         selfReviveTimer = 0f;
         animator.SetBool("isDead", false);
         animator.SetTrigger("selfRevive");
+        SelfReviveStart?.Invoke();
     }
 
     // function to handle changing the color of the screen when damaged
