@@ -9,6 +9,8 @@ public class BasicMusicScript : MonoBehaviour
     private FMOD.Studio.EventInstance eventInstance;
     public FMODUnity.EventReference deathScreenSnapshotReference;
     private FMOD.Studio.EventInstance deathScreenSnapshotInstance;
+    public FMODUnity.EventReference upgradeScreenSnapshotReference;
+    private FMOD.Studio.EventInstance upgradeScreenSnapshotInstance;
 
     public List<FMODUnity.EventReference> music;
 
@@ -41,6 +43,7 @@ public class BasicMusicScript : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         deathScreenSnapshotInstance = FMODUnity.RuntimeManager.CreateInstance(deathScreenSnapshotReference);
+        upgradeScreenSnapshotInstance = FMODUnity.RuntimeManager.CreateInstance(upgradeScreenSnapshotReference);
         PlayerMovement.OnPlayerDeath += EnableDeathScreen;
         PlayerMovement.SelfReviveHandUp += DisableDeathScreen;
     }
@@ -71,6 +74,7 @@ public class BasicMusicScript : MonoBehaviour
     private void OnDestroy() {
         eventInstance.stop(0);
         DisableDeathScreen();
+        DisableUpgradeScreen();
 
         PlayerMovement.OnPlayerDeath -= EnableDeathScreen;
         PlayerMovement.SelfReviveHandUp -= DisableDeathScreen;
@@ -80,6 +84,7 @@ public class BasicMusicScript : MonoBehaviour
     {
         eventInstance.stop(0);
         DisableDeathScreen();
+        DisableUpgradeScreen();
     }
 
     public void setIntensity(float value)
@@ -119,11 +124,21 @@ public class BasicMusicScript : MonoBehaviour
 
     public void EnableDeathScreen()
     {
-        deathScreenSnapshotInstance.start();
+        instance.deathScreenSnapshotInstance.start();
     }
 
     public void DisableDeathScreen()
     {
-        deathScreenSnapshotInstance.stop(0);
+        instance.deathScreenSnapshotInstance.stop(0);
+    }
+
+    public void EnableUpgradeScreen()
+    {
+        instance.upgradeScreenSnapshotInstance.start();
+    }
+
+    public void DisableUpgradeScreen()
+    {
+        instance.upgradeScreenSnapshotInstance.stop(0);
     }
 }

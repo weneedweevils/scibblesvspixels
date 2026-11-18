@@ -149,6 +149,7 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
          ));
         
         if (!instance.NoUpgradesBought()) instance.StartAmbience();
+        BasicMusicScript.instance.EnableUpgradeScreen();
     }
 
     /// <summary>
@@ -181,7 +182,7 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
                 
             }
          ));
-
+        BasicMusicScript.instance.DisableUpgradeScreen();
         instance.ambienceInstance.stop(0);
     }
 
