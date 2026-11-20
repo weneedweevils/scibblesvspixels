@@ -36,7 +36,6 @@ public class SwingHand : ChildBaseState
         animationEventNotifier.AttackNotifier += AnimationOffset;
         animationEventNotifier.HitBoxActive += ActivateHitbox;
         boss.animator.SetTrigger("Slam");
-        FMODUnity.RuntimeManager.PlayOneShot(boss.oodlerSlamSFX, boss.transform.position);
     }
 
     public override void ExitState()
@@ -62,6 +61,7 @@ public class SwingHand : ChildBaseState
             if (boss.Slam())
             {
                 reachedTarget = true;
+                FMODUnity.RuntimeManager.PlayOneShot(boss.oodlerSlamSFX, boss.transform.position);
             }
         }
 

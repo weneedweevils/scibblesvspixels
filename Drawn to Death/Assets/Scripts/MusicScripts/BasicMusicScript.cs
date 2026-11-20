@@ -7,6 +7,10 @@ public class BasicMusicScript : MonoBehaviour
 {
     public static BasicMusicScript instance;
     private FMOD.Studio.EventInstance eventInstance;
+    public FMODUnity.EventReference deathScreenSnapshotReference;
+    private FMOD.Studio.EventInstance deathScreenSnapshotInstance;
+    public FMODUnity.EventReference upgradeScreenSnapshotReference;
+    private FMOD.Studio.EventInstance upgradeScreenSnapshotInstance;
 
     public List<FMODUnity.EventReference> music;
 
@@ -23,11 +27,25 @@ public class BasicMusicScript : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null)
+        if (instance != null && instance != this)
         {
-            Debug.LogError("Found more than one Basic Music Script in the scene");
+            // Only replace if track was switched
+            if (this.currentTrack != instance.currentTrack) Destroy(instance.gameObject);
+            else
+            {
+                instance.intensity = this.intensity;
+                instance.autoUpdate = this.autoUpdate;
+                Destroy(this);
+                return;
+            } 
         }
         instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        deathScreenSnapshotInstance = FMODUnity.RuntimeManager.CreateInstance(deathScreenSnapshotReference);
+        upgradeScreenSnapshotInstance = FMODUnity.RuntimeManager.CreateInstance(upgradeScreenSnapshotReference);
+        PlayerMovement.OnPlayerDeath += EnableDeathScreen;
+        PlayerMovement.SelfReviveHandUp += DisableDeathScreen;
     }
 
     // Start is called before the first frame update
@@ -55,11 +73,18 @@ public class BasicMusicScript : MonoBehaviour
 
     private void OnDestroy() {
         eventInstance.stop(0);
+        DisableDeathScreen();
+        DisableUpgradeScreen();
+
+        PlayerMovement.OnPlayerDeath -= EnableDeathScreen;
+        PlayerMovement.SelfReviveHandUp -= DisableDeathScreen;
     }
 
     public void switchTrack()
     {
         eventInstance.stop(0);
+        DisableDeathScreen();
+        DisableUpgradeScreen();
     }
 
     public void setIntensity(float value)
@@ -95,5 +120,25 @@ public class BasicMusicScript : MonoBehaviour
     public float GetIntensity()
     {
         return intensity;
+    }
+
+    public void EnableDeathScreen()
+    {
+        instance.deathScreenSnapshotInstance.start();
+    }
+
+    public void DisableDeathScreen()
+    {
+        instance.deathScreenSnapshotInstance.stop(0);
+    }
+
+    public void EnableUpgradeScreen()
+    {
+        instance.upgradeScreenSnapshotInstance.start();
+    }
+
+    public void DisableUpgradeScreen()
+    {
+        instance.upgradeScreenSnapshotInstance.stop(0);
     }
 }

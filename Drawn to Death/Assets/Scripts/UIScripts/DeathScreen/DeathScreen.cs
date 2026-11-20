@@ -82,7 +82,13 @@ public class DeathScreen : MonoBehaviour
 
     }
 
+    public void OnMenuClick()
+    {
+        selfReviveButton.interactable = false;
+        menuButton.interactable = false;
 
+        StartCoroutine(MenuManager.LoadScene(Scene.Menu));    
+    }
 
     
 

@@ -66,6 +66,7 @@ public class MenuManager : MonoBehaviour, IDataPersistence
             data.skipCutscene = false;
             DataPersistenceManager.instance.UpdateGame();
         }
+        if (UpgradeManager.instance != null) UpgradeManager.CloseShop(); // Initiate close shop fadeout if present
         StartCoroutine(LoadScene(nextScene, transition, transitionTime));
     }
 

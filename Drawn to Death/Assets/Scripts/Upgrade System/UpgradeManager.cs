@@ -28,6 +28,12 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
     public float fadeDuration = 1f;
     public float fontSize;
 
+    [Header("SFX")]
+    public FMODUnity.EventReference ambience;
+    public FMODUnity.EventReference sconceSFX;
+    private FMOD.Studio.EventInstance ambienceInstance;
+    private FMOD.Studio.PLAYBACK_STATE playbackState;
+
     public void Update()
     {
         currencyCounter.text = currency.ToString();
@@ -42,6 +48,8 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
         {
             upgrades[i].option.Init(i);
         }
+
+        ambienceInstance = FMODUnity.RuntimeManager.CreateInstance(ambience);  
     }
 
     public void ApplyUpgrades()
@@ -139,6 +147,9 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
                 
             }
          ));
+        
+        if (!instance.NoUpgradesBought()) instance.StartAmbience();
+        BasicMusicScript.instance.EnableUpgradeScreen();
     }
 
     /// <summary>
@@ -171,6 +182,31 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
                 
             }
          ));
+        BasicMusicScript.instance.DisableUpgradeScreen();
+        instance.ambienceInstance.stop(0);
+    }
+
+    public void StartAmbience()
+    {
+        instance.ambienceInstance.getPlaybackState(out playbackState);
+
+        if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED){
+            instance.ambienceInstance.start();
+        }
+    }
+
+    public void StopAmbience()
+    {
+        instance.ambienceInstance.getPlaybackState(out playbackState);
+
+        if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING){
+            instance.ambienceInstance.stop(0);
+        }
+    }
+
+    public void PlaySconceSFX()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot(sconceSFX);
     }
 
     /// <summary>
@@ -197,6 +233,14 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
         // Effect ended -> invoke the callback (optional)
         screenFade.color = endColor;
         callback?.Invoke();
+    }
+
+    public bool NoUpgradesBought()
+    {
+        foreach (UpgradeMap upgrade in upgrades){
+            if (upgrade.level > 0) return false;
+        }
+        return true;
     }
 }
 
