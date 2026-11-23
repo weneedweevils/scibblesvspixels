@@ -34,7 +34,8 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     [Header("Dash")]
     public bool dashEnabled;
     public float dashBoost;
-    public float dashCooldown;
+    public float dashCooldown = 2f;
+    public float dashDuration;
     public CooldownTimer dashTimer;
     public UnityEngine.UI.Slider dashBar;
     private CooldownBarBehaviour dashCooldownBar;
@@ -431,6 +432,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
             if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && playerInput.actions["Dash"].triggered && !pauseInput)
             {
+                StartCoroutine(FlashPlayerSprite(dashDuration));
                 activatedDashNotifier = false;
                 maxVelocity.baseIncrease += dashBoost;
                 velocity += acceleration.normalized * dashBoost * 5;
@@ -550,7 +552,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
                 rbody.constraints = RigidbodyConstraints2D.None;
                 rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
                 invincibilityTimer.StartTimer();
-                StartCoroutine(FlashPlayerSprite());
+                StartCoroutine(FlashPlayerSprite(invincibilityDuration));
                 boxCollider.enabled = true;
                 selfReviveTimer = 0;
                 sprite.sortingOrder = 5;
@@ -560,11 +562,11 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     }
     #endregion
 
-    private IEnumerator FlashPlayerSprite()
+    private IEnumerator FlashPlayerSprite(float invincDuration)
     {
         float elapsed = 0f;
 
-        while (elapsed < invincibilityDuration)
+        while (elapsed < invincDuration)
         {
 
 
@@ -719,7 +721,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
                 health -= incomingDamage.Calculate(damageTaken);
             }
             invincibilityTimer.StartTimer();
-            StartCoroutine(FlashPlayerSprite());
+            StartCoroutine(FlashPlayerSprite(invincibilityDuration));
             healthBar.SetHealth(health, maxHealth);
             hit = true;
 
@@ -944,7 +946,10 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
     // function that pauses player input
     
-
+    public bool isDead()
+    {
+        return death;
+    }
     public PlayerInput getInputSystem()
     {
         return playerInput;

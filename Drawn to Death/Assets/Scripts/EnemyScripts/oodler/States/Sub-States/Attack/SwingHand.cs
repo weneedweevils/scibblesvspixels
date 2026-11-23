@@ -40,9 +40,10 @@ public class SwingHand : ChildBaseState
 
     public override void ExitState()
     {
-        base.ExitState();
         boss.HideShadow();
         ResetState();
+        base.ExitState();
+        
     }
 
 

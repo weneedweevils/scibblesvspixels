@@ -92,6 +92,11 @@ public class ParentBaseState
         oodlerStateMachine.ChangeState(boss.oodlerDrop);
     }
 
+    public void GoToTauntState()
+    {
+        oodlerStateMachine.ChangeState(boss.oodlerTaunt);
+    }
+
     // Gets Current Child State
     public virtual ChildBaseState GetCurrentChildState()
     {

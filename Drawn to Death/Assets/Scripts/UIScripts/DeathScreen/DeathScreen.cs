@@ -52,7 +52,6 @@ public class DeathScreen : MonoBehaviour
 
         Debug.Log("we started the deathscreen");
         //PlayerMovement.OnPlayerDeath -= StartDeathScreen;
-        
         sceneLights = GetVisibleLights();
         dead = true;
         faded = false;
@@ -158,6 +157,7 @@ public class DeathScreen : MonoBehaviour
         var temp2 = image.color;
         temp2.a = 0f;
         image.color = temp2;
+
         deathUI.SetActive(false);
         yield return null;
     }

@@ -12,16 +12,16 @@ public class QuickDeath : MonoBehaviour
     void Start()
     {
         start = 0f;
-        time = 2f;
+        time = 3f;
     }
 
     // Update is called once per frame
     void Update()
     {
         if(!PlayerMovement.instance.timelinePlaying){
-            if(start >= time)
-            {
-                PlayerMovement.instance.Damage(1000000f);
+            if(start >= time){
+                Debug.Log("kill player");
+                PlayerMovement.instance.Damage(1000000);
             }
             start = start + Time.deltaTime;
             Debug.Log(start);
@@ -29,3 +29,4 @@ public class QuickDeath : MonoBehaviour
         
     }
 }
+

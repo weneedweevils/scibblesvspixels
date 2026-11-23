@@ -79,6 +79,7 @@ public class Oodler : MonoBehaviour
     public OodlerInitial oodlerInitial{ get; set; }
     public OodlerRun oodlerRun { get; set; } 
     public OodlerIntimidate oodlerIntimidate { get; set; }
+    public OodlerTaunt oodlerTaunt { get; set; }
 
     public GameObject prefab;
 
@@ -125,10 +126,11 @@ public class Oodler : MonoBehaviour
     private bool hitHazard = false;
     public bool floating = true;
 
+
     private void Awake()
     {
         stateMachine = new StateMachine();
-
+        
         oodlerIdle = new OodlerIdle(this, stateMachine);
         oodlerSlam = new OodlerSlam(this, stateMachine);
         oodlerGrab = new OodlerGrab(this, stateMachine);
@@ -137,6 +139,7 @@ public class Oodler : MonoBehaviour
         oodlerRun = new OodlerRun(this, stateMachine);
         oodlerQuickSlam = new OodlerQuickSlam(this, stateMachine);
         oodlerIntimidate = new OodlerIntimidate(this, stateMachine);
+        oodlerTaunt = new OodlerTaunt(this, stateMachine);
     }
 
     
@@ -179,6 +182,8 @@ public class Oodler : MonoBehaviour
         floatSFXInstance = FMODUnity.RuntimeManager.CreateInstance(oodlerFloatSFX);
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(floatSFXInstance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
         floatSFXInstance.start();
+
+
     }
 
         
@@ -351,6 +356,16 @@ public class Oodler : MonoBehaviour
     {
         ChangeSpriteSortingOrder(5);
     }
+
+
+    ///<summary>
+    /// Sprite sorting function for death screen
+    ///</summary> 
+     public void BringSpriteOnTop()
+    {
+        ChangeSpriteSortingOrder(201);
+    }
+
 
     ///<summary>
     /// This function will display the oodlers shadow
@@ -710,6 +725,11 @@ public class Oodler : MonoBehaviour
     public bool checkHazard()
     {
         return hitHazard;
+    }
+
+    public bool isPlayerDead()
+    {
+        return playerScript.isDead();
     }
 
     #endregion
