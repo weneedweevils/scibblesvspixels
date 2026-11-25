@@ -72,7 +72,10 @@ public class DialogueManager : Singleton<DialogueManager>
         dialogue = dialogueSequence;
         dialogueActive = true;
         dialogueID = 0;
-        PlayerMovement.instance.UnFreezeRB();
+        if (PlayerMovement.instance != null)
+        {
+            PlayerMovement.instance.UnFreezeRB();
+        }
         NextDialogue();
          
     }
@@ -128,7 +131,10 @@ public class DialogueManager : Singleton<DialogueManager>
             currentDialogue = null;
             dialogueActive = false;
 
-             PlayerMovement.instance.UnFreezeRB();
+            if (PlayerMovement.instance != null)
+            {
+                PlayerMovement.instance.UnFreezeRB();
+            }
         }
     }
 

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.Events;
 using Vector2 = UnityEngine.Vector2;
@@ -35,7 +34,7 @@ public class Oodler : MonoBehaviour
     private float maxHealth = 500f;
     private float currentHealth = 500f;
     public float movementSpeed { get; set; } = 100f;
-    public float oodlerAttackDamage;
+    public float oodlerAttackDamage = 70f;
     private float invincibilityDuration = 40f / 60f;
 
     // ENUMS //
@@ -147,7 +146,6 @@ public class Oodler : MonoBehaviour
 
     private void Start()
     {
-        oodlerAttackDamage = playerScript.maxHealth/4f;
         InstantiateVariables();
 
         if (attackType == AttackType.Grab)

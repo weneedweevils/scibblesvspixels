@@ -341,17 +341,7 @@ public class OodleHopper : EnemyAI
                         targetIsPlayer = false;
                     }
                 }
-
-                else if (oodler != null && oodler.BossIsDamageable())
-                {
-                    float dist = Vector2.Distance(rb.position, crystal.transform.position);
-                    if (dist <= targetDistance && dist < minDist)
-                    {
-                        target = oodler.transform;
-                        minDist = dist;
-                        targetIsPlayer = false;
-                    }
-                }
+                
                 else
                 {
                     continue;
