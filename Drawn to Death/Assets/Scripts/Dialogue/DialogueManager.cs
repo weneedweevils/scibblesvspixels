@@ -72,7 +72,9 @@ public class DialogueManager : Singleton<DialogueManager>
         dialogue = dialogueSequence;
         dialogueActive = true;
         dialogueID = 0;
+        PlayerMovement.instance.UnFreezeRB();
         NextDialogue();
+         
     }
 
     public void PrevDialogue()
@@ -99,6 +101,7 @@ public class DialogueManager : Singleton<DialogueManager>
         if (currentDialogue != null)
         {
             Destroy(currentDialogue.gameObject);
+           
         }
 
         //Instanciate the next Dialogue Box if it exists
@@ -124,6 +127,8 @@ public class DialogueManager : Singleton<DialogueManager>
             //Clear Variables
             currentDialogue = null;
             dialogueActive = false;
+
+             PlayerMovement.instance.UnFreezeRB();
         }
     }
 

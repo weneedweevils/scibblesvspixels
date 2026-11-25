@@ -103,7 +103,7 @@ public class Spawner : MonoBehaviour
             }
         }
 
-        if (active && !playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying)
+        if (active && !playerMovement.inFreezeDialogue() && !playerMovement.timelinePlaying && !playerMovement.isDead())
         {
             //Update Timers
             limitTimer.Update();

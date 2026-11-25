@@ -74,7 +74,7 @@ public class Attack : MonoBehaviour
         [Type.crab] = 64f,
         [Type.cubie] = 64f,
         [Type.knight] = 128f,
-        [Type.snek] = 112f,
+        [Type.snek] = 124f,
         [Type.hopper] = 112f,
         [Type.general] = 1024f,
     };
@@ -214,8 +214,10 @@ public class Attack : MonoBehaviour
         //Freeze Movement while reviving
         if (reviveTimer.IsActive())
         {
+          
             playerMovement.speedModifier = 0f;
             playerMovement.StopMovement();
+            playerMovement.FreezeRB();
             playerMovement.ZoomCamera(0.35f); // Revive and Recall share timer
         }
         else
@@ -268,6 +270,7 @@ public class Attack : MonoBehaviour
                 sprite.enabled = true;
                 playerMovement.animator.SetBool("reviving", false);
                 playerMovement.animationDone = true;
+                playerMovement.UnFreezeRB();
             }
         }
     }

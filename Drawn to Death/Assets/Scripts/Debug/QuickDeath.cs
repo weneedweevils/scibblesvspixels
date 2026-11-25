@@ -24,7 +24,6 @@ public class QuickDeath : MonoBehaviour
                 PlayerMovement.instance.Damage(1000000);
             }
             start = start + Time.deltaTime;
-            Debug.Log(start);
         }
         
     }

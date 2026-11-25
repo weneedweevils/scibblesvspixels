@@ -221,39 +221,6 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         }
     }
 
-    public Vector2 ReturnIsometricAcceleration(Vector2 acceleration) 
-    {
-        // return exact angle when pressing two keys
-
-        // top right movement
-        if(acceleration.x == 1f && acceleration.y == 1f)
-        {
-
-        }
-        // top left movement
-        if (acceleration.x == -1f && acceleration.y == 1f)
-        {
-
-        }
-        // bottom left movement
-        if (acceleration.x == -1f && acceleration.y == -1f)
-        {
-
-        }
-
-        // bottom right movement
-        if (acceleration.x == 1f && acceleration.y == -1f)
-        {
-
-        }
-        var degree = 26.56f;
-        var scale = ((32 * Mathf.Sqrt(5)) / 2);
-        var rad = Mathf.Deg2Rad * degree;
-        var dx = ((acceleration.x * Mathf.Cos(rad) + acceleration.y  * Mathf.Sin(rad)) * scale);
-        var dy = ((acceleration.y * Mathf.Cos(rad) - acceleration.x * Mathf.Sin(rad)) * scale) / 2f;
-
-        return new Vector3(dx,dy,0);
-    }
 
     // MOVE SOME OF THE STUFF TO A REGULAR UPDATE FUNCTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // Update is called once per frame
@@ -498,6 +465,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             //If player pressed recall and they are not on cooldown and they have allies, do recall
             if (recallTimer.IsUseable() && CanUseAbility() && playerInput.actions["Rally"].triggered && weapon.GetAllies().Count > 0)
             {
+                FreezeRB();
                 recallTimer.StartTimer();
                 pencil.enabled = false;
                 playerSFX.PlayRallySFX();
@@ -541,26 +509,30 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
         else if(death && isSelfReviving){
             selfReviveTimer += Time.deltaTime;
-            if (selfReviveTimer > 5.7f)//animator.GetCurrentAnimatorStateInfo(0).length) 
+
+
+            if (selfReviveTimer > 6.5f)//animator.GetCurrentAnimatorStateInfo(0).length) 
             {
-                hud.SetActive(true);
+                //hud.SetActive(true);
                 FillHealth();
                 isSelfReviving = false;
                 death = false;
-                armsObject.SetActive(true);
-                playerInput.ActivateInput();
+                //armsObject.SetActive(true);
+                //playerInput.ActivateInput();
                 rbody.constraints = RigidbodyConstraints2D.None;
                 rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-                invincibilityTimer.StartTimer();
-                StartCoroutine(FlashPlayerSprite(invincibilityDuration));
-                boxCollider.enabled = true;
+                //invincibilityTimer.StartTimer();
+                //StartCoroutine(FlashPlayerSprite(invincibilityDuration));
+                //boxCollider.enabled = true;
                 selfReviveTimer = 0;
                 sprite.sortingOrder = 5;
+                
                 OnSelfReviveComplete?.Invoke();
             }
         }
     }
     #endregion
+
 
     private IEnumerator FlashPlayerSprite(float invincDuration)
     {
@@ -662,9 +634,8 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         HealthBarReference.SetTrigger("HealthBarShake");
         CameraReference.SetTrigger("Shake");
 
-        Debug.Log(damageTaken);
         Debug.Log(health);
-        health = health - 10f; 
+        health = health - damageTaken; 
         
         invincibilityTimer.StartTimer();
         healthBar.SetHealth(health, maxHealth);
@@ -693,10 +664,21 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             rbody.constraints = RigidbodyConstraints2D.FreezeAll;
             boxCollider.enabled = false;
             sprite.sortingOrder = 200;
-            Debug.Log("Made it here");
             hud.SetActive(false);
             OnPlayerDeath?.Invoke();
         }
+    }
+
+    public void FreezeRB()
+    {
+        
+        rbody.constraints = RigidbodyConstraints2D.FreezeAll;
+    }
+
+    public void UnFreezeRB()
+    {
+        rbody.constraints = RigidbodyConstraints2D.None;
+        rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     // Function to run when player takes damage
@@ -748,7 +730,6 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
                 rbody.constraints = RigidbodyConstraints2D.FreezeAll;
                 boxCollider.enabled = false;
                 sprite.sortingOrder = 200;
-                Debug.Log("Made it here");
                 hud.SetActive(false);
                 OnPlayerDeath?.Invoke();
             }
@@ -846,6 +827,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     // Teleport function which is called as an animation event in g'liches recall animation
     public void teleport()
     {
+        
         RaycastHit hit;
         animator.SetBool("New Bool", false);
         animationDone = true;
@@ -873,6 +855,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
                 }
             }
         }
+        UnFreezeRB();
     }
 
     // This function will find a direction to teleport allies into that is not next to a wall

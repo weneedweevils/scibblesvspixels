@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3241373899353904385
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3241373899353904384}
+  - component: {fileID: 3241373899353904391}
+  m_Layer: 0
+  m_Name: Music
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3241373899353904384
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3241373899353904385}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3241373899353904391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3241373899353904385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a2fdeff171544069b3aa0244b5b55a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathScreenSnapshotReference:
+    Guid:
+      Data1: 1198737935
+      Data2: 1340333691
+      Data3: 640282765
+      Data4: 1098731612
+    Path: snapshot:/GlichDeath
+  upgradeScreenSnapshotReference:
+    Guid:
+      Data1: -1231106835
+      Data2: 1096727436
+      Data3: 308433289
+      Data4: 1940766812
+    Path: snapshot:/UpgradeScreen
+  music:
+  - Guid:
+      Data1: 913532558
+      Data2: 1223030045
+      Data3: 2019414671
+      Data4: 544785978
+    Path: event:/Music/CellmatesMusic
+  - Guid:
+      Data1: -1272765440
+      Data2: 1161165019
+      Data3: -204850511
+      Data4: -94747294
+    Path: event:/Music/BossMusic
+  - Guid:
+      Data1: -1441062540
+      Data2: 1220730077
+      Data3: -2095123577
+      Data4: 431421089
+    Path: event:/Music/PencilMusic
+  - Guid:
+      Data1: 2027947595
+      Data2: 1256100390
+      Data3: -68506444
+      Data4: 1607852110
+    Path: event:/Music/MenuMusic
+  currentTrack: 0
+  intensity: 0
+  autoUpdate: 1
+  intensityPerEnemy: 3
