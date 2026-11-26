@@ -88,7 +88,7 @@ public class OodlerIdle : ParentBaseState
         if (p1SlamNum < 1)
         {
             p1SlamNum++;
-            return boss.oodlerQuickSlam;
+            return boss.oodlerGrab;
         }
         else
         {

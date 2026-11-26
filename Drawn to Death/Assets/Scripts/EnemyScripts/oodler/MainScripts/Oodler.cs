@@ -31,8 +31,8 @@ public class Oodler : MonoBehaviour
 
     // Public Parameters //
     [Header ("Public float")]
-    private float maxHealth = 500f;
-    private float currentHealth = 500f;
+    private float maxHealth = 750f;
+    private float currentHealth = 750f;
     public float movementSpeed { get; set; } = 100f;
     public float oodlerAttackDamage = 70f;
     private float invincibilityDuration = 40f / 60f;
@@ -549,6 +549,14 @@ public class Oodler : MonoBehaviour
     }
 
 
+    public void MoveOutOfFrame(float speed = 30)
+    {
+         var step = speed * Time.deltaTime;
+        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, transform.position + new Vector3(0f,10f,0f), step));
+        MoveShadowSprite();
+    }
+
+
 
     // This function drops the player inside the drop area
     public bool DropGlich(float speed = 10)
@@ -691,7 +699,7 @@ public class Oodler : MonoBehaviour
     public void MoveGlichWithOodler() { 
         
         var step = 10f * Time.deltaTime;
-        glich.transform.position = transform.position - grabPositionOffset;
+        glich.GetComponent<Rigidbody2D>().position = transform.position - grabPositionOffset;
     }
 
 
@@ -732,8 +740,12 @@ public class Oodler : MonoBehaviour
         return playerScript.isDead();
     }
 
-    #endregion
+    public bool isPlayerSelfReviving()
+    {
+        return playerScript.IsSelfReviving();
+    }
 
+    #endregion
 
 
     // SETTERS AND GETTERS //
@@ -790,6 +802,22 @@ public class Oodler : MonoBehaviour
             }
         }
     }
+
+    // This makes all enemies make paths to the player
+     public void TargetPlayer(bool toDropZone = false)
+    {
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            EnemyAI enemy = obj.GetComponent<EnemyAI>();
+
+            if (enemy != null && enemy.team == Team.oddle && (enemy.state != State.dead || enemy.state != State.dying))
+            {
+                enemy.SetTarget(glich, true, toDropZone);
+            }
+        }
+    }
+
+    
     
 
 

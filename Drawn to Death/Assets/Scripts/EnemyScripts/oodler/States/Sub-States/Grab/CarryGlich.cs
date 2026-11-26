@@ -49,6 +49,8 @@ public class CarryGlich : ChildBaseState
                 {
                     boss.animator.SetTrigger("Idle");
                     boss.playerScript.animator.SetTrigger("Dropped");
+                    boss.playerScript.GetPencil().enabled = true;
+                    boss.TargetPlayer();
                     boss.EnableGlichColliders(true);
                     boss.playerScript.EnableInput();
                     boss.playerScript.ChangeSpriteSortingOrder(5);

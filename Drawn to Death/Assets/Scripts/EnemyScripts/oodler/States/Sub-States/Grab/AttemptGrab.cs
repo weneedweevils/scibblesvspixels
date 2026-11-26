@@ -72,6 +72,7 @@ public class AttemptGrab : ChildBaseState
                 boss.playerScript.DisableInput();
                 boss.animator.SetTrigger("Caught");
                 boss.playerScript.animator.SetTrigger("Grabbed");
+                boss.playerScript.GetPencil().enabled = false;
                 boss.EnableGrabHitbox(false);
                 boss.EnableColumnHitbox(false);
 

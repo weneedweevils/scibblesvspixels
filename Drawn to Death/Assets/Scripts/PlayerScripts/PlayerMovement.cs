@@ -947,6 +947,11 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     {
         return death;
     }
+
+    public bool IsSelfReviving()
+    {
+        return isSelfReviving;
+    }
     public PlayerInput getInputSystem()
     {
         return playerInput;

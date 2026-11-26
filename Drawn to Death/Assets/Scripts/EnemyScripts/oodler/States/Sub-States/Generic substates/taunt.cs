@@ -22,7 +22,6 @@ public class Taunt : ChildBaseState
         base.EnterState();
         boss.ShowShadow();
         boss.floating = true;
-        boss.animator.SetTrigger("Taunt");
         waitTimer = new BossTimer(2f);
 
 
@@ -38,10 +37,12 @@ public class Taunt : ChildBaseState
 
     public override void FrameUpdate()
     {
-        if (!boss.isPlayerDead())
+        if (boss.isPlayerSelfReviving())
         {   
+            //boss.animator.SetTrigger("Taunt");
             boss.BringSpriteOnTop();
-            parentBaseState.NextSubState();
+            boss.MoveOutOfFrame();
+            //parentBaseState.NextSubState();
             
         }
     }
