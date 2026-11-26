@@ -18,6 +18,7 @@ public class GameData
     public int gdsnekDeaths;
     public int gdHoppperDeaths;
     public int gdBarsDeaths;
+    public int playerDeaths;
 
 
     
@@ -35,6 +36,7 @@ public class GameData
         gdHoppperDeaths = 0;
         gdsnekDeaths = 0;
         gdBarsDeaths = 0;
+        playerDeaths = 0;
 
     }
 }

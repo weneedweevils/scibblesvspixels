@@ -48,6 +48,7 @@ public class DataPersistenceManager : MonoBehaviour
         {
             SkipCutscene.AddListener(skipCutsceneObject.GetComponent<SkipCutscene>().OnDisable);
         }
+       
     }
 
     private void Start()
@@ -64,6 +65,8 @@ public class DataPersistenceManager : MonoBehaviour
         */
         this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
         this.dataPersistenceObjects = FindAllDataPersistenceObjects();
+        gameData = dataHandler.Load();
+      
         if (newGame) { NewGame(); }
         if (loadGame) { LoadGame(); }
         if (saveGame) { SaveGame(); }
@@ -72,6 +75,7 @@ public class DataPersistenceManager : MonoBehaviour
     [ContextMenu("New Game")]
     public void NewGame()
     {
+        Debug.Log("New game getting called");
         this.gameData = new GameData(PlayerPrefs.GetInt("SkipTutorial", 0) == 1);
         dataHandler.Save(gameData);
     }
@@ -125,8 +129,17 @@ public class DataPersistenceManager : MonoBehaviour
         {
             obj.SaveData(ref gameData);
         }
-
+        string dataToStore = JsonUtility.ToJson(gameData, true);
+        Debug.Log(dataToStore);
         //save the data to a file using the data handler
+        dataHandler.Save(gameData);
+    }
+
+
+    public void SaveSpecialStats()
+    {
+       
+        AchievementManager.instance.SaveSpecialStats(ref gameData);
         dataHandler.Save(gameData);
     }
 
@@ -150,4 +163,6 @@ public class DataPersistenceManager : MonoBehaviour
     {
         PlayerPrefs.SetInt("SkipTutorial", value ? 1 : 0);
     }
+
+   
 }

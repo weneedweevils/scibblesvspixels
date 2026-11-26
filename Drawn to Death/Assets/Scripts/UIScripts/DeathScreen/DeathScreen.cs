@@ -83,7 +83,7 @@ public class DeathScreen : MonoBehaviour
     // This function is run when the OnSelfReviveComplete event activates when the players revive animation is finished
     private void EndDeathScreen()
     {
-        StartCoroutine(MenuManager.LoadScene(Scene.Menu, reload:true));    
+        StartCoroutine(MenuManager.LoadScene(Scene.Menu, reload:true, saveSpecialStats:true));    
         //StartCoroutine(ReviveFade());
         //PlayerMovement.OnSelfReviveComplete -= EndDeathScreen;
     }
@@ -115,7 +115,7 @@ public class DeathScreen : MonoBehaviour
         selfReviveButton.interactable = false;
         menuButton.interactable = false;
 
-        StartCoroutine(MenuManager.LoadScene(Scene.Menu));    
+        StartCoroutine(MenuManager.LoadScene(Scene.Menu, saveSpecialStats:true));    
     }
 
     

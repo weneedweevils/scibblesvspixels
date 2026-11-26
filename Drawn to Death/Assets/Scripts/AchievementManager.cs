@@ -10,6 +10,7 @@ public class AchievementManager: Singleton<AchievementManager>, IDataPersistence
   public RunStats stats = new RunStats();
   private bool runActive;
 
+
     private void Update()
     {
         if (runActive)
@@ -53,6 +54,11 @@ public class AchievementManager: Singleton<AchievementManager>, IDataPersistence
             }
         }
     }
+
+    public void IncrementDeaths()
+    {
+        stats.deaths = stats.deaths + 1;
+    }
     
 
     public void LoadData(GameData data)
@@ -64,7 +70,9 @@ public class AchievementManager: Singleton<AchievementManager>, IDataPersistence
         stats.enemiesKilled["snek"] = data.gdsnekDeaths;
         stats.enemiesKilled["hopper"] = data.gdHoppperDeaths;
         stats.enemiesKilled["bars"] = data.gdBarsDeaths;
-        
+        stats.deaths = data.playerDeaths;
+
+                
     }
 
     public void SaveData(ref GameData data)
@@ -75,6 +83,12 @@ public class AchievementManager: Singleton<AchievementManager>, IDataPersistence
         data.gdsnekDeaths =  stats.enemiesKilled["snek"];
         data.gdHoppperDeaths = stats.enemiesKilled["hopper"];
         data.gdBarsDeaths =  stats.enemiesKilled["bars"];
+       
+    }
+
+    public void SaveSpecialStats(ref GameData data)
+    {   
+        data.playerDeaths = stats.deaths;
     }
 }
 
@@ -97,6 +111,7 @@ public class RunStats{
     public int alliesRevived;
     public float timeSurvived;
     public int upgrades_earned;
+    public int deaths;
 
     public void Reset()
     {
@@ -113,7 +128,7 @@ public class RunStats{
         ["bars"] = 0,
         ["snek"] = 0,
         };
-        
+
 
     }
 }

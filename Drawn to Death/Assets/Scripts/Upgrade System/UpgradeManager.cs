@@ -246,6 +246,8 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
         }
         return true;
     }
+
+   
 }
 
     [System.Serializable]

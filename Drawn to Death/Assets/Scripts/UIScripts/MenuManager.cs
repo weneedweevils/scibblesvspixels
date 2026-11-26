@@ -67,29 +67,12 @@ public class MenuManager : MonoBehaviour, IDataPersistence
             DataPersistenceManager.instance.UpdateGame();
         }
         if (UpgradeManager.instance != null) UpgradeManager.CloseShop(); // Initiate close shop fadeout if present
-        StartCoroutine(LoadScene(nextScene, transition, transitionTime));
+        StartCoroutine(LoadScene(nextScene, transition, transitionTime, reload:false));
     }
 
-    public void ReloadScene()
-    {
-        if (newGame)
-        {
-            DataPersistenceManager.instance.NewGame();
-            nextScene = Scene.Level_1;
-        }
-        else if (saveGame && nextScene != Scene.End)
-        {
-            DataPersistenceManager.instance.SaveGame();
-            GameData data = DataPersistenceManager.instance.GetGameData();
-            data.skipCutscene = false;
-            DataPersistenceManager.instance.UpdateGame();
-        }
-        StartCoroutine(LoadScene(nextScene, transition, transitionTime, true));
+    
 
-
-    }
-
-    public static IEnumerator LoadScene(Scene scene, Animator transition = null, float transitionTime = 0f, bool reload = false)
+    public static IEnumerator LoadScene(Scene scene, Animator transition = null, float transitionTime = 0f, bool reload = false, bool saveSpecialStats = false)
     {
         PlayerInput playerInput = CustomInput.instance.playerInput;
         playerInput.DeactivateInput();
@@ -102,6 +85,11 @@ public class MenuManager : MonoBehaviour, IDataPersistence
         }
         Time.timeScale = 1;
 
+        if (saveSpecialStats)
+        {
+            DataPersistenceManager.instance.SaveSpecialStats();
+        }
+        
         if (!reload)
         {
             SceneManager.LoadScene((int)scene);
@@ -109,6 +97,7 @@ public class MenuManager : MonoBehaviour, IDataPersistence
         else
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            
         }
           
     }
@@ -160,4 +149,5 @@ public class MenuManager : MonoBehaviour, IDataPersistence
     {
         FMODUnity.RuntimeManager.PlayOneShot(backSFX);
     }
+
 }

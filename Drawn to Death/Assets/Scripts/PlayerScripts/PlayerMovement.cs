@@ -670,6 +670,10 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
         if (health <= 0f && !isSelfReviving && !death)
         {
+            if(AchievementManager.instance!=null){
+                Debug.Log("achievment manager not null");
+                AchievementManager.instance.IncrementDeaths();
+            }
             death = true;
             animator.SetBool("isDead", true);
             armsObject.SetActive(false);
@@ -737,6 +741,10 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             // Death Animation
             if (health <= 0f && !isSelfReviving && !death)
             {
+                 if(AchievementManager.instance!=null){
+                    Debug.Log("achievment manager not null");
+                    AchievementManager.instance.IncrementDeaths();
+                }
                 death = true;
                 animator.SetBool("isDead", true);
                 armsObject.SetActive(false);
@@ -982,4 +990,6 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     {
         playerInput.ActivateInput();
     }
+
+  
 }

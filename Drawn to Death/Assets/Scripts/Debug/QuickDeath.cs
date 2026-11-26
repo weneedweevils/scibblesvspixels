@@ -20,7 +20,6 @@ public class QuickDeath : MonoBehaviour
     {
         if(!PlayerMovement.instance.timelinePlaying){
             if(start >= time){
-                Debug.Log("kill player");
                 PlayerMovement.instance.Damage(1000000);
             }
             start = start + Time.deltaTime;

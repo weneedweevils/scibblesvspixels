@@ -125,7 +125,6 @@ public class Killcircle : MonoBehaviour
         {
             
             radius = Mathf.Clamp(radius + Time.deltaTime * step,1f,maxRadius);
-            Debug.Log("drawing kill circle, current radius is "+radius);
             collider.radius = radius;
             float angleStep = 2f * Mathf.PI / segments;
             var list = new List<Vector2>();
@@ -191,7 +190,6 @@ public class Killcircle : MonoBehaviour
     // This is called during a animation event that is triggered when the hand goes up in the self revive animation
     private void ChangeHand()
     {
-        Debug.Log("ChangeHand called, handUp is: " + handUp);
         //if (handUp) return;
         StartCoroutine(StartKillCircle());
         collider.enabled = true;
