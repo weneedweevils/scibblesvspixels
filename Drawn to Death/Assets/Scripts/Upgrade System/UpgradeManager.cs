@@ -16,6 +16,7 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
     public Soul soulBlueprint;
     [Space(10)] public UpgradeMap[] upgrades;
     [Space(10)][TextArea] public string defaultTextboxContent;
+    private bool isOpen;
 
 
     [Header("UI")]
@@ -50,6 +51,7 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
         }
 
         ambienceInstance = FMODUnity.RuntimeManager.CreateInstance(ambience);  
+        isOpen = false;
     }
 
     public void ApplyUpgrades()
@@ -125,6 +127,7 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
     [Button]
     public static void OpenShop()
     {
+        if (instance.isOpen) return;
         //Freeze movement
         PlayerMovement.instance.timelinePlaying = true;
 
@@ -144,7 +147,7 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
                 // On complete -> activeate shop UI and revert the fade effect
                 instance.ShopUI.SetActive(true);
                 instance.StartCoroutine((instance.FadeController(instance.fadeDuration, new Color(0, 0, 0, 0))));
-                
+                instance.isOpen = true;
             }
          ));
         
@@ -158,6 +161,7 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
     [Button]
     public static void CloseShop()
     {
+        if (!instance.isOpen) return;
         // Stop existing coroutines
         instance.StopAllCoroutines();
 
@@ -179,7 +183,7 @@ public class UpgradeManager : Singleton<UpgradeManager>, IDataPersistence
                     new Color(0, 0, 0, 0), 
                     () => PlayerMovement.instance.timelinePlaying = false
                 )));
-                
+                instance.isOpen = false;
             }
          ));
         BasicMusicScript.instance.DisableUpgradeScreen();
