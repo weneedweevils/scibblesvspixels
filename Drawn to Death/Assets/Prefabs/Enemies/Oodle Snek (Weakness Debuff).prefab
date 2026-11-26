@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 1857627134101002732}
   - component: {fileID: 2700717047918762901}
   - component: {fileID: 2046366130813476400}
+  - component: {fileID: 5547055598118280859}
   m_Layer: 11
   m_Name: Oodle Snek (Weakness Debuff)
   m_TagString: Enemy
@@ -481,6 +482,25 @@ MonoBehaviour:
   effects: []
   particleEffectSystem: {fileID: 3507788104241496770, guid: 5c30052208f852c4c827a202aca6e073,
     type: 3}
+--- !u!114 &5547055598118280859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857627134101002722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 317e01b77e397a444a88ecff7f7ee8a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snekSlitherSFX:
+    Guid:
+      Data1: -1123638099
+      Data2: 1213160042
+      Data3: -1664751707
+      Data4: -64015263
+    Path: event:/Enemies/OodleSnek/SnekSlither
 --- !u!1 &4900987300342522491
 GameObject:
   m_ObjectHideFlags: 0
