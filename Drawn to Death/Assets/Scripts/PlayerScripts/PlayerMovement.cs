@@ -71,7 +71,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     [HideInInspector] public bool animationDone = true;
 
     //Physics info
-    private Vector2 velocity, acceleration, accelerationCorrected, directionalInput;
+    private Vector2 velocity, acceleration, accelerationCorrected, directionalInput, accelerationNormalized;
    
 
     Rigidbody2D rbody;
@@ -267,9 +267,9 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
                 velocity.x = VelocityCalc(diagonalVelocity.x * accelerationCoefficient.value, velocity.x, speedModifier);
                 velocity.y = VelocityCalc(diagonalVelocity.y * accelerationCoefficient.value, velocity.y, speedModifier * 0.5f); // multiply by 0.5f to get correct ratio
 
+                accelerationNormalized = new Vector2(diagonalVelocity.x,diagonalVelocity.y).normalized;
 
-                //Debug.Log("The current angle I am inputing is: " + directionVector);
-                //Debug.Log("my actual angle I am travelling is: " + Mathf.Rad2Deg * (Mathf.Atan(velocity.x / velocity.y)));
+                
             }
 
 
@@ -279,8 +279,14 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
                 //Calculate velocity
                 velocity.x = VelocityCalc(directionalInput.x * accelerationCoefficient.value, velocity.x, speedModifier);
                 velocity.y = VelocityCalc(directionalInput.y * accelerationCoefficient.value, velocity.y, speedModifier);
+                accelerationNormalized = new Vector2(directionalInput.x,directionalInput.y).normalized;
             }
+
+            
         }
+            
+
+
     }
 
 
@@ -309,6 +315,56 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         //Return velocity bound by maxVelocity
         return v;
     }
+
+    private void CheckDash()
+    {
+
+
+        // if dash is useable flash the dash notifier
+        if (dashTimer.IsUseable() && !activatedDashNotifier)
+        {
+            var temp1 = dashNotifier.color;
+            temp1.a = 1f;
+            dashNotifier.color = temp1;
+            activatedDashNotifier = true;
+        }
+
+        // if dash notifier is visible, decrease the alpha value
+        if (dashNotifier.color.a > 0)
+        {
+            var temp = dashNotifier.color;
+            temp.a -= 0.01f;
+            dashNotifier.color = temp;
+
+        }
+
+
+        if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && playerInput.actions["Dash"].triggered && !pauseInput)
+        {
+            //StartCoroutine(FlashPlayerSprite(dashDuration));
+            activatedDashNotifier = false;
+            maxVelocity.baseIncrease += dashBoost;
+            Debug.Log("Velocity before dashing " + velocity);
+            velocity += accelerationNormalized * dashBoost * 8f;
+            Debug.Log("Velocity after dashing " + velocity + accelerationCoefficient + dashBoost );
+            animator.SetBool("dashing", true);
+            pencil.enabled = false;
+            dashTimer.StartTimer();
+            playerSFX.PlayDashSFX();
+            gameObject.layer = LayerMask.NameToLayer("Player Dodge");
+        }
+        else if (dashTimer.IsOnCooldown())
+        {
+            if (animator.GetBool("dashing"))
+            {
+                pencil.enabled = true;
+                animator.SetBool("dashing", false);
+                maxVelocity.baseIncrease -= dashBoost;
+                gameObject.layer = LayerMask.NameToLayer("Player");
+            }
+        }
+    }
+
 
     #region Update
     void Update()
@@ -374,51 +430,8 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             }
 
 
-
-
-            //Dash ability
-
-            // if dash is useable flash the dash notifier
-            if (dashTimer.IsUseable() && !activatedDashNotifier)
-            {
-                var temp1 = dashNotifier.color;
-                temp1.a = 1f;
-                dashNotifier.color = temp1;
-                activatedDashNotifier = true;
-            }
-
-            // if dash notifier is visible, decrease the alpha value
-            if (dashNotifier.color.a > 0)
-            {
-                var temp = dashNotifier.color;
-                temp.a -= 0.01f;
-                dashNotifier.color = temp;
-
-            }
-
-
-            if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && playerInput.actions["Dash"].triggered && !pauseInput)
-            {
-                StartCoroutine(FlashPlayerSprite(dashDuration));
-                activatedDashNotifier = false;
-                maxVelocity.baseIncrease += dashBoost;
-                velocity += acceleration.normalized * dashBoost * 5;
-                animator.SetBool("dashing", true);
-                pencil.enabled = false;
-                dashTimer.StartTimer();
-                playerSFX.PlayDashSFX();
-                gameObject.layer = LayerMask.NameToLayer("Player Dodge");
-            }
-            else if (dashTimer.IsOnCooldown())
-            {
-                if (animator.GetBool("dashing"))
-                {
-                    pencil.enabled = true;
-                    animator.SetBool("dashing", false);
-                    maxVelocity.baseIncrease -= dashBoost;
-                    gameObject.layer = LayerMask.NameToLayer("Player");
-                }
-            }
+           //Dash
+           CheckDash();
 
             // Recall Ability
 
@@ -521,6 +534,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
                 //playerInput.ActivateInput();
                 rbody.constraints = RigidbodyConstraints2D.None;
                 rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+                rbody.velocity = Vector2.zero;
                 //invincibilityTimer.StartTimer();
                 //StartCoroutine(FlashPlayerSprite(invincibilityDuration));
                 //boxCollider.enabled = true;
@@ -673,6 +687,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     {
         
         rbody.constraints = RigidbodyConstraints2D.FreezeAll;
+        rbody.velocity = Vector2.zero;
     }
 
     public void UnFreezeRB()
@@ -828,7 +843,6 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     public void teleport()
     {
         
-        RaycastHit hit;
         animator.SetBool("New Bool", false);
         animationDone = true;
         pencil.enabled = true;
