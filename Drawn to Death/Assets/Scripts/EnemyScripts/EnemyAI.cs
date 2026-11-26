@@ -649,6 +649,13 @@ public abstract class EnemyAI : MonoBehaviour
         //Check death conditions
         if (health <= 0)
         {
+            if (fromPlayer)
+            {
+                if (AchievementManager.instance != null)
+                {
+                    AchievementManager.instance.IncrementEnemieskilled(type);
+                }
+            }
             Kill(); // Ded
             return;
         }

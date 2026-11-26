@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
+using UnityEngine.InputSystem;
 
 public class DeathScreen : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class DeathScreen : MonoBehaviour
 
     private Light2D[] sceneLights;
     private float[] initialIntensyArray;
+    private bool actionTaken = false;
 
 
 
@@ -56,7 +58,25 @@ public class DeathScreen : MonoBehaviour
         sceneLights = GetVisibleLights();
         dead = true;
         faded = false;
+      
         StartCoroutine(DeathFade());
+    }
+
+    private void Update(){
+
+        if (!actionTaken)
+        {
+            if (CustomInput.instance.playerInput.actions["SelfRevive"].triggered)
+            {
+                OnSelfReviveClick();
+            }
+            if (CustomInput.instance.playerInput.actions["GoToMenu"].triggered)
+            {
+                OnMenuClick();
+            }
+        }
+      
+
     }
 
 
@@ -69,9 +89,14 @@ public class DeathScreen : MonoBehaviour
     }
 
 
+
+
+
     // This function is run when the players selects the self-revive button
     public void OnSelfReviveClick()
     {
+        actionTaken = true;
+        CustomInput.instance.playerInput.SwitchCurrentActionMap("Player");
         selfReviveButton.interactable = false;
         menuButton.interactable = false;
         reviving = true;
@@ -86,6 +111,7 @@ public class DeathScreen : MonoBehaviour
 
     public void OnMenuClick()
     {
+        actionTaken = true;
         selfReviveButton.interactable = false;
         menuButton.interactable = false;
 
@@ -131,6 +157,7 @@ public class DeathScreen : MonoBehaviour
         deathUI.SetActive(true);
         selfReviveButton.interactable = true;
         menuButton.interactable = true;
+        CustomInput.instance.playerInput.SwitchCurrentActionMap("UI");
         yield return null;
     }
 

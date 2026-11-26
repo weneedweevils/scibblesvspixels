@@ -512,6 +512,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "SelfRevive",
+                    "type": "Button",
+                    "id": "39f03423-ea05-470d-a19b-c7a1ff939250",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "GoToMenu",
+                    "type": "Button",
+                    "id": "4268366d-6038-45ca-a44c-bdfc494d2750",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1018,6 +1036,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "LeftClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "73c96ce3-406b-4529-96d0-a22dd0501a93",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KBM",
+                    "action": "SelfRevive",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4cc04311-223b-495f-88bf-30a2f530a6b1",
+                    "path": "<Keyboard>/m",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KBM",
+                    "action": "GoToMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
