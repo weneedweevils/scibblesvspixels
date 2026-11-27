@@ -38930,6 +38930,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1068024697}
   oodlerRB: {fileID: 390785083}
+  hurtCol: {r: 1, g: 0, b: 0, a: 1}
   oodlerShadowObject: {fileID: 958928582}
   playerScript: {fileID: 862424968}
   glich: {fileID: 862424965}
@@ -38969,6 +38970,13 @@ MonoBehaviour:
       Data3: 273656707
       Data4: 1270590667
     Path: event:/Oodler/OodlerGrab
+  glichFlailSFX:
+    Guid:
+      Data1: -1264850344
+      Data2: 1281185920
+      Data3: 747899809
+      Data4: -658504556
+    Path: event:/Glich/GlichFlail
   oodlerRunSFX:
     Guid:
       Data1: 1124629490
@@ -44185,7 +44193,7 @@ PrefabInstance:
     - target: {fileID: 8220840406583130535, guid: 65e6e5dc867df7b4f9564bec4522407e,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -199.99994
+      value: -199.99991
       objectReference: {fileID: 0}
     - target: {fileID: 8220840406604971026, guid: 65e6e5dc867df7b4f9564bec4522407e,
         type: 3}
@@ -44210,7 +44218,7 @@ PrefabInstance:
     - target: {fileID: 8220840406604971029, guid: 65e6e5dc867df7b4f9564bec4522407e,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -199.99994
+      value: -199.99991
       objectReference: {fileID: 0}
     - target: {fileID: 8220840407170990888, guid: 65e6e5dc867df7b4f9564bec4522407e,
         type: 3}
