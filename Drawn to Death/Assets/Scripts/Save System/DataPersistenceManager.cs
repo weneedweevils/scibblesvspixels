@@ -143,6 +143,7 @@ public class DataPersistenceManager : MonoBehaviour
         dataHandler.Save(gameData);
     }
 
+
     public GameData GetGameData()
     {
         return gameData;

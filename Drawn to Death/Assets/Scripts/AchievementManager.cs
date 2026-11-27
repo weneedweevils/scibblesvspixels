@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Profiling;
 
@@ -42,6 +43,12 @@ public class AchievementManager: Singleton<AchievementManager>, IDataPersistence
     {
         
     }
+
+    public void GetData()
+    {
+        
+    }
+
 
     public void IncrementEnemieskilled(Enum enumtype)
     {
@@ -113,6 +120,13 @@ public class RunStats{
     public int upgrades_earned;
     public int deaths;
 
+
+     public int EnemiesKilled()
+    {
+        int enemiesKilledInt = enemiesKilled["crab"] + enemiesKilled["cubie"] + enemiesKilled["hopper"] + enemiesKilled["knight"] + enemiesKilled["snek"] ;
+        return enemiesKilledInt;
+    }
+     
     public void Reset()
     {
        RunTime = 0f;
@@ -131,4 +145,7 @@ public class RunStats{
 
 
     }
+
+   
+
 }

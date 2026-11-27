@@ -130,7 +130,7 @@ public class DialogueManager : Singleton<DialogueManager>
             //Clear Variables
             currentDialogue = null;
             dialogueActive = false;
-
+            
             if (PlayerMovement.instance != null)
             {
                 PlayerMovement.instance.UnFreezeRB();

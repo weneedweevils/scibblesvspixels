@@ -8,10 +8,13 @@ public class EndCutscene : MonoBehaviour
     [Header("UI Elements")]
     public GameObject menuButton;
     public GameObject credits;
+    private RectTransform creditsTransform;
     public Button skipButton;
+    public Button skipCredits;
     public float scrollSpeed;
     private bool scrollCredits = false;
-    public float scrollStopPosition = 320f;
+    public float scrollStopPosition = 600f;
+    public GameObject lastDialogueTrigger;
 
     [Header("Input")]
     public PlayerInput playerInput;
@@ -34,6 +37,7 @@ public class EndCutscene : MonoBehaviour
 
     [Space(20)]
     public bool actorsFloating = false;
+    private bool skippedCutscene = false;
 
     [Header("Misc")]
     public UnityEvent onCutsceneSkip;
@@ -43,9 +47,16 @@ public class EndCutscene : MonoBehaviour
     {
         skipButton.gameObject.SetActive(true);
         menuButton.SetActive(false);
+        skipCredits.gameObject.SetActive(false);
 
         playerSprite = player.GetComponent<SpriteRenderer>();
         oodlerSprite = oodler.GetComponentInChildren<SpriteRenderer>();
+        playerInput = CustomInput.instance.playerInput;
+        creditsTransform = credits.GetComponent<RectTransform>();
+        
+
+       
+
     }
 
     /// <summary>
@@ -54,23 +65,28 @@ public class EndCutscene : MonoBehaviour
     public void SkipCutscene()
     {
         onCutsceneSkip?.Invoke();
-
         actorsFloating = true;
-
-        StartCreditsScroll();
+        skippedCutscene = true;
     }
+
+    public void SkipCredits()
+    {
+        creditsTransform.anchoredPosition= new Vector2(creditsTransform.anchoredPosition.x,creditsTransform.rect.height + Screen.height);
+        skipCredits.gameObject.SetActive(false);
+
+    }
+
+    
 
     /// <summary>
     /// Start the scrolling credits sequence
     /// </summary>
     public void StartCreditsScroll()
     {
-        // Disable skip cutscene button
-        skipButton.gameObject.SetActive(false);
-
+    
         // Activate menu button
         menuButton.SetActive(true);
-
+        skipCredits.gameObject.SetActive(true);
         // enable credit scroll
         scrollCredits = true;
 
@@ -80,52 +96,65 @@ public class EndCutscene : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (actorsFloating)
-        {
-            // Adjust translation
-            player.transform.position += new Vector3(playerFloatSpeed.x * Time.deltaTime, playerFloatSpeed.y * Time.deltaTime, 0);
-            oodler.transform.position += new Vector3(oodlerFloatSpeed.x * Time.deltaTime, oodlerFloatSpeed.y * Time.deltaTime, 0);
-
+        if(actorsFloating){
             // Adjust rotation
             player.transform.Rotate(Vector3.forward, playerRotationSpeed * Time.deltaTime);
             oodler.transform.Rotate(Vector3.forward, oodlerRotationSpeed * Time.deltaTime);
 
-            // Adjust scale
-            float delta = playerScaleSpeed * Time.deltaTime;
-            player.transform.localScale = new Vector3(
-                Mathf.Max(0, player.transform.localScale.x + delta),
-                Mathf.Max(0, player.transform.localScale.y + delta), 
-                player.transform.localScale.z
-            );
+            if (lastDialogueTrigger.activeSelf||skippedCutscene) // and all dialogue is done
+            {
+                // Disable skip cutscene button
+                skipButton.gameObject.SetActive(false);
+                // Adjust translation
+                player.transform.position += new Vector3(playerFloatSpeed.x * Time.deltaTime, playerFloatSpeed.y * Time.deltaTime, 0);
+                oodler.transform.position += new Vector3(oodlerFloatSpeed.x * Time.deltaTime, oodlerFloatSpeed.y * Time.deltaTime, 0);
 
-            delta = oodlerScaleSpeed * Time.deltaTime;
-            oodler.transform.localScale = new Vector3(
-                Mathf.Max(0, oodler.transform.localScale.x + delta),
-                Mathf.Max(0, oodler.transform.localScale.y + delta), 
-                oodler.transform.localScale.z
+             
+
+                // Adjust scale
+                float delta = playerScaleSpeed * Time.deltaTime;
+                player.transform.localScale = new Vector3(
+                    Mathf.Max(0, player.transform.localScale.x + delta),
+                    Mathf.Max(0, player.transform.localScale.y + delta), 
+                    player.transform.localScale.z
                 );
 
-            // Adjust alpha
-            MyUtils.SetAlpha(playerSprite, Mathf.Clamp01(playerSprite.color.a + playerfadeSpeed * Time.deltaTime));
-            MyUtils.SetAlpha(oodlerSprite, Mathf.Clamp01(oodlerSprite.color.a + playerfadeSpeed * Time.deltaTime));
-        }
+                delta = oodlerScaleSpeed * Time.deltaTime;
+                oodler.transform.localScale = new Vector3(
+                    Mathf.Max(0, oodler.transform.localScale.x + delta),
+                    Mathf.Max(0, oodler.transform.localScale.y + delta), 
+                    oodler.transform.localScale.z
+                    );
 
-        if (scrollCredits)
-        {
-            // Check if end of credits has been reched
-            if (credits.gameObject.transform.GetChild(0).transform.position.y >= scrollStopPosition)
-            {
-                scrollSpeed = 0;
-                return;
+                // Adjust alpha
+                MyUtils.SetAlpha(playerSprite, Mathf.Clamp01(playerSprite.color.a + playerfadeSpeed * Time.deltaTime));
+                MyUtils.SetAlpha(oodlerSprite, Mathf.Clamp01(oodlerSprite.color.a + playerfadeSpeed * Time.deltaTime));
+                //Debug.Log(DialogueManager.instance);
+
+                if ((DialogueManager.instance.GetCurrentDialogue()==null || skippedCutscene) && player.transform.position.x < -11f && !scrollCredits) 
+                {
+                    StartCreditsScroll();
+                    
+                }
+            
             }
 
-            // Scroll credits
-            credits.transform.position += scrollSpeed * Vector3.up * Time.deltaTime;
-
-            // (Optional) increase scroll speed
-            if (playerInput.actions["ScrollFaster"].IsPressed())
+            if (scrollCredits)
             {
-                credits.transform.position += scrollSpeed * 3 * Vector3.up * Time.deltaTime;
+                playerInput.SwitchCurrentActionMap("UI");
+                 
+                // Check if end of credits has been reched
+                if (creditsTransform.anchoredPosition.y < creditsTransform.rect.height + Screen.height)
+                {
+                    Debug.Log("Credits are scrolling");
+                    // Scroll credits
+                    credits.transform.position += scrollSpeed * Vector3.up * Time.deltaTime;
+                }
+                else
+                {
+                    SkipCredits();
+                }
+               
             }
         }
     }
