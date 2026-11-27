@@ -11,6 +11,7 @@ public class DeathScreen : MonoBehaviour
     public GameObject lights;
     public GameObject deathUI;
     public Animator deathUIAnimator;
+    public GameObject deathText;
     [SerializeField] private UnityEngine.UI.Button selfReviveButton;
     [SerializeField] private UnityEngine.UI.Button menuButton;
 
@@ -52,7 +53,6 @@ public class DeathScreen : MonoBehaviour
 
         Debug.Log("we started the deathscreen");
         //PlayerMovement.OnPlayerDeath -= StartDeathScreen;
-        
         sceneLights = GetVisibleLights();
         dead = true;
         faded = false;
@@ -63,7 +63,8 @@ public class DeathScreen : MonoBehaviour
     // This function is run when the OnSelfReviveComplete event activates when the players revive animation is finished
     private void EndDeathScreen()
     {
-        StartCoroutine(ReviveFade());
+        StartCoroutine(MenuManager.LoadScene(Scene.Menu, reload:true));    
+        //StartCoroutine(ReviveFade());
         //PlayerMovement.OnSelfReviveComplete -= EndDeathScreen;
     }
 
@@ -77,12 +78,19 @@ public class DeathScreen : MonoBehaviour
         dead = false;
         deathUIAnimator.SetBool("slide", true);
         PlayerMovement.instance.StartSelfRevive();
+        deathText.SetActive(false);
         
 
 
     }
 
+    public void OnMenuClick()
+    {
+        selfReviveButton.interactable = false;
+        menuButton.interactable = false;
 
+        StartCoroutine(MenuManager.LoadScene(Scene.Menu));    
+    }
 
     
 
@@ -152,6 +160,7 @@ public class DeathScreen : MonoBehaviour
         var temp2 = image.color;
         temp2.a = 0f;
         image.color = temp2;
+
         deathUI.SetActive(false);
         yield return null;
     }

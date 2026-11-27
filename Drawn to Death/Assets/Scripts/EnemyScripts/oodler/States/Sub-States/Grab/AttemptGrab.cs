@@ -72,10 +72,13 @@ public class AttemptGrab : ChildBaseState
                 boss.playerScript.DisableInput();
                 boss.animator.SetTrigger("Caught");
                 boss.playerScript.animator.SetTrigger("Grabbed");
+                boss.playerScript.GetPencil().enabled = false;
                 boss.EnableGrabHitbox(false);
                 boss.EnableColumnHitbox(false);
 
                 FMODUnity.RuntimeManager.PlayOneShot(boss.oodlerGrabSFX, boss.transform.position);
+
+                boss.PlayFlailSFX();
 
                 if (reachedTarget)
                 {

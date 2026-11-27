@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
@@ -15,6 +16,7 @@ public class Oodler : MonoBehaviour
     public Animator animator;
     private SpriteRenderer oodlerSprite;
     public Rigidbody2D oodlerRB;
+    public Color hurtCol = Color.red;
 
 
     [Header("Shadow Reference")]
@@ -30,10 +32,10 @@ public class Oodler : MonoBehaviour
 
     // Public Parameters //
     [Header ("Public float")]
-    private float maxHealth = 500f;
-    private float currentHealth = 500f;
+    private float maxHealth = 750f;
+    private float currentHealth = 750f;
     public float movementSpeed { get; set; } = 100f;
-    public float oodlerAttackDamage = 100f;
+    public float oodlerAttackDamage = 70f;
     private float invincibilityDuration = 40f / 60f;
 
     // ENUMS //
@@ -78,6 +80,7 @@ public class Oodler : MonoBehaviour
     public OodlerInitial oodlerInitial{ get; set; }
     public OodlerRun oodlerRun { get; set; } 
     public OodlerIntimidate oodlerIntimidate { get; set; }
+    public OodlerTaunt oodlerTaunt { get; set; }
 
     public GameObject prefab;
 
@@ -87,6 +90,8 @@ public class Oodler : MonoBehaviour
     public FMODUnity.EventReference oodlerHurtSFX;
     public FMODUnity.EventReference oodlerSlamSFX;
     public FMODUnity.EventReference oodlerGrabSFX;
+    public FMODUnity.EventReference glichFlailSFX;
+    private FMOD.Studio.EventInstance glichFlailSFXInstance;
     public FMODUnity.EventReference oodlerRunSFX;
     public FMODUnity.EventReference oodlerFloatSFX;
     public FMODUnity.EventReference oodlerChargeupSFX;
@@ -117,17 +122,18 @@ public class Oodler : MonoBehaviour
 
 
     // Menu Control //
-    public MenuManager menuManager;
+    public UnityEvent OnDeath = new UnityEvent();
     private float angle = 0f;
 
     // Bool checks //
     private bool hitHazard = false;
     public bool floating = true;
 
+
     private void Awake()
     {
         stateMachine = new StateMachine();
-
+        
         oodlerIdle = new OodlerIdle(this, stateMachine);
         oodlerSlam = new OodlerSlam(this, stateMachine);
         oodlerGrab = new OodlerGrab(this, stateMachine);
@@ -136,6 +142,9 @@ public class Oodler : MonoBehaviour
         oodlerRun = new OodlerRun(this, stateMachine);
         oodlerQuickSlam = new OodlerQuickSlam(this, stateMachine);
         oodlerIntimidate = new OodlerIntimidate(this, stateMachine);
+        oodlerTaunt = new OodlerTaunt(this, stateMachine);
+
+        glichFlailSFXInstance = FMODUnity.RuntimeManager.CreateInstance(glichFlailSFX);
     }
 
     
@@ -178,6 +187,8 @@ public class Oodler : MonoBehaviour
         floatSFXInstance = FMODUnity.RuntimeManager.CreateInstance(oodlerFloatSFX);
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(floatSFXInstance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
         floatSFXInstance.start();
+
+
     }
 
         
@@ -235,6 +246,13 @@ public class Oodler : MonoBehaviour
     private void FixedUpdate()
     {
         stateMachine.currentState.ParentFrameUpdate();
+
+        // Fix color
+        if (invincibilityTimer.IsOnCooldown() || !invincibilityTimer.IsActive())
+        {
+            oodlerSprite.color =  Color.white;
+        }
+
     }
     #endregion
 
@@ -258,6 +276,8 @@ public class Oodler : MonoBehaviour
             Die();
         }
         UpdateUIHealthBar();
+
+        oodlerSprite.color = hurtCol;
     }
 
     // Damage function for damage from other objects //
@@ -303,13 +323,12 @@ public class Oodler : MonoBehaviour
         return currentHealth;
     }
 
-     
+
     // When Health Reaches Zero
+    [ContextMenu("Die")]
     public void Die()
     {
-        menuManager.GotoScene();
-        Debug.Log("oodler is dead");
-
+        OnDeath.Invoke();
     }
 
     #endregion
@@ -351,6 +370,16 @@ public class Oodler : MonoBehaviour
     {
         ChangeSpriteSortingOrder(5);
     }
+
+
+    ///<summary>
+    /// Sprite sorting function for death screen
+    ///</summary> 
+     public void BringSpriteOnTop()
+    {
+        ChangeSpriteSortingOrder(201);
+    }
+
 
     ///<summary>
     /// This function will display the oodlers shadow
@@ -534,6 +563,14 @@ public class Oodler : MonoBehaviour
     }
 
 
+    public void MoveOutOfFrame(float speed = 30)
+    {
+         var step = speed * Time.deltaTime;
+        oodlerRB.MovePosition(Vector3.MoveTowards(transform.position, transform.position + new Vector3(0f,10f,0f), step));
+        MoveShadowSprite();
+    }
+
+
 
     // This function drops the player inside the drop area
     public bool DropGlich(float speed = 10)
@@ -676,7 +713,7 @@ public class Oodler : MonoBehaviour
     public void MoveGlichWithOodler() { 
         
         var step = 10f * Time.deltaTime;
-        glich.transform.position = transform.position - grabPositionOffset;
+        glich.GetComponent<Rigidbody2D>().position = transform.position - grabPositionOffset;
     }
 
 
@@ -712,8 +749,17 @@ public class Oodler : MonoBehaviour
         return hitHazard;
     }
 
-    #endregion
+    public bool isPlayerDead()
+    {
+        return playerScript.isDead();
+    }
 
+    public bool isPlayerSelfReviving()
+    {
+        return playerScript.IsSelfReviving();
+    }
+
+    #endregion
 
 
     // SETTERS AND GETTERS //
@@ -770,6 +816,22 @@ public class Oodler : MonoBehaviour
             }
         }
     }
+
+    // This makes all enemies make paths to the player
+     public void TargetPlayer(bool toDropZone = false)
+    {
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            EnemyAI enemy = obj.GetComponent<EnemyAI>();
+
+            if (enemy != null && enemy.team == Team.oddle && (enemy.state != State.dead || enemy.state != State.dying))
+            {
+                enemy.SetTarget(glich, true, toDropZone);
+            }
+        }
+    }
+
+    
     
 
 
@@ -850,6 +912,21 @@ public class Oodler : MonoBehaviour
             return 2f;
         }
     }
+    #endregion
+
+     // SFX //
+    #region SFX
+
+    public void PlayFlailSFX()
+    {
+        glichFlailSFXInstance.start();
+    }
+
+    public void StopFlailSFX()
+    {
+        glichFlailSFXInstance.stop(0);
+    }
+
     #endregion
 
     // End of file

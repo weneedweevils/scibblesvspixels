@@ -27,6 +27,8 @@ public class Lvl4Cutscene : MonoBehaviour
                 entrySide = Side.left;
             }
 
+            PlayerMovement.instance.FreezeRB();
+
             DialogueManager.instance.timelines[0 + (int)entrySide].SetActive(true);
             sequence402.activateTimeline = 3 + (int)entrySide;
         }

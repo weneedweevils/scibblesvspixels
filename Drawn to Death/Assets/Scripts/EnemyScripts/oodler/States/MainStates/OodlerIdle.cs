@@ -84,17 +84,18 @@ public class OodlerIdle : ParentBaseState
     private ParentBaseState DecidePhaseOne()
     {
 
-
+       
         if (p1SlamNum < 1)
         {
             p1SlamNum++;
-            return boss.oodlerQuickSlam;
+            return boss.oodlerGrab;
         }
         else
         {
             p1SlamNum = 0;
             return boss.oodlerSlam;
         }
+    
            
 
 
@@ -102,7 +103,6 @@ public class OodlerIdle : ParentBaseState
 
     private ParentBaseState DecidePhaseTwo()
     {
-
         if (p2SlamNum < 3)
         {
             p2SlamNum++;
@@ -121,5 +121,8 @@ public class OodlerIdle : ParentBaseState
                 return boss.oodlerGrab;
             }
         }
+
+        
     }
+
 }

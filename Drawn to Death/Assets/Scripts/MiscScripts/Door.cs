@@ -1,0 +1,39 @@
+﻿using EasyButtons;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Door : MonoBehaviour
+{
+    [SerializeField] private Animator animator;
+    [SerializeField] Collider2D doorCollider;
+    [SerializeField] private float openDelay = 0.5f;
+    [SerializeField] private FMODUnity.EventReference openSFX;
+    private StateTimer timer;
+    private bool isOpen = false;
+
+    public void Start()
+    {
+        timer = new StateTimer(new float[] { openDelay });
+    }
+
+    /// <summary>
+    /// Begins the door opening sequence
+    /// </summary>
+    [Button]
+    public void OpenDoor()
+    {
+        animator?.SetTrigger("Open");   // Play the door opening animation
+        timer.Start(() => doorCollider.enabled = false);    // disable door collider when timer ends
+        FMODUnity.RuntimeManager.PlayOneShot(openSFX, this.transform.position);      // Play door sfx
+        isOpen = true;
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player") && !isOpen)
+        {
+            OpenDoor();
+        }
+    }
+}

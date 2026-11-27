@@ -108,10 +108,11 @@ public class Killcircle : MonoBehaviour
             EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
             if (enemy.GetComponent<DoodleBars>() == null)
             {
-                Vector2 hitLocation = collision.ClosestPoint(transform.position);
-                Vector2 direction = (hitLocation - (Vector2)transform.position).normalized * enemy.knockbackRatio;
-                float damage = 1f;
-                collision.GetComponent<Rigidbody2D>().AddForce(direction*1000f);
+                enemy.Destroy();
+                //Vector2 hitLocation = collision.ClosestPoint(transform.position);
+                //Vector2 direction = (hitLocation - (Vector2)transform.position).normalized * enemy.knockbackRatio;
+                //float damage = 1f;
+                //collision.GetComponent<Rigidbody2D>().AddForce(direction*1000f);
                 //enemy.Damage(damage, true, true, direction, knockback, fromPlayer: true);
                 //enemy.Destroy();
             }

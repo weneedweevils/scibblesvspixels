@@ -5,7 +5,6 @@
 *          
 */
 
-using Microsoft.Unity.VisualStudio.Editor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,7 +34,8 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     [Header("Dash")]
     public bool dashEnabled;
     public float dashBoost;
-    public float dashCooldown;
+    public float dashCooldown = 2f;
+    public float dashDuration;
     public CooldownTimer dashTimer;
     public UnityEngine.UI.Slider dashBar;
     private CooldownBarBehaviour dashCooldownBar;
@@ -71,7 +71,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     [HideInInspector] public bool animationDone = true;
 
     //Physics info
-    private Vector2 velocity, acceleration, accelerationCorrected, directionalInput;
+    private Vector2 velocity, acceleration, accelerationCorrected, directionalInput, accelerationNormalized;
    
 
     Rigidbody2D rbody;
@@ -134,6 +134,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
     // Death
     public static event Action OnPlayerDeath;
+    public static event Action SelfReviveStart;
     public static event Action SelfReviveHandUp;
     public static event Action OnSelfReviveComplete;
     private bool death = false;
@@ -220,39 +221,6 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         }
     }
 
-    public Vector2 ReturnIsometricAcceleration(Vector2 acceleration) 
-    {
-        // return exact angle when pressing two keys
-
-        // top right movement
-        if(acceleration.x == 1f && acceleration.y == 1f)
-        {
-
-        }
-        // top left movement
-        if (acceleration.x == -1f && acceleration.y == 1f)
-        {
-
-        }
-        // bottom left movement
-        if (acceleration.x == -1f && acceleration.y == -1f)
-        {
-
-        }
-
-        // bottom right movement
-        if (acceleration.x == 1f && acceleration.y == -1f)
-        {
-
-        }
-        var degree = 26.56f;
-        var scale = ((32 * Mathf.Sqrt(5)) / 2);
-        var rad = Mathf.Deg2Rad * degree;
-        var dx = ((acceleration.x * Mathf.Cos(rad) + acceleration.y  * Mathf.Sin(rad)) * scale);
-        var dy = ((acceleration.y * Mathf.Cos(rad) - acceleration.x * Mathf.Sin(rad)) * scale) / 2f;
-
-        return new Vector3(dx,dy,0);
-    }
 
     // MOVE SOME OF THE STUFF TO A REGULAR UPDATE FUNCTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // Update is called once per frame
@@ -299,9 +267,9 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
                 velocity.x = VelocityCalc(diagonalVelocity.x * accelerationCoefficient.value, velocity.x, speedModifier);
                 velocity.y = VelocityCalc(diagonalVelocity.y * accelerationCoefficient.value, velocity.y, speedModifier * 0.5f); // multiply by 0.5f to get correct ratio
 
+                accelerationNormalized = new Vector2(diagonalVelocity.x,diagonalVelocity.y).normalized;
 
-                //Debug.Log("The current angle I am inputing is: " + directionVector);
-                //Debug.Log("my actual angle I am travelling is: " + Mathf.Rad2Deg * (Mathf.Atan(velocity.x / velocity.y)));
+                
             }
 
 
@@ -311,8 +279,14 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
                 //Calculate velocity
                 velocity.x = VelocityCalc(directionalInput.x * accelerationCoefficient.value, velocity.x, speedModifier);
                 velocity.y = VelocityCalc(directionalInput.y * accelerationCoefficient.value, velocity.y, speedModifier);
+                accelerationNormalized = new Vector2(directionalInput.x,directionalInput.y).normalized;
             }
+
+            
         }
+            
+
+
     }
 
 
@@ -341,6 +315,56 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         //Return velocity bound by maxVelocity
         return v;
     }
+
+    private void CheckDash()
+    {
+
+
+        // if dash is useable flash the dash notifier
+        if (dashTimer.IsUseable() && !activatedDashNotifier)
+        {
+            var temp1 = dashNotifier.color;
+            temp1.a = 1f;
+            dashNotifier.color = temp1;
+            activatedDashNotifier = true;
+        }
+
+        // if dash notifier is visible, decrease the alpha value
+        if (dashNotifier.color.a > 0)
+        {
+            var temp = dashNotifier.color;
+            temp.a -= 0.01f;
+            dashNotifier.color = temp;
+
+        }
+
+
+        if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && playerInput.actions["Dash"].triggered && !pauseInput)
+        {
+            //StartCoroutine(FlashPlayerSprite(dashDuration));
+            activatedDashNotifier = false;
+            maxVelocity.baseIncrease += dashBoost;
+            Debug.Log("Velocity before dashing " + velocity);
+            velocity += accelerationNormalized * dashBoost * 8f;
+            Debug.Log("Velocity after dashing " + velocity + accelerationCoefficient + dashBoost );
+            animator.SetBool("dashing", true);
+            pencil.enabled = false;
+            dashTimer.StartTimer();
+            playerSFX.PlayDashSFX();
+            gameObject.layer = LayerMask.NameToLayer("Player Dodge");
+        }
+        else if (dashTimer.IsOnCooldown())
+        {
+            if (animator.GetBool("dashing"))
+            {
+                pencil.enabled = true;
+                animator.SetBool("dashing", false);
+                maxVelocity.baseIncrease -= dashBoost;
+                gameObject.layer = LayerMask.NameToLayer("Player");
+            }
+        }
+    }
+
 
     #region Update
     void Update()
@@ -406,50 +430,8 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             }
 
 
-
-
-            //Dash ability
-
-            // if dash is useable flash the dash notifier
-            if (dashTimer.IsUseable() && !activatedDashNotifier)
-            {
-                var temp1 = dashNotifier.color;
-                temp1.a = 1f;
-                dashNotifier.color = temp1;
-                activatedDashNotifier = true;
-            }
-
-            // if dash notifier is visible, decrease the alpha value
-            if (dashNotifier.color.a > 0)
-            {
-                var temp = dashNotifier.color;
-                temp.a -= 0.01f;
-                dashNotifier.color = temp;
-
-            }
-
-
-            if (dashEnabled && dashTimer.IsUseable() && CanUseAbility() && playerInput.actions["Dash"].triggered && !pauseInput)
-            {
-                activatedDashNotifier = false;
-                maxVelocity.baseIncrease += dashBoost;
-                velocity += acceleration.normalized * dashBoost * 5;
-                animator.SetBool("dashing", true);
-                pencil.enabled = false;
-                dashTimer.StartTimer();
-                playerSFX.PlayDashSFX();
-                gameObject.layer = LayerMask.NameToLayer("Player Dodge");
-            }
-            else if (dashTimer.IsOnCooldown())
-            {
-                if (animator.GetBool("dashing"))
-                {
-                    pencil.enabled = true;
-                    animator.SetBool("dashing", false);
-                    maxVelocity.baseIncrease -= dashBoost;
-                    gameObject.layer = LayerMask.NameToLayer("Player");
-                }
-            }
+           //Dash
+           CheckDash();
 
             // Recall Ability
 
@@ -496,6 +478,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             //If player pressed recall and they are not on cooldown and they have allies, do recall
             if (recallTimer.IsUseable() && CanUseAbility() && playerInput.actions["Rally"].triggered && weapon.GetAllies().Count > 0)
             {
+                FreezeRB();
                 recallTimer.StartTimer();
                 pencil.enabled = false;
                 playerSFX.PlayRallySFX();
@@ -513,7 +496,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             Vector2 currentPos = rbody.position;
             Vector2 newPos = currentPos + velocity * Time.fixedDeltaTime;
 
-            if (!(weapon.reviveTimer.IsActive() || recallTimer.IsActive() || inFreezeDialogue()))
+            if (!(weapon.reviveTimer.IsActive() || recallTimer.IsActive() || inFreezeDialogue() || timelinePlaying))
             {
                 //Move to new position
                 rbody.MovePosition(newPos);
@@ -539,32 +522,37 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
         else if(death && isSelfReviving){
             selfReviveTimer += Time.deltaTime;
-            if (selfReviveTimer > 5.7f)//animator.GetCurrentAnimatorStateInfo(0).length) 
+
+
+            if (selfReviveTimer > 6.5f)//animator.GetCurrentAnimatorStateInfo(0).length) 
             {
-                hud.SetActive(true);
+                //hud.SetActive(true);
                 FillHealth();
                 isSelfReviving = false;
                 death = false;
-                armsObject.SetActive(true);
-                playerInput.ActivateInput();
+                //armsObject.SetActive(true);
+                //playerInput.ActivateInput();
                 rbody.constraints = RigidbodyConstraints2D.None;
                 rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-                invincibilityTimer.StartTimer();
-                StartCoroutine(FlashPlayerSprite());
-                boxCollider.enabled = true;
+                rbody.velocity = Vector2.zero;
+                //invincibilityTimer.StartTimer();
+                //StartCoroutine(FlashPlayerSprite(invincibilityDuration));
+                //boxCollider.enabled = true;
                 selfReviveTimer = 0;
                 sprite.sortingOrder = 5;
+                
                 OnSelfReviveComplete?.Invoke();
             }
         }
     }
     #endregion
 
-    private IEnumerator FlashPlayerSprite()
+
+    private IEnumerator FlashPlayerSprite(float invincDuration)
     {
         float elapsed = 0f;
 
-        while (elapsed < invincibilityDuration)
+        while (elapsed < invincDuration)
         {
 
 
@@ -660,9 +648,8 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         HealthBarReference.SetTrigger("HealthBarShake");
         CameraReference.SetTrigger("Shake");
 
-        Debug.Log(damageTaken);
         Debug.Log(health);
-        health = health - 10f; 
+        health = health - damageTaken; 
         
         invincibilityTimer.StartTimer();
         healthBar.SetHealth(health, maxHealth);
@@ -691,10 +678,22 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
             rbody.constraints = RigidbodyConstraints2D.FreezeAll;
             boxCollider.enabled = false;
             sprite.sortingOrder = 200;
-            Debug.Log("Made it here");
             hud.SetActive(false);
             OnPlayerDeath?.Invoke();
         }
+    }
+
+    public void FreezeRB()
+    {
+        
+        rbody.constraints = RigidbodyConstraints2D.FreezeAll;
+        rbody.velocity = Vector2.zero;
+    }
+
+    public void UnFreezeRB()
+    {
+        rbody.constraints = RigidbodyConstraints2D.None;
+        rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     // Function to run when player takes damage
@@ -719,7 +718,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
                 health -= incomingDamage.Calculate(damageTaken);
             }
             invincibilityTimer.StartTimer();
-            StartCoroutine(FlashPlayerSprite());
+            StartCoroutine(FlashPlayerSprite(invincibilityDuration));
             healthBar.SetHealth(health, maxHealth);
             hit = true;
 
@@ -746,7 +745,6 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
                 rbody.constraints = RigidbodyConstraints2D.FreezeAll;
                 boxCollider.enabled = false;
                 sprite.sortingOrder = 200;
-                Debug.Log("Made it here");
                 hud.SetActive(false);
                 OnPlayerDeath?.Invoke();
             }
@@ -767,6 +765,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
         selfReviveTimer = 0f;
         animator.SetBool("isDead", false);
         animator.SetTrigger("selfRevive");
+        SelfReviveStart?.Invoke();
     }
 
     // function to handle changing the color of the screen when damaged
@@ -836,14 +835,14 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
     //Animate the camera zoom
     public void ZoomCamera(float zoom)
     {
-        targetZoom -= zoom * 0.1f;
-        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetZoom, Time.deltaTime * 0.4f);
+      float targetSize = cam.orthographicSize * (1f - zoom);
+      cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetSize, Time.deltaTime * 0.4f);
     }
 
     // Teleport function which is called as an animation event in g'liches recall animation
     public void teleport()
     {
-        RaycastHit hit;
+        
         animator.SetBool("New Bool", false);
         animationDone = true;
         pencil.enabled = true;
@@ -870,6 +869,7 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
                 }
             }
         }
+        UnFreezeRB();
     }
 
     // This function will find a direction to teleport allies into that is not next to a wall
@@ -943,7 +943,15 @@ public class PlayerMovement : Singleton<PlayerMovement>, IDataPersistence
 
     // function that pauses player input
     
+    public bool isDead()
+    {
+        return death;
+    }
 
+    public bool IsSelfReviving()
+    {
+        return isSelfReviving;
+    }
     public PlayerInput getInputSystem()
     {
         return playerInput;

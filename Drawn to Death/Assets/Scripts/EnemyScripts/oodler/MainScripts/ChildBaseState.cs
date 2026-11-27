@@ -21,9 +21,22 @@ public class ChildBaseState
     public virtual void EnterState(){}
 
     public virtual void ResetState() { }
-    public virtual void ExitState() { } 
+    public virtual void ExitState()
+    {
+        if (boss.isPlayerDead()){
+            parentBaseState.GoToTauntState();
+             boss.BringSpriteOnTop();
 
-    public virtual void FrameUpdate() { }
+        } 
+    }
+
+    public virtual void FrameUpdate()
+    {
+        if (boss.isPlayerDead()){
+            boss.BringSpriteOnTop();
+            
+        } 
+    }
 
 
 }

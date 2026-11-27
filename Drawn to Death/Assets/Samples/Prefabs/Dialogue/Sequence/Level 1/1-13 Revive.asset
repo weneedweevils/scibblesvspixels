@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bd94d54cd5593f4eaf609a9e6454c93, type: 3}
+  m_Name: 1-13 Revive
+  m_EditorClassIdentifier: 
+  activateTimeline: -1
+  dialogueEntries:
+  - Identifier: Line 1 - Glich
+    dialogueText: Heh, that's more like it.
+    writeDelay: 0.05
+    dialogueStyle: {fileID: 11400000, guid: 4df0a1014765a71418098e7bdfff82da, type: 2}
+    dialogueSFX: 5
+    entryVariables: []
+  - Identifier: Line 2 - Glich
+    dialogueText: 'Press <color=#82E471><b>{0}</b></color> so I can raise those slain
+      by my hand. '
+    writeDelay: 0.05
+    dialogueStyle: {fileID: 11400000, guid: 4df0a1014765a71418098e7bdfff82da, type: 2}
+    dialogueSFX: 5
+    entryVariables:
+    - {fileID: 11400000, guid: 07e75cbd2e16475499b78c4eb0a7d37a, type: 2}
+  - Identifier: Line 3 - Glich
+    dialogueText: Let us see how well the Oodles can stand against one of their own.
+    writeDelay: 0.05
+    dialogueStyle: {fileID: 11400000, guid: 4df0a1014765a71418098e7bdfff82da, type: 2}
+    dialogueSFX: 5
+    entryVariables: []

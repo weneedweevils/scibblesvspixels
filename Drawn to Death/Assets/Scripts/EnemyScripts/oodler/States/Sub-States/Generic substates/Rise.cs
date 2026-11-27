@@ -63,16 +63,9 @@ public class Rise : ChildBaseState
             }
 
             if (boss.RiseOodler()){
-                // // Check if we have caught glich and we are in the grab parent state
-                //if (parentStateMachine.currentOodlerState == boss.oodlerGrab && boss.IsCaught())
-                //{
-                //boss.ControlAllies(boss.dropZoneObject, true);
-                //childStateMachine.ChangeState(boss.carryGlich);
-                //}
-                //else
-                //{
+              
                 parentBaseState.NextSubState();
-                //}
+                
             }
 
         }

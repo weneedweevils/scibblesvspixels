@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 using UnityEngine.UIElements;
+using UnityEngine.Events;
+using System;
 
 // Used this video for most of the script https://www.youtube.com/watch?v=jvtFUfJ6CP8a
 // if you want to use this in FSM inherit from EnemybaseState class
@@ -68,6 +70,7 @@ public abstract class EnemyAI : MonoBehaviour
     public SpriteRenderer selfImage;
     public GameObject panel;
 
+    public Action<EnemyAI> onDeath;
 
     /* ----- Hidden Variables ----- */
 
@@ -104,6 +107,7 @@ public abstract class EnemyAI : MonoBehaviour
     protected Attack playerAttack;
     protected GameObject musicmanager;
     protected BasicMusicScript musicscript;
+    protected Coroutine pixelCoroutine;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -431,7 +435,7 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     //Usually called when the blocker that is isolating this enemy is destroyed
-    virtual protected void BlockerActivation()
+    virtual public void BlockerActivation()
     {
         isolated = false;
     }
@@ -515,6 +519,8 @@ public abstract class EnemyAI : MonoBehaviour
     [ContextMenu("Kill")]
     virtual public void Kill()
     {
+        onDeath?.Invoke(this);
+        
         // Play the death sfx
         FMODUnity.RuntimeManager.PlayOneShot(deathSfx, this.transform.position);
         
@@ -610,9 +616,22 @@ public abstract class EnemyAI : MonoBehaviour
         else
             health -= incomingDamage.Calculate(damageTaken);
 
+        // pixelate enemies on pencil damage
+      
+        if(pixelCoroutine != null)
+        {
+            StopCoroutine(pixelCoroutine);
+        }
+        if(lifeSteal){
+            pixelCoroutine = StartCoroutine(Pixelate(64f));
+        }
+        else{
+            pixelCoroutine = StartCoroutine(Pixelate());
+        }
 
-        StartCoroutine(Pixelate());
-        healthBar.SetHealth(health, maxHealth);
+        
+
+         healthBar.SetHealth(health, maxHealth);
 
         //Play eraser hit sound if from player and not lifesteal. Else play regular hit noise
         if (!lifeSteal && !noSound) 
@@ -659,11 +678,11 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     // pixelate effect will cause enemies to get pixelated on hitting with pencil
-    private IEnumerator Pixelate()
+    private IEnumerator Pixelate(float minVal = 16f)
     {
         if (team == Team.oddle)
         {
-            float duration = 3f;
+            float duration = 2f;
             float elapsed = 0f;
             Renderer renderer = GetComponentInChildren<SpriteRenderer>();
             MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
@@ -676,7 +695,7 @@ public abstract class EnemyAI : MonoBehaviour
                     break;
                 }
                 elapsed += Time.unscaledDeltaTime;
-                float value = Mathf.Lerp(16f, 128f, elapsed / duration);
+                float value = Mathf.Lerp(minVal, 128f, elapsed / duration);
 
                 renderer.GetPropertyBlock(propertyBlock);
                 propertyBlock.SetFloat("Vector1_5CF00FC", value);

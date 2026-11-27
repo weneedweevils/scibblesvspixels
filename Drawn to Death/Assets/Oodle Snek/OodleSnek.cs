@@ -59,6 +59,7 @@ public class OodleSnek : EnemyAI
         if (target != null && attackTimer.IsUseable())
         {
             // play the attack sfx
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(attackSFXInstance, GetComponent<Transform>(), GetComponent<Rigidbody2D>());
             attackSFXInstance.start();
 
             //Setup Timers

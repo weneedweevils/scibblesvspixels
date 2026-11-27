@@ -2854,7 +2854,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2019660033}
+        m_MethodName: SetSkipTutorial
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &1690457677
 GameObject:
@@ -3094,6 +3105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextScene: 7
+  currentScene: 0
   newGame: 1
   loadGame: 0
   saveGame: 0
@@ -3184,6 +3196,18 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1747942572}
         m_MethodName: PlayAcceptSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3241373899353904391, guid: 92eb330eac24f6843a9eba8310978d1e,
+          type: 3}
+        m_MethodName: switchTrack
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3497,7 +3521,6 @@ MonoBehaviour:
   hud: {fileID: 0}
   tutorialObject: {fileID: 0}
   tutorialObjectOnEnemy: {fileID: 0}
-  tutorialToggle: {fileID: 1606363709}
   newGame: 0
   loadGame: 0
   saveGame: 0
