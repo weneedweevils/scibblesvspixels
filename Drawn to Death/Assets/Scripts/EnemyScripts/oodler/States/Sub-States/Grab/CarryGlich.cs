@@ -55,6 +55,7 @@ public class CarryGlich : ChildBaseState
                     boss.playerScript.EnableInput();
                     boss.playerScript.ChangeSpriteSortingOrder(5);
                     parentBaseState.NextSubState();
+                    boss.StopFlailSFX();
                 }
             }
         }

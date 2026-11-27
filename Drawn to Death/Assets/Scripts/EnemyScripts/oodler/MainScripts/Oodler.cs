@@ -16,6 +16,7 @@ public class Oodler : MonoBehaviour
     public Animator animator;
     private SpriteRenderer oodlerSprite;
     public Rigidbody2D oodlerRB;
+    public Color hurtCol = Color.red;
 
 
     [Header("Shadow Reference")]
@@ -89,6 +90,8 @@ public class Oodler : MonoBehaviour
     public FMODUnity.EventReference oodlerHurtSFX;
     public FMODUnity.EventReference oodlerSlamSFX;
     public FMODUnity.EventReference oodlerGrabSFX;
+    public FMODUnity.EventReference glichFlailSFX;
+    private FMOD.Studio.EventInstance glichFlailSFXInstance;
     public FMODUnity.EventReference oodlerRunSFX;
     public FMODUnity.EventReference oodlerFloatSFX;
     public FMODUnity.EventReference oodlerChargeupSFX;
@@ -140,6 +143,8 @@ public class Oodler : MonoBehaviour
         oodlerQuickSlam = new OodlerQuickSlam(this, stateMachine);
         oodlerIntimidate = new OodlerIntimidate(this, stateMachine);
         oodlerTaunt = new OodlerTaunt(this, stateMachine);
+
+        glichFlailSFXInstance = FMODUnity.RuntimeManager.CreateInstance(glichFlailSFX);
     }
 
     
@@ -241,6 +246,13 @@ public class Oodler : MonoBehaviour
     private void FixedUpdate()
     {
         stateMachine.currentState.ParentFrameUpdate();
+
+        // Fix color
+        if (invincibilityTimer.IsOnCooldown() || !invincibilityTimer.IsActive())
+        {
+            oodlerSprite.color =  Color.white;
+        }
+
     }
     #endregion
 
@@ -264,6 +276,8 @@ public class Oodler : MonoBehaviour
             Die();
         }
         UpdateUIHealthBar();
+
+        oodlerSprite.color = hurtCol;
     }
 
     // Damage function for damage from other objects //
@@ -898,6 +912,21 @@ public class Oodler : MonoBehaviour
             return 2f;
         }
     }
+    #endregion
+
+     // SFX //
+    #region SFX
+
+    public void PlayFlailSFX()
+    {
+        glichFlailSFXInstance.start();
+    }
+
+    public void StopFlailSFX()
+    {
+        glichFlailSFXInstance.stop(0);
+    }
+
     #endregion
 
     // End of file

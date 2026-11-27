@@ -78,6 +78,8 @@ public class AttemptGrab : ChildBaseState
 
                 FMODUnity.RuntimeManager.PlayOneShot(boss.oodlerGrabSFX, boss.transform.position);
 
+                boss.PlayFlailSFX();
+
                 if (reachedTarget)
                 {
 
